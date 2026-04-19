@@ -18,7 +18,6 @@ I think it’s time to change that.
 
 This repository is the result of that decision.
 
-
 # Repository Contents
 
 - Full source code of the game
@@ -26,13 +25,15 @@ This repository is the result of that decision.
 
 # Code License
 
-The source code is released under the [GNU GPL v3 license][LICENSE].
+The source code is released under the GNU GPL v3 license.
 
 In simple terms:
 
 - You can use, study, and modify the code
 - You can redistribute it
 - If you distribute a modified version, you must also release it under GPL and make the source code available
+
+See the [LICENSE][] file for the full text.
 
 See the [LICENSE][] file for the full text.
 
