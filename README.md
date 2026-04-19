@@ -13,7 +13,7 @@ This repository is the result of that decision.
 # Repository Contents
 
 - Full source code of the game
-- Original assets (graphics, audio, etc.) with a separate license
+- Basic game data (.ini files, .xml files)
 
 # Code License
 
@@ -27,25 +27,6 @@ In simple terms:
 
 See the LICENSE file for the full text.
 
-This project uses LWJGL (Lightweight Java Game Library), which is distributed under its own license.
-
-Full license text:
-https://www.lwjgl.org/license
-
-# Assets License
-
-The game assets (art, audio, etc.) are NOT covered by the GPL license.
-
-They are released under a non-commercial license (Creative Commons Attribution-NonCommercial 4.0 (CC BY-NC 4.0)), which means:
-
-- You can use them for personal, educational, or experimental purposes
-- You must give appropriate credit
-- You cannot use them in commercial products without explicit permission
-
-Full license text:
-https://creativecommons.org/licenses/by-nc/4.0/
-
-If you're interested in publishing a version of the game, feel free to reach out, I'm open to allowing it in many cases.
 
 # Contributions & Forks
 
