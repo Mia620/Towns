@@ -1,33 +1,26 @@
 package xaos.panels;
 
-import java.awt.Canvas;
-import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.Image;
-import java.awt.Insets;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
+import xaos.Towns;
+import xaos.TownsProperties;
+import xaos.main.Game;
+import xaos.main.World;
+import xaos.property.PropertyFile;
+import xaos.utils.Utils;
+import xaos.utils.UtilsGL;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-import javax.swing.ImageIcon;
-
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
-import xaos.property.PropertyFile;
-
-import xaos.Towns;
-import xaos.TownsProperties;
-import xaos.main.Game;
-import xaos.main.World;
-import xaos.utils.Utils;
-import xaos.utils.UtilsGL;
-
 public final class MainFrame extends Frame implements WindowListener, ComponentListener {
 
-    private static final long serialVersionUID = -2545208247526410538L;
-
     public final static int MIN_WIDTH = 1024;
+    private static final long serialVersionUID = -2545208247526410538L;
     public static int MIN_HEIGHT = 600;
 
     private Canvas canvas;
@@ -63,7 +56,7 @@ public final class MainFrame extends Frame implements WindowListener, ComponentL
         setIconImage(iIcon);
         setVisible(true); // Se pone visible antes de pillar los insets ya que sino devuelve 0
 
-        // Tamaño de los bordes
+        // Tamaï¿½o de los bordes
         Insets insets = getInsets();
         int iBorderWidth = insets.left + insets.right;
         int iBorderHeight = insets.top + insets.bottom;
@@ -94,20 +87,20 @@ public final class MainFrame extends Frame implements WindowListener, ComponentL
         this.canvas = canvas;
     }
 
-    public void setWantsToClose(boolean wantsToClose) {
-        this.wantsToClose = wantsToClose;
-    }
-
     public boolean isWantsToClose() {
         return wantsToClose;
     }
 
-    public void setWantsToResize(boolean wantsToResize) {
-        this.wantsToResize = wantsToResize;
+    public void setWantsToClose(boolean wantsToClose) {
+        this.wantsToClose = wantsToClose;
     }
 
     public boolean isWantsToResize() {
         return wantsToResize;
+    }
+
+    public void setWantsToResize(boolean wantsToResize) {
+        this.wantsToResize = wantsToResize;
     }
 
     public void windowActivated(WindowEvent e) {

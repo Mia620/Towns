@@ -1,10 +1,10 @@
 package xaos.tiles.entities.living.heroes;
 
-import java.util.ArrayList;
-
 import xaos.skills.SkillManager;
 import xaos.utils.Messages;
 import xaos.utils.Utils;
+
+import java.util.ArrayList;
 
 public class HeroSkills {
 

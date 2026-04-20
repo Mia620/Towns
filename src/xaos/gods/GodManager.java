@@ -1,14 +1,8 @@
 package xaos.gods;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import xaos.Towns;
 import xaos.events.EventManager;
 import xaos.main.Game;
@@ -17,6 +11,11 @@ import xaos.utils.Log;
 import xaos.utils.Messages;
 import xaos.utils.Utils;
 import xaos.utils.UtilsXML;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class GodManager {
 
@@ -148,8 +147,8 @@ public class GodManager {
         try {
             Document doc = UtilsXML.loadXMLFile(sXMLName); //$NON-NLS-1$
 
-			// Tenemos el documento XML parseado
-            // Lo recorremos entero y vamos añadiendo las skills (SkillManagerItem) a la hash
+            // Tenemos el documento XML parseado
+            // Lo recorremos entero y vamos aï¿½adiendo las skills (SkillManagerItem) a la hash
             NodeList nodeList = doc.getDocumentElement().getChildNodes();
             Node node;
             GodManagerItem gmi;
@@ -240,7 +239,7 @@ public class GodManager {
                         gmi.setEventsWhenReallyAngry(Utils.getArray(UtilsXML.getChildValue(node.getChildNodes(), "eventsWhenReallyAngry"))); //$NON-NLS-1$
                     }
 
-                    // Lo añadimos a la hash
+                    // Lo aï¿½adimos a la hash
                     godsList.put(sIniHeader, gmi);
                 }
             }

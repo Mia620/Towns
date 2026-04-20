@@ -1,26 +1,5 @@
 package xaos.utils;
 
-import java.awt.Color;
-import java.awt.Point;
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Properties;
-import java.util.Random;
-import java.util.ResourceBundle;
-import java.util.StringTokenizer;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-import java.util.zip.ZipInputStream;
-import java.util.zip.ZipOutputStream;
-
 import xaos.Towns;
 import xaos.TownsProperties;
 import xaos.actions.ActionPriorityManager;
@@ -40,27 +19,34 @@ import xaos.tiles.entities.items.ItemManagerItem;
 import xaos.tiles.entities.living.LivingEntity;
 import xaos.tiles.entities.living.LivingEntityManager;
 
+import java.awt.*;
+import java.io.*;
+import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
+
 public final class Utils {
 
-    private static final LocalResourceClassLoader LOCAL_RESOURCE_CLASS_LOADER = new LocalResourceClassLoader();
-
     public static final int MAX_DISTANCE = World.MAP_WIDTH * World.MAP_HEIGHT * 512; // 512 por poner algo alto
-
+    private static final LocalResourceClassLoader LOCAL_RESOURCE_CLASS_LOADER = new LocalResourceClassLoader();
     public static Random random = new Random();
 
     private Utils() { /*static utility class*/ }
 
-	// ************
+    // ************
     // * 2D UTILS *
     // ************
+
     /**
-     * Returns a point in the Bézier curve
+     * Returns a point in the Bï¿½zier curve
      *
-     * @param pointSource Source point
-     * @param pointDest Dstination point
+     * @param pointSource   Source point
+     * @param pointDest     Dstination point
      * @param pointControlA A-control point
      * @param pointControlB B-control point
-     * @param dIteration Iteration from 0.0 (first point) to 1.0 (last point)
+     * @param dIteration    Iteration from 0.0 (first point) to 1.0 (last point)
      * @return
      */
     public static Point getBezierPoint(Point pointSource, Point pointDest, Point pointControlA, Point pointControlB, double dIteration) {
@@ -88,9 +74,9 @@ public final class Utils {
     /**
      * Returns true if point it's inside 0-(width-1),0-(height-1)
      *
-     * @param iX Point X
-     * @param iY Point Y
-     * @param iWidth Width
+     * @param iX      Point X
+     * @param iY      Point Y
+     * @param iWidth  Width
      * @param iHeight Height
      * @return true if point it's inside 0-(width-1),0-(height-1)
      */
@@ -99,7 +85,7 @@ public final class Utils {
     }
 
     /**
-     * Indica si la coordenada pasada está dentro del mapa
+     * Indica si la coordenada pasada estï¿½ dentro del mapa
      *
      * @param x
      * @param y
@@ -111,7 +97,7 @@ public final class Utils {
     }
 
     /**
-     * Indica si el punto (coordenada) pasado está dentro del mapa
+     * Indica si el punto (coordenada) pasado estï¿½ dentro del mapa
      *
      * @param p3d
      * @return
@@ -138,10 +124,10 @@ public final class Utils {
     /**
      * Returns an array of Point's representing a line between 2 points
      *
-     * @param x0 Ini X
-     * @param y0 Ini Y
-     * @param x1 End X
-     * @param y1 End Y
+     * @param x0     Ini X
+     * @param y0     Ini Y
+     * @param x1     End X
+     * @param y1     End Y
      * @param zLevel Z
      * @return an array of Point's representing a line between 2 points, null if
      * found a not allowed point
@@ -222,10 +208,10 @@ public final class Utils {
     /**
      * Descubre las celdas de la linea hasta que encuentra un no-mined
      *
-     * @param x0 Ini X
-     * @param y0 Ini Y
-     * @param x1 End X
-     * @param y1 End Y
+     * @param x0     Ini X
+     * @param y0     Ini Y
+     * @param x1     End X
+     * @param y1     End Y
      * @param zLevel Z
      */
     public static void bresenhamLineDiscover(int x0, int y0, int x1, int y1, int zLevel) {
@@ -368,7 +354,7 @@ public final class Utils {
      * @param bNonMinedOrWall
      * @param cell
      * @param imiSource
-     * @param iDirection 0 = misma casilla, 1-NW 2-N 3-NE 4-W 5-E 6-SW 7-S 8-SE
+     * @param iDirection      0 = misma casilla, 1-NW 2-N 3-NE 4-W 5-E 6-SW 7-S 8-SE
      */
     private static void checkSetLights(boolean bNonMinedOrWall, Cell cell, ItemManagerItem imiSource, int iDirection) {
         if (!bNonMinedOrWall) {
@@ -405,7 +391,7 @@ public final class Utils {
      * @param bNonMinedOrWall
      * @param cell
      * @param imiSource
-     * @param iDirection 0 = misma casilla, 1-NW 2-N 3-NE 4-W 5-E 6-SW 7-S 8-SE
+     * @param iDirection      0 = misma casilla, 1-NW 2-N 3-NE 4-W 5-E 6-SW 7-S 8-SE
      * @return true si la luz se ha puesto
      */
     private static boolean checkSetLightsUp(boolean bNonMinedOrWall, Cell cell, ItemManagerItem imiSource, int iDirection) {
@@ -480,11 +466,11 @@ public final class Utils {
      * Pone luz a las celdas de la linea (y las de arriba y abajo teniendo en
      * cuenta el radio) hasta que encuentra un no-mined o un wall
      *
-     * @param x0 Ini X
-     * @param y0 Ini Y
-     * @param x1 End X
-     * @param y1 End Y
-     * @param zLevel Z
+     * @param x0       Ini X
+     * @param y0       Ini Y
+     * @param x1       End X
+     * @param y1       End Y
+     * @param zLevel   Z
      * @param iRadious Radio para poner luz a las casillas de arriba/abajo
      */
     public static void bresenhamLineLight(int x0, int y0, int x1, int y1, int zLevel, int iRadious, ItemManagerItem imiSource) {
@@ -492,7 +478,7 @@ public final class Utils {
             return;
         }
 
-        // Miramos la dirección de la luz
+        // Miramos la direcciï¿½n de la luz
         int iDirection; // 0 = misma casilla, 1-NW 2-N 3-NE 4-W 5-E 6-SW 7-S 8-SE
         if (x0 == x1) {
             if (y0 == y1) {
@@ -569,7 +555,7 @@ public final class Utils {
                 bNonMinedOrWall = isCellBlockingLight(cell);
                 checkSetLights(bNonMinedOrWall, cell, imiSource, iDirection);
 
-				// Arriba y abajo, teniendo en cuenta el radio
+                // Arriba y abajo, teniendo en cuenta el radio
                 // Arriba
                 iZAux = zLevel - iRadious;
                 if (iZAux < 0) {
@@ -637,7 +623,7 @@ public final class Utils {
                 bNonMinedOrWall = isCellBlockingLight(cell);
                 checkSetLights(bNonMinedOrWall, cell, imiSource, iDirection);
 
-				// Arriba y abajo, teniendo en cuenta el radio
+                // Arriba y abajo, teniendo en cuenta el radio
                 // Arriba
                 iZAux = zLevel - iRadious;
                 if (iZAux < 0) {
@@ -714,28 +700,29 @@ public final class Utils {
 //		if (zs >= (World.MAP_NUM_LEVELS_OUTSIDE - 1)) {
 //			if (zd >= (World.MAP_NUM_LEVELS_OUTSIDE - 1)) {
 //				// Los 2 puntos son underground
-//				h += ((World.MAP_WIDTH / 4) * Math.abs (zd - zs)); // Método Manhattan, funciona mejor incluso permitiendo movimiento diagonal que la "Distancia Chebyshev" (20% mejor)
+//				h += ((World.MAP_WIDTH / 4) * Math.abs (zd - zs)); // Mï¿½todo Manhattan, funciona mejor incluso permitiendo movimiento diagonal que la "Distancia Chebyshev" (20% mejor)
 //			} else {
 //				// El origen es underground pero el destino no
-//				h += ((World.MAP_WIDTH / 4) * Math.abs (zs - (World.MAP_NUM_LEVELS_OUTSIDE - 1)) + 2 * (World.MAP_NUM_LEVELS_OUTSIDE - 1 - zd)); // Método Manhattan, funciona mejor incluso permitiendo movimiento diagonal que la "Distancia Chebyshev" (20% mejor)
+//				h += ((World.MAP_WIDTH / 4) * Math.abs (zs - (World.MAP_NUM_LEVELS_OUTSIDE - 1)) + 2 * (World.MAP_NUM_LEVELS_OUTSIDE - 1 - zd)); // Mï¿½todo Manhattan, funciona mejor incluso permitiendo movimiento diagonal que la "Distancia Chebyshev" (20% mejor)
 //			}
 //		} else {
 //			// El origen es outside
 //			if (zd >= (World.MAP_NUM_LEVELS_OUTSIDE - 1)) {
 //				// El destino es underground (y origen outside)
-//				h += ((World.MAP_WIDTH / 4) * Math.abs (zd - (World.MAP_NUM_LEVELS_OUTSIDE - 1)) + 2 * (World.MAP_NUM_LEVELS_OUTSIDE - 1 - zs)); // Método Manhattan, funciona mejor incluso permitiendo movimiento diagonal que la "Distancia Chebyshev" (20% mejor)
+//				h += ((World.MAP_WIDTH / 4) * Math.abs (zd - (World.MAP_NUM_LEVELS_OUTSIDE - 1)) + 2 * (World.MAP_NUM_LEVELS_OUTSIDE - 1 - zs)); // Mï¿½todo Manhattan, funciona mejor incluso permitiendo movimiento diagonal que la "Distancia Chebyshev" (20% mejor)
 //			} else {
 //				// El destino es outside, como el origen
-//				h += (2 * Math.abs (zd - zs)); // Método Manhattan, funciona mejor incluso permitiendo movimiento diagonal que la "Distancia Chebyshev" (20% mejor)
+//				h += (2 * Math.abs (zd - zs)); // Mï¿½todo Manhattan, funciona mejor incluso permitiendo movimiento diagonal que la "Distancia Chebyshev" (20% mejor)
 //			}
 //		}
 //
 //		return h;
     }
 
-	// ****************
+    // ****************
     // * NUMBER UTILS *
     // ****************
+
     /**
      * Returns a number from a String
      *
@@ -813,9 +800,10 @@ public final class Utils {
         return 0;
     }
 
-	// **************
+    // **************
     // * DICE UTILS *
     // **************
+
     /**
      * Returns a random number between the 2 params
      *
@@ -836,7 +824,7 @@ public final class Utils {
      * Launch a dice of N sides X times and return the result
      *
      * @param iNumber Number of times the dice was launched
-     * @param iSides Number of sides of the dice
+     * @param iSides  Number of sides of the dice
      * @return
      */
     public static int launchDice(int iNumber, int iSides) {
@@ -847,8 +835,8 @@ public final class Utils {
      * Launch a dice of N sides X times and then adds a qtty
      *
      * @param iNumber Number of times the dice was launched
-     * @param iSides Number of sides of the dice
-     * @param add Number to add (or substract if negative) to the end result
+     * @param iSides  Number of sides of the dice
+     * @param add     Number to add (or substract if negative) to the end result
      * @return
      */
     public static int launchDice(int iNumber, int iSides, int add) {
@@ -864,7 +852,7 @@ public final class Utils {
     /**
      * Launch N dices taking a String as an input ex: 4d8+34 (this wil launch 4
      * times a dice of 8 sides, then addes 34 to the result
-     *
+     * <p>
      * Input string can be passed with commas ',' Ex: 2d8,3d6+1,1d3 (lauch 2
      * dices of 8 sides, then 3 dices of 6 sides, then adds 1, then launch 1
      * dice of 3 sides
@@ -905,7 +893,7 @@ public final class Utils {
                 }
             } else {
                 try {
-                    // No existe la 'D', quizá es un +X o -X directo
+                    // No existe la 'D', quizï¿½ es un +X o -X directo
                     if (sStr.charAt(0) == '-') {
                         return launchDice(0, 0, -Integer.parseInt(sStr.substring(1)));
                     } else {
@@ -921,7 +909,7 @@ public final class Utils {
                 }
             }
         } else {
-            // Recorremos los tokens y vamos sumando, llamándose a si misma
+            // Recorremos los tokens y vamos sumando, llamï¿½ndose a si misma
             StringTokenizer tokenizer = new StringTokenizer(sStr, ","); //$NON-NLS-1$
             String token;
             while (tokenizer.hasMoreTokens()) {
@@ -973,7 +961,7 @@ public final class Utils {
                 }
             } else {
                 try {
-                    // No existe la 'D', quizá es un +X o -X directo
+                    // No existe la 'D', quizï¿½ es un +X o -X directo
                     if (sStr.charAt(0) == '-') {
                         int iMinus = -Integer.parseInt(sStr.substring(1));
                         return new Point(iMinus, iMinus);
@@ -992,7 +980,7 @@ public final class Utils {
                 }
             }
         } else {
-            // Recorremos los tokens y vamos sumando, llamándose a si misma
+            // Recorremos los tokens y vamos sumando, llamï¿½ndose a si misma
             StringTokenizer tokenizer = new StringTokenizer(sStr, ","); //$NON-NLS-1$
             String token;
             Point pointTmp;
@@ -1007,9 +995,10 @@ public final class Utils {
         return result;
     }
 
-	// ***************
+    // ***************
     // * COLOR UTILS *
     // ***************
+
     /**
      * Returns a java.awt.Color from a String
      *
@@ -1079,13 +1068,14 @@ public final class Utils {
         }
     }
 
-	// **************
+    // **************
     // * DISK UTILS *
     // **************
+
     /**
      * Save the game
      */
-    public static void save (boolean bSaveMissionData) throws Exception {
+    public static void save(boolean bSaveMissionData) throws Exception {
         // Pausamos el thread de pathfinding
         AStarQueue.pause();
         while (!AStarQueue.isPauseOK()) {
@@ -1201,7 +1191,7 @@ public final class Utils {
             oos.writeBoolean(Game.isPaused());
 
             // Mission data
-           	oos.writeObject (Game.getCurrentMissionData ());
+            oos.writeObject(Game.getCurrentMissionData());
 
             Game.iError = 12018;
             oos.flush();
@@ -1230,7 +1220,7 @@ public final class Utils {
                 fFinal.delete();
             }
             File fTemporary = new File(sSaveFolder + sTemporaryFileName);
-            if (fTemporary.exists()) { // Debería, siempre
+            if (fTemporary.exists()) { // Deberï¿½a, siempre
                 fTemporary.renameTo(fFinal);
             }
         } catch (Exception e) {
@@ -1259,13 +1249,13 @@ public final class Utils {
             ObjectInputStream ois = new ObjectInputStream(is);
             Game.SAVEGAME_LOADING_VERSION = ois.readInt();
             if (TownsProperties.DEBUG_MODE) {
-                System.out.println ("Loading version: " + Game.SAVEGAME_LOADING_VERSION); //$NON-NLS-1$
+                System.out.println("Loading version: " + Game.SAVEGAME_LOADING_VERSION); //$NON-NLS-1$
             }
 
             World world = new World();
             world.readExternal(ois);
             Game.setWorld(world);
-			//POPOGame.setWorld ((World) ois.readObject ());
+            //POPOGame.setWorld ((World) ois.readObject ());
 
             // Celdas
             int iDepth = ois.readInt();
@@ -1325,7 +1315,7 @@ public final class Utils {
 
             // Mission data
             if (Game.SAVEGAME_LOADING_VERSION >= Game.SAVEGAME_V14d) {
-            	Game.setCurrentMissionData ((MissionData) ois.readObject ());
+                Game.setCurrentMissionData((MissionData) ois.readObject());
             }
 
             ois.close();
@@ -1475,7 +1465,7 @@ public final class Utils {
                 fFinal.delete();
             }
             File fTemporary = new File(sBuryFolder + sTemporaryFileName);
-            if (fTemporary.exists()) { // Debería, siempre
+            if (fTemporary.exists()) { // Deberï¿½a, siempre
                 fTemporary.renameTo(fFinal);
             }
         } catch (Exception e) {
@@ -1486,7 +1476,7 @@ public final class Utils {
     }
 
     /**
-     * Devuelve un random bury, nunca devuelve null, en todo caso un bury vacío
+     * Devuelve un random bury, nunca devuelve null, en todo caso un bury vacï¿½o
      *
      * @return
      */
@@ -1656,28 +1646,28 @@ public final class Utils {
     }
 
     /**
-     * Retorna la ruta entera a un fichero, teniendo en cuenta si está en una
-     * misión o no. Tambien mira los mods cargados. Si es misión, mirará primero
-     * la carpeta general y después dentro de las carpetas de campaña
+     * Retorna la ruta entera a un fichero, teniendo en cuenta si estï¿½ en una
+     * misiï¿½n o no. Tambien mira los mods cargados. Si es misiï¿½n, mirarï¿½ primero
+     * la carpeta general y despuï¿½s dentro de las carpetas de campaï¿½a
      *
      * @param sOriginalFile
      * @param sCampaignID
      * @param sMissionID
-     * @return la ruta entera a un fichero, teniendo en cuenta si está en una
-     * misión o no
+     * @return la ruta entera a un fichero, teniendo en cuenta si estï¿½ en una
+     * misiï¿½n o no
      */
     public static ArrayList<String> getPathToFile(String sOriginalFile, String sCampaignID, String sMissionID) {
         ArrayList<String> alReturn = new ArrayList<String>();
 
         if (sMissionID == null || sMissionID.trim().length() == 0) {
-            // Sin misión, lo pillamos de la carpeta data
+            // Sin misiï¿½n, lo pillamos de la carpeta data
             String sPath = Towns.getPropertiesString("DATA_FOLDER") + sOriginalFile; //$NON-NLS-1$
             File f = new File(sPath);
             if (f.exists()) {
                 alReturn.add(sPath);
             }
         } else {
-			// Misión
+            // Misiï¿½n
             // Primero miramos la carpeta data
             String sPath = Towns.getPropertiesString("DATA_FOLDER") + sOriginalFile; //$NON-NLS-1$
             File f = new File(sPath);
@@ -1685,14 +1675,14 @@ public final class Utils {
                 alReturn.add(sPath);
             }
 
-            // Después la carpeta de campaña
+            // Despuï¿½s la carpeta de campaï¿½a
             sPath = Towns.getPropertiesString("CAMPAIGNS_FOLDER") + sCampaignID + File.separator + sOriginalFile; //$NON-NLS-1$
             f = new File(sPath);
             if (f.exists()) {
                 alReturn.add(sPath);
             }
 
-            // Ahora la de campaña + misión
+            // Ahora la de campaï¿½a + misiï¿½n
             sPath = Towns.getPropertiesString("CAMPAIGNS_FOLDER") + sCampaignID + File.separator + sMissionID + File.separator + sOriginalFile; //$NON-NLS-1$
             f = new File(sPath);
             if (f.exists()) {
@@ -1707,15 +1697,15 @@ public final class Utils {
     }
 
     /**
-     * Retorna la ruta entera a un fichero de mods, teniendo en cuenta si está
-     * en una misión o no Si es misión, mirará primero la carpeta general y
-     * después dentro de las carpetas de campaña
+     * Retorna la ruta entera a un fichero de mods, teniendo en cuenta si estï¿½
+     * en una misiï¿½n o no Si es misiï¿½n, mirarï¿½ primero la carpeta general y
+     * despuï¿½s dentro de las carpetas de campaï¿½a
      *
      * @param sOriginalFile
      * @param sCampaignID
      * @param sMissionID
-     * @return la ruta entera a un fichero, teniendo en cuenta si está en una
-     * misión o no
+     * @return la ruta entera a un fichero, teniendo en cuenta si estï¿½ en una
+     * misiï¿½n o no
      */
     private static void getPathToFileMods(ArrayList<String> alList, String sOriginalFile, String sCampaignID, String sMissionID) {
         File fUserFolder = new File(Game.getUserFolder());
@@ -1734,7 +1724,7 @@ public final class Utils {
             sModName = alMods.get(i);
 
             if (sMissionID == null || sMissionID.trim().length() == 0) {
-                // Sin misión, lo pillamos de la carpeta data
+                // Sin misiï¿½n, lo pillamos de la carpeta data
                 String sModActionsPath = fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator") + sModName + System.getProperty("file.separator") + Towns.getPropertiesString("DATA_FOLDER") + sOriginalFile; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                 File f = new File(sModActionsPath);
                 if (f.exists()) {
@@ -1747,13 +1737,13 @@ public final class Utils {
                     alList.add(sPath);
                 }
 
-                // Ahora miramos la carpeta de la campaña
+                // Ahora miramos la carpeta de la campaï¿½a
                 sPath = fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator") + sModName + System.getProperty("file.separator") + Towns.getPropertiesString("CAMPAIGNS_FOLDER") + sCampaignID + File.separator + sOriginalFile; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                 if (new File(sPath).exists()) {
                     alList.add(sPath);
                 }
 
-                // Ahora la carpeta de campa+a+misión
+                // Ahora la carpeta de campa+a+misiï¿½n
                 sPath = fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator") + sModName + System.getProperty("file.separator") + Towns.getPropertiesString("CAMPAIGNS_FOLDER") + sCampaignID + File.separator + sMissionID + File.separator + sOriginalFile; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                 if (new File(sPath).exists()) {
                     alList.add(sPath);
@@ -1864,11 +1854,12 @@ public final class Utils {
         return fFolderTowns;
     }
 
-	// ***************
+    // ***************
     // * STRING UTILS *
     // ***************
+
     /**
-     * Retorna una cadena haciendo cambios dinámicos (sustituyendo ciertas
+     * Retorna una cadena haciendo cambios dinï¿½micos (sustituyendo ciertas
      * cadenas por otras)
      */
     public static String getDynamicString(String sString) {
@@ -1876,7 +1867,7 @@ public final class Utils {
         int iIndex = sString.indexOf("__MUSIC__"); //$NON-NLS-1$
 
         if (iIndex != -1) {
-            // Música ON?
+            // Mï¿½sica ON?
             String sMusicON = Game.isMusicON() ? Messages.getString("Utils.4") : Messages.getString("Utils.5"); //$NON-NLS-1$ //$NON-NLS-2$
             sAux = sString.substring(0, iIndex) + sMusicON + sString.substring(iIndex + "__MUSIC__".length()); //$NON-NLS-1$
             return getDynamicString(sAux);
@@ -2040,7 +2031,7 @@ public final class Utils {
      *
      * @param sChain Cadena
      * @return un array de strings a partir de un string con elementos separados
-     * por comas ",". Null en caso de error/cadena vacía
+     * por comas ",". Null en caso de error/cadena vacï¿½a
      */
     public static ArrayList<String> getArray(String sChain) {
         if (sChain != null && sChain.trim().length() > 0) {
@@ -2062,7 +2053,7 @@ public final class Utils {
      *
      * @param sChain Cadena
      * @return un array de Integers a partir de un string con elementos
-     * separados por comas ",". Null en caso de error/cadena vacía
+     * separados por comas ",". Null en caso de error/cadena vacï¿½a
      */
     public static ArrayList<Integer> getArrayIntegers(String sChain) throws Exception {
         if (sChain != null && sChain.trim().length() > 0) {

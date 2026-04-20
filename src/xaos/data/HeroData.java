@@ -1,11 +1,5 @@
 package xaos.data;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.util.ArrayList;
-
 import xaos.main.Game;
 import xaos.main.World;
 import xaos.panels.MessagesPanel;
@@ -14,36 +8,34 @@ import xaos.skills.SkillManagerItem;
 import xaos.tiles.entities.living.LivingEntity;
 import xaos.tiles.entities.living.LivingEntityManager;
 import xaos.tiles.entities.living.LivingEntityManagerItem;
-import xaos.tiles.entities.living.heroes.Hero;
-import xaos.tiles.entities.living.heroes.HeroBehaviour;
-import xaos.tiles.entities.living.heroes.HeroManager;
-import xaos.tiles.entities.living.heroes.HeroSkills;
-import xaos.tiles.entities.living.heroes.HeroTask;
+import xaos.tiles.entities.living.heroes.*;
 import xaos.utils.ColorGL;
 import xaos.utils.Messages;
 import xaos.utils.Point3DShort;
 import xaos.utils.Utils;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.util.ArrayList;
+
 public class HeroData implements Externalizable {
 
-    private static final long serialVersionUID = 3057389473429112206L;
-
-    private final static int MIN_TURNS_TO_STAY = World.TIME_MODIFIER_DAY;
     public final static int TURNS_BETWEEN_EXPLORE = World.TIME_MODIFIER_HOUR;
-
-    private HeroTask heroTask; // Current task
-    private HeroBehaviour heroBehaviour; // Behaviour
-    private Point3DShort startingPoint; // Point where the hero starts to come
-    private int minTurnsToStay; // Minimum turns that hero will stay on the Town
-
-    // Behaviour
-    private int currentBehaviourID; // Current behaviour ID (idle/explore/...)
-    private int turnsToNextBehaviour; // Turns left to change his behaviour(idle/explore/...)
-
     // Idle
     public final static int IDLE_NONE = 0;
     public final static int IDLE_STEAL = 1;
     public final static int IDLE_SOCIAL = 2;
+    private static final long serialVersionUID = 3057389473429112206L;
+    private final static int MIN_TURNS_TO_STAY = World.TIME_MODIFIER_DAY;
+    private HeroTask heroTask; // Current task
+    private HeroBehaviour heroBehaviour; // Behaviour
+    private Point3DShort startingPoint; // Point where the hero starts to come
+    private int minTurnsToStay; // Minimum turns that hero will stay on the Town
+    // Behaviour
+    private int currentBehaviourID; // Current behaviour ID (idle/explore/...)
+    private int turnsToNextBehaviour; // Turns left to change his behaviour(idle/explore/...)
     private int idleCounter;
     private int idleTask;
 
@@ -77,36 +69,58 @@ public class HeroData implements Externalizable {
         setFriendships(new ArrayList<Integer>());
     }
 
-    public void setHeroTask(HeroTask heroTask) {
-        this.heroTask = heroTask;
+    public static String getFriendshipString(Hero hero) {
+        if (hero.getHeroData().getFriendships().size() > 0) {
+            StringBuffer sBuffer = new StringBuffer(Messages.getString("HeroData.1") + ": "); //$NON-NLS-1$ //$NON-NLS-2$
+            ArrayList<Integer> alFriends = hero.getHeroData().getFriendships();
+            LivingEntity heroFriend;
+            for (int h = 0; h < (alFriends.size() - 1); h++) {
+                heroFriend = World.getLivingEntityByID(alFriends.get(h).intValue());
+                if (heroFriend != null) {
+                    sBuffer.append(heroFriend.getLivingEntityData().getName());
+                    sBuffer.append(", "); //$NON-NLS-1$
+                }
+            }
+            heroFriend = (Hero) World.getLivingEntityByID(alFriends.get(alFriends.size() - 1).intValue());
+            if (heroFriend != null) {
+                sBuffer.append(heroFriend.getLivingEntityData().getName());
+            }
+            return sBuffer.toString();
+        }
+
+        return null;
     }
 
     public HeroTask getHeroTask() {
         return heroTask;
     }
 
-    public void setHeroBehaviour(HeroBehaviour heroBehaviour) {
-        this.heroBehaviour = heroBehaviour;
+    public void setHeroTask(HeroTask heroTask) {
+        this.heroTask = heroTask;
     }
 
     public HeroBehaviour getHeroBehaviour() {
         return heroBehaviour;
     }
 
-    public void setStartingPoint(Point3DShort startingPoint) {
-        this.startingPoint = startingPoint;
+    public void setHeroBehaviour(HeroBehaviour heroBehaviour) {
+        this.heroBehaviour = heroBehaviour;
     }
 
     public Point3DShort getStartingPoint() {
         return startingPoint;
     }
 
-    public void setMinTurnsToStay(int minTurnsToStay) {
-        this.minTurnsToStay = minTurnsToStay;
+    public void setStartingPoint(Point3DShort startingPoint) {
+        this.startingPoint = startingPoint;
     }
 
     public int getMinTurnsToStay() {
         return minTurnsToStay;
+    }
+
+    public void setMinTurnsToStay(int minTurnsToStay) {
+        this.minTurnsToStay = minTurnsToStay;
     }
 
     public int getCurrentBehaviourID() {
@@ -142,13 +156,6 @@ public class HeroData implements Externalizable {
     }
 
     /**
-     * @param idleCounter the idleCounter to set
-     */
-    public void setIdleCounter(int idleCounter) {
-        this.idleCounter = idleCounter;
-    }
-
-    /**
      * @return the idleCounter
      */
     public int getIdleCounter() {
@@ -156,10 +163,10 @@ public class HeroData implements Externalizable {
     }
 
     /**
-     * @param idleTask the idleTask to set
+     * @param idleCounter the idleCounter to set
      */
-    public void setIdleTask(int idleTask) {
-        this.idleTask = idleTask;
+    public void setIdleCounter(int idleCounter) {
+        this.idleCounter = idleCounter;
     }
 
     /**
@@ -169,28 +176,35 @@ public class HeroData implements Externalizable {
         return idleTask;
     }
 
-    public void setExploringCounter(int exploringCounter) {
-        this.exploringCounter = exploringCounter;
+    /**
+     * @param idleTask the idleTask to set
+     */
+    public void setIdleTask(int idleTask) {
+        this.idleTask = idleTask;
     }
 
     public int getExploringCounter() {
         return exploringCounter;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    public void setExploringCounter(int exploringCounter) {
+        this.exploringCounter = exploringCounter;
     }
 
     public int getLevel() {
         return level;
     }
 
-    public void setXp(int xp) {
-        this.xp = xp;
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     public int getXp() {
         return xp;
+    }
+
+    public void setXp(int xp) {
+        this.xp = xp;
     }
 
     /**
@@ -208,7 +222,7 @@ public class HeroData implements Externalizable {
 
     /**
      * Mira si tiene que subir de nivel (o niveles), en ese caso lo hace y
-     * devuelve true. También añade las skills que se obtienen en ese nivel
+     * devuelve true. Tambiï¿½n aï¿½ade las skills que se obtienen en ese nivel
      *
      * @return
      */
@@ -242,42 +256,20 @@ public class HeroData implements Externalizable {
         return false;
     }
 
-    public void setSkills(ArrayList<SkillData> skills) {
-        this.skills = skills;
-    }
-
     public ArrayList<SkillData> getSkills() {
         return skills;
     }
 
-    public void setFriendships(ArrayList<Integer> friendships) {
-        this.friendships = friendships;
+    public void setSkills(ArrayList<SkillData> skills) {
+        this.skills = skills;
     }
 
     public ArrayList<Integer> getFriendships() {
         return friendships;
     }
 
-    public static String getFriendshipString(Hero hero) {
-        if (hero.getHeroData().getFriendships().size() > 0) {
-            StringBuffer sBuffer = new StringBuffer(Messages.getString("HeroData.1") + ": "); //$NON-NLS-1$ //$NON-NLS-2$
-            ArrayList<Integer> alFriends = hero.getHeroData().getFriendships();
-            LivingEntity heroFriend;
-            for (int h = 0; h < (alFriends.size() - 1); h++) {
-                heroFriend = World.getLivingEntityByID(alFriends.get(h).intValue());
-                if (heroFriend != null) {
-                    sBuffer.append(heroFriend.getLivingEntityData().getName());
-                    sBuffer.append(", "); //$NON-NLS-1$
-                }
-            }
-            heroFriend = (Hero) World.getLivingEntityByID(alFriends.get(alFriends.size() - 1).intValue());
-            if (heroFriend != null) {
-                sBuffer.append(heroFriend.getLivingEntityData().getName());
-            }
-            return sBuffer.toString();
-        }
-
-        return null;
+    public void setFriendships(ArrayList<Integer> friendships) {
+        this.friendships = friendships;
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {

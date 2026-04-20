@@ -1,31 +1,30 @@
 package xaos.utils;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Locale;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Locale;
+
 /**
  * Se usa para cargar buildings y items
  */
 public final class UtilsXML {
 
-    public static Node getChild (NodeList list, String sChildName) throws Exception {
+    public static Node getChild(NodeList list, String sChildName) throws Exception {
         Node node;
 
         for (int i = 0; i < list.getLength(); i++) {
             node = list.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE && node.getNodeName().equals(sChildName) && node.getChildNodes().item(0) != null) {
-            	return node;
+                return node;
             }
         }
 

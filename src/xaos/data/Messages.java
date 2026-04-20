@@ -1,8 +1,9 @@
 package xaos.data;
 
+import xaos.utils.Utils;
+
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import xaos.utils.Utils;
 
 public class Messages {
 

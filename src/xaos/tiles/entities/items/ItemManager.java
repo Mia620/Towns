@@ -1,25 +1,24 @@
 package xaos.tiles.entities.items;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import xaos.property.PropertyFile;
-
 import xaos.Towns;
 import xaos.data.Type;
 import xaos.data.Types;
 import xaos.main.Game;
+import xaos.property.PropertyFile;
 import xaos.tiles.Tile;
 import xaos.tiles.terrain.TerrainManager;
 import xaos.utils.Log;
 import xaos.utils.Messages;
 import xaos.utils.Utils;
 import xaos.utils.UtilsXML;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class ItemManager {
 
@@ -50,12 +49,12 @@ public class ItemManager {
                 }
             }
 
-			// Comprobamos que todos los maxageItem existan
+            // Comprobamos que todos los maxageItem existan
             // De paso rellenamos la lista de mini items (_block)
             // Y de paso comprobamos los habitatGroup y rellenamos los habitat que toquen
             // Y DE PASO los buryItem
-            // Y DE PASO añadimos los types
-            // Y DE PASO añadimos los maxAgeTerrain
+            // Y DE PASO aï¿½adimos los types
+            // Y DE PASO aï¿½adimos los maxAgeTerrain
             miniItemList = new HashMap<String, Tile>();
             Iterator<ItemManagerItem> itItems = itemList.values().iterator();
             ItemManagerItem imi;
@@ -111,8 +110,8 @@ public class ItemManager {
 
                 // maxAgeTerrain
                 if (imi.getMaxAgeTerrain() != null && imi.getMaxAgeTerrain().length() > 0) {
-                	if (TerrainManager.getItem (imi.getMaxAgeTerrain ()) == null) {
-                        Log.log (Log.LEVEL_ERROR, Messages.getString("ItemManager.2") + " [" + imi.getMaxAgeTerrain () + "]", "ItemManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                    if (TerrainManager.getItem(imi.getMaxAgeTerrain()) == null) {
+                        Log.log(Log.LEVEL_ERROR, Messages.getString("ItemManager.2") + " [" + imi.getMaxAgeTerrain() + "]", "ItemManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                         Game.exit();
                     }
                 }
@@ -159,7 +158,7 @@ public class ItemManager {
 
         ArrayList<ItemManagerItem> alReturn = new ArrayList<ItemManagerItem>();
 
-        // Recorremos todos los items buscando el que tenga building = "parámetro pasado"
+        // Recorremos todos los items buscando el que tenga building = "parï¿½metro pasado"
         Iterator<String> it = itemList.keySet().iterator();
         ItemManagerItem imi;
         while (it.hasNext()) {
@@ -243,7 +242,7 @@ public class ItemManager {
     }
 
     /**
-     * Devuelve un item a random a partir de un nivel mínimo y máximo o null si
+     * Devuelve un item a random a partir de un nivel mï¿½nimo y mï¿½ximo o null si
      * no encuentra Items de level 0 no se devuelven
      *
      * @param level Nivel
@@ -315,8 +314,8 @@ public class ItemManager {
         try {
             Document doc = UtilsXML.loadXMLFile(sXMLName);
 
-			// Tenemos el documento XML parseado
-            // Lo recorremos entero y vamos añadiendo los items (ItemManagerItem) a la hash
+            // Tenemos el documento XML parseado
+            // Lo recorremos entero y vamos aï¿½adiendo los items (ItemManagerItem) a la hash
             NodeList nodeList = doc.getDocumentElement().getChildNodes();
             Node node;
             ItemManagerItem item;
@@ -588,7 +587,7 @@ public class ItemManager {
                         item.setHappiness(UtilsXML.getChildValue(node.getChildNodes(), "happiness")); //$NON-NLS-1$
                     }
 
-                    // Se puede dormir ahí?
+                    // Se puede dormir ahï¿½?
                     if (bModChangingValues) {
                         String sAux = UtilsXML.getChildValue(node.getChildNodes(), "usedToSleep"); //$NON-NLS-1$
                         if (sAux != null) {
@@ -598,7 +597,7 @@ public class ItemManager {
                         item.setCanBeUsedToSleep(UtilsXML.getChildValue(node.getChildNodes(), "usedToSleep")); //$NON-NLS-1$
                     }
 
-                    // Se puede sentar ahí?
+                    // Se puede sentar ahï¿½?
                     if (bModChangingValues) {
                         String sAux = UtilsXML.getChildValue(node.getChildNodes(), "usedToSit"); //$NON-NLS-1$
                         if (sAux != null) {
@@ -1014,7 +1013,7 @@ public class ItemManager {
                         item.setBuildAction(UtilsXML.getChildValue(node.getChildNodes(), "buildAction")); //$NON-NLS-1$
                     }
 
-                    // Lo añadimos a la hash
+                    // Lo aï¿½adimos a la hash
                     itemList.put(sIniHeader, item);
                 }
             }

@@ -1,25 +1,18 @@
 package xaos.events;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import xaos.data.EventData;
 import xaos.data.HateData;
-import xaos.generator.BezierData;
-import xaos.generator.ChangeData;
-import xaos.generator.Generator;
-import xaos.generator.GeneratorItem;
-import xaos.generator.HeightSeedData;
-import xaos.generator.MapGeneratorItem;
-import xaos.generator.ParentMapData;
-import xaos.generator.SeedData;
+import xaos.generator.*;
 import xaos.tiles.Tile;
 import xaos.utils.Messages;
 import xaos.utils.Utils;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
- * Clase de tipo "managerItem", no es la que se añade a la lista de eventos
+ * Clase de tipo "managerItem", no es la que se aï¿½ade a la lista de eventos
  */
 public class EventManagerItem {
 
@@ -85,20 +78,24 @@ public class EventManagerItem {
         return eventData;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
 
-    public String getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getName() {
-        return name;
+    public Tile getIcon() {
+        return icon;
     }
 
     public void setIcon(String sIcon) {
@@ -107,8 +104,8 @@ public class EventManagerItem {
         }
     }
 
-    public Tile getIcon() {
-        return icon;
+    public int getOrder() {
+        return order;
     }
 
     public void setOrder(int order) {
@@ -121,10 +118,6 @@ public class EventManagerItem {
         } catch (Exception e) {
             throw new Exception(Messages.getString("EventManagerItem.3") + " [" + sOrder + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         }
-    }
-
-    public int getOrder() {
-        return order;
     }
 
     public int getMinPopulation() {
@@ -147,6 +140,10 @@ public class EventManagerItem {
         }
     }
 
+    public boolean isSpawnAtRandom() {
+        return spawnAtRandom;
+    }
+
     public void setSpawnAtRandom(boolean spawnAtRandom) {
         this.spawnAtRandom = spawnAtRandom;
     }
@@ -163,32 +160,32 @@ public class EventManagerItem {
         }
     }
 
-    public boolean isSpawnAtRandom() {
-        return spawnAtRandom;
+    public String getTurns() {
+        return turns;
     }
 
     public void setTurns(String turns) {
         this.turns = turns;
     }
 
-    public String getTurns() {
-        return turns;
+    public String getEventCooldown() {
+        return eventCooldown;
     }
 
     public void setEventCooldown(String eventCooldown) {
         this.eventCooldown = eventCooldown;
     }
 
-    public String getEventCooldown() {
-        return eventCooldown;
+    public ArrayList<String> getAfterEvents() {
+        return afterEvents;
     }
 
     public void setAfterEvents(ArrayList<String> afterEvents) {
         this.afterEvents = afterEvents;
     }
 
-    public ArrayList<String> getAfterEvents() {
-        return afterEvents;
+    public boolean isShadows() {
+        return shadows;
     }
 
     public void setShadows(boolean shadows) {
@@ -199,8 +196,8 @@ public class EventManagerItem {
         setShadows(Boolean.parseBoolean(sShadows));
     }
 
-    public boolean isShadows() {
-        return shadows;
+    public boolean isHalfShadows() {
+        return halfShadows;
     }
 
     public void setHalfShadows(boolean halfShadows) {
@@ -211,8 +208,8 @@ public class EventManagerItem {
         setHalfShadows(Boolean.parseBoolean(sHalfShadows));
     }
 
-    public boolean isHalfShadows() {
-        return halfShadows;
+    public float getRed() {
+        return red;
     }
 
     public void setRed(float red) {
@@ -231,8 +228,8 @@ public class EventManagerItem {
         }
     }
 
-    public float getRed() {
-        return red;
+    public float getGreen() {
+        return green;
     }
 
     public void setGreen(float green) {
@@ -251,8 +248,8 @@ public class EventManagerItem {
         }
     }
 
-    public float getGreen() {
-        return green;
+    public float getBlue() {
+        return blue;
     }
 
     public void setBlue(float blue) {
@@ -271,24 +268,24 @@ public class EventManagerItem {
         }
     }
 
-    public float getBlue() {
-        return blue;
+    public ArrayList<String> getPrerequisites() {
+        return prerequisites;
     }
 
     public void setPrerequisites(ArrayList<String> prerequisites) {
         this.prerequisites = prerequisites;
     }
 
-    public ArrayList<String> getPrerequisites() {
-        return prerequisites;
+    public ArrayList<String> getEventsImmune() {
+        return eventsImmune;
     }
 
     public void setEventsImmune(ArrayList<String> eventsImmune) {
         this.eventsImmune = eventsImmune;
     }
 
-    public ArrayList<String> getEventsImmune() {
-        return eventsImmune;
+    public String getWaitPCT() {
+        return waitPCT;
     }
 
     public void setWaitPCT(String waitPCT) {
@@ -299,8 +296,8 @@ public class EventManagerItem {
         }
     }
 
-    public String getWaitPCT() {
-        return waitPCT;
+    public String getWalkSpeedPCT() {
+        return walkSpeedPCT;
     }
 
     public void setWalkSpeedPCT(String walkSpeedPCT) {
@@ -311,16 +308,16 @@ public class EventManagerItem {
         }
     }
 
-    public String getWalkSpeedPCT() {
-        return walkSpeedPCT;
+    public String getHappinessPCT() {
+        return happinessPCT;
     }
 
     public void setHappinessPCT(String happinessPCT) {
         this.happinessPCT = happinessPCT;
     }
 
-    public String getHappinessPCT() {
-        return happinessPCT;
+    public boolean isSiege() {
+        return siege;
     }
 
     public void setSiege(boolean siege) {
@@ -331,8 +328,8 @@ public class EventManagerItem {
         setSiege(Boolean.parseBoolean(sSiege));
     }
 
-    public boolean isSiege() {
-        return siege;
+    public boolean isSiegeUnderground() {
+        return siegeUnderground;
     }
 
     public void setSiegeUnderground(boolean siegeUnderground) {
@@ -343,16 +340,16 @@ public class EventManagerItem {
         setSiegeUnderground(Boolean.parseBoolean(sSiegeUnderground));
     }
 
-    public boolean isSiegeUnderground() {
-        return siegeUnderground;
+    public ArrayList<String> getSiegeLivings() {
+        return siegeLivings;
     }
 
     public void setSiegeLivings(ArrayList<String> siegeLivings) {
         this.siegeLivings = siegeLivings;
     }
 
-    public ArrayList<String> getSiegeLivings() {
-        return siegeLivings;
+    public ArrayList<String> getSiegeSize() {
+        return siegeSize;
     }
 
     public void setSiegeSize(ArrayList<String> siegeSize) throws Exception {
@@ -364,7 +361,7 @@ public class EventManagerItem {
             }
         } else {
             if (siegeSize.size() > 0) {
-                // Tiene que tener el mismo número de elementos que siegeLivings
+                // Tiene que tener el mismo nï¿½mero de elementos que siegeLivings
                 if (siegeLivings == null || siegeLivings.size() != siegeSize.size()) {
                     throw new Exception(Messages.getString("EventManagerItem.0")); //$NON-NLS-1$
                 }
@@ -376,8 +373,8 @@ public class EventManagerItem {
         }
     }
 
-    public ArrayList<String> getSiegeSize() {
-        return siegeSize;
+    public ArrayList<String> getTargets() {
+        return targets;
     }
 
     public void setTargets(String targets) {
@@ -390,16 +387,16 @@ public class EventManagerItem {
         }
     }
 
-    public ArrayList<String> getTargets() {
-        return targets;
+    public HateData getTargetsHateData() {
+        return targetsHateData;
     }
 
     public void setTargetsHateData(HateData targetsHateData) {
         this.targetsHateData = targetsHateData;
     }
 
-    public HateData getTargetsHateData() {
-        return targetsHateData;
+    public ArrayList<String> getTargetsPCT() {
+        return targetsPCT;
     }
 
     public void setTargetsPCT(ArrayList<String> targetsPCT) throws Exception {
@@ -411,7 +408,7 @@ public class EventManagerItem {
             }
         } else {
             if (targetsPCT.size() > 0) {
-                // Tiene que tener el mismo número de elementos que siegeLivings
+                // Tiene que tener el mismo nï¿½mero de elementos que siegeLivings
                 if (targets == null || targets.size() != targetsPCT.size()) {
                     throw new Exception(Messages.getString("EventManagerItem.9")); //$NON-NLS-1$
                 }
@@ -423,16 +420,16 @@ public class EventManagerItem {
         }
     }
 
-    public ArrayList<String> getTargetsPCT() {
-        return targetsPCT;
+    public String getTargetsRandomCell() {
+        return targetsRandomCell;
     }
 
     public void setTargetsRandomCell(String targetsRandomCell) {
         this.targetsRandomCell = targetsRandomCell;
     }
 
-    public String getTargetsRandomCell() {
-        return targetsRandomCell;
+    public boolean isTargetsOpenCell() {
+        return targetsOpenCell;
     }
 
     public void setTargetsOpenCell(boolean targetsOpenCell) {
@@ -443,64 +440,49 @@ public class EventManagerItem {
         setTargetsOpenCell(Boolean.parseBoolean(sTargetsOpenCell));
     }
 
-    public boolean isTargetsOpenCell() {
-        return targetsOpenCell;
+    public ArrayList<String> getEffects() {
+        return effects;
     }
 
     public void setEffects(ArrayList<String> effects) {
         this.effects = effects;
     }
 
-    public ArrayList<String> getEffects() {
-        return effects;
+    public ArrayList<String> getEffectsAfterEat() {
+        return effectsAfterEat;
     }
 
     public void setEffectsAfterEat(ArrayList<String> effectsAfterEat) {
         this.effectsAfterEat = effectsAfterEat;
     }
 
-    public ArrayList<String> getEffectsAfterEat() {
-        return effectsAfterEat;
+    public ArrayList<String> getEffectsAfterSleep() {
+        return effectsAfterSleep;
     }
 
     public void setEffectsAfterSleep(ArrayList<String> effectsAfterSleep) {
         this.effectsAfterSleep = effectsAfterSleep;
     }
 
-    public ArrayList<String> getEffectsAfterSleep() {
-        return effectsAfterSleep;
+    public ArrayList<String> getItems() {
+        return items;
     }
 
     public void setItems(ArrayList<String> items) {
         this.items = items;
     }
 
-    public ArrayList<String> getItems() {
-        return items;
+    public ArrayList<String> getItemsMaxAgePCT() {
+        return itemsMaxAgePCT;
     }
 
     public void setItemsMaxAgePCT(ArrayList<String> itemsMaxAgePCT) throws Exception {
         this.itemsMaxAgePCT = itemsMaxAgePCT;
 
         if (itemsMaxAgePCT != null && itemsMaxAgePCT.size() > 0) {
-            // Tiene que tener el mismo número de elementos que items
+            // Tiene que tener el mismo nï¿½mero de elementos que items
             if (items == null || items.size() != itemsMaxAgePCT.size()) {
                 throw new Exception(Messages.getString("EventManagerItem.1")); //$NON-NLS-1$
-            }
-        }
-    }
-
-    public ArrayList<String> getItemsMaxAgePCT() {
-        return itemsMaxAgePCT;
-    }
-
-    public void setItemsDeletePCT(ArrayList<String> itemsDeletePCT) throws Exception {
-        this.itemsDeletePCT = itemsDeletePCT;
-
-        if (itemsDeletePCT != null && itemsDeletePCT.size() > 0) {
-            // Tiene que tener el mismo número de elementos que items
-            if (items == null || items.size() != itemsDeletePCT.size()) {
-                throw new Exception(Messages.getString("EventManagerItem.2")); //$NON-NLS-1$
             }
         }
     }
@@ -509,13 +491,13 @@ public class EventManagerItem {
         return itemsDeletePCT;
     }
 
-    public void setItemsSpawnLiving(ArrayList<String> itemsSpawnLiving) throws Exception {
-        this.itemsSpawnLiving = itemsSpawnLiving;
+    public void setItemsDeletePCT(ArrayList<String> itemsDeletePCT) throws Exception {
+        this.itemsDeletePCT = itemsDeletePCT;
 
-        if (itemsSpawnLiving != null && itemsSpawnLiving.size() > 0) {
-            // Tiene que tener el mismo número de elementos que items
-            if (items == null || items.size() != itemsSpawnLiving.size()) {
-                throw new Exception(Messages.getString("EventManagerItem.4")); //$NON-NLS-1$
+        if (itemsDeletePCT != null && itemsDeletePCT.size() > 0) {
+            // Tiene que tener el mismo nï¿½mero de elementos que items
+            if (items == null || items.size() != itemsDeletePCT.size()) {
+                throw new Exception(Messages.getString("EventManagerItem.2")); //$NON-NLS-1$
             }
         }
     }
@@ -524,13 +506,13 @@ public class EventManagerItem {
         return itemsSpawnLiving;
     }
 
-    public void setItemsSpawnLivingSize(ArrayList<String> itemsSpawnLivingSize) throws Exception {
-        this.itemsSpawnLivingSize = itemsSpawnLivingSize;
+    public void setItemsSpawnLiving(ArrayList<String> itemsSpawnLiving) throws Exception {
+        this.itemsSpawnLiving = itemsSpawnLiving;
 
-        if (itemsSpawnLivingSize != null && itemsSpawnLivingSize.size() > 0) {
-            // Tiene que tener el mismo número de elementos que items
-            if (items == null || items.size() != itemsSpawnLivingSize.size()) {
-                throw new Exception(Messages.getString("EventManagerItem.5")); //$NON-NLS-1$
+        if (itemsSpawnLiving != null && itemsSpawnLiving.size() > 0) {
+            // Tiene que tener el mismo nï¿½mero de elementos que items
+            if (items == null || items.size() != itemsSpawnLiving.size()) {
+                throw new Exception(Messages.getString("EventManagerItem.4")); //$NON-NLS-1$
             }
         }
     }
@@ -539,28 +521,43 @@ public class EventManagerItem {
         return itemsSpawnLivingSize;
     }
 
-    public void setFxBeforeCooldown(String fxBeforeCooldown) {
-        this.fxBeforeCooldown = fxBeforeCooldown;
+    public void setItemsSpawnLivingSize(ArrayList<String> itemsSpawnLivingSize) throws Exception {
+        this.itemsSpawnLivingSize = itemsSpawnLivingSize;
+
+        if (itemsSpawnLivingSize != null && itemsSpawnLivingSize.size() > 0) {
+            // Tiene que tener el mismo nï¿½mero de elementos que items
+            if (items == null || items.size() != itemsSpawnLivingSize.size()) {
+                throw new Exception(Messages.getString("EventManagerItem.5")); //$NON-NLS-1$
+            }
+        }
     }
 
     public String getFxBeforeCooldown() {
         return fxBeforeCooldown;
     }
 
-    public void setFxAfterCooldown(String fxAfterCooldown) {
-        this.fxAfterCooldown = fxAfterCooldown;
+    public void setFxBeforeCooldown(String fxBeforeCooldown) {
+        this.fxBeforeCooldown = fxBeforeCooldown;
     }
 
     public String getFxAfterCooldown() {
         return fxAfterCooldown;
     }
 
-    public void setFxRunning(String fxRunning) {
-        this.fxRunning = fxRunning;
+    public void setFxAfterCooldown(String fxAfterCooldown) {
+        this.fxAfterCooldown = fxAfterCooldown;
     }
 
     public String getFxRunning() {
         return fxRunning;
+    }
+
+    public void setFxRunning(String fxRunning) {
+        this.fxRunning = fxRunning;
+    }
+
+    public int getFxRunningTurns() {
+        return fxRunningTurns;
     }
 
     public void setFxRunningTurns(int fxRunningTurns) {
@@ -579,53 +576,35 @@ public class EventManagerItem {
         }
     }
 
-    public int getFxRunningTurns() {
-        return fxRunningTurns;
+    public String getFxFinish() {
+        return fxFinish;
     }
 
     public void setFxFinish(String fxFinish) {
         this.fxFinish = fxFinish;
     }
 
-    public String getFxFinish() {
-        return fxFinish;
+    public ArrayList<String> getInjectActions() {
+        return injectActions;
     }
 
     public void setInjectActions(ArrayList<String> injectActions) {
         this.injectActions = injectActions;
     }
 
-    public ArrayList<String> getInjectActions() {
-        return injectActions;
+    public String getUseFile() {
+        return useFile;
     }
 
     public void setUseFile(String useFile) {
         this.useFile = useFile;
     }
 
-    public String getUseFile() {
-        return useFile;
-    }
-
-    public void setUseFileIDs(ArrayList<String> useFileIDs) throws Exception {
-        this.useFileIDs = useFileIDs;
-
-        if (this.useFileIDs == null || this.useFileIDs.size() == 0) {
-            if (this.useFile != null && this.useFile.length() > 0) {
-                throw new Exception(Messages.getString("EventManagerItem.12")); //$NON-NLS-1$
-            }
-        } else {
-            if (this.useFile == null || this.useFile.length() == 0) {
-                throw new Exception(Messages.getString("EventManagerItem.6")); //$NON-NLS-1$
-            }
-        }
-    }
-
     /**
      * Carga en memoria los datos de un gen_events.
      *
      * @param sXMLName Ruta al gen_events. El fichero debe estar en la misma
-     * carpeta
+     *                 carpeta
      */
     public void loadUseFile(String sXMLName) throws Exception {
         if (this.useFile != null && this.useFile.length() > 0 && this.useFileIDs != null && this.useFileIDs.size() > 0) {
@@ -668,6 +647,20 @@ public class EventManagerItem {
 
     public ArrayList<String> getUseFileIDs() {
         return useFileIDs;
+    }
+
+    public void setUseFileIDs(ArrayList<String> useFileIDs) throws Exception {
+        this.useFileIDs = useFileIDs;
+
+        if (this.useFileIDs == null || this.useFileIDs.size() == 0) {
+            if (this.useFile != null && this.useFile.length() > 0) {
+                throw new Exception(Messages.getString("EventManagerItem.12")); //$NON-NLS-1$
+            }
+        } else {
+            if (this.useFile == null || this.useFile.length() == 0) {
+                throw new Exception(Messages.getString("EventManagerItem.6")); //$NON-NLS-1$
+            }
+        }
     }
 
     public ParentMapData getParentMapData(String sID) {

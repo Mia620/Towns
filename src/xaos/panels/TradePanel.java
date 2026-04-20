@@ -1,10 +1,6 @@
 package xaos.panels;
 
-import java.awt.Point;
-import java.util.ArrayList;
-
 import org.lwjgl.input.Keyboard;
-
 import xaos.caravans.CaravanManager;
 import xaos.caravans.CaravanManagerItem;
 import xaos.caravans.PricesManager;
@@ -26,6 +22,9 @@ import xaos.utils.Point3DShort;
 import xaos.utils.UtilFont;
 import xaos.utils.UtilsGL;
 
+import java.awt.*;
+import java.util.ArrayList;
+
 public class TradePanel {
 
     public static int MAX_VERTICAL_BUTTONS;
@@ -33,8 +32,8 @@ public class TradePanel {
     public static Tile tileTradeButton = new Tile("trade_button"); //$NON-NLS-1$
     public static final boolean tileTradeButtonAlpha[][] = UtilsGL.generateAlpha(tileTradeButton);
     public static Tile tileTradeConfirm = new Tile("trade_confirm"); //$NON-NLS-1$
-    public static Tile tileTradeConfirmDisabled = new Tile("trade_confirm_disabled"); //$NON-NLS-1$
     public static final boolean tileTradeConfirmAlpha[][] = UtilsGL.generateAlpha(tileTradeConfirm);
+    public static Tile tileTradeConfirmDisabled = new Tile("trade_confirm_disabled"); //$NON-NLS-1$
     public static Tile tileTradeBuy = new Tile("trade_buy"); //$NON-NLS-1$
     public static Tile tileTradeSell = new Tile("trade_sell"); //$NON-NLS-1$
     public static Tile tileTradeCaravanCoins = new Tile("trade_ccoins"); //$NON-NLS-1$
@@ -83,9 +82,6 @@ public class TradePanel {
     private int cost;
     private boolean transactionReady;
 
-    public static void loadStatics() {
-    }
-
     public TradePanel(CaravanData caravanData, Point coordinates, int width, int height) {
         int iCaravanID = caravanData.getLivingId();
         LivingEntity le = World.getLivingEntityByID(iCaravanID);
@@ -101,7 +97,7 @@ public class TradePanel {
             return;
         }
 
-        // Creamos el menú de la caravan
+        // Creamos el menï¿½ de la caravan
         createCaravanMenu(caravanData);
 
         // Creamos la lista de objetos en el pueblo que la caravana acepta para comprar
@@ -111,6 +107,9 @@ public class TradePanel {
 
         UIPanel.resizeIcons(getMenuCaravan(), UIPanel.TRADE_PANEL_BUTTON_WIDTH, UIPanel.TRADE_PANEL_BUTTON_HEIGHT);
         UIPanel.resizeIcons(getMenuTown(), UIPanel.TRADE_PANEL_BUTTON_WIDTH, UIPanel.TRADE_PANEL_BUTTON_HEIGHT);
+    }
+
+    public static void loadStatics() {
     }
 
     private void createCaravanMenu(CaravanData caravanData) {
@@ -180,11 +179,11 @@ public class TradePanel {
                             if (oItem instanceof MilitaryItem) {
                                 int iNumItemsToSell = getNumItemsToSell(caravanData, oItem);
                                 int iNumItemsTownMenu = 1 - iNumItemsToSell;
-                                // Si el número de items en el menú de town da negativo, restamos items del menoToSell
+                                // Si el nï¿½mero de items en el menï¿½ de town da negativo, restamos items del menoToSell
                                 if (iNumItemsTownMenu < 0) {
                                     iNumItemsToSell = (iNumItemsToSell + iNumItemsTownMenu);
                                     if (setItemsToSellQtty(caravanData, oItem, iNumItemsToSell)) {
-                                        // Item borrado, ponemos el máximo al menú de town y resizeamos
+                                        // Item borrado, ponemos el mï¿½ximo al menï¿½ de town y resizeamos
                                         iNumItemsTownMenu = 1;
                                     } else {
                                         iNumItemsTownMenu = 0;
@@ -230,11 +229,11 @@ public class TradePanel {
                         if (oItem instanceof MilitaryItem) {
                             int iNumItemsToSell = getNumItemsToSell(caravanData, oItem);
                             int iNumItemsTownMenu = 1 - iNumItemsToSell;
-                            // Si el número de items en el menú de town da negativo, restamos items del menoToSell
+                            // Si el nï¿½mero de items en el menï¿½ de town da negativo, restamos items del menoToSell
                             if (iNumItemsTownMenu < 0) {
                                 iNumItemsToSell = (iNumItemsToSell + iNumItemsTownMenu);
                                 if (setItemsToSellQtty(caravanData, oItem, iNumItemsToSell)) {
-                                    // Item borrado, ponemos el máximo al menú de town y resizeamos
+                                    // Item borrado, ponemos el mï¿½ximo al menï¿½ de town y resizeamos
                                     iNumItemsTownMenu = 1;
                                 } else {
                                     iNumItemsTownMenu = 0;
@@ -262,11 +261,11 @@ public class TradePanel {
                 imi = ItemManager.getItem(alIniHeaders.get(m));
                 int iNumItemsToSell = getNumItemsToSell(caravanData, imi.getIniHeader());
                 int iNumItemsTownMenu = alQtty.get(m) - iNumItemsToSell;
-                // Si el número de items en el menú de town da negativo, restamos items del menoToSell
+                // Si el nï¿½mero de items en el menï¿½ de town da negativo, restamos items del menoToSell
                 if (iNumItemsTownMenu < 0) {
                     iNumItemsToSell = (iNumItemsToSell + iNumItemsTownMenu);
                     if (setItemsToSellQtty(caravanData, imi.getIniHeader(), iNumItemsToSell)) {
-                        // Item borrado, ponemos el máximo al menú de town y resizeamos
+                        // Item borrado, ponemos el mï¿½ximo al menï¿½ de town y resizeamos
                         iNumItemsTownMenu = alQtty.get(m);
                     } else {
                         iNumItemsTownMenu = 0;
@@ -282,7 +281,7 @@ public class TradePanel {
             }
         }
 
-        // Repasamos toda la lista de to-sell para ver si todos los items que hay ahí existen en la lista de town
+        // Repasamos toda la lista de to-sell para ver si todos los items que hay ahï¿½ existen en la lista de town
         checkToSellList(caravanData);
 
         resize(caravanData);
@@ -314,7 +313,7 @@ public class TradePanel {
                         break;
                     }
                 } else {
-                    // Item genérico
+                    // Item genï¿½rico
                     if (smTown.getDirectCoordinates().x == smToSell.getDirectCoordinates().x && smTown.getParameter().equals(smToSell.getParameter())) {
                         bExists = true;
                         break;
@@ -392,7 +391,7 @@ public class TradePanel {
 
     /**
      * Cambia el valor de un item en la lista de to-sell. Si el valor llega a 0
-     * (o menos ¿?) el item se borra y se devuelve true
+     * (o menos ï¿½?) el item se borra y se devuelve true
      *
      * @param caravanData
      * @param sIniHeader
@@ -427,7 +426,7 @@ public class TradePanel {
 
     /**
      * Cambia el valor de un item en la lista de to-sell. Si el valor llega a 0
-     * (o menos ¿?) el item se borra y se devuelve true
+     * (o menos ï¿½?) el item se borra y se devuelve true
      *
      * @param caravanData
      * @param sIniHeader
@@ -500,36 +499,36 @@ public class TradePanel {
         this.indexButtonsCaravan = indexButtonsCaravan;
     }
 
-    public void setAlButtonPointsCaravanToBuy(ArrayList<Point> alButtonPointsCaravanToBuy) {
-        this.alButtonPointsCaravanToBuy = alButtonPointsCaravanToBuy;
-    }
-
     public ArrayList<Point> getAlButtonPointsCaravanToBuy() {
         return alButtonPointsCaravanToBuy;
     }
 
-    public void setScrollUpCaravanToBuyPoint(Point scrollUpCaravanToBuyPoint) {
-        this.scrollUpCaravanToBuyPoint = scrollUpCaravanToBuyPoint;
+    public void setAlButtonPointsCaravanToBuy(ArrayList<Point> alButtonPointsCaravanToBuy) {
+        this.alButtonPointsCaravanToBuy = alButtonPointsCaravanToBuy;
     }
 
     public Point getScrollUpCaravanToBuyPoint() {
         return scrollUpCaravanToBuyPoint;
     }
 
-    public void setScrollDownCaravanToBuyPoint(Point scrollDownCaravanToBuyPoint) {
-        this.scrollDownCaravanToBuyPoint = scrollDownCaravanToBuyPoint;
+    public void setScrollUpCaravanToBuyPoint(Point scrollUpCaravanToBuyPoint) {
+        this.scrollUpCaravanToBuyPoint = scrollUpCaravanToBuyPoint;
     }
 
     public Point getScrollDownCaravanToBuyPoint() {
         return scrollDownCaravanToBuyPoint;
     }
 
-    public void setIndexButtonsToBuyCaravan(int indexButtonsToBuyCaravan) {
-        this.indexButtonsToBuyCaravan = indexButtonsToBuyCaravan;
+    public void setScrollDownCaravanToBuyPoint(Point scrollDownCaravanToBuyPoint) {
+        this.scrollDownCaravanToBuyPoint = scrollDownCaravanToBuyPoint;
     }
 
     public int getIndexButtonsToBuyCaravan() {
         return indexButtonsToBuyCaravan;
+    }
+
+    public void setIndexButtonsToBuyCaravan(int indexButtonsToBuyCaravan) {
+        this.indexButtonsToBuyCaravan = indexButtonsToBuyCaravan;
     }
 
     public SmartMenu getMenuTown() {
@@ -652,26 +651,26 @@ public class TradePanel {
         this.sellIconPoint = sellIconPoint;
     }
 
-    public void setCostPoint(Point costPoint) {
-        this.costPoint = costPoint;
-    }
-
     public Point getCostPoint() {
         return costPoint;
     }
 
-    public void setConfirmPoint(Point confirmPoint) {
-        this.confirmPoint = confirmPoint;
+    public void setCostPoint(Point costPoint) {
+        this.costPoint = costPoint;
     }
 
     public Point getConfirmPoint() {
         return confirmPoint;
     }
 
+    public void setConfirmPoint(Point confirmPoint) {
+        this.confirmPoint = confirmPoint;
+    }
+
     public void setCost(CaravanData caravanData, int cost) {
         this.cost = cost;
 
-        // Miramos si la transacción está ready
+        // Miramos si la transacciï¿½n estï¿½ ready
         if (caravanData == null) {
             return;
         }
@@ -699,12 +698,12 @@ public class TradePanel {
         return cost;
     }
 
-    public void setTransactionReady(boolean transactionReady) {
-        this.transactionReady = transactionReady;
-    }
-
     public boolean isTransactionReady() {
         return transactionReady;
+    }
+
+    public void setTransactionReady(boolean transactionReady) {
+        this.transactionReady = transactionReady;
     }
 
     public void resize(CaravanData caravanData) {
@@ -726,14 +725,14 @@ public class TradePanel {
         int iYMax = coordinates.y + UIPanel.TRADE_PANEL_HEIGHT - 48 - UIPanel.tileScrollDown.getTileHeight() - 16 - UtilFont.MAX_HEIGHT * 2;
         MAX_VERTICAL_BUTTONS = (iYMax - iYMin) / (tileTradeButton.getTileHeight() + 16);
 
-		// Caravan buttons
-        // Index, miramos si el actual es válido con el nuevo size
+        // Caravan buttons
+        // Index, miramos si el actual es vï¿½lido con el nuevo size
         if (getIndexButtonsCaravan() + MAX_VERTICAL_BUTTONS > getMenuCaravan().getItems().size()) {
             setIndexButtonsCaravan(0);
         }
 
         setScrollUpCaravanPoint(new Point(COLUMN1X + tileTradeButton.getTileWidth() / 2 - UIPanel.tileScrollUp.getTileWidth() / 2, iYMin));
-        iYMin += UIPanel.tileScrollUp.getTileHeight() + 16; // Tamaño del primer scroll + espacio en blanco (16)
+        iYMin += UIPanel.tileScrollUp.getTileHeight() + 16; // Tamaï¿½o del primer scroll + espacio en blanco (16)
 
         int iMaxButtons = MAX_VERTICAL_BUTTONS;
         if (iMaxButtons > caravanData.getAlItems().size()) {
@@ -751,13 +750,13 @@ public class TradePanel {
 
         // Caravan buttons to-buy
         iYMin = getCaravanCoinsIconPoint().y + tileTradeCaravanCoins.getTileHeight() + UtilFont.MAX_HEIGHT * 2;
-        // Index, miramos si el actual es válido con el nuevo size
+        // Index, miramos si el actual es vï¿½lido con el nuevo size
         if (getIndexButtonsToBuyCaravan() + MAX_VERTICAL_BUTTONS > caravanData.getMenuCaravanToBuy().getItems().size()) {
             setIndexButtonsToBuyCaravan(0);
         }
 
         setScrollUpCaravanToBuyPoint(new Point(COLUMN2X + tileTradeButton.getTileWidth() / 2 - UIPanel.tileScrollUp.getTileWidth() / 2 + (tileTradeButton.getTileWidth() * 2), iYMin));
-        iYMin += UIPanel.tileScrollUp.getTileHeight() + 16; // Tamaño del primer scroll + espacio en blanco (16)
+        iYMin += UIPanel.tileScrollUp.getTileHeight() + 16; // Tamaï¿½o del primer scroll + espacio en blanco (16)
 
         iMaxButtons = MAX_VERTICAL_BUTTONS;
         if (iMaxButtons > caravanData.getMenuCaravanToBuy().getItems().size()) {
@@ -778,15 +777,15 @@ public class TradePanel {
         // Price
         recheckPriceToBuySell(caravanData);
 
-		// Trade town buttons
-        // Index, miramos si el actual es válido con el nuevo size
+        // Trade town buttons
+        // Index, miramos si el actual es vï¿½lido con el nuevo size
         if (getIndexButtonsTown() + MAX_VERTICAL_BUTTONS > getMenuTown().getItems().size()) {
             setIndexButtonsTown(0);
         }
 
         iYMin = getCaravanCoinsIconPoint().y + tileTradeCaravanCoins.getTileHeight() + UtilFont.MAX_HEIGHT * 2;
         setScrollUpTownPoint(new Point(COLUMN4X + tileTradeButton.getTileWidth() / 2 - UIPanel.tileScrollUp.getTileWidth() / 2, iYMin));
-        iYMin += UIPanel.tileScrollUp.getTileHeight() + 16; // Tamaño del primer scroll + espacio en blanco (16)
+        iYMin += UIPanel.tileScrollUp.getTileHeight() + 16; // Tamaï¿½o del primer scroll + espacio en blanco (16)
         iMaxButtons = MAX_VERTICAL_BUTTONS;
         if (iMaxButtons > getMenuTown().getItems().size()) {
             iMaxButtons = getMenuTown().getItems().size();
@@ -803,13 +802,13 @@ public class TradePanel {
 
         // Town buttons to-sell
         iYMin = getCaravanCoinsIconPoint().y + tileTradeCaravanCoins.getTileHeight() + UtilFont.MAX_HEIGHT * 2;
-        // Index, miramos si el actual es válido con el nuevo size
+        // Index, miramos si el actual es vï¿½lido con el nuevo size
         if (getIndexButtonsToSellTown() + MAX_VERTICAL_BUTTONS > caravanData.getMenuTownToSell().getItems().size()) {
             setIndexButtonsToSellTown(0);
         }
 
         setScrollUpTownToSellPoint(new Point(COLUMN3X + tileTradeButton.getTileWidth() / 2 - UIPanel.tileScrollUp.getTileWidth() / 2, iYMin));
-        iYMin += UIPanel.tileScrollUp.getTileHeight() + 16; // Tamaño del primer scroll + espacio en blanco (16)
+        iYMin += UIPanel.tileScrollUp.getTileHeight() + 16; // Tamaï¿½o del primer scroll + espacio en blanco (16)
 
         iMaxButtons = MAX_VERTICAL_BUTTONS;
         if (iMaxButtons > caravanData.getMenuTownToSell().getItems().size()) {
@@ -881,7 +880,7 @@ public class TradePanel {
             return;
         }
 
-		// Seleccionamos un item para comprar
+        // Seleccionamos un item para comprar
         // Cambiamos el menu de botones de la caravana
         SmartMenu menuItem = getMenuCaravan().getItems().get(iIndex);
         Point3D p3dFlags = menuItem.getDirectCoordinates();
@@ -900,7 +899,7 @@ public class TradePanel {
             menuItem.setDirectCoordinates(p3dFlags);
             menuItem.setParameter2("x" + p3dFlags.y); //$NON-NLS-1$
 
-			// Añadimos 1 item al menú de items a comprar
+            // Aï¿½adimos 1 item al menï¿½ de items a comprar
             // Primero miramos si existe
             int iFoundIndex = -1;
             SmartMenu menuAux;
@@ -913,7 +912,7 @@ public class TradePanel {
                         break;
                     }
                 } else {
-                    // Item genérico
+                    // Item genï¿½rico
                     if (menuAux.getParameter().equals(menuItem.getParameter()) && menuAux.getDirectCoordinates().x == menuItem.getDirectCoordinates().x) {
                         iFoundIndex = i;
                         break;
@@ -974,8 +973,8 @@ public class TradePanel {
                 menuBuy.setParameter2("x" + p3dFlags.y); //$NON-NLS-1$
             }
 
-			// Sumar 1 a los items de la caravana
-			// Añadimos 1 item al menú de items a comprar
+            // Sumar 1 a los items de la caravana
+            // Aï¿½adimos 1 item al menï¿½ de items a comprar
             // Primero miramos si existe
             int iFoundIndex = -1;
             SmartMenu menuAux;
@@ -988,7 +987,7 @@ public class TradePanel {
                         break;
                     }
                 } else {
-                    // Item genérico
+                    // Item genï¿½rico
                     if (menuAux.getParameter().equals(menuBuy.getParameter()) && menuAux.getDirectCoordinates().x == menuBuy.getDirectCoordinates().x) {
                         iFoundIndex = i;
                         break;
@@ -1007,7 +1006,7 @@ public class TradePanel {
                 }
                 sm.setParameter2("x" + sm.getDirectCoordinates().y); //$NON-NLS-1$
             } else {
-                // No debería pasar
+                // No deberï¿½a pasar
             }
 
             if (p3dFlags.y <= 0) {
@@ -1026,7 +1025,7 @@ public class TradePanel {
             return;
         }
 
-		// Seleccionamos un item para vender
+        // Seleccionamos un item para vender
         // Cambiamos el menu de botones del pueblo
         SmartMenu menuItem = getMenuTown().getItems().get(iIndex);
         Point3D p3dFlags = menuItem.getDirectCoordinates();
@@ -1045,7 +1044,7 @@ public class TradePanel {
             menuItem.setDirectCoordinates(p3dFlags);
             menuItem.setParameter2("x" + p3dFlags.y); //$NON-NLS-1$
 
-			// Añadimos 1 (o 10) item al menú de items a vender
+            // Aï¿½adimos 1 (o 10) item al menï¿½ de items a vender
             // Primero miramos si existe
             int iFoundIndex = -1;
             SmartMenu menuAux;
@@ -1121,8 +1120,8 @@ public class TradePanel {
                 menuSell.setParameter2("x" + p3dFlags.y); //$NON-NLS-1$
             }
 
-			// Sumar 1 a los items del pueblo
-			// Añadimos 1 item al menú de items a vender
+            // Sumar 1 a los items del pueblo
+            // Aï¿½adimos 1 item al menï¿½ de items a vender
             // Primero miramos si existe
             int iFoundIndex = -1;
             SmartMenu menuAux;
@@ -1156,7 +1155,7 @@ public class TradePanel {
                 }
                 sm.setParameter2("x" + sm.getDirectCoordinates().y); //$NON-NLS-1$
             } else {
-                // No debería pasar
+                // No deberï¿½a pasar
             }
 
             if (p3dFlags.y <= 0) {

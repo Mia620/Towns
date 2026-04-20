@@ -1,11 +1,11 @@
 package xaos.tiles.entities.living.friendly;
 
+import xaos.tiles.entities.living.LivingEntity;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-
-import xaos.tiles.entities.living.LivingEntity;
 
 public class Friendly extends LivingEntity implements Externalizable {
 

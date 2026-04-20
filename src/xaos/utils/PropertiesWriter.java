@@ -1,17 +1,13 @@
-
 package xaos.utils;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+import xaos.property.Property;
+import xaos.property.PropertyFile;
+
+import java.io.*;
 import java.nio.charset.Charset;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import xaos.property.Property;
-import xaos.property.PropertyFile;
 
 /**
  *
@@ -54,11 +50,10 @@ public class PropertiesWriter {
                         pw.append("\n");
                     }
                     pw.append("# ").append(sectionEntryKey.getSectionHeading()).append("\n");
-                } else
-                    if (entryKey instanceof PropertiesEntryKey) {
-                        PropertiesEntryKey propertiesEntryKey = (PropertiesEntryKey) entryKey;
-                        pw.append(propertiesEntryKey.getKey()).append(" = ").append(entry.getValue()).append("\n");
-                    }
+                } else if (entryKey instanceof PropertiesEntryKey) {
+                    PropertiesEntryKey propertiesEntryKey = (PropertiesEntryKey) entryKey;
+                    pw.append(propertiesEntryKey.getKey()).append(" = ").append(entry.getValue()).append("\n");
+                }
                 counter++;
             }
         } finally {

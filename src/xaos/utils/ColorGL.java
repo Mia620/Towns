@@ -1,14 +1,12 @@
 package xaos.utils;
 
-import java.awt.Color;
+import java.awt.*;
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
 public final class ColorGL implements Externalizable {
-
-    private static final long serialVersionUID = 2966033656237585470L;
 
     public static final ColorGL BLACK = new ColorGL(Color.BLACK);
     public static final ColorGL WHITE = new ColorGL(Color.WHITE);
@@ -19,7 +17,7 @@ public final class ColorGL implements Externalizable {
     public static final ColorGL ORANGE = new ColorGL(Color.ORANGE);
     public static final ColorGL GRAY = new ColorGL(Color.GRAY);
     public static final ColorGL LIGHT_GRAY = new ColorGL(Color.LIGHT_GRAY);
-
+    private static final long serialVersionUID = 2966033656237585470L;
     public float r;
     public float g;
     public float b;

@@ -1,7 +1,5 @@
 package xaos.generator;
 
-import java.util.ArrayList;
-
 import xaos.main.World;
 import xaos.tiles.Cell;
 import xaos.tiles.entities.living.LivingEntity;
@@ -11,6 +9,8 @@ import xaos.utils.Log;
 import xaos.utils.Messages;
 import xaos.utils.Utils;
 
+import java.util.ArrayList;
+
 public class LivingEntityGenerator extends Generator {
 
     public final static String XML_FILE = "gen_livingentities.xml"; //$NON-NLS-1$
@@ -19,7 +19,7 @@ public class LivingEntityGenerator extends Generator {
      * Lee del gen_livingentities.xml
      */
     public static void generateLivingEntities(Cell[][][] cells, String sCampaignID, String sMissionID) {
-        // Leemos el gen_livingentities.xml (si está en una misión se carga de otro sitio)
+        // Leemos el gen_livingentities.xml (si estï¿½ en una misiï¿½n se carga de otro sitio)
         Generator generator = new Generator();
         ArrayList<String> alPaths = Utils.getPathToFile(XML_FILE, sCampaignID, sMissionID);
 

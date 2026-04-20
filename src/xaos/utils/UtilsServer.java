@@ -1,17 +1,13 @@
 package xaos.utils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.ArrayList;
 
 public class UtilsServer {
 
@@ -109,7 +105,7 @@ public class UtilsServer {
                                         String sName = UtilsXML.getChildValue(nodeBurieds.getChildNodes(), "fileName"); //$NON-NLS-1$
                                         String sID = UtilsXML.getChildValue(nodeBurieds.getChildNodes(), "fileID"); //$NON-NLS-1$
                                         if (sName != null && sID != null && sName.trim().length() > 0 && sID.trim().length() > 0) {
-                                            // Miramos que no tenga carácteres especiales
+                                            // Miramos que no tenga carï¿½cteres especiales
                                             if (!sName.contains("/") && !sName.contains("\\") && !sName.contains(";") && !sName.contains("&") && !sName.contains("#") && !sName.contains("..")) {
                                                 // Todo ok, aunque primero miramos que el fichero no exista en local
                                                 File fTest = new File(buryFolder + File.separator + sName);
@@ -170,17 +166,15 @@ public class UtilsServer {
         URLConnection uc = urlObject.openConnection();
 
         try {
-            uc.setReadTimeout (1500);
-        }
-        catch (Exception e) {
+            uc.setReadTimeout(1500);
+        } catch (Exception e) {
         }
 
         InputStream iStream = uc.getInputStream();
 
         try {
-        	uc.setReadTimeout (0);
-        }
-        catch (Exception e) {
+            uc.setReadTimeout(0);
+        } catch (Exception e) {
         }
 
         BufferedReader br = new BufferedReader(new InputStreamReader(iStream, "UTF-8")); //$NON-NLS-1$

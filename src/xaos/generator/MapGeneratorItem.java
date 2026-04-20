@@ -104,26 +104,6 @@ public class MapGeneratorItem {
         special = SPECIAL_INT_NONE;
     }
 
-    public int getTerrainID() {
-        return terrainID;
-    }
-
-    public void setTerrainID(int terrainID) {
-        this.terrainID = terrainID;
-    }
-
-    public int getSpecial() {
-        return special;
-    }
-
-    public void setSpecial(int special) {
-        this.special = special;
-    }
-
-    public boolean hasSpecial() {
-        return getSpecial() != SPECIAL_INT_NONE;
-    }
-
     public static int getSpecialInt(String sType) {
         if (sType == null) {
             return SPECIAL_INT_NONE;
@@ -144,5 +124,25 @@ public class MapGeneratorItem {
         } else {
             return SPECIAL_INT_NONE;
         }
+    }
+
+    public int getTerrainID() {
+        return terrainID;
+    }
+
+    public void setTerrainID(int terrainID) {
+        this.terrainID = terrainID;
+    }
+
+    public int getSpecial() {
+        return special;
+    }
+
+    public void setSpecial(int special) {
+        this.special = special;
+    }
+
+    public boolean hasSpecial() {
+        return getSpecial() != SPECIAL_INT_NONE;
     }
 }

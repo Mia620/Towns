@@ -7,11 +7,9 @@ import java.io.ObjectOutput;
 
 public final class Date implements Externalizable {
 
-    private static final long serialVersionUID = -7460035278067931338L;
-
     public static final int DAYS_PER_MONTH = 30;
     public static final int MONTHS_PER_YEAR = 12;
-
+    private static final long serialVersionUID = -7460035278067931338L;
     private String sDate;
 
     private int day;

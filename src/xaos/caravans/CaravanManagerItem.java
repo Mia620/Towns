@@ -1,7 +1,5 @@
 package xaos.caravans;
 
-import java.util.ArrayList;
-
 import xaos.data.CaravanData;
 import xaos.main.World;
 import xaos.panels.menus.SmartMenu;
@@ -13,6 +11,8 @@ import xaos.utils.Messages;
 import xaos.utils.Point3DShort;
 import xaos.utils.Utils;
 import xaos.zones.ZoneManager;
+
+import java.util.ArrayList;
 
 public class CaravanManagerItem {
 
@@ -44,7 +44,7 @@ public class CaravanManagerItem {
                         itemID = ItemManager.getRandomItemByType(cid.getType()).getIniHeader();
                     }
 
-                    // Que el item exista (debería)
+                    // Que el item exista (deberï¿½a)
                     if (itemID == null) {
                         continue;
                     }
@@ -58,7 +58,7 @@ public class CaravanManagerItem {
                     Item item = Item.createItem(imi);
                     int iPrice = PricesManager.getPrice(item);
 
-					// Miramos que no exista el item, en ese caso sumamos X a la cantidad
+                    // Miramos que no exista el item, en ese caso sumamos X a la cantidad
                     // Los items militares van sueltos
                     boolean bFound = false;
                     if (!(item instanceof MilitaryItem)) {
@@ -109,6 +109,10 @@ public class CaravanManagerItem {
         this.id = id;
     }
 
+    public String getZone() {
+        return zone;
+    }
+
     public void setZone(String zone) throws Exception {
         if (zone == null || zone.length() == 0) {
             throw new Exception(Messages.getString("CaravanManagerItem.1")); //$NON-NLS-1$
@@ -121,28 +125,20 @@ public class CaravanManagerItem {
         this.zone = zone;
     }
 
-    public String getZone() {
-        return zone;
+    public String getPricePCT() {
+        return pricePCT;
     }
 
     public void setPricePCT(String pricePCT) {
         this.pricePCT = pricePCT;
     }
 
-    public String getPricePCT() {
-        return pricePCT;
-    }
-
-    public void setCoins(String coins) {
-        this.coins = coins;
-    }
-
     public String getCoins() {
         return coins;
     }
 
-    public void setBuys(ArrayList<String> buys) {
-        this.buys = buys;
+    public void setCoins(String coins) {
+        this.coins = coins;
     }
 
     public void setBuysString(String sBuys) {
@@ -153,12 +149,20 @@ public class CaravanManagerItem {
         return buys;
     }
 
+    public void setBuys(ArrayList<String> buys) {
+        this.buys = buys;
+    }
+
     public ArrayList<CaravanItemData> getItemList() {
         return itemList;
     }
 
     public void setItemList(ArrayList<CaravanItemData> itemList) {
         this.itemList = itemList;
+    }
+
+    public int getComePCT() {
+        return comePCT;
     }
 
     public void setComePCT(int comePCT) {
@@ -187,9 +191,5 @@ public class CaravanManagerItem {
                 throw new Exception(Messages.getString("CaravanManagerItem.0") + sComePCT + "]"); //$NON-NLS-1$ //$NON-NLS-2$
             }
         }
-    }
-
-    public int getComePCT() {
-        return comePCT;
     }
 }

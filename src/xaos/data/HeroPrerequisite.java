@@ -1,16 +1,14 @@
 package xaos.data;
 
+import xaos.utils.Messages;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.ArrayList;
 
-import xaos.utils.Messages;
-
 public class HeroPrerequisite implements Externalizable {
-
-    private static final long serialVersionUID = -7811687233202147070L;
 
     public final static String STR_ID_MIN_CITIZENS = "minCitizens"; //$NON-NLS-1$
     public final static String STR_ID_MAX_CITIZENS = "maxCitizens"; //$NON-NLS-1$
@@ -20,7 +18,6 @@ public class HeroPrerequisite implements Externalizable {
     public final static String STR_ID_FREE_ROOM_HIGH = "freeRoomHigh"; //$NON-NLS-1$
     public final static String STR_ID_ZONE = "zone"; //$NON-NLS-1$
     public final static String STR_ID_FREE_ROOM_ITEMS = "freeRoomItems"; //$NON-NLS-1$
-
     public final static int ID_MIN_CITIZENS = 1;
     public final static int ID_MAX_CITIZENS = 2;
     public final static int ID_LEVEL_DISCOVERED = 3;
@@ -29,13 +26,36 @@ public class HeroPrerequisite implements Externalizable {
     public final static int ID_FREE_ROOM_HIGH = 6;
     public final static int ID_ZONE = 7;
     public final static int ID_FREE_ROOM_ITEMS = 8;
-
+    private static final long serialVersionUID = -7811687233202147070L;
     private int id;
     private int valueInt;
     private boolean valueBoolean;
     private String valueString;
 
     public HeroPrerequisite() {
+    }
+
+    /**
+     * Se le pasa una lista de prerequisitos (puede ser null o vacï¿½a) y un ID de
+     * prerequisito. Si ese prerequisito existe en la lista lo devuelve, en otro
+     * caso devuelve null
+     *
+     * @param alPrerequisites
+     * @param iPrerequisiteID
+     * @return
+     */
+    public static HeroPrerequisite getHeroPrerequisite(ArrayList<HeroPrerequisite> alPrerequisites, int iPrerequisiteID) {
+        if (alPrerequisites == null || alPrerequisites.size() == 0) {
+            return null;
+        }
+
+        for (int i = 0; i < alPrerequisites.size(); i++) {
+            if (alPrerequisites.get(i).getId() == iPrerequisiteID) {
+                return alPrerequisites.get(i);
+            }
+        }
+
+        return null;
     }
 
     public int getId() {
@@ -129,7 +149,7 @@ public class HeroPrerequisite implements Externalizable {
             case ID_MAX_CITIZENS:
             case ID_LEVEL_DISCOVERED:
             case ID_FREE_ROOM_HIGH:
-                // Numérico
+                // Numï¿½rico
                 setValueInt(Integer.parseInt(sValue));
                 break;
             case ID_FREE_ROOM:
@@ -145,29 +165,6 @@ public class HeroPrerequisite implements Externalizable {
             default:
                 throw new Exception(Messages.getString("HeroPrerequisite.2") + getStringID(getId()) + "] [" + sValue + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         }
-    }
-
-    /**
-     * Se le pasa una lista de prerequisitos (puede ser null o vacía) y un ID de
-     * prerequisito. Si ese prerequisito existe en la lista lo devuelve, en otro
-     * caso devuelve null
-     *
-     * @param alPrerequisites
-     * @param iPrerequisiteID
-     * @return
-     */
-    public static HeroPrerequisite getHeroPrerequisite(ArrayList<HeroPrerequisite> alPrerequisites, int iPrerequisiteID) {
-        if (alPrerequisites == null || alPrerequisites.size() == 0) {
-            return null;
-        }
-
-        for (int i = 0; i < alPrerequisites.size(); i++) {
-            if (alPrerequisites.get(i).getId() == iPrerequisiteID) {
-                return alPrerequisites.get(i);
-            }
-        }
-
-        return null;
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {

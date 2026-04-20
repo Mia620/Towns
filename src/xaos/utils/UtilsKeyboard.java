@@ -1,10 +1,9 @@
 package xaos.utils;
 
-import java.util.StringTokenizer;
-
 import org.lwjgl.input.Keyboard;
-
 import xaos.Towns;
+
+import java.util.StringTokenizer;
 
 public final class UtilsKeyboard {
 
@@ -46,90 +45,86 @@ public final class UtilsKeyboard {
     public final static int FN_TOGGLE_HIDE_UI = 34;
     public final static int FN_SCREENSHOT = 35;
     public final static int FN_TOGGLE_ITEM_BUILD_FACE = 36;
-
-    private final static String FNSTRINGS[] = {
-        "FN_UP", //$NON-NLS-1$
-        "FN_DOWN", //$NON-NLS-1$
-        "FN_LEFT", //$NON-NLS-1$
-        "FN_RIGHT", //$NON-NLS-1$
-        "FN_SHOW_MISSION", //$NON-NLS-1$
-        "FN_SHOW_STOCK", //$NON-NLS-1$
-        "FN_SHOW_PRIORITIES", //$NON-NLS-1$
-        "FN_SHOW_TRADE", //$NON-NLS-1$
-        "FN_TOGGLE_FULLSCREEN", //$NON-NLS-1$
-        "FN_SPEED_DOWN", //$NON-NLS-1$
-        "FN_SPEED_UP", //$NON-NLS-1$
-        "FN_TOGGLE_GRID", //$NON-NLS-1$
-        "FN_TOGGLE_FLAT_MOUSE", //$NON-NLS-1$
-        "FN_PAUSE", //$NON-NLS-1$
-        "FN_LEVEL_DOWN", //$NON-NLS-1$
-        "FN_LEVEL_UP", //$NON-NLS-1$
-        "FN_NEXT_CITIZEN", //$NON-NLS-1$
-        "FN_PREVIOUS_CITIZEN", //$NON-NLS-1$
-        "FN_NEXT_SOLDIER", //$NON-NLS-1$
-        "FN_PREVIOUS_SOLDIER", //$NON-NLS-1$
-        "FN_NEXT_HERO", //$NON-NLS-1$
-        "FN_PREVIOUS_HERO", //$NON-NLS-1$
-        "FN_TOGGLE_MINIBLOCKS", //$NON-NLS-1$
-        "FN_BOT_1", //$NON-NLS-1$
-        "FN_BOT_2", //$NON-NLS-1$
-        "FN_BOT_3", //$NON-NLS-1$
-        "FN_BOT_4", //$NON-NLS-1$
-        "FN_BOT_5", //$NON-NLS-1$
-        "FN_BOT_6", //$NON-NLS-1$
-        "FN_BOT_7", //$NON-NLS-1$
-        "FN_BOT_8", //$NON-NLS-1$
-        "FN_BOT_9", //$NON-NLS-1$
-        "FN_BOT_10", //$NON-NLS-1$
-        "FN_TOGGLE_3D_MOUSE", //$NON-NLS-1$
-        "FN_TOGGLE_HIDE_UI", //$NON-NLS-1$
-        "FN_SCREENSHOT", //$NON-NLS-1$
-        "FN_ITEM_BUILD_FACE" //$NON-NLS-1$
-    };
-
-    private final static String FNHUMANSTRINGS[] = {
-        "UtilsKeyboard.0", //$NON-NLS-1$
-        "UtilsKeyboard.1", //$NON-NLS-1$
-        "UtilsKeyboard.2", //$NON-NLS-1$
-        "UtilsKeyboard.3", //$NON-NLS-1$
-        "UtilsKeyboard.4", //$NON-NLS-1$
-        "UIPanel.32", //$NON-NLS-1$
-        "UIPanel.14", //$NON-NLS-1$
-        "UIPanel.25", //$NON-NLS-1$
-        "MainMenuPanel.17", //$NON-NLS-1$
-        "UIPanel.1", //$NON-NLS-1$
-        "UIPanel.15", //$NON-NLS-1$
-        "UIPanel.12", //$NON-NLS-1$
-        "UIPanel.45", //$NON-NLS-1$
-        "UIPanel.10", //$NON-NLS-1$
-        "UIPanel.2", //$NON-NLS-1$
-        "UIPanel.0", //$NON-NLS-1$
-        "UIPanel.4", //$NON-NLS-1$
-        "UIPanel.3", //$NON-NLS-1$
-        "UIPanel.6", //$NON-NLS-1$
-        "UIPanel.5", //$NON-NLS-1$
-        "UIPanel.23", //$NON-NLS-1$
-        "UIPanel.22", //$NON-NLS-1$
-        "UIPanel.16", //$NON-NLS-1$
-        "UtilsKeyboard.5", //$NON-NLS-1$
-        "UtilsKeyboard.6", //$NON-NLS-1$
-        "UtilsKeyboard.7", //$NON-NLS-1$
-        "UtilsKeyboard.8", //$NON-NLS-1$
-        "UtilsKeyboard.9", //$NON-NLS-1$
-        "UtilsKeyboard.10", //$NON-NLS-1$
-        "UtilsKeyboard.11", //$NON-NLS-1$
-        "UtilsKeyboard.12", //$NON-NLS-1$
-        "UtilsKeyboard.13", //$NON-NLS-1$
-        "UtilsKeyboard.14", //$NON-NLS-1$
-        "UtilsKeyboard.16", //$NON-NLS-1$
-        "UtilsKeyboard.17", //$NON-NLS-1$
-        "UtilsKeyboard.18", //$NON-NLS-1$
-        "UtilsKeyboard.19" //$NON-NLS-1$
-    };
-
-    private static int[][] shortcuts = new int[FNSTRINGS.length][2];
-
     public static final String EMPTY_STRING = new String();
+    private final static String FNSTRINGS[] = {
+            "FN_UP", //$NON-NLS-1$
+            "FN_DOWN", //$NON-NLS-1$
+            "FN_LEFT", //$NON-NLS-1$
+            "FN_RIGHT", //$NON-NLS-1$
+            "FN_SHOW_MISSION", //$NON-NLS-1$
+            "FN_SHOW_STOCK", //$NON-NLS-1$
+            "FN_SHOW_PRIORITIES", //$NON-NLS-1$
+            "FN_SHOW_TRADE", //$NON-NLS-1$
+            "FN_TOGGLE_FULLSCREEN", //$NON-NLS-1$
+            "FN_SPEED_DOWN", //$NON-NLS-1$
+            "FN_SPEED_UP", //$NON-NLS-1$
+            "FN_TOGGLE_GRID", //$NON-NLS-1$
+            "FN_TOGGLE_FLAT_MOUSE", //$NON-NLS-1$
+            "FN_PAUSE", //$NON-NLS-1$
+            "FN_LEVEL_DOWN", //$NON-NLS-1$
+            "FN_LEVEL_UP", //$NON-NLS-1$
+            "FN_NEXT_CITIZEN", //$NON-NLS-1$
+            "FN_PREVIOUS_CITIZEN", //$NON-NLS-1$
+            "FN_NEXT_SOLDIER", //$NON-NLS-1$
+            "FN_PREVIOUS_SOLDIER", //$NON-NLS-1$
+            "FN_NEXT_HERO", //$NON-NLS-1$
+            "FN_PREVIOUS_HERO", //$NON-NLS-1$
+            "FN_TOGGLE_MINIBLOCKS", //$NON-NLS-1$
+            "FN_BOT_1", //$NON-NLS-1$
+            "FN_BOT_2", //$NON-NLS-1$
+            "FN_BOT_3", //$NON-NLS-1$
+            "FN_BOT_4", //$NON-NLS-1$
+            "FN_BOT_5", //$NON-NLS-1$
+            "FN_BOT_6", //$NON-NLS-1$
+            "FN_BOT_7", //$NON-NLS-1$
+            "FN_BOT_8", //$NON-NLS-1$
+            "FN_BOT_9", //$NON-NLS-1$
+            "FN_BOT_10", //$NON-NLS-1$
+            "FN_TOGGLE_3D_MOUSE", //$NON-NLS-1$
+            "FN_TOGGLE_HIDE_UI", //$NON-NLS-1$
+            "FN_SCREENSHOT", //$NON-NLS-1$
+            "FN_ITEM_BUILD_FACE" //$NON-NLS-1$
+    };
+    private final static String FNHUMANSTRINGS[] = {
+            "UtilsKeyboard.0", //$NON-NLS-1$
+            "UtilsKeyboard.1", //$NON-NLS-1$
+            "UtilsKeyboard.2", //$NON-NLS-1$
+            "UtilsKeyboard.3", //$NON-NLS-1$
+            "UtilsKeyboard.4", //$NON-NLS-1$
+            "UIPanel.32", //$NON-NLS-1$
+            "UIPanel.14", //$NON-NLS-1$
+            "UIPanel.25", //$NON-NLS-1$
+            "MainMenuPanel.17", //$NON-NLS-1$
+            "UIPanel.1", //$NON-NLS-1$
+            "UIPanel.15", //$NON-NLS-1$
+            "UIPanel.12", //$NON-NLS-1$
+            "UIPanel.45", //$NON-NLS-1$
+            "UIPanel.10", //$NON-NLS-1$
+            "UIPanel.2", //$NON-NLS-1$
+            "UIPanel.0", //$NON-NLS-1$
+            "UIPanel.4", //$NON-NLS-1$
+            "UIPanel.3", //$NON-NLS-1$
+            "UIPanel.6", //$NON-NLS-1$
+            "UIPanel.5", //$NON-NLS-1$
+            "UIPanel.23", //$NON-NLS-1$
+            "UIPanel.22", //$NON-NLS-1$
+            "UIPanel.16", //$NON-NLS-1$
+            "UtilsKeyboard.5", //$NON-NLS-1$
+            "UtilsKeyboard.6", //$NON-NLS-1$
+            "UtilsKeyboard.7", //$NON-NLS-1$
+            "UtilsKeyboard.8", //$NON-NLS-1$
+            "UtilsKeyboard.9", //$NON-NLS-1$
+            "UtilsKeyboard.10", //$NON-NLS-1$
+            "UtilsKeyboard.11", //$NON-NLS-1$
+            "UtilsKeyboard.12", //$NON-NLS-1$
+            "UtilsKeyboard.13", //$NON-NLS-1$
+            "UtilsKeyboard.14", //$NON-NLS-1$
+            "UtilsKeyboard.16", //$NON-NLS-1$
+            "UtilsKeyboard.17", //$NON-NLS-1$
+            "UtilsKeyboard.18", //$NON-NLS-1$
+            "UtilsKeyboard.19" //$NON-NLS-1$
+    };
+    private static int[][] shortcuts = new int[FNSTRINGS.length][2];
 
     public static void loadShortcuts() {
         for (int i = 0; i < FNSTRINGS.length; i++) {
@@ -213,10 +208,10 @@ public final class UtilsKeyboard {
     }
 
     /**
-     * Retorna la función a partir de la tecla pulsada o -1 si no se encuentra
+     * Retorna la funciï¿½n a partir de la tecla pulsada o -1 si no se encuentra
      *
      * @param key Tecla
-     * @return la función a partir de la tecla pulsada o -1 si no se encuentra
+     * @return la funciï¿½n a partir de la tecla pulsada o -1 si no se encuentra
      */
     public static int getFN(int key) {
         for (int i = 0; i < shortcuts.length; i++) {
@@ -232,8 +227,8 @@ public final class UtilsKeyboard {
      * Changes the keybinding for a function. It checks for duplicates.
      *
      * @param iIndex 0/1
-     * @param iFN Function index
-     * @param iKey Key ID
+     * @param iFN    Function index
+     * @param iKey   Key ID
      */
     public static void redefineKey(int iIndex, int iFN, int iKey) {
         if (iIndex == 1 && iKey == shortcuts[iFN][0]) {
@@ -250,8 +245,8 @@ public final class UtilsKeyboard {
      * Check duplicates on the keybindings. If found them, it deletes them
      *
      * @param iIndex Index that recently changed the key (0/1)
-     * @param iFN Function that recently changed the key
-     * @param iKey Key to check
+     * @param iFN    Function that recently changed the key
+     * @param iKey   Key to check
      */
     public static void checkDuplicates(int iIndex, int iFN, int iKey) {
         if (iKey != Keyboard.KEY_NONE) {
@@ -270,9 +265,9 @@ public final class UtilsKeyboard {
     }
 
     /**
-     * Indica si el usuario está pulsando alguna tecla de la función pasadas
+     * Indica si el usuario estï¿½ pulsando alguna tecla de la funciï¿½n pasadas
      *
-     * @return true si el usuario está pulsando alguna tecla de la función
+     * @return true si el usuario estï¿½ pulsando alguna tecla de la funciï¿½n
      * pasadas
      */
     public static boolean isFNKeyDown(int fn) {

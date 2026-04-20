@@ -1,11 +1,5 @@
 package xaos.tiles.entities.living.projectiles;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.util.ArrayList;
-
 import xaos.main.Game;
 import xaos.tiles.Cell;
 import xaos.tiles.Tile;
@@ -14,26 +8,30 @@ import xaos.tiles.entities.items.ItemManagerItem;
 import xaos.tiles.entities.living.LivingEntity;
 import xaos.utils.Point3DShort;
 
-public class Projectile extends Tile implements Externalizable {
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.util.ArrayList;
 
-    private static final long serialVersionUID = -5065819692431962137L;
+public class Projectile extends Tile implements Externalizable {
 
     public final static int DIRECTION_EAST = 1;
     public final static int DIRECTION_NORTH = 2;
     public final static int DIRECTION_SOUTH = 4;
     public final static int DIRECTION_WEST = 8;
-
+    private static final long serialVersionUID = -5065819692431962137L;
     private static byte locations[][][];
 
     private Point3DShort coordinates = Point3DShort.getPoolInstance(-1, -1, -1);
     private int damage;
     private int maxDistance;
     private LivingEntity attacker;
-    private String attackerWeapon; // Para obtener los verbos después
+    private String attackerWeapon; // Para obtener los verbos despuï¿½s
     private LivingEntity victim;
     private ArrayList<Point3DShort> path;
     private int direction; // Binaria
-    private boolean delete; // Se guarda para que se dibuje un turno más
+    private boolean delete; // Se guarda para que se dibuje un turno mï¿½s
 
     public Projectile() {
         super();
@@ -51,9 +49,13 @@ public class Projectile extends Tile implements Externalizable {
         Projectile.locations = locations;
     }
 
+    public Point3DShort getCoordinates() {
+        return coordinates;
+    }
+
     public void setCoordinates(Point3DShort point) {
         if (locations != null) {
-            if (getX() != -1) { // Con esto sabemos si es un nuevo proyectil que aún no tiene coordenadas
+            if (getX() != -1) { // Con esto sabemos si es un nuevo proyectil que aï¿½n no tiene coordenadas
                 locations[getX()][getY()][getZ()]--;
             }
             locations[point.x][point.y][point.z]++;
@@ -67,10 +69,6 @@ public class Projectile extends Tile implements Externalizable {
                 Cell.generateLightsItemRemovedCellMined(point.x, point.y, point.z, imi.getLightRadius() + 1); // +1 para que borre lo de al lado (donde estaba antes)
             }
         }
-    }
-
-    public Point3DShort getCoordinates() {
-        return coordinates;
     }
 
     public int getX() {
@@ -93,12 +91,12 @@ public class Projectile extends Tile implements Externalizable {
         this.damage = damage;
     }
 
-    public void setMaxDistance(int maxDistance) {
-        this.maxDistance = maxDistance;
-    }
-
     public int getMaxDistance() {
         return maxDistance;
+    }
+
+    public void setMaxDistance(int maxDistance) {
+        this.maxDistance = maxDistance;
     }
 
     public LivingEntity getAttacker() {
@@ -109,12 +107,12 @@ public class Projectile extends Tile implements Externalizable {
         this.attacker = attacker;
     }
 
-    public void setAttackerWeapon(String attackerWeapon) {
-        this.attackerWeapon = attackerWeapon;
-    }
-
     public String getAttackerWeapon() {
         return attackerWeapon;
+    }
+
+    public void setAttackerWeapon(String attackerWeapon) {
+        this.attackerWeapon = attackerWeapon;
     }
 
     public LivingEntity getVictim() {
@@ -125,16 +123,20 @@ public class Projectile extends Tile implements Externalizable {
         this.victim = victim;
     }
 
+    public ArrayList<Point3DShort> getPath() {
+        return path;
+    }
+
     public void setPath(ArrayList<Point3DShort> path) {
         this.path = path;
 
-		// Miramos la dirección en la que hay que dibujar el ammo
-        // Obtenemos el 1er y último puntos del recorrido para ello
+        // Miramos la direcciï¿½n en la que hay que dibujar el ammo
+        // Obtenemos el 1er y ï¿½ltimo puntos del recorrido para ello
         if (path != null && path.size() > 1) {
             Point3DShort p3dIni = path.get(0);
             Point3DShort p3dFin = path.get(path.size() - 1);
 
-            // Miramos qué parte es más corta (servirá para girarlo bien en modo isométrico) (difícil de entender)
+            // Miramos quï¿½ parte es mï¿½s corta (servirï¿½ para girarlo bien en modo isomï¿½trico) (difï¿½cil de entender)
             boolean bParteCortaHorizontal = Math.abs(p3dIni.x - p3dFin.x) < Math.abs(p3dIni.y - p3dFin.y);
 
             if (bParteCortaHorizontal) {
@@ -153,24 +155,20 @@ public class Projectile extends Tile implements Externalizable {
         }
     }
 
-    public ArrayList<Point3DShort> getPath() {
-        return path;
+    public int getDirection() {
+        return direction;
     }
 
     public void setDirection(int direction) {
         this.direction = direction;
     }
 
-    public int getDirection() {
-        return direction;
+    public boolean isDelete() {
+        return delete;
     }
 
     public void setDelete(boolean delete) {
         this.delete = delete;
-    }
-
-    public boolean isDelete() {
-        return delete;
     }
 
     private boolean checkHit() {

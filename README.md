@@ -1,9 +1,11 @@
 # Towns
 Repository for the [Towns game][]
 
-This game was originally developed over a decade ago. For a while, it built a small but active community. Today, that community is much smaller, but the project still lives on in different ways.
+This game was originally developed over a decade ago. For a while, it built a small but active community. Today, that
+community is much smaller, but the project still lives on in different ways.
 
-Over the years, several people have reached out asking for access to the source code to understand how it works, modify it, or create their own versions. Until now, I had always chosen to keep it private.
+Over the years, several people have reached out asking for access to the source code to understand how it works, modify
+it, or create their own versions. Until now, I had always chosen to keep it private.
 
 I think it’s time to change that.
 
@@ -14,7 +16,6 @@ This repository is the result of that decision.
 
 - Full source code of the game
 - Basic game data (.ini files, .xml files)
-
 
 # Code License
 
@@ -45,7 +46,8 @@ This repository only contains code and/or assets that are safe and legal to redi
 
 You are welcome to fork the project, experiment, or create your own versions.
 
-I don’t guarantee reviewing pull requests or maintaining the project, but I’d genuinely enjoy seeing what comes out of it.
+I don’t guarantee reviewing pull requests or maintaining the project, but I’d genuinely enjoy seeing what comes out of
+it.
 
 
 # Community

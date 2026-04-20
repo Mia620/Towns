@@ -1,18 +1,17 @@
 package xaos.tiles.entities.items.military;
 
-import java.io.File;
-import java.util.ArrayList;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import xaos.Towns;
 import xaos.main.Game;
 import xaos.utils.Log;
 import xaos.utils.Messages;
 import xaos.utils.Utils;
 import xaos.utils.UtilsXML;
+
+import java.io.File;
+import java.util.ArrayList;
 
 public class PrefixSuffixManager {
 
@@ -49,8 +48,8 @@ public class PrefixSuffixManager {
         try {
             Document doc = UtilsXML.loadXMLFile(sXMLPath); //$NON-NLS-1$ //$NON-NLS-2$
 
-			// Tenemos el documento XML parseado
-            // Lo recorremos entero y vamos añadiendo los prefijos/sufijos en el array que toque
+            // Tenemos el documento XML parseado
+            // Lo recorremos entero y vamos aï¿½adiendo los prefijos/sufijos en el array que toque
             NodeList nodeList = doc.getDocumentElement().getChildNodes();
             Node node;
             for (int i = 0; i < nodeList.getLength(); i++) {
@@ -96,7 +95,7 @@ public class PrefixSuffixManager {
                     psmi.setMovePCT(UtilsXML.getChildValue(node.getChildNodes(), "movePCT")); //$NON-NLS-1$
                     psmi.setWalkSpeed(UtilsXML.getChildValue(node.getChildNodes(), "walkSpeed")); //$NON-NLS-1$
 
-                    // Lo añadimos donde toque
+                    // Lo aï¿½adimos donde toque
                     if (psmi.getType().equalsIgnoreCase(PrefixSuffixData.TYPE_PREFIX)) {
                         alPrefixes.add(psmi);
                     } else {

@@ -1,18 +1,17 @@
 package xaos.caravans;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import xaos.Towns;
 import xaos.main.Game;
 import xaos.utils.Log;
 import xaos.utils.Messages;
 import xaos.utils.UtilsXML;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CaravanManager {
 
@@ -58,8 +57,8 @@ public class CaravanManager {
         try {
             Document doc = UtilsXML.loadXMLFile(sXMLName); //$NON-NLS-1$
 
-			// Tenemos el documento XML parseado
-            // Lo recorremos entero y vamos añadiendo las caravans a la hash
+            // Tenemos el documento XML parseado
+            // Lo recorremos entero y vamos aï¿½adiendo las caravans a la hash
             NodeList nodeList = doc.getDocumentElement().getChildNodes();
             Node node;
             CaravanManagerItem caravanData;
@@ -127,7 +126,7 @@ public class CaravanManager {
                         caravanData.setComePCT(UtilsXML.getChildValue(node.getChildNodes(), "comePCT")); //$NON-NLS-1$
                     }
 
-                    // Lo añadimos a la hash
+                    // Lo aï¿½adimos a la hash
                     caravanList.put(sID, caravanData);
                 }
             }

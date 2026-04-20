@@ -1,16 +1,16 @@
 package xaos.data;
 
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-
 import xaos.tiles.entities.living.LivingEntity;
 import xaos.tiles.entities.living.LivingEntityManager;
 import xaos.tiles.entities.living.LivingEntityManagerItem;
 import xaos.utils.Log;
 import xaos.utils.Messages;
 
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
 /**
- * Contiene la información de Hate para una living
+ * Contiene la informaciï¿½n de Hate para una living
  *
  */
 public class HateData {
@@ -46,9 +46,9 @@ public class HateData {
                 token = tokenizer.nextToken().trim();
 
                 if (token.length() > 0) {
-					// Miramos a ver que es
+                    // Miramos a ver que es
 
-                    // Primero los tipos genéricos
+                    // Primero los tipos genï¿½ricos
                     if (token.equalsIgnoreCase(LivingEntityManagerItem.TYPE_FRIENDLY)) {
                         setAllFriendlies(true);
                     } else if (token.equalsIgnoreCase(LivingEntityManagerItem.TYPE_ALLY)) {
@@ -181,7 +181,7 @@ public class HateData {
             if (isAllCitizens()) {
                 return true;
             } else if (getCitizens().size() > 0) {
-                // Odia sólo a algunos citizens, miramos si el de la celda es odiado
+                // Odia sï¿½lo a algunos citizens, miramos si el de la celda es odiado
                 if (getCitizens().contains(le.getIniHeader())) {
                     return true;
                 }
@@ -206,7 +206,7 @@ public class HateData {
             if (isAllHeros()) {
                 return true;
             } else if (getHeros().size() > 0) {
-                // Odia sólo a algunos heros, miramos si el de la celda es odiado
+                // Odia sï¿½lo a algunos heros, miramos si el de la celda es odiado
                 if (getHeros().contains(le.getIniHeader())) {
                     return true;
                 }
@@ -215,7 +215,7 @@ public class HateData {
             if (isAllAllies()) {
                 return true;
             } else if (getAllies().size() > 0) {
-                // Odia sólo a algunos allies, miramos si el de la celda es odiado
+                // Odia sï¿½lo a algunos allies, miramos si el de la celda es odiado
                 if (getAllies().contains(le.getIniHeader())) {
                     return true;
                 }

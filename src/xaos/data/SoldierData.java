@@ -1,20 +1,18 @@
 package xaos.data;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.util.ArrayList;
-
 import xaos.main.Game;
 import xaos.main.World;
 import xaos.tiles.entities.living.Citizen;
 import xaos.utils.Point3D;
 import xaos.utils.Point3DShort;
 
-public class SoldierData implements Externalizable {
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.util.ArrayList;
 
-    private static final long serialVersionUID = 1632109198736549922L;
+public class SoldierData implements Externalizable {
 
     // STATES
     public static final int STATE_NOT_A_SOLDIER = 0;
@@ -22,17 +20,15 @@ public class SoldierData implements Externalizable {
     public static final int STATE_PATROL = 2;
     public static final int STATE_BOSS_AROUND = 3;
     public static final int STATE_IN_A_GROUP = 4;
-
     // PATROL
     public static final int COUNTER_MAX_PATROL_POINTS = 8;
     public static final int WAIT_TURNS_BETWEEN_PATROLS = (World.TIME_MODIFIER_HOUR / 2);
-
     // BOSS AROUND
     public static final int COUNTER_MAX_BOSS_AROUND = 64;
-    public static final int BOOST_TURNS_BOSS_AROUND = 64; // Turnos que el aldeano correrá/currará más
-    public static final int BOOST_PCT_BOSS_AROUND_WALK = 150; // A mayor % más correrán
-    public static final int BOOST_PCT_BOSS_AROUND_WORK = 65; // A MENOR % menos turnos tardarán en hacer las tareas
-
+    public static final int BOOST_TURNS_BOSS_AROUND = 64; // Turnos que el aldeano correrï¿½/currarï¿½ mï¿½s
+    public static final int BOOST_PCT_BOSS_AROUND_WALK = 150; // A mayor % mï¿½s correrï¿½n
+    public static final int BOOST_PCT_BOSS_AROUND_WORK = 65; // A MENOR % menos turnos tardarï¿½n en hacer las tareas
+    private static final long serialVersionUID = 1632109198736549922L;
     private int state;
     private int counter;
     private int targetID;
@@ -92,17 +88,17 @@ public class SoldierData implements Externalizable {
         if (this.state == STATE_NOT_A_SOLDIER || state == STATE_NOT_A_SOLDIER) {
             if (this.state != state) {
                 if (this.state == STATE_NOT_A_SOLDIER) {
-					// De CIVIL a SOLDADO
+                    // De CIVIL a SOLDADO
                     // Buscamos al civil
                     int iCivIndex = World.getCitizenIDs().indexOf(livingID);
-                    if (iCivIndex != -1) { // Debería pasar SIEMPRE
+                    if (iCivIndex != -1) { // Deberï¿½a pasar SIEMPRE
                         World.getSoldierIDs().add(World.getCitizenIDs().remove(iCivIndex));
                     }
                 } else {
-					// De SOLDADO a CIVIL
+                    // De SOLDADO a CIVIL
                     // Buscamos al soldado
                     int iSoldierIndex = World.getSoldierIDs().indexOf(livingID);
-                    if (iSoldierIndex != -1) { // Debería pasar SIEMPRE
+                    if (iSoldierIndex != -1) { // Deberï¿½a pasar SIEMPRE
                         World.getCitizenIDs().add(World.getSoldierIDs().remove(iSoldierIndex));
                     }
                 }
@@ -130,12 +126,12 @@ public class SoldierData implements Externalizable {
         this.counter = counter;
     }
 
-    public void setTargetID(int targetID) {
-        this.targetID = targetID;
-    }
-
     public int getTargetID() {
         return targetID;
+    }
+
+    public void setTargetID(int targetID) {
+        this.targetID = targetID;
     }
 
     public void setGroup(int group, int livingID) {
@@ -148,18 +144,18 @@ public class SoldierData implements Externalizable {
             boolean bDifferentGroups = this.group != group;
 
             if (bDifferentGroups) {
-                // Lo eliminamos de la lista de groups en la que esté (si es que está)
+                // Lo eliminamos de la lista de groups en la que estï¿½ (si es que estï¿½)
                 Game.getWorld().getSoldierGroups().removeSoldierFromGroup(livingID, this.group);
 
                 this.group = group;
 
-                // Lo añadimos a la lista que toque
+                // Lo aï¿½adimos a la lista que toque
                 if (getState() != STATE_NOT_A_SOLDIER && bDifferentGroups) {
                     Game.getWorld().getSoldierGroups().addSoldierToGroup(livingID, this.group);
                 }
             } else {
-				// Mismo grupo, no hay que hacer nada
-                // Si pasa de aldeano a soldado podría ser que sea el mismo grupo (-1), así que miramos eso y lo añadimos a la lista de soldados sin grupo
+                // Mismo grupo, no hay que hacer nada
+                // Si pasa de aldeano a soldado podrï¿½a ser que sea el mismo grupo (-1), asï¿½ que miramos eso y lo aï¿½adimos a la lista de soldados sin grupo
                 if (!Game.getWorld().getSoldierGroups().getSoldiersWithoutGroup().contains(Integer.valueOf(livingID))) {
                     Game.getWorld().getSoldierGroups().addSoldierToGroup(livingID, this.group);
                 }
@@ -171,20 +167,20 @@ public class SoldierData implements Externalizable {
         return group;
     }
 
-    public void setPatrolPoints(ArrayList<Point3DShort> patrolPoints) {
-        this.patrolPoints = patrolPoints;
-    }
-
     public ArrayList<Point3DShort> getPatrolPoints() {
         return patrolPoints;
     }
 
-    public void setPatrolPointTarget(int patrolPointTarget) {
-        this.patrolPointTarget = patrolPointTarget;
+    public void setPatrolPoints(ArrayList<Point3DShort> patrolPoints) {
+        this.patrolPoints = patrolPoints;
     }
 
     public int getPatrolPointTarget() {
         return patrolPointTarget;
+    }
+
+    public void setPatrolPointTarget(int patrolPointTarget) {
+        this.patrolPointTarget = patrolPointTarget;
     }
 
     public void addPatrolPoint(Point3D p3d) {
@@ -202,28 +198,28 @@ public class SoldierData implements Externalizable {
         World.checkFlagPatrolPoint(p3d);
     }
 
-    public void setPatrolWaitTime(int patrolWaitTime) {
-        this.patrolWaitTime = patrolWaitTime;
-    }
-
     public int getPatrolWaitTime() {
         return patrolWaitTime;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    public void setPatrolWaitTime(int patrolWaitTime) {
+        this.patrolWaitTime = patrolWaitTime;
     }
 
     public int getLevel() {
         return level;
     }
 
-    public void setXp(int xp) {
-        this.xp = xp;
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     public int getXp() {
         return xp;
+    }
+
+    public void setXp(int xp) {
+        this.xp = xp;
     }
 
     /**

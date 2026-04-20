@@ -1,13 +1,6 @@
 package xaos.tiles.entities.living.enemies;
 
-import java.awt.Color;
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.util.ArrayList;
 import xaos.TownsProperties;
-
 import xaos.actions.ActionManager;
 import xaos.actions.ActionManagerItem;
 import xaos.data.CarryingData;
@@ -30,6 +23,13 @@ import xaos.utils.Point3DShort;
 import xaos.utils.Utils;
 import xaos.utils.UtilsIniHeaders;
 
+import java.awt.*;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.util.ArrayList;
+
 public class Enemy extends LivingEntity implements Externalizable {
 
     private static final long serialVersionUID = -115858431325278204L;
@@ -50,6 +50,50 @@ public class Enemy extends LivingEntity implements Externalizable {
         setSiegeData(null);
     }
 
+    /**
+     * Fills a contextual menï¿½ refering an enemy of a cell
+     *
+     * @param cell
+     * @param sm
+     */
+    public static void fillMenu(Cell cell, SmartMenu sm) {
+        Enemy enemy;
+        LivingEntity le;
+        LivingEntityManagerItem lemi;
+
+        Point3D p3d = cell.getCoordinates().toPoint3D();
+        ArrayList<LivingEntity> alLivings = cell.getLivings();
+
+        if (alLivings != null) {
+            for (int liv = 0; liv < alLivings.size(); liv++) {
+                le = alLivings.get(liv);
+                lemi = LivingEntityManager.getItem(le.getIniHeader());
+                if (lemi.getType() == TYPE_ENEMY) {
+                    enemy = (Enemy) le;
+
+                    sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, le.getLivingEntityData().getName(), null, null, null, null, null, Color.YELLOW)); //$NON-NLS-1$
+
+                    // Actions
+                    if (lemi.hasActions()) {
+                        ActionManagerItem ami;
+                        for (int j = 0; j < lemi.getActions().size(); j++) {
+                            ami = ActionManager.getItem(lemi.getActions().get(j));
+                            sm.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, ami.getName() + " " + lemi.getName().toLowerCase(), null, CommandPanel.COMMAND_CUSTOM_ACTION, ami.getId(), Integer.toString(enemy.getID()), p3d)); //$NON-NLS-1$
+                        }
+                        sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, "", null, null, null)); //$NON-NLS-1$
+                    }
+                    if (TownsProperties.DEBUG_MODE && enemy.getSiegeData() != null) {
+                        sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, "siegeType " + enemy.getSiegeData().getType(), null, null, null, null, p3d)); //$NON-NLS-1$
+                        sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, "siegeCount " + enemy.getSiegeData().getCount(), null, null, null, null, p3d)); //$NON-NLS-1$
+                    }
+
+                    sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, le.getLivingEntityData().toString(), null, null, null));
+                    sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, null, null, null, null));
+                }
+            }
+        }
+    }
+
     public void refreshTransients() {
         super.refreshTransients();
 
@@ -64,20 +108,20 @@ public class Enemy extends LivingEntity implements Externalizable {
         }
     }
 
-    public void setSiegeData(SiegeData siegeData) {
-        this.siegeData = siegeData;
-    }
-
     public SiegeData getSiegeData() {
         return siegeData;
     }
 
-    public void setCarryingData(CarryingData carryingData) {
-        this.carryingData = carryingData;
+    public void setSiegeData(SiegeData siegeData) {
+        this.siegeData = siegeData;
     }
 
     public CarryingData getCarryingData() {
         return carryingData;
+    }
+
+    public void setCarryingData(CarryingData carryingData) {
+        this.carryingData = carryingData;
     }
 
     public boolean doSiegeStuff(LivingEntityManagerItem lemi) {
@@ -86,9 +130,9 @@ public class Enemy extends LivingEntity implements Externalizable {
             return false;
         }
 
-        // Primero de todo miramos si está pirando o si tiene que pirar
+        // Primero de todo miramos si estï¿½ pirando o si tiene que pirar
         if (getSiegeData().getStatus() == SiegeData.STATUS_LEAVING) {
-            // Miramos que no esté en el starting point
+            // Miramos que no estï¿½ en el starting point
             if (getCoordinates().equals(getSiegeData().getStartingPoint())) {
                 // Bye bye
                 return true;
@@ -102,7 +146,7 @@ public class Enemy extends LivingEntity implements Externalizable {
                     // No puede ir, buscamos un punto a random
                     Point3DShort p3d = World.getRandomBorderPoint(iASZID);
                     if (p3d != null) {
-                        // Bingo, vamos para ahí
+                        // Bingo, vamos para ahï¿½
                         getSiegeData().setStartingPoint(p3d);
                         setDestination(p3d);
                     } else {
@@ -114,9 +158,9 @@ public class Enemy extends LivingEntity implements Externalizable {
             }
         }
 
-        // Si llega aquí es que no está pirando
+        // Si llega aquï¿½ es que no estï¿½ pirando
         if (getSiegeData().getCount() > 0) {
-            // Estamos en siege, decrementamos el siegecount, cuando valga 0 hará lo que toque
+            // Estamos en siege, decrementamos el siegecount, cuando valga 0 harï¿½ lo que toque
             getSiegeData().setCount(getSiegeData().getCount() - 1);
             moveAtRandom(getLivingEntityData().getMovePCTCurrent(), TYPE_ENEMY);
         } else {
@@ -135,7 +179,7 @@ public class Enemy extends LivingEntity implements Externalizable {
 
     private void doSiegeStandard() {
         if ((World.getNumCitizens() + World.getNumSoldiers()) > 0) {
-            // En caso de siege y con aldeanos en el mundo le metemos un focus a alguien en el ASZI (el citizen más cercano)
+            // En caso de siege y con aldeanos en el mundo le metemos un focus a alguien en el ASZI (el citizen mï¿½s cercano)
             int iASZI = World.getCell(getCoordinates()).getAstarZoneID();
             Citizen citizen;
             ArrayList<Integer> alCitsInArea = new ArrayList<Integer>();
@@ -155,7 +199,7 @@ public class Enemy extends LivingEntity implements Externalizable {
             if (alCitsInArea.size() > 0) {
                 getFocusData().setEntityID(alCitsInArea.get(Utils.getRandomBetween(0, (alCitsInArea.size() - 1))));
                 getFocusData().setEntityType(TYPE_CITIZEN);
-                setFighting (true);
+                setFighting(true);
             } else {
                 getSiegeData().setCount(World.TIME_MODIFIER_HOUR * LivingEntityManager.getItem(getIniHeader()).getLevel());
                 if (getSiegeData().getCount() <= 0) {
@@ -178,7 +222,7 @@ public class Enemy extends LivingEntity implements Externalizable {
         // Primero de todo miramos que no haya una living, container o steal item en la celda actual
         Cell cell = World.getCell(getCoordinates());
         if (lemi.getStealLivings() != null) {
-			// Livings
+            // Livings
             // Miramos si alguna nos va bien
             if (cell.getLivings() != null) {
                 for (int i = 0; i < cell.getLivings().size(); i++) {
@@ -233,7 +277,7 @@ public class Enemy extends LivingEntity implements Externalizable {
             }
         }
 
-        // Si llega aquí es que no hay items to steal, buscamos containers
+        // Si llega aquï¿½ es que no hay items to steal, buscamos containers
         if (Game.getWorld().getContainers().size() > 0) {
             int iASZI = World.getCell(getCoordinates()).getAstarZoneID();
             ArrayList<Container> alContainers = Game.getWorld().getContainers();
@@ -251,12 +295,12 @@ public class Enemy extends LivingEntity implements Externalizable {
             }
 
             if (alContainersInArea.size() > 0) {
-                // Hay containers en el área, pillamos uno a random y vamos a por él
+                // Hay containers en el ï¿½rea, pillamos uno a random y vamos a por ï¿½l
                 int iItemID = alContainersInArea.get(Utils.getRandomBetween(0, alContainersInArea.size() - 1));
                 itemContainer = Item.getItemByID(iItemID); // No puede dar null, lo tenemos controlado arriba
                 setDestination(itemContainer.getCoordinates());
             } else {
-                // Hay containers pero no en el área, seteamos el contador
+                // Hay containers pero no en el ï¿½rea, seteamos el contador
                 getSiegeData().setCount(World.TIME_MODIFIER_HOUR * LivingEntityManager.getItem(getIniHeader()).getLevel());
                 if (getSiegeData().getCount() <= 0) {
                     getSiegeData().setCount(World.TIME_MODIFIER_HOUR);
@@ -267,50 +311,6 @@ public class Enemy extends LivingEntity implements Externalizable {
 
         // No hay nada, nos piramos
         getSiegeData().setStatus(SiegeData.STATUS_LEAVING);
-    }
-
-    /**
-     * Fills a contextual menú refering an enemy of a cell
-     *
-     * @param cell
-     * @param sm
-     */
-    public static void fillMenu(Cell cell, SmartMenu sm) {
-        Enemy enemy;
-        LivingEntity le;
-        LivingEntityManagerItem lemi;
-
-        Point3D p3d = cell.getCoordinates().toPoint3D();
-        ArrayList<LivingEntity> alLivings = cell.getLivings();
-
-        if (alLivings != null) {
-            for (int liv = 0; liv < alLivings.size(); liv++) {
-                le = alLivings.get(liv);
-                lemi = LivingEntityManager.getItem(le.getIniHeader());
-                if (lemi.getType() == TYPE_ENEMY) {
-                    enemy = (Enemy) le;
-
-                    sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, le.getLivingEntityData().getName(), null, null, null, null, null, Color.YELLOW)); //$NON-NLS-1$
-
-                    // Actions
-                    if (lemi.hasActions()) {
-                        ActionManagerItem ami;
-                        for (int j = 0; j < lemi.getActions().size(); j++) {
-                            ami = ActionManager.getItem(lemi.getActions().get(j));
-                            sm.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, ami.getName() + " " + lemi.getName().toLowerCase(), null, CommandPanel.COMMAND_CUSTOM_ACTION, ami.getId(), Integer.toString(enemy.getID()), p3d)); //$NON-NLS-1$
-                        }
-                        sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, "", null, null, null)); //$NON-NLS-1$
-                    }
-                    if (TownsProperties.DEBUG_MODE && enemy.getSiegeData() != null) {
-                        sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, "siegeType " + enemy.getSiegeData().getType(), null, null, null, null, p3d)); //$NON-NLS-1$
-                        sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, "siegeCount " + enemy.getSiegeData().getCount(), null, null, null, null, p3d)); //$NON-NLS-1$
-                    }
-
-                    sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, le.getLivingEntityData().toString(), null, null, null));
-                    sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, null, null, null, null));
-                }
-            }
-        }
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {

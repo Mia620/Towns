@@ -1,6 +1,6 @@
 package xaos.utils;
 
-import java.awt.Point;
+import java.awt.*;
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;

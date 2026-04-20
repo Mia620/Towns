@@ -1,12 +1,12 @@
 package xaos.zones;
 
+import xaos.data.SoldierGroupData;
+import xaos.main.Game;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-
-import xaos.data.SoldierGroupData;
-import xaos.main.Game;
 
 public class ZoneBarracks extends Zone implements Externalizable {
 
@@ -21,14 +21,6 @@ public class ZoneBarracks extends Zone implements Externalizable {
     public ZoneBarracks(String sIniHeader) {
         super(sIniHeader);
         setGroupID(-1);
-    }
-
-    public void setGroupID(int groupID) {
-        this.groupID = groupID;
-    }
-
-    public int getGroupID() {
-        return groupID;
     }
 
     /**
@@ -91,6 +83,14 @@ public class ZoneBarracks extends Zone implements Externalizable {
                 }
             }
         }
+    }
+
+    public int getGroupID() {
+        return groupID;
+    }
+
+    public void setGroupID(int groupID) {
+        this.groupID = groupID;
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {

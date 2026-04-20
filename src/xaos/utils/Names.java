@@ -1,13 +1,12 @@
 package xaos.utils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import xaos.main.Game;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public final class Names {
 

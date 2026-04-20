@@ -1,7 +1,5 @@
 package xaos.tiles.entities.buildings;
 
-import java.util.ArrayList;
-
 import xaos.tiles.entities.items.ItemManager;
 import xaos.tiles.entities.items.ItemManagerItem;
 import xaos.tiles.entities.living.LivingEntityManager;
@@ -11,6 +9,8 @@ import xaos.utils.Log;
 import xaos.utils.Messages;
 import xaos.utils.Point3DShort;
 import xaos.utils.UtilsIniHeaders;
+
+import java.util.ArrayList;
 
 public class BuildingManagerItem {
 
@@ -39,12 +39,12 @@ public class BuildingManagerItem {
         prerequisitesFriendly = new ArrayList<int[]>();
     }
 
-    public void setIniHeader(String iniHeader) {
-        this.iniHeader = iniHeader;
-    }
-
     public String getIniHeader() {
         return iniHeader;
+    }
+
+    public void setIniHeader(String iniHeader) {
+        this.iniHeader = iniHeader;
     }
 
     public String getName() {
@@ -55,20 +55,20 @@ public class BuildingManagerItem {
         this.name = name;
     }
 
-    public void setDescriptions(ArrayList<String> descriptions) {
-        this.descriptions = descriptions;
-    }
-
     public ArrayList<String> getDescriptions() {
         return descriptions;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setDescriptions(ArrayList<String> descriptions) {
+        this.descriptions = descriptions;
     }
 
     public String getType() {
         return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public short getWidth() {
@@ -87,6 +87,10 @@ public class BuildingManagerItem {
         this.height = height;
     }
 
+    public String getGroundData() {
+        return groundData;
+    }
+
     public void setGroundData(String groundData) {
         if (groundData == null || groundData.length() == 0 || groundData.length() != (getWidth() * getHeight()) || groundData.indexOf(Building.GROUND_ENTRANCE) == -1) {
             if (groundData != null && groundData.length() > 0) {
@@ -97,7 +101,7 @@ public class BuildingManagerItem {
             StringBuffer sBuffer = new StringBuffer();
             sBuffer.append(Building.GROUND_ENTRANCE);
             for (int i = 1; i < (getHeight() * getWidth()); i++) {
-                // Las demás 0 -> No transitable
+                // Las demï¿½s 0 -> No transitable
                 sBuffer.append(Building.GROUND_NON_TRANSITABLE);
             }
 
@@ -113,16 +117,12 @@ public class BuildingManagerItem {
         setEntranceBaseCoordinates(Point3DShort.getPoolInstance(xEntrance, yEntrance, (short) 0));
     }
 
-    public String getGroundData() {
-        return groundData;
+    public Point3DShort getEntranceBaseCoordinates() {
+        return entranceBaseCoordinates;
     }
 
     public void setEntranceBaseCoordinates(Point3DShort entranceBaseCoordinates) {
         this.entranceBaseCoordinates = entranceBaseCoordinates;
-    }
-
-    public Point3DShort getEntranceBaseCoordinates() {
-        return entranceBaseCoordinates;
     }
 
     public void setCanBeBuiltUnderground(boolean canBeBuiltUnderground) {
@@ -142,6 +142,10 @@ public class BuildingManagerItem {
         return canBeBuiltUnderground;
     }
 
+    public ArrayList<Integer> getMustBeBuiltOver() {
+        return mustBeBuiltOver;
+    }
+
     public void setMustBeBuiltOver(ArrayList<String> mustBeBuiltOver) {
         if (mustBeBuiltOver != null) {
             ArrayList<Integer> alMustBeBuiltOver = new ArrayList<Integer>(mustBeBuiltOver.size());
@@ -153,8 +157,8 @@ public class BuildingManagerItem {
         }
     }
 
-    public ArrayList<Integer> getMustBeBuiltOver() {
-        return mustBeBuiltOver;
+    public boolean isMineTerrain() {
+        return mineTerrain;
     }
 
     public void setMineTerrain(boolean mineTerrain) {
@@ -163,10 +167,6 @@ public class BuildingManagerItem {
 
     public void setMineTerrain(String sMineTerrain) {
         setMineTerrain(Boolean.parseBoolean(sMineTerrain));
-    }
-
-    public boolean isMineTerrain() {
-        return mineTerrain;
     }
 
     public ArrayList<int[]> getPrerequisites() {
@@ -263,15 +263,15 @@ public class BuildingManagerItem {
         }
     }
 
+    public boolean isAutomatic() {
+        return automatic;
+    }
+
     public void setAutomatic(String sAutomatic) {
         setAutomatic(Boolean.parseBoolean(sAutomatic));
     }
 
     public void setAutomatic(boolean automatic) {
         this.automatic = automatic;
-    }
-
-    public boolean isAutomatic() {
-        return automatic;
     }
 }

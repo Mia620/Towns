@@ -1,14 +1,14 @@
 package xaos.actions;
 
+import xaos.main.Game;
+import xaos.tiles.entities.items.Item;
+import xaos.utils.Point3DShort;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.ArrayList;
-
-import xaos.main.Game;
-import xaos.tiles.entities.items.Item;
-import xaos.utils.Point3DShort;
 
 public class Action implements Externalizable {
 
@@ -50,36 +50,36 @@ public class Action implements Externalizable {
         this.turns = turns;
     }
 
-    public void setTerrainPoint(Point3DShort terrainPoint) {
-        this.terrainPoint = terrainPoint;
-    }
-
     public Point3DShort getTerrainPoint() {
         return terrainPoint;
     }
 
-    public void setDestinationPoint(Point3DShort destinationPoint) {
-        this.destinationPoint = destinationPoint;
+    public void setTerrainPoint(Point3DShort terrainPoint) {
+        this.terrainPoint = terrainPoint;
     }
 
     public Point3DShort getDestinationPoint() {
         return destinationPoint;
     }
 
-    public void setEntityID(int entityID) {
-        this.entityID = entityID;
+    public void setDestinationPoint(Point3DShort destinationPoint) {
+        this.destinationPoint = destinationPoint;
     }
 
     public int getEntityID() {
         return entityID;
     }
 
-    public void setSilent(boolean silent) {
-        this.silent = silent;
+    public void setEntityID(int entityID) {
+        this.entityID = entityID;
     }
 
     public boolean isSilent() {
         return silent;
+    }
+
+    public void setSilent(boolean silent) {
+        this.silent = silent;
     }
 
     public int getFace() {
@@ -90,20 +90,20 @@ public class Action implements Externalizable {
         this.face = face;
     }
 
-    public void setQueue(ArrayList<QueueItem> queue) {
-        this.queue = queue;
-    }
-
     public ArrayList<QueueItem> getQueue() {
         return queue;
     }
 
-    public void setQueueData(QueueData queueData) {
-        this.queueData = queueData;
+    public void setQueue(ArrayList<QueueItem> queue) {
+        this.queue = queue;
     }
 
     public QueueData getQueueData() {
         return queueData;
+    }
+
+    public void setQueueData(QueueData queueData) {
+        this.queueData = queueData;
     }
 
     public boolean execute() {

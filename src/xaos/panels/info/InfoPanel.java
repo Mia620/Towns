@@ -1,20 +1,12 @@
 package xaos.panels.info;
 
-import org.lwjgl.opengl.GL11;
-
-import xaos.main.Game;
-import xaos.panels.MainPanel;
-import xaos.panels.UIPanel;
-import xaos.utils.UtilFont;
-import xaos.utils.UtilsGL;
-
 /**
- * Clase base para los paneles de información
+ * Clase base para los paneles de informaciï¿½n
  */
 public class InfoPanel {
-	public InfoPanel() {
-		
-	}
+    public InfoPanel() {
+
+    }
 /*
     private int x;
     private int y;
@@ -73,7 +65,7 @@ public class InfoPanel {
         GL11.glTexEnvf(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE);
         UtilsGL.glBegin(GL11.GL_QUADS);
 
-        // Rectángulo negro
+        // Rectï¿½ngulo negro
         UtilsGL.drawTexture(getX(), getY(), getX() + getWidth(), getY() + getHeight(), UIPanel.BLACK_TILE.getTileSetTexX0(), UIPanel.BLACK_TILE.getTileSetTexY0(), UIPanel.BLACK_TILE.getTileSetTexX1(), UIPanel.BLACK_TILE.getTileSetTexY1());
         UtilsGL.glEnd();
     }

@@ -1,9 +1,9 @@
 package xaos.skills;
 
-import java.util.ArrayList;
-
 import xaos.utils.Messages;
 import xaos.utils.Utils;
+
+import java.util.ArrayList;
 
 public class SkillManagerItem {
 
@@ -32,28 +32,32 @@ public class SkillManagerItem {
 
     private ArrayList<SkillEffectItem> effects;
 
-    public void setIniHeader(String iniHeader) {
-        this.iniHeader = iniHeader;
-    }
-
     public String getIniHeader() {
         return iniHeader;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setIniHeader(String iniHeader) {
+        this.iniHeader = iniHeader;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setCoolDown(String coolDown) {
-        this.coolDown = coolDown;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getCoolDown() {
         return coolDown;
+    }
+
+    public void setCoolDown(String coolDown) {
+        this.coolDown = coolDown;
+    }
+
+    public int getUse() {
+        return use;
     }
 
     public void setUse(int use) {
@@ -80,8 +84,8 @@ public class SkillManagerItem {
         }
     }
 
-    public int getUse() {
-        return use;
+    public boolean isTaunt() {
+        return taunt;
     }
 
     public void setTaunt(boolean taunt) {
@@ -92,16 +96,16 @@ public class SkillManagerItem {
         setTaunt(Boolean.parseBoolean(sTaunt));
     }
 
-    public boolean isTaunt() {
-        return taunt;
+    public String getRaiseDead() {
+        return raiseDead;
     }
 
     public void setRaiseDead(String raiseDead) {
         this.raiseDead = raiseDead;
     }
 
-    public String getRaiseDead() {
-        return raiseDead;
+    public int getMaxRaised() {
+        return maxRaised;
     }
 
     public void setMaxRaised(int maxRaised) {
@@ -112,15 +116,11 @@ public class SkillManagerItem {
         setMaxRaised(Utils.getInteger(sMaxRaised, 0));
     }
 
-    public int getMaxRaised() {
-        return maxRaised;
+    public ArrayList<SkillEffectItem> getEffects() {
+        return effects;
     }
 
     public void setEffects(ArrayList<SkillEffectItem> effects) {
         this.effects = effects;
-    }
-
-    public ArrayList<SkillEffectItem> getEffects() {
-        return effects;
     }
 }

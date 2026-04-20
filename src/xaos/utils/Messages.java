@@ -1,14 +1,14 @@
 package xaos.utils;
 
+import xaos.Towns;
+import xaos.main.Game;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
-
-import xaos.Towns;
-import xaos.main.Game;
 
 public final class Messages {
 

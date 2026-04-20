@@ -1,18 +1,5 @@
 package xaos.panels.info;
 
-import java.awt.Color;
-import java.util.ArrayList;
-
-import org.lwjgl.opengl.GL11;
-
-import xaos.campaign.CampaignManager;
-import xaos.campaign.MissionData;
-import xaos.main.Game;
-import xaos.utils.ColorGL;
-import xaos.utils.Messages;
-import xaos.utils.UtilFont;
-import xaos.utils.UtilsGL;
-
 public final class MissionPanel extends InfoPanel {
 
 /*
@@ -61,7 +48,7 @@ public final class MissionPanel extends InfoPanel {
     }
 
     /**
-     * Añade un texto en un array de Strings, partido segun el ancho del panel
+     * Aï¿½ade un texto en un array de Strings, partido segun el ancho del panel
      *
      * @param text Texto
      *

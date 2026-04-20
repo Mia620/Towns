@@ -26,28 +26,32 @@ public class GodData implements Externalizable {
         setHoursLastEvent(0);
     }
 
-    public void setGodID(String godID) {
-        this.godID = godID;
-    }
-
     public String getGodID() {
         return godID;
     }
 
-    public void setHidden(boolean hidden) {
-        this.hidden = hidden;
+    public void setGodID(String godID) {
+        this.godID = godID;
     }
 
     public boolean isHidden() {
         return hidden;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
     }
 
     public String getFullName() {
         return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public int getStatus() {
+        return status;
     }
 
     public void setStatus(int status) {
@@ -59,16 +63,12 @@ public class GodData implements Externalizable {
         this.status = status;
     }
 
-    public int getStatus() {
-        return status;
+    public int getHoursLastEvent() {
+        return hoursLastEvent;
     }
 
     public void setHoursLastEvent(int hoursLastEvent) {
         this.hoursLastEvent = hoursLastEvent;
-    }
-
-    public int getHoursLastEvent() {
-        return hoursLastEvent;
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {

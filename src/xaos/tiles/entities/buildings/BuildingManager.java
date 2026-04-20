@@ -1,18 +1,17 @@
 package xaos.tiles.entities.buildings;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import xaos.Towns;
 import xaos.main.Game;
 import xaos.utils.Log;
 import xaos.utils.Messages;
 import xaos.utils.UtilsXML;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class BuildingManager {
 
@@ -54,8 +53,8 @@ public class BuildingManager {
         try {
             Document doc = UtilsXML.loadXMLFile(sXMLName); //$NON-NLS-1$
 
-			// Tenemos el documento XML parseado
-            // Lo recorremos entero y vamos añadiendo los buildings (BuildingManagerItem) a la hash
+            // Tenemos el documento XML parseado
+            // Lo recorremos entero y vamos aï¿½adiendo los buildings (BuildingManagerItem) a la hash
             NodeList nodeList = doc.getDocumentElement().getChildNodes();
             Node node;
             BuildingManagerItem item;
@@ -64,7 +63,7 @@ public class BuildingManager {
             for (int i = 0; i < nodeList.getLength(); i++) {
                 node = nodeList.item(i);
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
-					// Building
+                    // Building
                     // Obtenemos el nameID, width i height
                     sIniHeader = node.getNodeName();
 
@@ -190,7 +189,7 @@ public class BuildingManager {
                         item.setAutomatic(UtilsXML.getChildValue(node.getChildNodes(), "automatic")); //$NON-NLS-1$
                     }
 
-                    // Lo añadimos a la hash
+                    // Lo aï¿½adimos a la hash
                     itemList.put(sIniHeader, item);
                 }
             }

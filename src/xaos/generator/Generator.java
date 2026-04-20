@@ -1,15 +1,14 @@
 package xaos.generator;
 
-import java.util.ArrayList;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-
 import xaos.main.Game;
 import xaos.utils.Log;
 import xaos.utils.Messages;
 import xaos.utils.UtilsXML;
+
+import java.util.ArrayList;
 
 public class Generator {
 
@@ -36,14 +35,6 @@ public class Generator {
         }
 
         return generator;
-    }
-
-    public ArrayList<GeneratorItem> getList() {
-        return list;
-    }
-
-    public void setList(ArrayList<GeneratorItem> list) {
-        this.list = list;
     }
 
     /**
@@ -97,7 +88,7 @@ public class Generator {
                         gi.setId(sID);
                         gi.setName(child.getNodeName());
                         gi.setList(getNodes(child));
-                        // Si lo hemos borrado ponemos el nuevo item en la posición que estaba
+                        // Si lo hemos borrado ponemos el nuevo item en la posiciï¿½n que estaba
                         if (iIndexExists != -1) {
                             list.add(iIndexExists, gi);
                         } else {
@@ -126,5 +117,13 @@ public class Generator {
         }
 
         return alReturn;
+    }
+
+    public ArrayList<GeneratorItem> getList() {
+        return list;
+    }
+
+    public void setList(ArrayList<GeneratorItem> list) {
+        this.list = list;
     }
 }

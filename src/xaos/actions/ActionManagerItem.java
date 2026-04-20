@@ -1,12 +1,12 @@
 package xaos.actions;
 
-import java.util.ArrayList;
-
 import xaos.tiles.entities.items.ItemManager;
 import xaos.tiles.entities.items.ItemManagerItem;
 import xaos.tiles.terrain.TerrainManager;
 import xaos.utils.Messages;
 import xaos.utils.Utils;
+
+import java.util.ArrayList;
 
 public class ActionManagerItem {
 
@@ -24,6 +24,10 @@ public class ActionManagerItem {
         setId(sID);
     }
 
+    public String getId() {
+        return id;
+    }
+
     public void setId(String sID) throws Exception {
         if (sID == null || sID.trim().length() == 0) {
             throw new Exception(Messages.getString("ActionManagerItem.0")); //$NON-NLS-1$
@@ -32,24 +36,24 @@ public class ActionManagerItem {
         this.id = sID;
     }
 
-    public String getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getName() {
-        return name;
+    public String getPriorityID() {
+        return priorityID;
     }
 
     public void setPriorityID(String priorityID) {
         this.priorityID = priorityID;
     }
 
-    public String getPriorityID() {
-        return priorityID;
+    public int getTurns() {
+        return turns;
     }
 
     public void setTurns(int turns) {
@@ -60,8 +64,8 @@ public class ActionManagerItem {
         setTurns(Utils.getInteger(turns, 0));
     }
 
-    public int getTurns() {
-        return turns;
+    public String getEffect() {
+        return effect;
     }
 
     public void setEffect(String effect) throws Exception {
@@ -76,8 +80,8 @@ public class ActionManagerItem {
         this.effect = effect;
     }
 
-    public String getEffect() {
-        return effect;
+    public boolean isKillsSource() {
+        return killsSource;
     }
 
     public void setKillsSource(boolean killsSource) {
@@ -88,8 +92,18 @@ public class ActionManagerItem {
         setKillsSource(Boolean.parseBoolean(killsSource));
     }
 
-    public boolean isKillsSource() {
-        return killsSource;
+    public ArrayList<QueueItem> getQueue() {
+        if (queue == null) {
+            return null;
+        }
+
+        // Devolvemos una copia
+        ArrayList<QueueItem> alReturn = new ArrayList<QueueItem>();
+        for (int i = 0; i < queue.size(); i++) {
+            alReturn.add(queue.get(i).copy());
+        }
+
+        return alReturn;
     }
 
     public void setQueue(ArrayList<QueueItem> queue) throws Exception {
@@ -107,7 +121,7 @@ public class ActionManagerItem {
                     setName(imi.getName());
                 }
             } else {
-				// Si no tiene generated item buscamos un <createItem>, empezando por el final
+                // Si no tiene generated item buscamos un <createItem>, empezando por el final
                 // Buscamos el item generado "tag <createItem>"
                 for (int i = queue.size() - 1; i >= 0; i--) {
                     if (queue.get(i).getType() == QueueItem.TYPE_CREATE_ITEM) {
@@ -126,30 +140,20 @@ public class ActionManagerItem {
         }
     }
 
-    public ArrayList<QueueItem> getQueue() {
-        if (queue == null) {
-            return null;
-        }
-
-        // Devolvemos una copia
-        ArrayList<QueueItem> alReturn = new ArrayList<QueueItem>();
-        for (int i = 0; i < queue.size(); i++) {
-            alReturn.add(queue.get(i).copy());
-        }
-
-        return alReturn;
-    }
-
     public ArrayList<QueueItem> getQueueNoCopy() {
         return queue;
+    }
+
+    public String getGeneratedItem() {
+        return generatedItem;
     }
 
     public void setGeneratedItem(String generatedItem) {
         this.generatedItem = generatedItem;
     }
 
-    public String getGeneratedItem() {
-        return generatedItem;
+    public boolean isInverted() {
+        return inverted;
     }
 
     public void setInverted(boolean inverted) {
@@ -158,9 +162,5 @@ public class ActionManagerItem {
 
     public void setInverted(String sInverted) {
         setInverted(Boolean.parseBoolean(sInverted));
-    }
-
-    public boolean isInverted() {
-        return inverted;
     }
 }

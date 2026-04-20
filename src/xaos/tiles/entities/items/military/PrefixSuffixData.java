@@ -7,11 +7,9 @@ import java.io.ObjectOutput;
 
 public class PrefixSuffixData implements Externalizable {
 
-    private static final long serialVersionUID = 9140176356071939443L;
-
     public final static String TYPE_PREFIX = "prefix"; //$NON-NLS-1$
     public final static String TYPE_SUFFIX = "suffix"; //$NON-NLS-1$
-
+    private static final long serialVersionUID = 9140176356071939443L;
     private String name;
     private int attack;
     private int attackSpeed;
@@ -41,12 +39,12 @@ public class PrefixSuffixData implements Externalizable {
         this.attack = attack;
     }
 
-    public void setAttackSpeed(int attackSpeed) {
-        this.attackSpeed = attackSpeed;
-    }
-
     public int getAttackSpeed() {
         return attackSpeed;
+    }
+
+    public void setAttackSpeed(int attackSpeed) {
+        this.attackSpeed = attackSpeed;
     }
 
     public int getDefense() {
@@ -73,28 +71,28 @@ public class PrefixSuffixData implements Externalizable {
         this.damage = damage;
     }
 
-    public void setLOS(int lOS) {
-        LOS = lOS;
-    }
-
     public int getLOS() {
         return LOS;
     }
 
-    public void setMovePCT(int movePCT) {
-        this.movePCT = movePCT;
+    public void setLOS(int lOS) {
+        LOS = lOS;
     }
 
     public int getMovePCT() {
         return movePCT;
     }
 
-    public void setWalkSpeed(int walkSpeed) {
-        this.walkSpeed = walkSpeed;
+    public void setMovePCT(int movePCT) {
+        this.movePCT = movePCT;
     }
 
     public int getWalkSpeed() {
         return walkSpeed;
+    }
+
+    public void setWalkSpeed(int walkSpeed) {
+        this.walkSpeed = walkSpeed;
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {

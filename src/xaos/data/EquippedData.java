@@ -1,12 +1,12 @@
 package xaos.data;
 
+import xaos.tiles.entities.items.ItemManager;
+import xaos.tiles.entities.items.military.MilitaryItem;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-
-import xaos.tiles.entities.items.ItemManager;
-import xaos.tiles.entities.items.military.MilitaryItem;
 
 public class EquippedData implements Externalizable {
 

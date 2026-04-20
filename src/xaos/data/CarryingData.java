@@ -1,12 +1,12 @@
 package xaos.data;
 
+import xaos.tiles.entities.items.Item;
+import xaos.tiles.entities.living.LivingEntity;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-
-import xaos.tiles.entities.items.Item;
-import xaos.tiles.entities.living.LivingEntity;
 
 public class CarryingData implements Externalizable {
 

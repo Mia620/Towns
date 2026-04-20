@@ -1,22 +1,15 @@
 package xaos.tiles;
 
+import org.lwjgl.opengl.GL11;
+import xaos.Towns;
+import xaos.main.Game;
+import xaos.property.PropertyFile;
+import xaos.utils.*;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-
-import org.lwjgl.opengl.GL11;
-import xaos.property.PropertyFile;
-
-import xaos.Towns;
-import xaos.main.Game;
-import xaos.utils.ColorGL;
-import xaos.utils.Log;
-import xaos.utils.Messages;
-import xaos.utils.TextureData;
-import xaos.utils.Utils;
-import xaos.utils.UtilsGL;
-import xaos.utils.UtilsIniHeaders;
 
 /**
  * All son tiles: entities, Items, terrains, ....
@@ -24,16 +17,12 @@ import xaos.utils.UtilsIniHeaders;
  */
 public class Tile implements Externalizable {
 
-    private static final long serialVersionUID = -8129072708038216803L;
-
-    private int iID;
-
     public final static int TERRAIN_ICON_WIDTH = 64;
     public final static int TERRAIN_ICON_HEIGHT = 32;
-
+    private static final long serialVersionUID = -8129072708038216803L;
     private static final float TEXTURE_ICON_WIDTH = 0.25f / 4f;
     private static final float TEXTURE_ICON_HEIGHT = 0.125f / 4f;
-
+    private int iID;
     private transient int textureID;
 
     private transient ColorGL colorMiniMap;
@@ -56,8 +45,8 @@ public class Tile implements Externalizable {
     private transient short tileHeightOffset;
 
     // Animation
-    private transient short animationTiles; // Número de tiles de los que se compone la animación (0 o 1 es lo mismo)
-    private transient short animationFrameDelay; // Número de frames que deben pasar entre un tile y el siguiente
+    private transient short animationTiles; // Nï¿½mero de tiles de los que se compone la animaciï¿½n (0 o 1 es lo mismo)
+    private transient short animationFrameDelay; // Nï¿½mero de frames que deben pasar entre un tile y el siguiente
     private transient short currentAnimationTile;
     private transient short currentFrameDelay;
     private transient float currentTileTexX0; // Coordenada X0 de la textura
@@ -89,26 +78,26 @@ public class Tile implements Externalizable {
         // Guardamos las coordenadas del tileset
         setTileSetCoordinates(getIniHeader(), null);
 
-        // Guardamos el tamaño del tile
+        // Guardamos el tamaï¿½o del tile
         setTileSize(getIniHeader(), null);
 
         // Guardamos las coordenadas de la textura del tileset
         setTileSetTexCoordinates();
 
         // ANIMATION
-        // Guardamos el número de tiles para la animación
+        // Guardamos el nï¿½mero de tiles para la animaciï¿½n
         setAnimationTiles(Towns.getPropertiesInt(PropertyFile.PROPERTY_FILE_GRAPHICS, "[" + getIniHeader() + "]ANIMATION_TILES")); //$NON-NLS-1$ //$NON-NLS-2$
         setAnimationFrameDelay(Towns.getPropertiesInt(PropertyFile.PROPERTY_FILE_GRAPHICS, "[" + getIniHeader() + "]ANIMATION_FRAME_DELAY", Game.FPS_INGAME)); //$NON-NLS-1$ //$NON-NLS-2$
         setCurrentAnimationTile(0);
         setCurrentFrameDelay(Utils.getRandomBetween(0, getAnimationFrameDelay() - 1));
     }
 
-    public void setID(int ID) {
-        iID = ID;
-    }
-
     public int getID() {
         return iID;
+    }
+
+    public void setID(int ID) {
+        iID = ID;
     }
 
     public void setTextureID(String sIniHeader, String sIniHeader2) {
@@ -124,12 +113,16 @@ public class Tile implements Externalizable {
         setTextureID(texture.getTextureID());
     }
 
+    public int getTextureID() {
+        return textureID;
+    }
+
     public void setTextureID(int textureID) {
         this.textureID = textureID;
     }
 
-    public int getTextureID() {
-        return textureID;
+    public ColorGL getColorMiniMap() {
+        return colorMiniMap;
     }
 
     public void setColorMiniMap(String sColor) {
@@ -138,10 +131,6 @@ public class Tile implements Externalizable {
         } else {
             colorMiniMap = null;
         }
-    }
-
-    public ColorGL getColorMiniMap() {
-        return colorMiniMap;
     }
 
     public int getTileSetX() {
@@ -196,12 +185,12 @@ public class Tile implements Externalizable {
         return this.currentTileTexX0;
     }
 
-    public float getTileSetTexY0() {
-        return this.currentTileTexY0;
-    }
-
     public void setTileSetTexX0(float texX0) {
         this.currentTileTexX0 = texX0;
+    }
+
+    public float getTileSetTexY0() {
+        return this.currentTileTexY0;
     }
 
     public void setTileSetTexY0(float texY0) {
@@ -212,36 +201,36 @@ public class Tile implements Externalizable {
         return this.currentTileTexX1;
     }
 
-    public float getTileSetTexY1() {
-        return this.currentTileTexY1;
-    }
-
     public void setTileSetTexX1(float texX1) {
         this.currentTileTexX1 = texX1;
+    }
+
+    public float getTileSetTexY1() {
+        return this.currentTileTexY1;
     }
 
     public void setTileSetTexY1(float texY1) {
         this.currentTileTexY1 = texY1;
     }
 
-    public void setTileWidth(int width) {
-        this.tileWidth = (short) width;
-    }
-
     public int getTileWidth() {
         return this.tileWidth;
+    }
+
+    public void setTileWidth(int width) {
+        this.tileWidth = (short) width;
     }
 
     public int getTileWidthOffset() {
         return this.tileWidthOffset;
     }
 
-    public void setTileHeight(int height) {
-        this.tileHeight = (short) height;
-    }
-
     public int getTileHeight() {
         return this.tileHeight;
+    }
+
+    public void setTileHeight(int height) {
+        this.tileHeight = (short) height;
     }
 
     public int getTileHeightOffset() {
@@ -331,20 +320,24 @@ public class Tile implements Externalizable {
         this.currentTileTexY1 = this.tileTexY1;
     }
 
+    public int getAnimationTiles() {
+        return animationTiles;
+    }
+
     public void setAnimationTiles(int animationTiles) {
         this.animationTiles = (short) animationTiles;
     }
 
-    public int getAnimationTiles() {
-        return animationTiles;
+    public int getAnimationFrameDelay() {
+        return animationFrameDelay;
     }
 
     public void setAnimationFrameDelay(int animationFrameDelay) {
         this.animationFrameDelay = (short) animationFrameDelay;
     }
 
-    public int getAnimationFrameDelay() {
-        return animationFrameDelay;
+    public int getCurrentAnimationTile() {
+        return currentAnimationTile;
     }
 
     public void setCurrentAnimationTile(int currentAnimationTile) {
@@ -361,10 +354,6 @@ public class Tile implements Externalizable {
             this.currentTileTexX0 = this.tileTexX0 + TEXTURE_ICON_WIDTH * this.currentAnimationTile;
             this.currentTileTexX1 = this.tileTexX1 + TEXTURE_ICON_WIDTH * this.currentAnimationTile;
         }
-    }
-
-    public int getCurrentAnimationTile() {
-        return currentAnimationTile;
     }
 
     public void resetAnimationItem(boolean bRotated) {
@@ -418,6 +407,10 @@ public class Tile implements Externalizable {
         }
     }
 
+    public int getCurrentFrameDelay() {
+        return currentFrameDelay;
+    }
+
     public void setCurrentFrameDelay(int currentFrameDelay) {
         if (currentFrameDelay >= getAnimationFrameDelay()) {
             this.currentFrameDelay = 0;
@@ -426,24 +419,20 @@ public class Tile implements Externalizable {
         }
     }
 
-    public int getCurrentFrameDelay() {
-        return currentFrameDelay;
+    public String getIniHeader() {
+        return iniHeader;
     }
 
     public void setIniHeader(String iniHeader) {
         this.iniHeader = iniHeader;
     }
 
-    public String getIniHeader() {
-        return iniHeader;
+    public int getNumericIniHeader() {
+        return numericIniHeader;
     }
 
     public void setNumericIniHeader(int numericIniHeader) {
         this.numericIniHeader = numericIniHeader;
-    }
-
-    public int getNumericIniHeader() {
-        return numericIniHeader;
     }
 
     public void changeGraphic(String sNewIniHeader) {

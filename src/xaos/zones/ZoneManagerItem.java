@@ -1,19 +1,11 @@
 package xaos.zones;
 
-import java.util.ArrayList;
-
 import xaos.tiles.Tile;
 import xaos.utils.Messages;
 
-public class ZoneManagerItem {
+import java.util.ArrayList;
 
-    private static String TYPE_STR_DINING = "DINING"; //$NON-NLS-1$
-    private static String TYPE_STR_HOSPITAL = "HOSPITAL"; //$NON-NLS-1$
-    private static String TYPE_STR_PERSONAL = "PERSONAL"; //$NON-NLS-1$
-    private static String TYPE_STR_WORKSHOP = "WORKSHOP"; //$NON-NLS-1$
-    private static String TYPE_STR_HEROROOM = "HEROROOM"; //$NON-NLS-1$
-    private static String TYPE_STR_SOCIAL = "SOCIAL"; //$NON-NLS-1$
-    private static String TYPE_STR_BARRACKS = "BARRACKS"; //$NON-NLS-1$
+public class ZoneManagerItem {
 
     public static int TYPE_DINING = 1;
     public static int TYPE_HOSPITAL = 2;
@@ -22,7 +14,13 @@ public class ZoneManagerItem {
     public static int TYPE_HERO_ROOM = 5;
     public static int TYPE_SOCIAL = 6;
     public static int TYPE_BARRACKS = 7;
-
+    private static String TYPE_STR_DINING = "DINING"; //$NON-NLS-1$
+    private static String TYPE_STR_HOSPITAL = "HOSPITAL"; //$NON-NLS-1$
+    private static String TYPE_STR_PERSONAL = "PERSONAL"; //$NON-NLS-1$
+    private static String TYPE_STR_WORKSHOP = "WORKSHOP"; //$NON-NLS-1$
+    private static String TYPE_STR_HEROROOM = "HEROROOM"; //$NON-NLS-1$
+    private static String TYPE_STR_SOCIAL = "SOCIAL"; //$NON-NLS-1$
+    private static String TYPE_STR_BARRACKS = "BARRACKS"; //$NON-NLS-1$
     private String iniHeader;
     private String name;
     private int type; // Tipo (personal, hospital, comedor, workshop, ...)
@@ -31,22 +29,22 @@ public class ZoneManagerItem {
     private Tile tile;
     private ArrayList<String> neighbors;
 
+    public String getIniHeader() {
+        return iniHeader;
+    }
+
     public void setIniHeader(String iniHeader) {
         this.iniHeader = iniHeader;
     }
 
-    public String getIniHeader() {
-        return iniHeader;
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
 
         setTile(new Tile(iniHeader));
-    }
-
-    public String getName() {
-        return name;
     }
 
     public int getType() {
@@ -81,6 +79,10 @@ public class ZoneManagerItem {
         }
     }
 
+    public int getMinWidth() {
+        return minWidth;
+    }
+
     public void setMinWidth(int minWidth) {
         this.minWidth = minWidth;
     }
@@ -93,8 +95,8 @@ public class ZoneManagerItem {
         }
     }
 
-    public int getMinWidth() {
-        return minWidth;
+    public int getMinHeight() {
+        return minHeight;
     }
 
     public void setMinHeight(int minHeight) {
@@ -109,23 +111,19 @@ public class ZoneManagerItem {
         }
     }
 
-    public int getMinHeight() {
-        return minHeight;
+    public Tile getTile() {
+        return tile;
     }
 
     public void setTile(Tile tile) {
         this.tile = tile;
     }
 
-    public Tile getTile() {
-        return tile;
+    public ArrayList<String> getNeighbors() {
+        return neighbors;
     }
 
     public void setNeighbors(ArrayList<String> neighbors) {
         this.neighbors = neighbors;
-    }
-
-    public ArrayList<String> getNeighbors() {
-        return neighbors;
     }
 }

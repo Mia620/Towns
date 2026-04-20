@@ -1,11 +1,5 @@
 package xaos.data;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.util.ArrayList;
-
 import xaos.actions.ActionPriorityManager;
 import xaos.main.Game;
 import xaos.tiles.entities.living.LivingEntity;
@@ -15,13 +9,17 @@ import xaos.utils.Names;
 import xaos.utils.Utils;
 import xaos.utils.UtilsIniHeaders;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.util.ArrayList;
+
 public class CitizenData implements Externalizable {
 
-    private static final long serialVersionUID = -5585963825804884015L;
-
-    // Se usa para la "animación" cuando el aldeano come o duerme (por ejemplo)
+    // Se usa para la "animaciï¿½n" cuando el aldeano come o duerme (por ejemplo)
     public static final int MAX_BLINK_ANIMATION_TURNS = 10;
-
+    private static final long serialVersionUID = -5585963825804884015L;
     private String fullName;
     private int zoneID;
     private int happiness; // De 0 a 100
@@ -31,21 +29,21 @@ public class CitizenData implements Externalizable {
     private int happinessIdleCounterMax;
     private int boostCounter; // Boost en sus actividades debido a un BOSS_AROUND solider (por ejemplo)
 
-    // Turnos (se usa para la "animación" (cada X pasos se resetea a 0) (también al pillar un objeto, para que no todos los aldeanos tengan la misma animación)
+    // Turnos (se usa para la "animaciï¿½n" (cada X pasos se resetea a 0) (tambiï¿½n al pillar un objeto, para que no todos los aldeanos tengan la misma animaciï¿½n)
     private int blinkAnimationTurns = 0;
 
     // Hungry
-    private int maxHungry; // Cada aldeano tiene un aguante distinto, aquí lo guardamos
+    private int maxHungry; // Cada aldeano tiene un aguante distinto, aquï¿½ lo guardamos
     private int hungry; // Si llega a 0 es que tiene hambre, si llega a -TIME_TURNS_1_DAY muere de hambre
-    private int hungryEating; // Cuando tiene hambre se pone a 0 y luego a cada turno irá sumando 1 hasta llegar a un tope, en ese momento ya habrá comido
+    private int hungryEating; // Cuando tiene hambre se pone a 0 y luego a cada turno irï¿½ sumando 1 hasta llegar a un tope, en ese momento ya habrï¿½ comido
 
     // Sleep
-    private int maxSleep; // Cada aldeano tiene un aguante distinto, aquí lo guardamos
+    private int maxSleep; // Cada aldeano tiene un aguante distinto, aquï¿½ lo guardamos
     private int sleep; // Si llega a 0 deja todo y se pone a dormir
-    private int sleepSleeping; // Cuando tiene sueño se pone a 0 y luego a cada turno irá sumando 1 hasta llegar a un tope (6h), en ese momento ya habrá dormido
+    private int sleepSleeping; // Cuando tiene sueï¿½o se pone a 0 y luego a cada turno irï¿½ sumando 1 hasta llegar a un tope (6h), en ese momento ya habrï¿½ dormido
 
     // Heal
-    private int healHealing; // Cuando va a curarse se pone a 0, si está en un hospital se irá sumando 1 hasta llegar a un tope (1h), en ese momento se curará 1PV
+    private int healHealing; // Cuando va a curarse se pone a 0, si estï¿½ en un hospital se irï¿½ sumando 1 hasta llegar a un tope (1h), en ese momento se curarï¿½ 1PV
 
     // Carrying
     private CarryingData carryingData;
@@ -71,7 +69,7 @@ public class CitizenData implements Externalizable {
             if (lemi.getSurnamePoolTag() != null) {
                 sFullName.append(" "); //$NON-NLS-1$
 
-                // El nick sólo aparece 1 de cada 100
+                // El nick sï¿½lo aparece 1 de cada 100
                 if (Utils.getRandomBetween(1, 100) == 1) {
                     sFullName.append("'"); //$NON-NLS-1$
                     sFullName.append(Names.getName("nick", Game.getWorld().getCampaignID(), Game.getWorld().getMissionID())); //$NON-NLS-1$
@@ -120,16 +118,20 @@ public class CitizenData implements Externalizable {
         this.fullName = fullName;
     }
 
-    public void setZoneID(int zoneID) {
-        this.zoneID = zoneID;
-    }
-
     public int getZoneID() {
         return zoneID;
     }
 
+    public void setZoneID(int zoneID) {
+        this.zoneID = zoneID;
+    }
+
     public boolean hasZone() {
         return zoneID != 0;
+    }
+
+    public int getHappiness() {
+        return happiness;
     }
 
     public void setHappiness(int happiness) {
@@ -141,8 +143,8 @@ public class CitizenData implements Externalizable {
         this.happiness = happiness;
     }
 
-    public int getHappiness() {
-        return happiness;
+    public int getHappinessWorkCounter() {
+        return happinessWorkCounter;
     }
 
     public void setHappinessWorkCounter(int happiness) {
@@ -153,8 +155,8 @@ public class CitizenData implements Externalizable {
         }
     }
 
-    public int getHappinessWorkCounter() {
-        return happinessWorkCounter;
+    public int getHappinessIdleCounter() {
+        return happinessIdleCounter;
     }
 
     public void setHappinessIdleCounter(int happiness) {
@@ -165,8 +167,8 @@ public class CitizenData implements Externalizable {
         }
     }
 
-    public int getHappinessIdleCounter() {
-        return happinessIdleCounter;
+    public int getHappinessWorkCounterMax() {
+        return happinessWorkCounterMax;
     }
 
     public void setHappinessWorkCounterMax(int happiness) {
@@ -177,8 +179,8 @@ public class CitizenData implements Externalizable {
         }
     }
 
-    public int getHappinessWorkCounterMax() {
-        return happinessWorkCounterMax;
+    public int getHappinessIdleCounterMax() {
+        return happinessIdleCounterMax;
     }
 
     public void setHappinessIdleCounterMax(int happiness) {
@@ -189,8 +191,11 @@ public class CitizenData implements Externalizable {
         }
     }
 
-    public int getHappinessIdleCounterMax() {
-        return happinessIdleCounterMax;
+    /**
+     * @return the boostCounter
+     */
+    public int getBoostCounter() {
+        return boostCounter;
     }
 
     /**
@@ -201,10 +206,10 @@ public class CitizenData implements Externalizable {
     }
 
     /**
-     * @return the boostCounter
+     * @return the blinkAnimationTurns
      */
-    public int getBoostCounter() {
-        return boostCounter;
+    public int getBlinkAnimationTurns() {
+        return blinkAnimationTurns;
     }
 
     /**
@@ -212,13 +217,6 @@ public class CitizenData implements Externalizable {
      */
     public void setBlinkAnimationTurns(int blinkAnimationTurns) {
         this.blinkAnimationTurns = blinkAnimationTurns;
-    }
-
-    /**
-     * @return the blinkAnimationTurns
-     */
-    public int getBlinkAnimationTurns() {
-        return blinkAnimationTurns;
     }
 
     public int getHungry() {
@@ -269,19 +267,12 @@ public class CitizenData implements Externalizable {
         this.sleepSleeping = sleepSleeping;
     }
 
-    public void setHealHealing(int healHealing) {
-        this.healHealing = healHealing;
-    }
-
     public int getHealHealing() {
         return healHealing;
     }
 
-    /**
-     * @param carryingData the carryingData to set
-     */
-    public void setCarryingData(CarryingData carryingData) {
-        this.carryingData = carryingData;
+    public void setHealHealing(int healHealing) {
+        this.healHealing = healHealing;
     }
 
     /**
@@ -291,20 +282,27 @@ public class CitizenData implements Externalizable {
         return carryingData;
     }
 
-    public void setGroupID(int groupID) {
-        this.groupID = groupID;
+    /**
+     * @param carryingData the carryingData to set
+     */
+    public void setCarryingData(CarryingData carryingData) {
+        this.carryingData = carryingData;
     }
 
     public int getGroupID() {
         return groupID;
     }
 
-    public void setJobsDenied(ArrayList<Integer> jobsDenied) {
-        this.jobsDenied = jobsDenied;
+    public void setGroupID(int groupID) {
+        this.groupID = groupID;
     }
 
     public ArrayList<Integer> getJobsDenied() {
         return jobsDenied;
+    }
+
+    public void setJobsDenied(ArrayList<Integer> jobsDenied) {
+        this.jobsDenied = jobsDenied;
     }
 
     public void addDeniedJob(String sJob) {

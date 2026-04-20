@@ -1,12 +1,6 @@
 package xaos.tiles.entities;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.util.ArrayList;
 import xaos.TownsProperties;
-
 import xaos.main.Game;
 import xaos.main.World;
 import xaos.panels.menus.SmartMenu;
@@ -16,6 +10,12 @@ import xaos.tiles.entities.items.Item;
 import xaos.tiles.entities.living.LivingEntity;
 import xaos.utils.Point3D;
 import xaos.utils.Point3DShort;
+
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.util.ArrayList;
 
 //public abstract class Entity extends Tile implements Comparable<Entity>, Serializable {
 public abstract class Entity extends Tile implements Externalizable {
@@ -36,6 +36,26 @@ public abstract class Entity extends Tile implements Externalizable {
         setID(World.getNextEntityID());
     }
 
+    /**
+     * Fills a contextual menï¿½ refering an entity of a cell
+     *
+     * @param cell
+     * @param sm
+     */
+    public static void fillMenu(Cell cell, SmartMenu sm) {
+        if (cell.hasEntity() && !cell.hasBuilding()) {
+            Point3D p3d = cell.getCoordinates().toPoint3D();
+
+            if (TownsProperties.DEBUG_MODE) {
+                sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, "Coord " + cell.getEntity().getCoordinates(), null, null, null, null, p3d)); //$NON-NLS-1$
+                sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, "Num " + Item.getNumItemsTotal(cell.getEntity().getIniHeader(), World.MAP_DEPTH - 1), null, null, null, null, p3d)); //$NON-NLS-1$
+                sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, "Num over restriction (" + Game.getWorld().getRestrictHaulEquippingLevel() + "): " + +Item.getNumItemsTotal(cell.getEntity().getIniHeader(), Game.getWorld().getRestrictHaulEquippingLevel()), null, null, null, null, p3d)); //$NON-NLS-1$ //$NON-NLS-2$
+                sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, "", null, null, null, null, p3d)); //$NON-NLS-1$
+            }
+            sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, "", null, null, null)); //$NON-NLS-1$
+        }
+    }
+
     public void setCoordinates(short iX, short iY, short iZ) {
         coordinates.setPoint(iX, iY, iZ);
     }
@@ -44,12 +64,12 @@ public abstract class Entity extends Tile implements Externalizable {
         coordinates.setPoint(iX, iY, iZ);
     }
 
-    public void setCoordinates(Point3DShort point) {
-        coordinates.setPoint(point);
-    }
-
     public Point3DShort getCoordinates() {
         return coordinates;
+    }
+
+    public void setCoordinates(Point3DShort point) {
+        coordinates.setPoint(point);
     }
 
     public short getX() {
@@ -73,7 +93,7 @@ public abstract class Entity extends Tile implements Externalizable {
     }
 
     /**
-     * Borra una living de la celda eb la que está
+     * Borra una living de la celda eb la que estï¿½
      */
     public void deleteLiving() {
         ArrayList<LivingEntity> livings = World.getCell(getCoordinates()).getLivings();
@@ -90,26 +110,6 @@ public abstract class Entity extends Tile implements Externalizable {
     }
 
     public abstract String getTileName();
-
-    /**
-     * Fills a contextual menú refering an entity of a cell
-     *
-     * @param cell
-     * @param sm
-     */
-    public static void fillMenu(Cell cell, SmartMenu sm) {
-        if (cell.hasEntity() && !cell.hasBuilding()) {
-            Point3D p3d = cell.getCoordinates().toPoint3D();
-
-            if (TownsProperties.DEBUG_MODE) {
-                sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, "Coord " + cell.getEntity().getCoordinates(), null, null, null, null, p3d)); //$NON-NLS-1$
-                sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, "Num " + Item.getNumItemsTotal(cell.getEntity().getIniHeader(), World.MAP_DEPTH - 1), null, null, null, null, p3d)); //$NON-NLS-1$
-                sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, "Num over restriction (" + Game.getWorld ().getRestrictHaulEquippingLevel () + "): " + + Item.getNumItemsTotal(cell.getEntity().getIniHeader(), Game.getWorld ().getRestrictHaulEquippingLevel ()), null, null, null, null, p3d)); //$NON-NLS-1$ //$NON-NLS-2$
-                sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, "", null, null, null, null, p3d)); //$NON-NLS-1$
-            }
-            sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, "", null, null, null)); //$NON-NLS-1$
-        }
-    }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         super.readExternal(in);

@@ -1,13 +1,7 @@
 package xaos.panels;
 
-import java.awt.Color;
-import java.awt.Desktop;
-import java.io.File;
-import java.util.ArrayList;
-
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
-
 import xaos.Towns;
 import xaos.TownsProperties;
 import xaos.actions.ActionManager;
@@ -36,18 +30,139 @@ import xaos.tiles.entities.living.LivingEntity;
 import xaos.tiles.entities.living.LivingEntityManager;
 import xaos.tiles.entities.living.LivingEntityManagerItem;
 import xaos.tiles.entities.living.heroes.Hero;
-import xaos.utils.ColorGL;
-import xaos.utils.Log;
-import xaos.utils.Messages;
-import xaos.utils.Point3D;
-import xaos.utils.Utils;
-import xaos.utils.UtilsAL;
-import xaos.utils.UtilsGL;
+import xaos.utils.*;
+
+import java.awt.*;
+import java.io.File;
+import java.util.ArrayList;
 
 public final class CommandPanel {
 
+    // Order commands
+    public static final String COMMAND_MINE = "MINE"; //$NON-NLS-1$
+    public static final String COMMAND_MINE_LADDER = "MINELADDER"; //$NON-NLS-1$
+    public static final String COMMAND_DIG = "DIG"; //$NON-NLS-1$
+    public static final String COMMAND_CANCEL_ORDER = "CANCELORDER"; //$NON-NLS-1$
+    public static final String COMMAND_WEAR = "WEAR"; //$NON-NLS-1$
+    public static final String COMMAND_WEAR_OFF = "WEAROFF"; //$NON-NLS-1$
+    public static final String COMMAND_AUTOEQUIP = "AUTOEQUIP"; //$NON-NLS-1$
+    // Terrain commands
+    public static final String COMMAND_TERRAIN_CHANGE = "TERRAINCHANGE"; //$NON-NLS-1$
+    public static final String COMMAND_TERRAIN_ADD_FLUID = "TERRAINADDFLUID"; //$NON-NLS-1$
+    public static final String COMMAND_TERRAIN_REMOVE_FLUID = "TERRAINREMOVEFLUID"; //$NON-NLS-1$
+    // Buildings
+    public static final String COMMAND_BUILD = "BUILD"; //$NON-NLS-1$
+    public static final String COMMAND_TURN_OFF_NONSTOP = "TURNOFFNONSTOP"; //$NON-NLS-1$
+    public static final String COMMAND_TURN_ON_NONSTOP = "TURNONNONSTOP"; //$NON-NLS-1$
+    public static final String COMMAND_REMOVE_BUILDING_TASK = "REMOVEBULDINGTASK"; //$NON-NLS-1$
+    public static final String COMMAND_DESTROY_BUILDING = "DESTROYBUILDING"; //$NON-NLS-1$
+    // Items
+    public static final String COMMAND_CREATE = "CREATE"; //$NON-NLS-1$
+    public static final String COMMAND_CREATE_IN_A_BUILDING = "CREATEINABUILDING"; //$NON-NLS-1$
+    public static final String COMMAND_CREATE_AND_PLACE = "CREATEANDPLACE"; //$NON-NLS-1$
+    public static final String COMMAND_CREATE_AND_PLACE_ROW = "CREATEANDPLACEROW"; //$NON-NLS-1$
+    public static final String COMMAND_LOCK = "LOCK"; //$NON-NLS-1$
+    public static final String COMMAND_UNLOCK_OPEN = "UNLOCKOPEN"; //$NON-NLS-1$
+    public static final String COMMAND_UNLOCK_CLOSE = "UNLOCKCLOSE"; //$NON-NLS-1$
+    public static final String COMMAND_ITEM_TEXT_ADD = "ADDTEXT"; //$NON-NLS-1$
+    public static final String COMMAND_ITEM_TEXT_DELETE = "DELETETEXT"; //$NON-NLS-1$
+    public static final String COMMAND_ITEM_ROTATE = "ROTATEITEM"; //$NON-NLS-1$
+    public static final String COMMAND_UNLOCK = "UNLOCK"; //$NON-NLS-1$
+    // Containers
+    public static final String COMMAND_CONTAINER_ENABLE_ALL = "CONTAINERENABLEALL"; //$NON-NLS-1$
+    public static final String COMMAND_CONTAINER_DISABLE_ALL = "CONTAINERDISABLEALL"; //$NON-NLS-1$
+    public static final String COMMAND_CONTAINER_ENABLE_ITEM = "CONTAINERENABLEITEM"; //$NON-NLS-1$
+    public static final String COMMAND_CONTAINER_DISABLE_ITEM = "CONTAINERDISABLEITEM"; //$NON-NLS-1$
+    public static final String COMMAND_CONTAINER_MANAGE = "CONTAINERMANAGE"; //$NON-NLS-1$
+    public static final String COMMAND_CONTAINER_COPY_TO_ALL = "CONTAINERCOPY"; //$NON-NLS-1$
+    // Professions
+    public static final String COMMAND_PROFESSIONS_ENABLE_ALL = "PROFENABLEALL"; //$NON-NLS-1$
+    public static final String COMMAND_PROFESSIONS_DISABLE_ALL = "PROFDISABLEALL"; //$NON-NLS-1$
+    public static final String COMMAND_PROFESSIONS_ENABLE_ITEM = "PROFENABLEITEM"; //$NON-NLS-1$
+    public static final String COMMAND_PROFESSIONS_DISABLE_ITEM = "PROFDISABLEITEM"; //$NON-NLS-1$
+    // Entities
+    public static final String COMMAND_DESTROY_ENTITY = "DESTROYENTITY"; //$NON-NLS-1$
+    // Stockpiles
+    public static final String COMMAND_STOCKPILE = "STOCKPILE"; //$NON-NLS-1$
+    public static final String COMMAND_MANAGE_STOCKPILE = "MANAGESTOCKPILE"; //$NON-NLS-1$
+    public static final String COMMAND_DELETE_STOCKPILE = "DELETESTOCKPILE"; //$NON-NLS-1$
+    public static final String COMMAND_STOCKPILE_ENABLE_ITEM = "STOCKPILEENABLEITEM"; //$NON-NLS-1$
+    public static final String COMMAND_STOCKPILE_DISABLE_ITEM = "STOCKPILEDISABLEITEM"; //$NON-NLS-1$
+    public static final String COMMAND_STOCKPILE_ENABLE_ALL = "STOCKPILEENABLEALL"; //$NON-NLS-1$
+    public static final String COMMAND_STOCKPILE_DISABLE_ALL = "STOCKPILEDISABLEALL"; //$NON-NLS-1$
+    public static final String COMMAND_STOCKPILE_MANAGE = "STOCKPILEMANAGE"; //$NON-NLS-1$
+    public static final String COMMAND_STOCKPILE_COPY_TO_ALL = "STOCKPILECOPY"; //$NON-NLS-1$
+    // Zones
+    public static final String COMMAND_CREATE_ZONE = "CREATEZONE"; //$NON-NLS-1$
+    public static final String COMMAND_DELETE_ZONE = "DELETEZONE"; //$NON-NLS-1$
+    public static final String COMMAND_EXPAND_ZONE = "EXPANDZONE"; //$NON-NLS-1$
+    public static final String COMMAND_CHANGE_OWNER = "CHANGEOWNER"; //$NON-NLS-1$
+    public static final String COMMAND_CHANGE_OWNER_GROUP = "CHANGEOWNERGROUP"; //$NON-NLS-1$
+    // Citizens
+    public static final String COMMAND_CONVERT_TO_CIVILIAN = "CONVERTTOCIVILIAN"; //$NON-NLS-1$
+    public static final String COMMAND_CONVERT_TO_SOLDIER = "CONVERTTOSOLDIER"; //$NON-NLS-1$
+    public static final String COMMAND_SOLDIER_SET_STATE = "SOLDIERSETSTATE"; //$NON-NLS-1$
+    public static final String COMMAND_ADD_PATROL_POINT = "ADDPATROLPOINT"; //$NON-NLS-1$
+    public static final String COMMAND_REMOVE_PATROL_POINT = "REMOVEPATROLPOINT"; //$NON-NLS-1$
+    // Groups
+    public static final String COMMAND_ADD_PATROL_POINT_GROUP = "ADDPATROLPOINTGROUP"; //$NON-NLS-1$
+    public static final String COMMAND_REMOVE_PATROL_POINT_GROUP = "REMOVEPATROLPOINTGROUP"; //$NON-NLS-1$
+    // Job groups
+    public static final String COMMAND_CITIZEN_SET_JOB_GROUP = "CITSETJOBGROUP"; //$NON-NLS-1$
+    public static final String COMMAND_JOB_GROUP_ENABLE_ALL = "JGENABLEALL"; //$NON-NLS-1$
+    public static final String COMMAND_JOB_GROUP_DISABLE_ALL = "JGDISABLEALL"; //$NON-NLS-1$
+    public static final String COMMAND_JOB_GROUP_ENABLE_ITEM = "JGFENABLEITEM"; //$NON-NLS-1$
+    public static final String COMMAND_JOB_GROUP_DISABLE_ITEM = "JGFDISABLEITEM"; //$NON-NLS-1$
+    // Caravans
+    public static final String COMMAND_TRADE = "TRADE"; //$NON-NLS-1$
+    // Custom actions
+    public static final String COMMAND_CUSTOM_ACTION = "CUSTOMACTION"; //$NON-NLS-1$
+    public static final String COMMAND_CUSTOM_ACTION_DIRECT_LIVING = "CADIRECT_L"; //$NON-NLS-1$
+    public static final String COMMAND_CUSTOM_ACTION_DIRECT_ITEM = "CADIRECT_I"; //$NON-NLS-1$
+    public static final String COMMAND_QUEUE = "QUEUE"; //$NON-NLS-1$
+    public static final String COMMAND_QUEUE_AND_PLACE = "QUEUEANDPLACE"; //$NON-NLS-1$
+    public static final String COMMAND_QUEUE_AND_PLACE_ROW = "QUEUEANDPLACEROW"; //$NON-NLS-1$
+    public static final String COMMAND_QUEUE_AND_PLACE_AREA = "QUEUEANDPLACEAREA"; //$NON-NLS-1$
+    // View commands
+    public static final String COMMAND_LEVEL_DOWN = "LEVEL_DOWN"; //$NON-NLS-1$
+    public static final String COMMAND_LEVEL_UP = "LEVEL_UP"; //$NON-NLS-1$
+    public static final String COMMAND_NEXT_CITIZEN = "NEXT_CITIZEN"; //$NON-NLS-1$
+    public static final String COMMAND_PREVIOUS_CITIZEN = "PREVIOUS_CITIZEN"; //$NON-NLS-1$
+    public static final String COMMAND_NEXT_SOLDIER = "NEXT_SOLDIER"; //$NON-NLS-1$
+    public static final String COMMAND_PREVIOUS_SOLDIER = "PREVIOUS_SOLDIER"; //$NON-NLS-1$
+    public static final String COMMAND_NEXT_HERO = "NEXT_HERO"; //$NON-NLS-1$
+    public static final String COMMAND_PREVIOUS_HERO = "PREVIOUS_HERO"; //$NON-NLS-1$
+    public static final String COMMAND_MINIBLOCKS = "MINIBLOCKS"; //$NON-NLS-1$
+    // System commands
+    public static final String COMMAND_EXIT_GAME = "EXITGAME"; //$NON-NLS-1$
+    public static final String COMMAND_EXIT_TO_MAIN_MENU = "EXITTOMM"; //$NON-NLS-1$
+    public static final String COMMAND_EXIT_TO_MAIN_MENU_SAVE = "EXITTOMMSAVE"; //$NON-NLS-1$
+    public static final String COMMAND_EXIT_TO_MAIN_MENU_NOSAVE = "EXITTOMMNOSAVE"; //$NON-NLS-1$
+    public static final String COMMAND_BURY = "BURY"; //$NON-NLS-1$
+    public static final String COMMAND_CLOSE_CONTEXT = "CLOSECONTEXT"; //$NON-NLS-1$
+    public static final String COMMAND_SAVE = "SAVE"; //$NON-NLS-1$
+    public static final String COMMAND_SAVE_NO_MISSIONDATA = "SAVENOMD"; //$NON-NLS-1$
+    //	public static final String COMMAND_SAVE_OPTIONS = "SAVE_OPTIONS"; //$NON-NLS-1$
+    public static final String COMMAND_PAUSE = "PAUSE"; //$NON-NLS-1$
+    public static final String COMMAND_INCREASE_SPEED = "INC_SPEED"; //$NON-NLS-1$
+    public static final String COMMAND_LOWER_SPEED = "LOW_SPEED"; //$NON-NLS-1$
+    public static final String COMMAND_BACK = "BACK"; //$NON-NLS-1$
+    public static final String COMMAND_CHANGE_LANGUAGE = "CHANGELANGUAGE"; //$NON-NLS-1$
+    // Test commands
+    public static final String COMMAND_TEST = "TEST"; //$NON-NLS-1$
+    public static final String COMMAND_TEST2 = "TEST2"; //$NON-NLS-1$
+    public static final String COMMAND_TEST3 = "TEST3"; //$NON-NLS-1$
+    public static final String COMMAND_TEST4 = "TEST4"; //$NON-NLS-1$
+    public static final String COMMAND_TEST5 = "TEST5"; //$NON-NLS-1$
+    public static final String COMMAND_TEST6 = "TEST6"; //$NON-NLS-1$
+    public static final String COMMAND_TEST7 = "TEST7"; //$NON-NLS-1$
+    // Admin commands
+    public static final String COMMAND_ADD_ITEM = "ADD_ITEM"; //$NON-NLS-1$
+    public static final String COMMAND_ADD_LIVING = "ADD_LIVING"; //$NON-NLS-1$
+    public static final String COMMAND_ADD_EVENT = "ADD_EVENT"; //$NON-NLS-1$
+    public static final String COMMAND_GOD_STATUS_LOWER_5 = "GSLOW5"; //$NON-NLS-1$
+    public static final String COMMAND_GOD_STATUS_RAISE_5 = "GSRAI5"; //$NON-NLS-1$
     private static final long serialVersionUID = 5224811443500566092L;
-
     // MAIN MENU
     public static String COMMAND_MM_NEWGAME = "NEWGAME"; //$NON-NLS-1$
     public static String COMMAND_MM_NEWGAME_SET_SAVE_NAME = "NEWGAMESETSAVENAME"; //$NON-NLS-1$
@@ -77,149 +192,6 @@ public final class CommandPanel {
     public static String COMMAND_SERVER_ADD = "ADDSERVER"; //$NON-NLS-1$
     public static String COMMAND_SERVER_REMOVE = "REMOVESERVER"; //$NON-NLS-1$
     public static String COMMAND_OPEN_FOLDER = "OPENFOLDER"; //$NON-NLS-1$
-
-    // Order commands
-    public static final String COMMAND_MINE = "MINE"; //$NON-NLS-1$
-    public static final String COMMAND_MINE_LADDER = "MINELADDER"; //$NON-NLS-1$
-    public static final String COMMAND_DIG = "DIG"; //$NON-NLS-1$
-    public static final String COMMAND_CANCEL_ORDER = "CANCELORDER"; //$NON-NLS-1$
-    public static final String COMMAND_WEAR = "WEAR"; //$NON-NLS-1$
-    public static final String COMMAND_WEAR_OFF = "WEAROFF"; //$NON-NLS-1$
-    public static final String COMMAND_AUTOEQUIP = "AUTOEQUIP"; //$NON-NLS-1$
-
-    // Terrain commands
-    public static final String COMMAND_TERRAIN_CHANGE = "TERRAINCHANGE"; //$NON-NLS-1$
-    public static final String COMMAND_TERRAIN_ADD_FLUID = "TERRAINADDFLUID"; //$NON-NLS-1$
-    public static final String COMMAND_TERRAIN_REMOVE_FLUID = "TERRAINREMOVEFLUID"; //$NON-NLS-1$
-
-    // Buildings
-    public static final String COMMAND_BUILD = "BUILD"; //$NON-NLS-1$
-    public static final String COMMAND_TURN_OFF_NONSTOP = "TURNOFFNONSTOP"; //$NON-NLS-1$
-    public static final String COMMAND_TURN_ON_NONSTOP = "TURNONNONSTOP"; //$NON-NLS-1$
-    public static final String COMMAND_REMOVE_BUILDING_TASK = "REMOVEBULDINGTASK"; //$NON-NLS-1$
-    public static final String COMMAND_DESTROY_BUILDING = "DESTROYBUILDING"; //$NON-NLS-1$
-
-    // Items
-    public static final String COMMAND_CREATE = "CREATE"; //$NON-NLS-1$
-    public static final String COMMAND_CREATE_IN_A_BUILDING = "CREATEINABUILDING"; //$NON-NLS-1$
-    public static final String COMMAND_CREATE_AND_PLACE = "CREATEANDPLACE"; //$NON-NLS-1$
-    public static final String COMMAND_CREATE_AND_PLACE_ROW = "CREATEANDPLACEROW"; //$NON-NLS-1$
-    public static final String COMMAND_LOCK = "LOCK"; //$NON-NLS-1$
-    public static final String COMMAND_UNLOCK_OPEN = "UNLOCKOPEN"; //$NON-NLS-1$
-    public static final String COMMAND_UNLOCK_CLOSE = "UNLOCKCLOSE"; //$NON-NLS-1$
-    public static final String COMMAND_ITEM_TEXT_ADD = "ADDTEXT"; //$NON-NLS-1$
-    public static final String COMMAND_ITEM_TEXT_DELETE = "DELETETEXT"; //$NON-NLS-1$
-    public static final String COMMAND_ITEM_ROTATE = "ROTATEITEM"; //$NON-NLS-1$
-    public static final String COMMAND_UNLOCK = "UNLOCK"; //$NON-NLS-1$
-
-    // Containers
-    public static final String COMMAND_CONTAINER_ENABLE_ALL = "CONTAINERENABLEALL"; //$NON-NLS-1$
-    public static final String COMMAND_CONTAINER_DISABLE_ALL = "CONTAINERDISABLEALL"; //$NON-NLS-1$
-    public static final String COMMAND_CONTAINER_ENABLE_ITEM = "CONTAINERENABLEITEM"; //$NON-NLS-1$
-    public static final String COMMAND_CONTAINER_DISABLE_ITEM = "CONTAINERDISABLEITEM"; //$NON-NLS-1$
-    public static final String COMMAND_CONTAINER_MANAGE = "CONTAINERMANAGE"; //$NON-NLS-1$
-    public static final String COMMAND_CONTAINER_COPY_TO_ALL = "CONTAINERCOPY"; //$NON-NLS-1$
-
-    // Professions
-    public static final String COMMAND_PROFESSIONS_ENABLE_ALL = "PROFENABLEALL"; //$NON-NLS-1$
-    public static final String COMMAND_PROFESSIONS_DISABLE_ALL = "PROFDISABLEALL"; //$NON-NLS-1$
-    public static final String COMMAND_PROFESSIONS_ENABLE_ITEM = "PROFENABLEITEM"; //$NON-NLS-1$
-    public static final String COMMAND_PROFESSIONS_DISABLE_ITEM = "PROFDISABLEITEM"; //$NON-NLS-1$
-
-    // Entities
-    public static final String COMMAND_DESTROY_ENTITY = "DESTROYENTITY"; //$NON-NLS-1$
-
-    // Stockpiles
-    public static final String COMMAND_STOCKPILE = "STOCKPILE"; //$NON-NLS-1$
-    public static final String COMMAND_MANAGE_STOCKPILE = "MANAGESTOCKPILE"; //$NON-NLS-1$
-    public static final String COMMAND_DELETE_STOCKPILE = "DELETESTOCKPILE"; //$NON-NLS-1$
-    public static final String COMMAND_STOCKPILE_ENABLE_ITEM = "STOCKPILEENABLEITEM"; //$NON-NLS-1$
-    public static final String COMMAND_STOCKPILE_DISABLE_ITEM = "STOCKPILEDISABLEITEM"; //$NON-NLS-1$
-    public static final String COMMAND_STOCKPILE_ENABLE_ALL = "STOCKPILEENABLEALL"; //$NON-NLS-1$
-    public static final String COMMAND_STOCKPILE_DISABLE_ALL = "STOCKPILEDISABLEALL"; //$NON-NLS-1$
-    public static final String COMMAND_STOCKPILE_MANAGE = "STOCKPILEMANAGE"; //$NON-NLS-1$
-    public static final String COMMAND_STOCKPILE_COPY_TO_ALL = "STOCKPILECOPY"; //$NON-NLS-1$
-
-    // Zones
-    public static final String COMMAND_CREATE_ZONE = "CREATEZONE"; //$NON-NLS-1$
-    public static final String COMMAND_DELETE_ZONE = "DELETEZONE"; //$NON-NLS-1$
-    public static final String COMMAND_EXPAND_ZONE = "EXPANDZONE"; //$NON-NLS-1$
-    public static final String COMMAND_CHANGE_OWNER = "CHANGEOWNER"; //$NON-NLS-1$
-    public static final String COMMAND_CHANGE_OWNER_GROUP = "CHANGEOWNERGROUP"; //$NON-NLS-1$
-
-    // Citizens
-    public static final String COMMAND_CONVERT_TO_CIVILIAN = "CONVERTTOCIVILIAN"; //$NON-NLS-1$
-    public static final String COMMAND_CONVERT_TO_SOLDIER = "CONVERTTOSOLDIER"; //$NON-NLS-1$
-    public static final String COMMAND_SOLDIER_SET_STATE = "SOLDIERSETSTATE"; //$NON-NLS-1$
-    public static final String COMMAND_ADD_PATROL_POINT = "ADDPATROLPOINT"; //$NON-NLS-1$
-    public static final String COMMAND_REMOVE_PATROL_POINT = "REMOVEPATROLPOINT"; //$NON-NLS-1$
-
-    // Groups
-    public static final String COMMAND_ADD_PATROL_POINT_GROUP = "ADDPATROLPOINTGROUP"; //$NON-NLS-1$
-    public static final String COMMAND_REMOVE_PATROL_POINT_GROUP = "REMOVEPATROLPOINTGROUP"; //$NON-NLS-1$
-
-    // Job groups
-    public static final String COMMAND_CITIZEN_SET_JOB_GROUP = "CITSETJOBGROUP"; //$NON-NLS-1$
-    public static final String COMMAND_JOB_GROUP_ENABLE_ALL = "JGENABLEALL"; //$NON-NLS-1$
-    public static final String COMMAND_JOB_GROUP_DISABLE_ALL = "JGDISABLEALL"; //$NON-NLS-1$
-    public static final String COMMAND_JOB_GROUP_ENABLE_ITEM = "JGFENABLEITEM"; //$NON-NLS-1$
-    public static final String COMMAND_JOB_GROUP_DISABLE_ITEM = "JGFDISABLEITEM"; //$NON-NLS-1$
-
-    // Caravans
-    public static final String COMMAND_TRADE = "TRADE"; //$NON-NLS-1$
-
-    // Custom actions
-    public static final String COMMAND_CUSTOM_ACTION = "CUSTOMACTION"; //$NON-NLS-1$
-    public static final String COMMAND_CUSTOM_ACTION_DIRECT_LIVING = "CADIRECT_L"; //$NON-NLS-1$
-    public static final String COMMAND_CUSTOM_ACTION_DIRECT_ITEM = "CADIRECT_I"; //$NON-NLS-1$
-    public static final String COMMAND_QUEUE = "QUEUE"; //$NON-NLS-1$
-    public static final String COMMAND_QUEUE_AND_PLACE = "QUEUEANDPLACE"; //$NON-NLS-1$
-    public static final String COMMAND_QUEUE_AND_PLACE_ROW = "QUEUEANDPLACEROW"; //$NON-NLS-1$
-    public static final String COMMAND_QUEUE_AND_PLACE_AREA = "QUEUEANDPLACEAREA"; //$NON-NLS-1$
-
-    // View commands
-    public static final String COMMAND_LEVEL_DOWN = "LEVEL_DOWN"; //$NON-NLS-1$
-    public static final String COMMAND_LEVEL_UP = "LEVEL_UP"; //$NON-NLS-1$
-    public static final String COMMAND_NEXT_CITIZEN = "NEXT_CITIZEN"; //$NON-NLS-1$
-    public static final String COMMAND_PREVIOUS_CITIZEN = "PREVIOUS_CITIZEN"; //$NON-NLS-1$
-    public static final String COMMAND_NEXT_SOLDIER = "NEXT_SOLDIER"; //$NON-NLS-1$
-    public static final String COMMAND_PREVIOUS_SOLDIER = "PREVIOUS_SOLDIER"; //$NON-NLS-1$
-    public static final String COMMAND_NEXT_HERO = "NEXT_HERO"; //$NON-NLS-1$
-    public static final String COMMAND_PREVIOUS_HERO = "PREVIOUS_HERO"; //$NON-NLS-1$
-    public static final String COMMAND_MINIBLOCKS = "MINIBLOCKS"; //$NON-NLS-1$
-
-    // System commands
-    public static final String COMMAND_EXIT_GAME = "EXITGAME"; //$NON-NLS-1$
-    public static final String COMMAND_EXIT_TO_MAIN_MENU = "EXITTOMM"; //$NON-NLS-1$
-    public static final String COMMAND_EXIT_TO_MAIN_MENU_SAVE = "EXITTOMMSAVE"; //$NON-NLS-1$
-    public static final String COMMAND_EXIT_TO_MAIN_MENU_NOSAVE = "EXITTOMMNOSAVE"; //$NON-NLS-1$
-    public static final String COMMAND_BURY = "BURY"; //$NON-NLS-1$
-    public static final String COMMAND_CLOSE_CONTEXT = "CLOSECONTEXT"; //$NON-NLS-1$
-    public static final String COMMAND_SAVE = "SAVE"; //$NON-NLS-1$
-    public static final String COMMAND_SAVE_NO_MISSIONDATA = "SAVENOMD"; //$NON-NLS-1$
-//	public static final String COMMAND_SAVE_OPTIONS = "SAVE_OPTIONS"; //$NON-NLS-1$
-    public static final String COMMAND_PAUSE = "PAUSE"; //$NON-NLS-1$
-    public static final String COMMAND_INCREASE_SPEED = "INC_SPEED"; //$NON-NLS-1$
-    public static final String COMMAND_LOWER_SPEED = "LOW_SPEED"; //$NON-NLS-1$
-    public static final String COMMAND_BACK = "BACK"; //$NON-NLS-1$
-    public static final String COMMAND_CHANGE_LANGUAGE = "CHANGELANGUAGE"; //$NON-NLS-1$
-
-    // Test commands
-    public static final String COMMAND_TEST = "TEST"; //$NON-NLS-1$
-    public static final String COMMAND_TEST2 = "TEST2"; //$NON-NLS-1$
-    public static final String COMMAND_TEST3 = "TEST3"; //$NON-NLS-1$
-    public static final String COMMAND_TEST4 = "TEST4"; //$NON-NLS-1$
-    public static final String COMMAND_TEST5 = "TEST5"; //$NON-NLS-1$
-    public static final String COMMAND_TEST6 = "TEST6"; //$NON-NLS-1$
-    public static final String COMMAND_TEST7 = "TEST7"; //$NON-NLS-1$
-
-    // Admin commands
-    public static final String COMMAND_ADD_ITEM = "ADD_ITEM"; //$NON-NLS-1$
-    public static final String COMMAND_ADD_LIVING = "ADD_LIVING"; //$NON-NLS-1$
-    public static final String COMMAND_ADD_EVENT = "ADD_EVENT"; //$NON-NLS-1$
-    public static final String COMMAND_GOD_STATUS_LOWER_5 = "GSLOW5"; //$NON-NLS-1$
-    public static final String COMMAND_GOD_STATUS_RAISE_5 = "GSRAI5"; //$NON-NLS-1$
-
     private static SmartMenu currentMenu;
 
     public int renderX;
@@ -542,43 +514,43 @@ public final class CommandPanel {
             } else if (sCommand.equals(COMMAND_STOCKPILE_COPY_TO_ALL)) {
                 Stockpile pileSource = Stockpile.getStockpile(sParameter);
                 if (pileSource != null) {
-                	Type typeSource = pileSource.getType ();
+                    Type typeSource = pileSource.getType();
 
-                	// Check all piles until we find the ones with the same type
+                    // Check all piles until we find the ones with the same type
                     ArrayList<Stockpile> alStockpiles = Game.getWorld().getStockpiles();
                     Stockpile pileDest;
                     boolean bSomethingRemoved = false;
-                    for (int i = 0; i < alStockpiles.size (); i++) {
-                    	pileDest = alStockpiles.get (i);
-                    	if (pileDest.getID () != pileSource.getID ()) {
-                    		if (pileDest.getType ().getID ().equals (typeSource.getID ()) && !pileDest.isLockedToCopy ()) {
-                    			// Bingo!
-                    			// Let's copy the type
+                    for (int i = 0; i < alStockpiles.size(); i++) {
+                        pileDest = alStockpiles.get(i);
+                        if (pileDest.getID() != pileSource.getID()) {
+                            if (pileDest.getType().getID().equals(typeSource.getID()) && !pileDest.isLockedToCopy()) {
+                                // Bingo!
+                                // Let's copy the type
 
-                    			// First lets remove the elements FROM the destination
-                    			Type typeDestination = pileDest.getType ();
-                    			for (int j = (typeDestination.getElements ().size () - 1); j >= 0 ; j--) {
-                    				if (!typeSource.contains (typeDestination.getElements ().get (j))) {
-                    					typeDestination.removeElement (typeDestination.getElements ().get (j));
-                    					bSomethingRemoved = true;
-                    				}
-                    			}
+                                // First lets remove the elements FROM the destination
+                                Type typeDestination = pileDest.getType();
+                                for (int j = (typeDestination.getElements().size() - 1); j >= 0; j--) {
+                                    if (!typeSource.contains(typeDestination.getElements().get(j))) {
+                                        typeDestination.removeElement(typeDestination.getElements().get(j));
+                                        bSomethingRemoved = true;
+                                    }
+                                }
 
-                    			// Now lets add the elements TO the destination
-                    			for (int j = (typeSource.getElements ().size () - 1); j >= 0 ; j--) {
-                    				if (!typeDestination.contains (typeSource.getElements ().get (j))) {
-                    					typeDestination.addElement (typeSource.getElements ().get (j), typeSource.getElementNames ().get (j));
-                    				}
-                    			}
-                    		}
-                    	}
+                                // Now lets add the elements TO the destination
+                                for (int j = (typeSource.getElements().size() - 1); j >= 0; j--) {
+                                    if (!typeDestination.contains(typeSource.getElements().get(j))) {
+                                        typeDestination.addElement(typeSource.getElements().get(j), typeSource.getElementNames().get(j));
+                                    }
+                                }
+                            }
+                        }
 
-    					// Set items to be hauled (if applies)
-                    	if (bSomethingRemoved) {
+                        // Set items to be hauled (if applies)
+                        if (bSomethingRemoved) {
                             for (int h = 0; h < pileDest.getPoints().size(); h++) {
                                 Game.getWorld().addItemToBeHauled(World.getCell(pileDest.getPoints().get(h)).getItem());
                             }
-                    	}
+                        }
                     }
                 }
             } else if (sCommand.equals(COMMAND_CONTAINER_ENABLE_ALL)) {
@@ -602,44 +574,44 @@ public final class CommandPanel {
                     container.disableItem(sParameter2);
                 }
             } else if (sCommand.equals(COMMAND_CONTAINER_COPY_TO_ALL)) {
-                Container containerSource = Game.getWorld().getContainer (Integer.parseInt(sParameter));
+                Container containerSource = Game.getWorld().getContainer(Integer.parseInt(sParameter));
                 if (containerSource != null) {
-                	Type typeSource = containerSource.getType ();
+                    Type typeSource = containerSource.getType();
 
-                	// Check all piles until we find the ones with the same type
-                    ArrayList<Container> alContainers = Game.getWorld().getContainers ();
+                    // Check all piles until we find the ones with the same type
+                    ArrayList<Container> alContainers = Game.getWorld().getContainers();
                     Container containerDest;
-                    
+
                     boolean bSomethingRemoved = false;
-                    for (int i = 0; i < alContainers.size (); i++) {
-                    	containerDest = alContainers.get (i);
-                    	if (containerDest.getItemID () != containerSource.getItemID ()) {
-                    		if (containerDest.getType ().getID ().equals (typeSource.getID ()) && !containerDest.isLockedToCopy ()) {
-                    			// Bingo!
-                    			// Let's copy the type
+                    for (int i = 0; i < alContainers.size(); i++) {
+                        containerDest = alContainers.get(i);
+                        if (containerDest.getItemID() != containerSource.getItemID()) {
+                            if (containerDest.getType().getID().equals(typeSource.getID()) && !containerDest.isLockedToCopy()) {
+                                // Bingo!
+                                // Let's copy the type
 
-                    			// First lets remove the elements FROM the destination
-                    			Type typeDestination = containerDest.getType ();
-                    			for (int j = (typeDestination.getElements ().size () - 1); j >= 0 ; j--) {
-                    				if (!typeSource.contains (typeDestination.getElements ().get (j))) {
-                    					typeDestination.removeElement (typeDestination.getElements ().get (j));
-                    					bSomethingRemoved = true;
-                    				}
-                    			}
+                                // First lets remove the elements FROM the destination
+                                Type typeDestination = containerDest.getType();
+                                for (int j = (typeDestination.getElements().size() - 1); j >= 0; j--) {
+                                    if (!typeSource.contains(typeDestination.getElements().get(j))) {
+                                        typeDestination.removeElement(typeDestination.getElements().get(j));
+                                        bSomethingRemoved = true;
+                                    }
+                                }
 
-                    			// Now lets add the elements TO the destination
-                    			for (int j = (typeSource.getElements ().size () - 1); j >= 0 ; j--) {
-                    				if (!typeDestination.contains (typeSource.getElements ().get (j))) {
-                    					typeDestination.addElement (typeSource.getElements ().get (j), typeSource.getElementNames ().get (j));
-                    				}
-                    			}
-                    		}
-                    	}
+                                // Now lets add the elements TO the destination
+                                for (int j = (typeSource.getElements().size() - 1); j >= 0; j--) {
+                                    if (!typeDestination.contains(typeSource.getElements().get(j))) {
+                                        typeDestination.addElement(typeSource.getElements().get(j), typeSource.getElementNames().get(j));
+                                    }
+                                }
+                            }
+                        }
 
-    					// Set items to be removed from the container (if applies)
-                    	if (bSomethingRemoved) {
-                    		containerDest.setWrongItemsInside (true);
-                    	}
+                        // Set items to be removed from the container (if applies)
+                        if (bSomethingRemoved) {
+                            containerDest.setWrongItemsInside(true);
+                        }
                     }
                 }
             } else if (sCommand.equals(COMMAND_PROFESSIONS_ENABLE_ALL)) {
@@ -786,7 +758,7 @@ public final class CommandPanel {
                         }
 
                         // Tutorial flow
-                        Game.updateTutorialFlow (TutorialTrigger.TYPE_INT_CIV2GROUP, (iNewGRoupID + 1), null);
+                        Game.updateTutorialFlow(TutorialTrigger.TYPE_INT_CIV2GROUP, (iNewGRoupID + 1), null);
                     }
                 }
             } else if (sCommand.equals(COMMAND_CREATE_ZONE)) {
@@ -815,8 +787,8 @@ public final class CommandPanel {
                 task.setPointIni(p3dDirect);
                 Game.getWorld().getTaskManager().addTask(task);
             } else if (sCommand.equals(COMMAND_CUSTOM_ACTION_DIRECT_LIVING)) {
-				// Como esto es en diferido, quizá el usuario hace botón derecho, deja pasar el tiempo y luego clica
-                // Así que buscamos las coordenadas actuales de la living
+                // Como esto es en diferido, quizï¿½ el usuario hace botï¿½n derecho, deja pasar el tiempo y luego clica
+                // Asï¿½ que buscamos las coordenadas actuales de la living
                 LivingEntity le = World.getLivingEntityByID(Integer.parseInt(sParameter2));
                 if (le != null) {
                     Game.createTask(Task.TASK_CUSTOM_ACTION);
@@ -827,8 +799,8 @@ public final class CommandPanel {
                     Game.getCurrentTask().setPoint(le.getCoordinates().toPoint3D());
                 }
             } else if (sCommand.equals(COMMAND_CUSTOM_ACTION_DIRECT_ITEM)) {
-				// Como esto es en diferido, quizá el usuario hace botón derecho, deja pasar el tiempo y luego clica
-                // Así que buscamos las coordenadas actuales de la living
+                // Como esto es en diferido, quizï¿½ el usuario hace botï¿½n derecho, deja pasar el tiempo y luego clica
+                // Asï¿½ que buscamos las coordenadas actuales de la living
                 Item it = Item.getItemByID(Integer.parseInt(sParameter2));
                 if (it != null) {
                     Game.createTask(Task.TASK_CUSTOM_ACTION);
@@ -845,16 +817,16 @@ public final class CommandPanel {
                         Game.getWorld().setView(view.x, view.y, view.z + 1);
 
                         // Tutorial flow
-                        Game.updateTutorialFlow (TutorialTrigger.TYPE_INT_LAYERUPDOWN, TutorialTrigger.LAYER_DOWN, null);
-            			Game.updateTutorialFlow (TutorialTrigger.TYPE_INT_ICONHIT, TutorialTrigger.ICON_INT_LEVELDOWN, null);
+                        Game.updateTutorialFlow(TutorialTrigger.TYPE_INT_LAYERUPDOWN, TutorialTrigger.LAYER_DOWN, null);
+                        Game.updateTutorialFlow(TutorialTrigger.TYPE_INT_ICONHIT, TutorialTrigger.ICON_INT_LEVELDOWN, null);
                     }
                 } else {
                     if (view.z < (Game.getWorld().getNumFloorsDiscovered() - 1) && view.z < (World.MAP_DEPTH - 1)) {
                         Game.getWorld().setView(view.x, view.y, view.z + 1);
 
                         // Tutorial flow
-                        Game.updateTutorialFlow (TutorialTrigger.TYPE_INT_LAYERUPDOWN, TutorialTrigger.LAYER_DOWN, null);
-            			Game.updateTutorialFlow (TutorialTrigger.TYPE_INT_ICONHIT, TutorialTrigger.ICON_INT_LEVELDOWN, null);
+                        Game.updateTutorialFlow(TutorialTrigger.TYPE_INT_LAYERUPDOWN, TutorialTrigger.LAYER_DOWN, null);
+                        Game.updateTutorialFlow(TutorialTrigger.TYPE_INT_ICONHIT, TutorialTrigger.ICON_INT_LEVELDOWN, null);
                     }
                 }
             } else if (sCommand.equals(COMMAND_LEVEL_UP)) {
@@ -863,8 +835,8 @@ public final class CommandPanel {
                     Game.getWorld().setView(view.x, view.y, view.z - 1);
 
                     // Tutorial flow
-                    Game.updateTutorialFlow (TutorialTrigger.TYPE_INT_LAYERUPDOWN, TutorialTrigger.LAYER_UP, null);
-        			Game.updateTutorialFlow (TutorialTrigger.TYPE_INT_ICONHIT, TutorialTrigger.ICON_INT_LEVELUP, null);
+                    Game.updateTutorialFlow(TutorialTrigger.TYPE_INT_LAYERUPDOWN, TutorialTrigger.LAYER_UP, null);
+                    Game.updateTutorialFlow(TutorialTrigger.TYPE_INT_ICONHIT, TutorialTrigger.ICON_INT_LEVELUP, null);
                 }
             } else if (sCommand.equals(COMMAND_TERRAIN_CHANGE)) {
                 Task task = new Task(Task.TASK_TERRAIN_CHANGE);
@@ -886,19 +858,19 @@ public final class CommandPanel {
                 Game.getWorld().getTaskManager().addTask(task);
             } else if (sCommand.equals(COMMAND_PAUSE)) {
                 Game.togglePause(true);
-    			Game.updateTutorialFlow (TutorialTrigger.TYPE_INT_ICONHIT, TutorialTrigger.ICON_INT_PAUSE, null);
+                Game.updateTutorialFlow(TutorialTrigger.TYPE_INT_ICONHIT, TutorialTrigger.ICON_INT_PAUSE, null);
             } else if (sCommand.equals(COMMAND_INCREASE_SPEED)) {
                 World.addTurnsPerSecond();
                 MessagesPanel.addMessage(MessagesPanel.TYPE_SYSTEM, Messages.getString("Game.6") + World.SPEED, ColorGL.YELLOW); //$NON-NLS-1$
 
                 // Tutorial flow
-				Game.updateTutorialFlow (TutorialTrigger.TYPE_INT_ICONHIT, TutorialTrigger.ICON_INT_SPEEDUP, null);
+                Game.updateTutorialFlow(TutorialTrigger.TYPE_INT_ICONHIT, TutorialTrigger.ICON_INT_SPEEDUP, null);
             } else if (sCommand.equals(COMMAND_LOWER_SPEED)) {
                 World.removeTurnsPerSecond();
                 MessagesPanel.addMessage(MessagesPanel.TYPE_SYSTEM, Messages.getString("Game.6") + World.SPEED, ColorGL.YELLOW); //$NON-NLS-1$
 
                 // Tutorial flow
-				Game.updateTutorialFlow (TutorialTrigger.TYPE_INT_ICONHIT, TutorialTrigger.ICON_INT_SPEEDDOWN, null);
+                Game.updateTutorialFlow(TutorialTrigger.TYPE_INT_ICONHIT, TutorialTrigger.ICON_INT_SPEEDDOWN, null);
             } else if (sCommand.equals(COMMAND_NEXT_CITIZEN)) {
                 if (Game.getWorld().setNextIndexViewCitizen()) {
                     Game.getWorld().setViewOnCitizen();
@@ -929,14 +901,14 @@ public final class CommandPanel {
                 UIPanel.setTradePanelActive(true);
             } else if (sCommand.equals(COMMAND_SAVE)) {
                 try {
-                    Utils.save (true);
+                    Utils.save(true);
                 } catch (Exception ex) {
                     Log.log(Log.LEVEL_ERROR, Messages.getString("CommandPanel.38") + ex.toString() + "]", "CommandPanel"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                     MessagesPanel.addMessage(MessagesPanel.TYPE_SYSTEM, Messages.getString("CommandPanel.38") + ex.toString() + "]", ColorGL.RED); //$NON-NLS-1$ //$NON-NLS-2$
                 }
             } else if (sCommand.equals(COMMAND_SAVE_NO_MISSIONDATA)) {
                 try {
-                    Utils.save (false);
+                    Utils.save(false);
                 } catch (Exception ex) {
                     Log.log(Log.LEVEL_ERROR, Messages.getString("CommandPanel.38") + ex.toString() + "]", "CommandPanel"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                     MessagesPanel.addMessage(MessagesPanel.TYPE_SYSTEM, Messages.getString("CommandPanel.38") + ex.toString() + "]", ColorGL.RED); //$NON-NLS-1$ //$NON-NLS-2$
@@ -1011,7 +983,7 @@ public final class CommandPanel {
                 Game.setContextMenu(menuExit);
 
                 // Tutorial flow
-                Game.updateTutorialFlow (TutorialTrigger.TYPE_INT_ICONHIT, TutorialTrigger.ICON_INT_SETTINGS, null);
+                Game.updateTutorialFlow(TutorialTrigger.TYPE_INT_ICONHIT, TutorialTrigger.ICON_INT_SETTINGS, null);
             } else if (sCommand.equals(COMMAND_EXIT_TO_MAIN_MENU_SAVE)) {
                 executeCommand(COMMAND_SAVE, null, null, null, null, 0);
                 executeCommand(COMMAND_EXIT_TO_MAIN_MENU_NOSAVE, null, null, null, null, 0);
@@ -1024,7 +996,7 @@ public final class CommandPanel {
 //				Utils.saveOptions ();
             } else if (sCommand.equals(COMMAND_MM_NEWGAME_SET_SAVE_NAME)) {
                 MainMenuPanel.useBuryTemporary = true;
-                // Si tiene el parámetro del point, ahí indica el número de servidor a usar
+                // Si tiene el parï¿½metro del point, ahï¿½ indica el nï¿½mero de servidor a usar
                 if (p3dDirect != null) {
                     Game.setServerToUse(p3dDirect.x);
                 } else {
@@ -1035,18 +1007,18 @@ public final class CommandPanel {
                 executeCommand(COMMAND_MM_NEWGAME_SET_SAVE_NAME, sParameter, sParameter2, p3dDirect, tile, iconType);
                 MainMenuPanel.useBuryTemporary = false;
             } else if (sCommand.equals(COMMAND_MM_NEWGAME)) {
-            	// If the campaign/mission folder contains a "save.zip", then we will just load that one and set the missionData on campaigns.xml
-            	ArrayList<String> alPaths = Utils.getPathToFile ("save.zip", sParameter, sParameter2); //$NON-NLS-1$
-            	if (alPaths.size () > 0) {
-            		executeCommand (COMMAND_MM_CONTINUEGAME, "save.zip", sParameter + "," + sParameter2 + "," + alPaths.get (0), null, null, 0); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-            	} else {
+                // If the campaign/mission folder contains a "save.zip", then we will just load that one and set the missionData on campaigns.xml
+                ArrayList<String> alPaths = Utils.getPathToFile("save.zip", sParameter, sParameter2); //$NON-NLS-1$
+                if (alPaths.size() > 0) {
+                    executeCommand(COMMAND_MM_CONTINUEGAME, "save.zip", sParameter + "," + sParameter2 + "," + alPaths.get(0), null, null, 0); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                } else {
                     MainMenuPanel.loadingGame = true;
                     Game.getPanelMainMenu().render();
                     Display.update();
                     Display.sync(Game.FPS_MAINMENU); // Para "capear" a 30 fps
                     GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT | GL11.GL_ACCUM_BUFFER_BIT | GL11.GL_STENCIL_BUFFER_BIT);
                     Game.startGame(sParameter, sParameter2);
-            	}
+                }
             } else if (sCommand.equals(COMMAND_MM_CONTINUEGAME)) {
                 MainMenuPanel.loadingGame = true;
                 Game.getPanelMainMenu().render();
@@ -1199,8 +1171,8 @@ public final class CommandPanel {
                         }
 
                         // Delete messages
-                        MessagesPanel.clear ();
-                        MessagesPanel.addMessage (MessagesPanel.TYPE_SYSTEM, TownsProperties.GAME_NAME + " " + TownsProperties.GAME_VERSION_FULL); //$NON-NLS-1$
+                        MessagesPanel.clear();
+                        MessagesPanel.addMessage(MessagesPanel.TYPE_SYSTEM, TownsProperties.GAME_NAME + " " + TownsProperties.GAME_VERSION_FULL); //$NON-NLS-1$
                     } else if (sCommand.equals(COMMAND_TEST3)) {
                         // Siege!!
                         Game.getWorld().spawnSiege();
@@ -1279,7 +1251,7 @@ public final class CommandPanel {
 
     /**
      * Limpia todos los datos (se usa cuando se sale de la partida y se va al
-     * menú principal)
+     * menï¿½ principal)
      */
     public void clear() {
         currentMenu = null;

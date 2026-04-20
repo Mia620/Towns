@@ -1,14 +1,8 @@
 package xaos.tiles.entities.living;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import xaos.Towns;
 import xaos.caravans.CaravanManager;
 import xaos.caravans.CaravanManagerItem;
@@ -17,11 +11,12 @@ import xaos.data.HateData;
 import xaos.dungeons.MonsterData;
 import xaos.main.Game;
 import xaos.tiles.entities.living.heroes.HeroManager;
-import xaos.utils.Log;
-import xaos.utils.Messages;
-import xaos.utils.Utils;
-import xaos.utils.UtilsIniHeaders;
-import xaos.utils.UtilsXML;
+import xaos.utils.*;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class LivingEntityManager {
 
@@ -196,7 +191,7 @@ public class LivingEntityManager {
             }
         }
 
-        // Si llega aquí es que no hay enemigos del nivel indicado ni inferior
+        // Si llega aquï¿½ es que no hay enemigos del nivel indicado ni inferior
         return null;
     }
 
@@ -288,7 +283,7 @@ public class LivingEntityManager {
 
         ArrayList<LivingEntityManagerItem> alReturn = new ArrayList<LivingEntityManagerItem>();
 
-        // Recorremos todos los items buscando el que tenga building = "parámetro pasado"
+        // Recorremos todos los items buscando el que tenga building = "parï¿½metro pasado"
         Iterator<String> it = hmLivingEntities.keySet().iterator();
         LivingEntityManagerItem lemi;
         while (it.hasNext()) {
@@ -305,8 +300,8 @@ public class LivingEntityManager {
         try {
             Document doc = UtilsXML.loadXMLFile(sXMLName);
 
-			// Tenemos el documento XML parseado
-            // Lo recorremos entero y vamos añadiendo los livingEntities a la hash
+            // Tenemos el documento XML parseado
+            // Lo recorremos entero y vamos aï¿½adiendo los livingEntities a la hash
             NodeList nodeList = doc.getDocumentElement().getChildNodes();
             Node node;
             String sIniHeader;
@@ -847,11 +842,11 @@ public class LivingEntityManager {
                         lemi.setIdleCounterPCT(UtilsXML.getChildValue(node.getChildNodes(), "idleCounterPCT")); //$NON-NLS-1$
                     }
 
-                    // Lo añadimos a la hash
+                    // Lo aï¿½adimos a la hash
                     hmLivingEntities.put(sIniHeader, lemi);
 
-					//System.out.println (lemi.getIniHeader () + "," + lemi.getName () + "," + lemi.getAttack () + "," + lemi.getAttackSpeed () + "," + lemi.getDamage () + "," + lemi.getDefense () + "," + lemi.getHealthPoints () + "," + lemi.getLevel ());
-                    // Miramos si tiene gráficos alternativos, en ese caso creamos un "lemi" igual con distinto ID
+                    //System.out.println (lemi.getIniHeader () + "," + lemi.getName () + "," + lemi.getAttack () + "," + lemi.getAttackSpeed () + "," + lemi.getDamage () + "," + lemi.getDefense () + "," + lemi.getHealthPoints () + "," + lemi.getLevel ());
+                    // Miramos si tiene grï¿½ficos alternativos, en ese caso creamos un "lemi" igual con distinto ID
                     if (lemi.getAltGraphics() != null && lemi.getAltGraphics().size() > 0) {
                         String altG;
                         for (int a = 0; a < lemi.getAltGraphics().size(); a++) {

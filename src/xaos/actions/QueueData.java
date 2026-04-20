@@ -33,36 +33,36 @@ public class QueueData implements Externalizable {
         this.itemIDCurrentPlace = itemIDCurrentPlace;
     }
 
-    public void setItemIDPick(int itemIDPick) {
-        this.itemIDPick = itemIDPick;
-    }
-
     public int getItemIDPick() {
         return itemIDPick;
     }
 
-    public void setLivingIDPick(int livingIDPick) {
-        this.livingIDPick = livingIDPick;
+    public void setItemIDPick(int itemIDPick) {
+        this.itemIDPick = itemIDPick;
     }
 
     public int getLivingIDPick() {
         return livingIDPick;
     }
 
-    public void setWaitCounter(int waitCounter) {
-        this.waitCounter = waitCounter;
+    public void setLivingIDPick(int livingIDPick) {
+        this.livingIDPick = livingIDPick;
     }
 
     public int getWaitCounter() {
         return waitCounter;
     }
 
-    public void setLastQueueItem(QueueItem lastQueueItem) {
-        this.lastQueueItem = lastQueueItem;
+    public void setWaitCounter(int waitCounter) {
+        this.waitCounter = waitCounter;
     }
 
     public QueueItem getLastQueueItem() {
         return lastQueueItem;
+    }
+
+    public void setLastQueueItem(QueueItem lastQueueItem) {
+        this.lastQueueItem = lastQueueItem;
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {

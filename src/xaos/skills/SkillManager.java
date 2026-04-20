@@ -1,19 +1,18 @@
 package xaos.skills;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import xaos.Towns;
 import xaos.effects.EffectManager;
 import xaos.main.Game;
 import xaos.utils.Log;
 import xaos.utils.Messages;
 import xaos.utils.UtilsXML;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SkillManager {
 
@@ -59,8 +58,8 @@ public class SkillManager {
         try {
             Document doc = UtilsXML.loadXMLFile(sXMLName); //$NON-NLS-1$
 
-			// Tenemos el documento XML parseado
-            // Lo recorremos entero y vamos añadiendo las skills (SkillManagerItem) a la hash
+            // Tenemos el documento XML parseado
+            // Lo recorremos entero y vamos aï¿½adiendo las skills (SkillManagerItem) a la hash
             NodeList nodeList = doc.getDocumentElement().getChildNodes();
             Node node;
             SkillManagerItem item;
@@ -129,7 +128,7 @@ public class SkillManager {
                     // Effects
                     item.setEffects(loadEffectData(node.getChildNodes()));
 
-                    // Lo añadimos a la hash
+                    // Lo aï¿½adimos a la hash
                     skillList.put(sIniHeader, item);
                 }
             }

@@ -1,25 +1,18 @@
 package xaos.panels;
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.util.ArrayList;
-
 import org.lwjgl.opengl.GL11;
-import xaos.property.PropertyFile;
-
 import xaos.Towns;
 import xaos.TownsProperties;
 import xaos.main.Game;
 import xaos.main.World;
+import xaos.property.PropertyFile;
 import xaos.tiles.entities.living.LivingEntity;
-import xaos.utils.ColorGL;
-import xaos.utils.Log;
-import xaos.utils.Messages;
-import xaos.utils.Point3DShort;
-import xaos.utils.TextureData;
-import xaos.utils.UtilFont;
-import xaos.utils.UtilsGL;
+import xaos.utils.*;
+
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.util.ArrayList;
 
 public final class MessagesPanel {
 
@@ -111,33 +104,33 @@ public final class MessagesPanel {
     }
 
     /**
-     * Añade un mensaje al final de la cola de mensajes, lo parte si no cabe
+     * Aï¿½ade un mensaje al final de la cola de mensajes, lo parte si no cabe
      *
      * @param iMessageType
-     * @param sMessage Mensaje
+     * @param sMessage     Mensaje
      */
     public static void addMessage(int iMessageType, String sMessage) {
         addMessage(iMessageType, sMessage, null, null, -1);
     }
 
     /**
-     * Añade un mensaje al final de la cola de mensajes, lo parte si no cabe
+     * Aï¿½ade un mensaje al final de la cola de mensajes, lo parte si no cabe
      *
      * @param iMessageType
-     * @param sMessage Mensaje
-     * @param color Color del fondo del mensaje
+     * @param sMessage     Mensaje
+     * @param color        Color del fondo del mensaje
      */
     public static void addMessage(int iMessageType, String sMessage, ColorGL color) {
         addMessage(iMessageType, sMessage, color, null, -1);
     }
 
     /**
-     * Añade un mensaje al final de la cola de mensajes Lo parte para meter en
+     * Aï¿½ade un mensaje al final de la cola de mensajes Lo parte para meter en
      * la cola a renderizar
      *
      * @param iMessageType
-     * @param sMessage Mensaje
-     * @param color ColorGL del fondo del mensaje
+     * @param sMessage     Mensaje
+     * @param color        ColorGL del fondo del mensaje
      */
     public static void addMessage(int iMessageType, String sMessage, ColorGL color, Point3DShort view) {
         addMessage(iMessageType, sMessage, color, view, -1);
@@ -161,7 +154,7 @@ public final class MessagesPanel {
     }
 
     /**
-     * Añade el mensaje a la cola de mensajes a renderizar
+     * Aï¿½ade el mensaje a la cola de mensajes a renderizar
      *
      * @param sMessage
      * @param color
@@ -198,7 +191,7 @@ public final class MessagesPanel {
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, Game.TEXTURE_FONT_ID);
         GL11.glTexEnvf(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE);
         UtilsGL.glBegin(GL11.GL_QUADS);
-        // Pintamos los mensajes y también miramos si el ratón está allí para highlightearlos
+        // Pintamos los mensajes y tambiï¿½n miramos si el ratï¿½n estï¿½ allï¿½ para highlightearlos
         MessagesPanelData[] messagesDataRender = messagesDataFull.get(iMessagesType * 2 + 1);
         int xM = x;
         int iIndex = (pages[iMessagesType] + 1 - pagesCurrent[iMessagesType]) * maxRenderLines;
@@ -246,40 +239,40 @@ public final class MessagesPanel {
         }
     }
 
-    public static void setMessagesDataFull(ArrayList<MessagesPanelData[]> messagesDataFull) {
-        MessagesPanel.messagesDataFull = messagesDataFull;
-    }
-
     public static ArrayList<MessagesPanelData[]> getMessagesDataFull() {
         return messagesDataFull;
     }
 
-    public static void setBlink(boolean[] blink) {
-        MessagesPanel.blink = blink;
+    public static void setMessagesDataFull(ArrayList<MessagesPanelData[]> messagesDataFull) {
+        MessagesPanel.messagesDataFull = messagesDataFull;
     }
 
     public static boolean[] getBlink() {
         return blink;
     }
 
-    public static void setPages(int[] pages) {
-        MessagesPanel.pages = pages;
+    public static void setBlink(boolean[] blink) {
+        MessagesPanel.blink = blink;
     }
 
     public static int[] getPages() {
         return pages;
     }
 
+    public static void setPages(int[] pages) {
+        MessagesPanel.pages = pages;
+    }
+
     public static int getPages(int iType) {
         return pages[iType];
     }
 
-    public static void setPagesCurrent(int[] pagesCurrent) {
-        MessagesPanel.pagesCurrent = pagesCurrent;
-    }
-
     public static int[] getPagesCurrent() {
         return pagesCurrent;
+    }
+
+    public static void setPagesCurrent(int[] pagesCurrent) {
+        MessagesPanel.pagesCurrent = pagesCurrent;
     }
 
     public static int getPagesCurrent(int iType) {
@@ -312,7 +305,7 @@ public final class MessagesPanel {
 
     /**
      * Limpia todos los datos (se usa cuando se sale de la partida y se va al
-     * menú principal)
+     * menï¿½ principal)
      */
     public static void initialize() {
         messagesDataFull = new ArrayList<MessagesPanelData[]>(MAX_TYPES * 2);
@@ -358,7 +351,7 @@ public final class MessagesPanel {
                                 Game.getWorld().setView(messagesDataRender[i].getView());
                                 return true;
                             }
-                        } else if (messagesDataRender[i].getView() != null) { // Si llega aquí debería ser != null siempre
+                        } else if (messagesDataRender[i].getView() != null) { // Si llega aquï¿½ deberï¿½a ser != null siempre
                             Game.getWorld().setView(messagesDataRender[i].getView());
                             return true;
                         }

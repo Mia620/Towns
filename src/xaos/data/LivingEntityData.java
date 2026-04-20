@@ -1,11 +1,5 @@
 package xaos.data;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.util.ArrayList;
-
 import xaos.effects.EffectManager;
 import xaos.effects.EffectManagerItem;
 import xaos.tiles.entities.items.ItemManager;
@@ -18,13 +12,19 @@ import xaos.tiles.entities.living.LivingEntityManagerItem;
 import xaos.tiles.entities.living.heroes.Hero;
 import xaos.utils.Messages;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.util.ArrayList;
+
 public class LivingEntityData implements Externalizable {
 
     private static final long serialVersionUID = -7658874688434177141L;
 
     private transient String name;
 
-    private int healthPoints; // Éste va aparte pq los items no lo modifican. Modifican el healthPointsMAX.
+    private int healthPoints; // ï¿½ste va aparte pq los items no lo modifican. Modifican el healthPointsMAX.
 
     private int attackBase;
     private int attackSpeedBase;
@@ -65,12 +65,12 @@ public class LivingEntityData implements Externalizable {
         setWalkSpeedCurrent(getWalkSpeedBase());
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getAttackBase() {
@@ -82,13 +82,13 @@ public class LivingEntityData implements Externalizable {
         setAttackCurrent(attackBase);
     }
 
+    public int getAttackSpeedBase() {
+        return attackSpeedBase;
+    }
+
     public void setAttackSpeedBase(int attackSpeedBase) {
         this.attackSpeedBase = attackSpeedBase;
         setAttackSpeedCurrent(attackSpeedBase);
-    }
-
-    public int getAttackSpeedBase() {
-        return attackSpeedBase;
     }
 
     public int getDefenseBase() {
@@ -112,18 +112,18 @@ public class LivingEntityData implements Externalizable {
         return healthPointsMAXBase;
     }
 
-    public void setDamageBase(int damageBase) {
-        this.damageBase = damageBase;
-        setDamageCurrent(damageBase);
+    public void setHealthPointsMAXBase(int healthPointsMAXBase) {
+        this.healthPointsMAXBase = healthPointsMAXBase;
+        setHealthPointsMAXCurrent(healthPointsMAXBase);
     }
 
     public int getDamageBase() {
         return damageBase;
     }
 
-    public void setHealthPointsMAXBase(int healthPointsMAXBase) {
-        this.healthPointsMAXBase = healthPointsMAXBase;
-        setHealthPointsMAXCurrent(healthPointsMAXBase);
+    public void setDamageBase(int damageBase) {
+        this.damageBase = damageBase;
+        setDamageCurrent(damageBase);
     }
 
     public int getLOSBase() {
@@ -144,20 +144,13 @@ public class LivingEntityData implements Externalizable {
         setMovePCTCurrent(movePCTBase);
     }
 
-    public void setWalkSpeedBase(int walkSpeedBase) {
-        this.walkSpeedBase = walkSpeedBase;
-        setWalkSpeedCurrent(walkSpeedBase);
-    }
-
     public int getWalkSpeedBase() {
         return walkSpeedBase;
     }
 
-    /**
-     * @param moral the moral to set
-     */
-    public void setMoral(int moral) {
-        this.moral = moral;
+    public void setWalkSpeedBase(int walkSpeedBase) {
+        this.walkSpeedBase = walkSpeedBase;
+        setWalkSpeedCurrent(walkSpeedBase);
     }
 
     /**
@@ -167,19 +160,19 @@ public class LivingEntityData implements Externalizable {
         return moral;
     }
 
-    public void setFollowTurnsCounter(int followTurnsCounter) {
-        this.followTurnsCounter = followTurnsCounter;
+    /**
+     * @param moral the moral to set
+     */
+    public void setMoral(int moral) {
+        this.moral = moral;
     }
 
     public int getFollowTurnsCounter() {
         return followTurnsCounter;
     }
 
-    /**
-     * @param effects the effects to set
-     */
-    public void setEffects(ArrayList<EffectData> effects) {
-        this.effects = effects;
+    public void setFollowTurnsCounter(int followTurnsCounter) {
+        this.followTurnsCounter = followTurnsCounter;
     }
 
     /**
@@ -187,6 +180,13 @@ public class LivingEntityData implements Externalizable {
      */
     public ArrayList<EffectData> getEffects() {
         return effects;
+    }
+
+    /**
+     * @param effects the effects to set
+     */
+    public void setEffects(ArrayList<EffectData> effects) {
+        this.effects = effects;
     }
 
     public int getAttackCurrent() {
@@ -197,12 +197,12 @@ public class LivingEntityData implements Externalizable {
         this.attackCurrent = attackCurrent;
     }
 
-    public void setAttackSpeedCurrent(int attackSpeedCurrent) {
-        this.attackSpeedCurrent = attackSpeedCurrent;
-    }
-
     public int getAttackSpeedCurrent() {
         return attackSpeedCurrent;
+    }
+
+    public void setAttackSpeedCurrent(int attackSpeedCurrent) {
+        this.attackSpeedCurrent = attackSpeedCurrent;
     }
 
     public int getDefenseCurrent() {
@@ -245,16 +245,16 @@ public class LivingEntityData implements Externalizable {
         this.movePCTCurrent = movePCTCurrent;
     }
 
-    public void setWalkSpeedCurrent(int walkSpeedCurrent) {
-        this.walkSpeedCurrent = walkSpeedCurrent;
-    }
-
     public int getWalkSpeedCurrent() {
         return walkSpeedCurrent;
     }
 
+    public void setWalkSpeedCurrent(int walkSpeedCurrent) {
+        this.walkSpeedCurrent = walkSpeedCurrent;
+    }
+
     public String getHealthStatus() {
-        // Ésto nos dará un número entre 0 (casi muerto) y 10 (vida máxima)
+        // ï¿½sto nos darï¿½ un nï¿½mero entre 0 (casi muerto) y 10 (vida mï¿½xima)
         int iStatus;
         if (getHealthPointsMAXCurrent() <= 0) {
             iStatus = 0;
@@ -290,10 +290,10 @@ public class LivingEntityData implements Externalizable {
     }
 
     /**
-     * Setea los modificadores según lo que lleve puesto
+     * Setea los modificadores segï¿½n lo que lleve puesto
      *
      * @param mi
-     * @param level Se le pasa 0 o el nivel del héroe
+     * @param level Se le pasa 0 o el nivel del hï¿½roe
      */
     public void setModifiers(LivingEntity le) {
         int level = 0;
@@ -363,7 +363,7 @@ public class LivingEntityData implements Externalizable {
     }
 
     /**
-     * Setea los modificadores según un objeto dado, mete efectos si hace falta
+     * Setea los modificadores segï¿½n un objeto dado, mete efectos si hace falta
      * pero no les activa los modificadores
      *
      * @param mi Objeto
@@ -386,7 +386,7 @@ public class LivingEntityData implements Externalizable {
                 EffectManagerItem emi;
                 for (int i = 0, n = imi.getWearEffects().size(); i < n; i++) {
                     emi = EffectManager.getItem(imi.getWearEffects().get(i));
-                    if (emi != null) { // Debería
+                    if (emi != null) { // Deberï¿½a
                         le.addEffect(emi, false);
                     }
                 }

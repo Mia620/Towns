@@ -8,10 +8,8 @@ import java.util.ArrayList;
 
 public class SoldierGroups implements Externalizable {
 
-    private static final long serialVersionUID = 775074143636086575L;
-
     public final static int MAX_GROUPS = 10;
-
+    private static final long serialVersionUID = 775074143636086575L;
     private ArrayList<Integer> soldiersWithoutGroup = new ArrayList<Integer>();
     private ArrayList<SoldierGroupData> groups = new ArrayList<SoldierGroupData>(MAX_GROUPS);
 
@@ -19,12 +17,12 @@ public class SoldierGroups implements Externalizable {
         clear();
     }
 
-    public void setGroups(ArrayList<SoldierGroupData> groups) {
-        this.groups = groups;
-    }
-
     public ArrayList<SoldierGroupData> getGroups() {
         return groups;
+    }
+
+    public void setGroups(ArrayList<SoldierGroupData> groups) {
+        this.groups = groups;
     }
 
     public SoldierGroupData getGroup(int iIndex) {
@@ -35,12 +33,12 @@ public class SoldierGroups implements Externalizable {
         return null;
     }
 
-    public void setSoldiersWithoutGroup(ArrayList<Integer> soldiersWithoutGroup) {
-        this.soldiersWithoutGroup = soldiersWithoutGroup;
-    }
-
     public ArrayList<Integer> getSoldiersWithoutGroup() {
         return soldiersWithoutGroup;
+    }
+
+    public void setSoldiersWithoutGroup(ArrayList<Integer> soldiersWithoutGroup) {
+        this.soldiersWithoutGroup = soldiersWithoutGroup;
     }
 
     public void addSoldierToGroup(int iSoldierID, int iDestinationGroup) {

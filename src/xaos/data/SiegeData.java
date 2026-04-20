@@ -1,24 +1,20 @@
 package xaos.data;
 
+import xaos.utils.Point3DShort;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import xaos.utils.Point3DShort;
-
 public class SiegeData implements Externalizable {
-
-    private static final long serialVersionUID = -6205459879880044969L;
 
     public static final byte SIEGE_STANDARD = 1;
     public static final byte SIEGE_ROBBERY = 2;
-
     public static final byte STATUS_NONE = 0;
     public static final byte STATUS_LEAVING = 1;
-
     public static final byte MAX_DESTROY = 5;
-
+    private static final long serialVersionUID = -6205459879880044969L;
     private byte type;
     private int count;
     private Point3DShort startingPoint;
@@ -60,20 +56,20 @@ public class SiegeData implements Externalizable {
         this.startingPoint = startingPoint;
     }
 
-    public void setStatus(byte status) {
-        this.status = status;
-    }
-
     public byte getStatus() {
         return status;
     }
 
-    public void setMaxDestroy(byte maxDestroy) {
-        this.maxDestroy = maxDestroy;
+    public void setStatus(byte status) {
+        this.status = status;
     }
 
     public byte getMaxDestroy() {
         return maxDestroy;
+    }
+
+    public void setMaxDestroy(byte maxDestroy) {
+        this.maxDestroy = maxDestroy;
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {

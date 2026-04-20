@@ -1,20 +1,18 @@
 package xaos.data;
 
+import xaos.main.Game;
+import xaos.main.World;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.ArrayList;
 
-import xaos.main.Game;
-import xaos.main.World;
-
 public class CitizenGroups implements Externalizable {
 
-    private static final long serialVersionUID = 2133422179578566722L;
-
     public final static int MAX_GROUPS = SoldierGroups.MAX_GROUPS;
-
+    private static final long serialVersionUID = 2133422179578566722L;
     private ArrayList<Integer> citizensWithoutGroup = new ArrayList<Integer>();
     private ArrayList<CitizenGroupData> groups = new ArrayList<CitizenGroupData>(MAX_GROUPS);
 
@@ -22,12 +20,12 @@ public class CitizenGroups implements Externalizable {
         clear();
     }
 
-    public void setGroups(ArrayList<CitizenGroupData> groups) {
-        this.groups = groups;
-    }
-
     public ArrayList<CitizenGroupData> getGroups() {
         return groups;
+    }
+
+    public void setGroups(ArrayList<CitizenGroupData> groups) {
+        this.groups = groups;
     }
 
     public CitizenGroupData getGroup(int iIndex) {
@@ -38,12 +36,12 @@ public class CitizenGroups implements Externalizable {
         return null;
     }
 
-    public void setCitizensWithoutGroup(ArrayList<Integer> citizensWithoutGroup) {
-        this.citizensWithoutGroup = citizensWithoutGroup;
-    }
-
     public ArrayList<Integer> getCitizensWithoutGroup() {
         return citizensWithoutGroup;
+    }
+
+    public void setCitizensWithoutGroup(ArrayList<Integer> citizensWithoutGroup) {
+        this.citizensWithoutGroup = citizensWithoutGroup;
     }
 
     public void addCitizenToGroup(int iCitizenID, int iDestinationGroup) {
@@ -63,7 +61,7 @@ public class CitizenGroups implements Externalizable {
     }
 
     /**
-     * Esto comprueba que no haya algún ciudadano inexistente en los grupos
+     * Esto comprueba que no haya algï¿½n ciudadano inexistente en los grupos
      */
     public void purgeNonExistentCitizens() {
         // Sin grupo

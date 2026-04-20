@@ -1,11 +1,5 @@
 package xaos.data;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.util.ArrayList;
-
 import xaos.caravans.CaravanItemDataInstance;
 import xaos.caravans.CaravanManager;
 import xaos.caravans.CaravanManagerItem;
@@ -24,23 +18,24 @@ import xaos.tiles.entities.items.military.MilitaryItem;
 import xaos.tiles.entities.living.LivingEntity;
 import xaos.tiles.entities.living.LivingEntityManager;
 import xaos.tiles.entities.living.LivingEntityManagerItem;
-import xaos.utils.ColorGL;
+import xaos.utils.*;
 import xaos.utils.Messages;
-import xaos.utils.Point3D;
-import xaos.utils.Point3DShort;
-import xaos.utils.Utils;
 import xaos.zones.Zone;
 
-public class CaravanData implements Externalizable {
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.util.ArrayList;
 
-    private static final long serialVersionUID = 4026449570879006794L;
+public class CaravanData implements Externalizable {
 
     public static final int STATUS_NONE = 0;
     public static final int STATUS_COMING = 1;
     public static final int STATUS_IN_PLACE = 2;
     public static final int STATUS_TRADING = 3;
     public static final int STATUS_LEAVING = 4;
-
+    private static final long serialVersionUID = 4026449570879006794L;
     private int livingId;
     private ArrayList<CaravanItemDataInstance> alItems;
     private int status;
@@ -76,12 +71,16 @@ public class CaravanData implements Externalizable {
         this.livingId = livingId;
     }
 
+    public ArrayList<CaravanItemDataInstance> getAlItems() {
+        return alItems;
+    }
+
     public void setAlItems(ArrayList<CaravanItemDataInstance> alItems) {
         this.alItems = alItems;
     }
 
-    public ArrayList<CaravanItemDataInstance> getAlItems() {
-        return alItems;
+    public int getStatus() {
+        return status;
     }
 
     public void setStatus(int status) {
@@ -108,15 +107,11 @@ public class CaravanData implements Externalizable {
         }
     }
 
-    public int getStatus() {
-        return status;
-    }
-
     /**
-     * Chequea si la caravana está lista para trade Cambia el flag "ready" de la
+     * Chequea si la caravana estï¿½ lista para trade Cambia el flag "ready" de la
      * misma (tanto true como false)
      *
-     * @return true si hay que eliminar la caravana (pq se fué)
+     * @return true si hay que eliminar la caravana (pq se fuï¿½)
      */
     public boolean updateCaravanStatus() {
         if (getStatus() == STATUS_NONE) {
@@ -129,7 +124,7 @@ public class CaravanData implements Externalizable {
             if (getTurnsToLeave() > 0) {
                 setTurnsToLeave(getTurnsToLeave() - 1);
                 if (getTurnsToLeave() <= 0) {
-                    // Se acabó la espera, nos piramos
+                    // Se acabï¿½ la espera, nos piramos
                     setStatus(STATUS_LEAVING);
                 }
             }
@@ -153,7 +148,7 @@ public class CaravanData implements Externalizable {
                                     UIPanel.createTradePanelContent(this);
                                 }
                             } else {
-                                // No está en una zona y no tiene path. A buscar zona o a pirarse
+                                // No estï¿½ en una zona y no tiene path. A buscar zona o a pirarse
                                 Zone zone;
                                 ArrayList<Point3DShort> alDestinations = null;
                                 CaravanManagerItem cmi = CaravanManager.getItem(lemi.getCaravan());
@@ -173,7 +168,7 @@ public class CaravanData implements Externalizable {
                                         // Ni una zona, pacasa
                                         setStatus(STATUS_LEAVING);
                                     } else {
-										// Tenemos puntos de zona, a ver si podemos ir
+                                        // Tenemos puntos de zona, a ver si podemos ir
                                         // Vamos recorriendo la lista de zones a random
                                         Point3DShort p3dDestination = null;
                                         int iCurrentASZID = World.getCell(le.getCoordinates()).getAstarZoneID();
@@ -186,7 +181,7 @@ public class CaravanData implements Externalizable {
                                             }
                                         }
 
-                                        // Si llega aquí es que nanay de la china
+                                        // Si llega aquï¿½ es que nanay de la china
                                         setStatus(STATUS_LEAVING);
                                     }
                                 } else {
@@ -195,14 +190,14 @@ public class CaravanData implements Externalizable {
                                 }
                             }
                         } else {
-                            // Tiene camino, a saber pq se ha llamado a esta función
+                            // Tiene camino, a saber pq se ha llamado a esta funciï¿½n
                         }
                     } else {
                         // Raro, por si acaso nos piramos
                         setStatus(STATUS_LEAVING);
                     }
                 } else {
-                    // Rarísimo, no existe en el mundo
+                    // Rarï¿½simo, no existe en el mundo
                     setStatus(STATUS_LEAVING);
                 }
                 break;
@@ -278,7 +273,7 @@ public class CaravanData implements Externalizable {
             }
         }
 
-        // Miramos si ya se puede soltar algún item
+        // Miramos si ya se puede soltar algï¿½n item
         while (checkItemToDrop()) {
         }
 
@@ -301,10 +296,10 @@ public class CaravanData implements Externalizable {
             return false;
         }
 
-        // Según la pasta del pueblo miramos si puede soltar objetos
+        // Segï¿½n la pasta del pueblo miramos si puede soltar objetos
         int iWorldCoins = Game.getWorld().getCoins();
         if (iWorldCoins > 0) {
-            // Hay pasta, miramos si hay algún item que pueda soltar
+            // Hay pasta, miramos si hay algï¿½n item que pueda soltar
             int iIndexItem = -1;
             SmartMenu smItem = null;
             for (int i = 0; i < getMenuCaravanToBuy().getItems().size(); i++) {
@@ -316,7 +311,7 @@ public class CaravanData implements Externalizable {
             }
 
             if (iIndexItem != -1) {
-				// Encontrado! Lo soltamos
+                // Encontrado! Lo soltamos
                 // Buscamos el item en la lista de items de caravana (tiene que existir por huevos)
                 int iIndexRealItem = -1;
                 ArrayList<CaravanItemDataInstance> alItems = caravanData.getAlItems();
@@ -386,7 +381,7 @@ public class CaravanData implements Externalizable {
                         return true;
                     }
                 } else {
-                    // Item no encontrado ¿?¿?¿? rarísimo, lo eliminamos de la lista de to-buy
+                    // Item no encontrado ï¿½?ï¿½?ï¿½? rarï¿½simo, lo eliminamos de la lista de to-buy
                     getMenuCaravanToBuy().getItems().remove(iIndexItem);
                 }
             }
@@ -399,7 +394,7 @@ public class CaravanData implements Externalizable {
      * Se llama cuando un aldeano ha dejado un item en la caravana
      *
      * @param item
-     * @return true si la transacción es correcta (debería)
+     * @return true si la transacciï¿½n es correcta (deberï¿½a)
      */
     public boolean itemCarried(Item item) {
         if (item == null) {
@@ -454,7 +449,7 @@ public class CaravanData implements Externalizable {
                 caravanData.setCoins(caravanData.getCoins() - iPrice);
             }
 
-            // Miramos si la caravana puede soltar más cosas
+            // Miramos si la caravana puede soltar mï¿½s cosas
             checkItemToDrop();
 
             // Miramos si ya se ha acabado el trade
@@ -482,7 +477,7 @@ public class CaravanData implements Externalizable {
     private Point3DShort getDropPoint(Point3DShort p3dIniPoint, ItemManagerItem imi) {
         Point3DShort p3dDrop = null;
 
-		// Si está en una zona (debería) miraremos los puntos de la misma
+        // Si estï¿½ en una zona (deberï¿½a) miraremos los puntos de la misma
         // En otro caso (o si en la zona no hay puntos libres) miraremos en un radio de 8 casillas
         int iZoneID = World.getCell(p3dIniPoint).getZoneID();
         boolean bCellFound = false;
@@ -499,7 +494,7 @@ public class CaravanData implements Externalizable {
             }
         }
 
-        // No está en zona o no hay places disponibles, miramos un radio de 8
+        // No estï¿½ en zona o no hay places disponibles, miramos un radio de 8
         if (!bCellFound) {
             Point3DShort p3dTemp;
             radiusloop:
@@ -544,6 +539,10 @@ public class CaravanData implements Externalizable {
         return p3dDrop;
     }
 
+    public int getPricePCT() {
+        return pricePCT;
+    }
+
     public void setPricePCT(int pricePCT) {
         if (pricePCT < 110) {
             pricePCT = 110;
@@ -551,8 +550,8 @@ public class CaravanData implements Externalizable {
         this.pricePCT = pricePCT;
     }
 
-    public int getPricePCT() {
-        return pricePCT;
+    public int getCoins() {
+        return coins;
     }
 
     public void setCoins(int coins) {
@@ -562,16 +561,12 @@ public class CaravanData implements Externalizable {
         this.coins = coins;
     }
 
-    public int getCoins() {
-        return coins;
+    public Point3DShort getStartingPoint() {
+        return startingPoint;
     }
 
     public void setStartingPoint(Point3DShort startingPoint) {
         this.startingPoint = startingPoint;
-    }
-
-    public Point3DShort getStartingPoint() {
-        return startingPoint;
     }
 
     public int getTurnsToLeave() {
@@ -582,20 +577,20 @@ public class CaravanData implements Externalizable {
         this.turnsToLeave = turnsToLeave;
     }
 
-    public void setMenuCaravanToBuy(SmartMenu menuCaravanToBuy) {
-        this.menuCaravanToBuy = menuCaravanToBuy;
-    }
-
     public SmartMenu getMenuCaravanToBuy() {
         return menuCaravanToBuy;
     }
 
-    public void setMenuTownToSell(SmartMenu menuTownToSell) {
-        this.menuTownToSell = menuTownToSell;
+    public void setMenuCaravanToBuy(SmartMenu menuCaravanToBuy) {
+        this.menuCaravanToBuy = menuCaravanToBuy;
     }
 
     public SmartMenu getMenuTownToSell() {
         return menuTownToSell;
+    }
+
+    public void setMenuTownToSell(SmartMenu menuTownToSell) {
+        this.menuTownToSell = menuTownToSell;
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {

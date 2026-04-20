@@ -1,12 +1,8 @@
 package xaos.caravans;
 
-import java.io.File;
-import java.util.ArrayList;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import xaos.Towns;
 import xaos.main.Game;
 import xaos.tiles.entities.items.Item;
@@ -14,6 +10,9 @@ import xaos.tiles.entities.items.ItemManager;
 import xaos.tiles.entities.items.military.MilitaryItem;
 import xaos.utils.Log;
 import xaos.utils.UtilsXML;
+
+import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Indica cada cuanta cantidad de (ataque/defensa/...) hay que sumar 1 al precio

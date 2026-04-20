@@ -1,5 +1,9 @@
 package xaos.utils;
 
+import xaos.Towns;
+import xaos.main.Game;
+import xaos.property.PropertyFile;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -7,16 +11,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
-import xaos.property.PropertyFile;
-
-import xaos.Towns;
-import xaos.main.Game;
 
 public final class UtilFont {
 
-    public static short MAX_WIDTH = 16; // Ancho, se calcula con la info de la fuente, 16 es lo mínimo
-    public static short MAX_HEIGHT = 16; // Altura, se calcula con la info de la fuente, 16 es lo mínimo
-//	public static short MAX_HEIGHT_NUMBERS = 8; // Altura, se calcula con la info de la fuente, 16 es lo mínimo
+    public static short MAX_WIDTH = 16; // Ancho, se calcula con la info de la fuente, 16 es lo mï¿½nimo
+    public static short MAX_HEIGHT = 16; // Altura, se calcula con la info de la fuente, 16 es lo mï¿½nimo
+//	public static short MAX_HEIGHT_NUMBERS = 8; // Altura, se calcula con la info de la fuente, 16 es lo mï¿½nimo
 
     private static CharDef[] chars;
 
@@ -90,7 +90,7 @@ public final class UtilFont {
 
             int iMinOffset = 100;
             chars = new CharDef[maxChar + 1];
-            for (Iterator<CharDef> iter = charDefs.iterator(); iter.hasNext();) {
+            for (Iterator<CharDef> iter = charDefs.iterator(); iter.hasNext(); ) {
                 CharDef def = (CharDef) iter.next();
                 chars[def.id] = def;
                 if (iMinOffset > def.yoffset) {
@@ -98,8 +98,8 @@ public final class UtilFont {
                 }
             }
 
-			// Hemos acabado, ahora recorro todos para restar pixels al yoffset (para tener lo mínimo yoffset=0)
-            // También seteamos el max_height aquí
+            // Hemos acabado, ahora recorro todos para restar pixels al yoffset (para tener lo mï¿½nimo yoffset=0)
+            // Tambiï¿½n seteamos el max_height aquï¿½
             if (iMinOffset > 0) {
                 for (int i = 0; i < chars.length; i++) {
                     if (chars[i] != null) {
@@ -127,7 +127,7 @@ public final class UtilFont {
      * @param line The line to be parsed
      * @return The character definition from the line
      * @throws SlickException Indicates a given character is not valid in an
-     * angel code font
+     *                        angel code font
      */
     private static CharDef parseChar(String line) {
         CharDef def = new CharDef();
@@ -200,7 +200,7 @@ public final class UtilFont {
      * Returns the number of chars where the string has to be splitted It takes
      * account words
      *
-     * @param sText Text
+     * @param sText  Text
      * @param iWidth Max width
      * @return the number of chars where the string has to be splitted
      */
@@ -232,7 +232,7 @@ public final class UtilFont {
             }
         }
 
-        // Si llega aquí es que el primer espacio ya no cabe, partimos a saco
+        // Si llega aquï¿½ es que el primer espacio ya no cabe, partimos a saco
         iIndex = sText.indexOf(' ');
         if (iIndex == -1) {
             iIndex = sText.length() - 1;

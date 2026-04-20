@@ -5,13 +5,12 @@ import xaos.tiles.Tile;
 
 public class MouseCursorBAD {
 
-    private static final long serialVersionUID = -8677065729568918523L;
-
     public final static Tile[] TERRAIN_CURSORS = {
-        new Tile("mouseCursorBAD"), //$NON-NLS-1$
-        new Tile("mouseCursorBADBlock"), //$NON-NLS-1$
-        new Tile("mouseCursorBADMiniBlock"), //$NON-NLS-1$
+            new Tile("mouseCursorBAD"), //$NON-NLS-1$
+            new Tile("mouseCursorBADBlock"), //$NON-NLS-1$
+            new Tile("mouseCursorBADMiniBlock"), //$NON-NLS-1$
     };
+    private static final long serialVersionUID = -8677065729568918523L;
 
     public MouseCursorBAD() {
         for (int i = 0; i < TERRAIN_CURSORS.length; i++) {

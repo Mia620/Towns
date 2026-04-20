@@ -1,19 +1,18 @@
 package xaos.tiles.entities.living.heroes;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import xaos.Towns;
 import xaos.data.HeroPrerequisite;
 import xaos.main.Game;
 import xaos.utils.Log;
 import xaos.utils.Messages;
 import xaos.utils.UtilsXML;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class HeroManager {
 
@@ -138,7 +137,7 @@ public class HeroManager {
                                         hp.setId(sChildID);
                                         hp.setValue(UtilsXML.getChildValue(nodePrerequisiteChilds, sChildID));
 
-                                        // Lo añadimos a la lista
+                                        // Lo aï¿½adimos a la lista
                                         alPrerequisites.add(hp);
                                     } else if (iType == 3) {
                                         // Behaviours
@@ -162,7 +161,7 @@ public class HeroManager {
                                 }
                             }
 
-                            // Añadimos la lista a la hash que toque
+                            // Aï¿½adimos la lista a la hash que toque
                             if (iType == 1) {
                                 hmComePrerequisites.put(sID, alPrerequisites);
                             } else if (iType == 2) {

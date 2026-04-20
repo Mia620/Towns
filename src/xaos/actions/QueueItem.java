@@ -1,11 +1,5 @@
 package xaos.actions;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.util.ArrayList;
-
 import xaos.main.Game;
 import xaos.tiles.entities.items.ItemManager;
 import xaos.tiles.entities.living.LivingEntityManager;
@@ -13,10 +7,35 @@ import xaos.utils.Messages;
 import xaos.utils.Utils;
 import xaos.utils.UtilsAL;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.util.ArrayList;
+
 public class QueueItem implements Externalizable {
 
+    public final static int TYPE_PICK = 1;
+    public final static int TYPE_MOVE = 2;
+    public final static int TYPE_WAIT = 3;
+    public final static int TYPE_DESTROY_ITEM = 4;
+    public final static int TYPE_UNLOCK = 5;
+    public final static int TYPE_CREATE_ITEM = 6;
+    public final static int TYPE_PLACE_ITEM = 7; // Cï¿½digo interno, lo usan los aldeanos
+    public final static int TYPE_PICK_FRIENDLY = 8;
+    public final static int TYPE_DESTROY_FRIENDLY = 9;
+    public final static int TYPE_CREATE_FRIENDLY = 10;
+    public final static int TYPE_DESTROY_CELL_ITEM = 11;
+    public final static int TYPE_REPLACE_CELL_ITEM = 12;
+    public final static int TYPE_CHANGE_TERRAIN = 13;
+    public final static int TYPE_MOVE_TERRAIN = 14;
+    public final static int TYPE_CREATE_ITEM_BY_TYPE = 15;
+    public final static int TYPE_LOCK = 16;
+    public final static int TYPE_REVIVE_HEROES = 17;
+    public final static int TYPE_DELETE_COINS = 18;
+    public final static int TYPE_DELETE_COINS_PCT = 19;
+    public final static int TYPE_ADD_GOD_STATUS = 20;
     private static final long serialVersionUID = -5975052832269092344L;
-
     private final static String TYPE_STR_PICK = "pick"; //$NON-NLS-1$
     private final static String TYPE_STR_PICK_FRIENDLY = "pickFriendly"; //$NON-NLS-1$
     private final static String TYPE_STR_MOVE = "move"; //$NON-NLS-1$
@@ -36,28 +55,6 @@ public class QueueItem implements Externalizable {
     private final static String TYPE_STR_DELETE_COINS = "deleteCoins"; //$NON-NLS-1$
     private final static String TYPE_STR_DELETE_COINS_PCT = "deleteCoinsPCT"; //$NON-NLS-1$
     private final static String TYPE_STR_ADD_GOD_STATUS = "addGodStatus"; //$NON-NLS-1$
-
-    public final static int TYPE_PICK = 1;
-    public final static int TYPE_MOVE = 2;
-    public final static int TYPE_WAIT = 3;
-    public final static int TYPE_DESTROY_ITEM = 4;
-    public final static int TYPE_UNLOCK = 5;
-    public final static int TYPE_CREATE_ITEM = 6;
-    public final static int TYPE_PLACE_ITEM = 7; // Código interno, lo usan los aldeanos
-    public final static int TYPE_PICK_FRIENDLY = 8;
-    public final static int TYPE_DESTROY_FRIENDLY = 9;
-    public final static int TYPE_CREATE_FRIENDLY = 10;
-    public final static int TYPE_DESTROY_CELL_ITEM = 11;
-    public final static int TYPE_REPLACE_CELL_ITEM = 12;
-    public final static int TYPE_CHANGE_TERRAIN = 13;
-    public final static int TYPE_MOVE_TERRAIN = 14;
-    public final static int TYPE_CREATE_ITEM_BY_TYPE = 15;
-    public final static int TYPE_LOCK = 16;
-    public final static int TYPE_REVIVE_HEROES = 17;
-    public final static int TYPE_DELETE_COINS = 18;
-    public final static int TYPE_DELETE_COINS_PCT = 19;
-    public final static int TYPE_ADD_GOD_STATUS = 20;
-
     private int type;
     private String value;
     private boolean useSource;
@@ -128,10 +125,6 @@ public class QueueItem implements Externalizable {
         return value;
     }
 
-    public void setValueNoException(String value) {
-        this.value = value;
-    }
-
     public void setValue(String value) throws Exception {
         // Comprobamos que el value sea correcto
         if (value != null) {
@@ -168,11 +161,8 @@ public class QueueItem implements Externalizable {
         this.value = value;
     }
 
-    /**
-     * @param useSource the useSource to set
-     */
-    public void setUseSource(boolean useSource) {
-        this.useSource = useSource;
+    public void setValueNoException(String value) {
+        this.value = value;
     }
 
     /**
@@ -182,8 +172,19 @@ public class QueueItem implements Externalizable {
         return useSource;
     }
 
+    /**
+     * @param useSource the useSource to set
+     */
+    public void setUseSource(boolean useSource) {
+        this.useSource = useSource;
+    }
+
     public void setFxNoException(String fx) {
         this.fx = fx;
+    }
+
+    public String getFx() {
+        return fx;
     }
 
     public void setFx(String fx) throws Exception {
@@ -193,8 +194,8 @@ public class QueueItem implements Externalizable {
         this.fx = fx;
     }
 
-    public String getFx() {
-        return fx;
+    public int getFxTurns() {
+        return fxTurns;
     }
 
     public void setFxTurns(int fxTurns) {
@@ -213,8 +214,8 @@ public class QueueItem implements Externalizable {
         }
     }
 
-    public int getFxTurns() {
-        return fxTurns;
+    public int getGodStatus() {
+        return godStatus;
     }
 
     public void setGodStatus(int godStatus) {
@@ -231,10 +232,6 @@ public class QueueItem implements Externalizable {
         if (this.godStatus < 0) {
             this.godStatus = 0;
         }
-    }
-
-    public int getGodStatus() {
-        return godStatus;
     }
 
     /**

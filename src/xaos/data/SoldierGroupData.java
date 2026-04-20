@@ -1,23 +1,21 @@
 package xaos.data;
 
+import xaos.main.World;
+import xaos.utils.Messages;
+import xaos.utils.Point3DShort;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.ArrayList;
 
-import xaos.main.World;
-import xaos.utils.Messages;
-import xaos.utils.Point3DShort;
-
 public class SoldierGroupData implements Externalizable {
-
-    private static final long serialVersionUID = 5464174806753157978L;
 
     public final static int STATE_GUARD = 0;
     public final static int STATE_PATROL = 1;
     public final static int STATE_BOSS = 2;
-
+    private static final long serialVersionUID = 5464174806753157978L;
     private int id;
     private String name;
     private ArrayList<Integer> livingIDs;
@@ -85,24 +83,24 @@ public class SoldierGroupData implements Externalizable {
         }
     }
 
-    public void setZoneID(int zoneID) {
-        this.zoneID = zoneID;
-    }
-
     public int getZoneID() {
         return zoneID;
+    }
+
+    public void setZoneID(int zoneID) {
+        this.zoneID = zoneID;
     }
 
     public boolean hasZone() {
         return zoneID != 0;
     }
 
-    public void setPatrolPoints(ArrayList<Point3DShort> patrolPoints) {
-        this.patrolPoints = patrolPoints;
-    }
-
     public ArrayList<Point3DShort> getPatrolPoints() {
         return patrolPoints;
+    }
+
+    public void setPatrolPoints(ArrayList<Point3DShort> patrolPoints) {
+        this.patrolPoints = patrolPoints;
     }
 
     public void addPatrolPoint(Point3DShort p3d) {

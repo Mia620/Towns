@@ -24,6 +24,10 @@ public class CaravanItemData {
         this.id = id;
     }
 
+    public String getType() {
+        return type;
+    }
+
     public void setType(String type) throws Exception {
         if (type != null) {
             if (ItemManager.getRandomItemByType(type) == null) {
@@ -31,10 +35,6 @@ public class CaravanItemData {
             }
         }
         this.type = type;
-    }
-
-    public String getType() {
-        return type;
     }
 
     public int getPCT() {

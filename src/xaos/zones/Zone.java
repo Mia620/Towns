@@ -1,12 +1,5 @@
 package xaos.zones;
 
-import java.awt.Color;
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.util.ArrayList;
-
 import xaos.data.SoldierGroupData;
 import xaos.data.SoldierGroups;
 import xaos.main.Game;
@@ -25,6 +18,13 @@ import xaos.utils.Messages;
 import xaos.utils.Point3DShort;
 import xaos.utils.Utils;
 
+import java.awt.*;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.util.ArrayList;
+
 public class Zone implements Externalizable {
 
     private static final long serialVersionUID = 3172280383849844317L;
@@ -32,7 +32,7 @@ public class Zone implements Externalizable {
     public static int ID_INDEX = 0;
 
     private String iniHeader; // Identificador de la zona (obtenido del zones.xml)
-    private int ID; // Id numérico
+    private int ID; // Id numï¿½rico
     private ArrayList<Point3DShort> points;
     private boolean operative;
 
@@ -46,42 +46,6 @@ public class Zone implements Externalizable {
         setIniHeader(sIniHeader);
         setPoints(new ArrayList<Point3DShort>());
         setOperative(true);
-    }
-
-    public void setID(int iD) {
-        ID = iD;
-    }
-
-    public int getID() {
-        return ID;
-    }
-
-    public void setIniHeader(String iniHeader) {
-        this.iniHeader = iniHeader;
-    }
-
-    public String getIniHeader() {
-        return iniHeader;
-    }
-
-    public ArrayList<Point3DShort> getPoints() {
-        return points;
-    }
-
-    public void setPoints(ArrayList<Point3DShort> points) {
-        this.points = points;
-    }
-
-    public void addPoint(Point3DShort p3d) {
-        getPoints().add(p3d);
-    }
-
-    public void setOperative(boolean operative) {
-        this.operative = operative;
-    }
-
-    public boolean isOperative() {
-        return operative;
     }
 
     /**
@@ -99,7 +63,7 @@ public class Zone implements Externalizable {
             return false;
         }
 
-		// No miramos el digada ya que ya se mirará en el living-iscellAllowed, de paso así mirará si hay base=true debajo
+        // No miramos el digada ya que ya se mirarï¿½ en el living-iscellAllowed, de paso asï¿½ mirarï¿½ si hay base=true debajo
 //		if (cell.getTerrain ().isDigged ()) {
 //			return false;
 //		}
@@ -109,7 +73,7 @@ public class Zone implements Externalizable {
         }
 
         if (expandZone == null) {
-            // Zona nueva, no puede haber otra zona ahí (a no ser que tenga neighbors)
+            // Zona nueva, no puede haber otra zona ahï¿½ (a no ser que tenga neighbors)
             if (cell.hasZone()) {
                 return false;
             }
@@ -222,7 +186,7 @@ public class Zone implements Externalizable {
             yEnd = y0;
         }
 
-        // Miramos que no esté en el borde (con +1 de border)
+        // Miramos que no estï¿½ en el borde (con +1 de border)
         if (xIni < 0 || yIni < 0 || xEnd >= World.MAP_WIDTH || yEnd >= World.MAP_HEIGHT) {
             return false;
         }
@@ -237,8 +201,8 @@ public class Zone implements Externalizable {
         }
 
         if (zoneExpand == null) {
-			// CREATE ZONE
-            // 3 de ancho y alto como mínimo
+            // CREATE ZONE
+            // 3 de ancho y alto como mï¿½nimo
             if (((xEnd - xIni + 1) < zmi.getMinWidth()) || ((yEnd - yIni + 1) < zmi.getMinHeight())) {
                 return false;
             }
@@ -260,7 +224,7 @@ public class Zone implements Externalizable {
                 }
             }
         } else {
-			// EXPAND ZONE
+            // EXPAND ZONE
             // Si hay una casilla ok ya nos vale
             boolean bExpandOK = false;
             breakexpand:
@@ -276,7 +240,7 @@ public class Zone implements Externalizable {
             if (!bExpandOK) {
                 return false;
             } else {
-				// Si llega aquí es que una de las casillas toca la zona anterior, ahora tenemos que mirar que no toque otras zonas
+                // Si llega aquï¿½ es que una de las casillas toca la zona anterior, ahora tenemos que mirar que no toque otras zonas
 
                 Cell cellZones;
                 for (int x = xIni; x <= xEnd; x++) {
@@ -295,7 +259,7 @@ public class Zone implements Externalizable {
 
     public static void updateIndexID() {
         /**
-         * Obtiene el ID más alto de Zone
+         * Obtiene el ID mï¿½s alto de Zone
          */
         ArrayList<Zone> zones = Game.getWorld().getZones();
         Zone zone;
@@ -345,7 +309,7 @@ public class Zone implements Externalizable {
                     cell = World.getCell(zone.getPoints().get(j));
                     cell.setZoneID(0);
 
-                    // Si hay un item miramos si puede ir ahí, en caso contrario lo ponemos no operativo
+                    // Si hay un item miramos si puede ir ahï¿½, en caso contrario lo ponemos no operativo
                     entity = cell.getEntity();
                     if (entity != null && entity instanceof Item && ((Item) entity).isLocked()) {
                         imi = ItemManager.getItem(entity.getIniHeader());
@@ -406,13 +370,14 @@ public class Zone implements Externalizable {
                         if (hero.getCitizenData().getZoneID() == iID) {
                             hero.getCitizenData().setZoneID(0);
 
-                            // Miramos si queda alguna zone personal libre para el héroe
+                            // Miramos si queda alguna zone personal libre para el hï¿½roe
                             ZoneHeroRoom.assignZone(hero);
                             break;
                         }
                     }
                 } else if (zmi.getType() == ZoneManagerItem.TYPE_BARRACKS) {
-                    SoldierGroupData sgd;;
+                    SoldierGroupData sgd;
+                    ;
                     for (int j = 0; j < SoldierGroups.MAX_GROUPS; j++) {
                         sgd = Game.getWorld().getSoldierGroups().getGroup(j);
                         if (sgd.getZoneID() == iID) {
@@ -458,7 +423,7 @@ public class Zone implements Externalizable {
                     zone.getPoints().remove(p3d);
                     cell.setZoneID(0);
 
-                    // Si hay un item miramos si puede ir ahí, en caso contrario lo ponemos no operativo
+                    // Si hay un item miramos si puede ir ahï¿½, en caso contrario lo ponemos no operativo
                     entity = cell.getEntity();
                     if (entity != null && entity instanceof Item && ((Item) entity).isLocked()) {
                         imi = ItemManager.getItem(entity.getIniHeader());
@@ -529,7 +494,7 @@ public class Zone implements Externalizable {
                         if (cell.containsSpecificLiving(LivingEntity.TYPE_CITIZEN) == null && cell.containsSpecificLiving(LivingEntity.TYPE_HERO) == null) {
                             alSleepItems.add(p3d);
                         } else {
-                            // Si hay alguien durmiendo ahí, miraremos arriba (caso literas)
+                            // Si hay alguien durmiendo ahï¿½, miraremos arriba (caso literas)
                             boolean bEnd = false;
                             int iIndexZ = p3d.z;
                             while (!bEnd) {
@@ -610,7 +575,7 @@ public class Zone implements Externalizable {
 
     /**
      * Retorna una casilla libre de la zone o null si no la encuentra. Busca 25
-     * veces a random, si así no encuentra una casilla libre se recorre todos
+     * veces a random, si asï¿½ no encuentra una casilla libre se recorre todos
      * los points 1 por 1
      *
      * @param zone
@@ -647,17 +612,8 @@ public class Zone implements Externalizable {
         return null;
     }
 
-    public String toString() {
-        ZoneManagerItem zmi = ZoneManager.getItem(getIniHeader());
-
-        if (zmi == null) {
-            return Messages.getString("Zone.3"); //$NON-NLS-1$
-        }
-        return zmi.getName();
-    }
-
     /**
-     * Fills a contextual menú refering citizens of a cell
+     * Fills a contextual menï¿½ refering citizens of a cell
      *
      * @param cell
      * @param sm
@@ -670,7 +626,7 @@ public class Zone implements Externalizable {
                 if (zmi.getType() == ZoneManagerItem.TYPE_PERSONAL) {
                     // Miramos si tiene propietario
                     Citizen citizen;
-                    // Añadimos la opción de cambiar/añadir propietario
+                    // Aï¿½adimos la opciï¿½n de cambiar/aï¿½adir propietario
                     SmartMenu smOwner = new SmartMenu(SmartMenu.TYPE_MENU, Messages.getString("Zone.1"), sm, null, null); //$NON-NLS-1$
                     for (int i = 0; i < World.getCitizenIDs().size(); i++) {
                         citizen = (Citizen) World.getLivingEntityByID(World.getCitizenIDs().get(i));
@@ -678,7 +634,7 @@ public class Zone implements Externalizable {
                             if (citizen.getCitizenData().getZoneID() != zone.getID()) {
                                 smOwner.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, citizen.getCitizenData().getFullName(), null, CommandPanel.COMMAND_CHANGE_OWNER, Integer.toString(zone.getID()), Integer.toString(citizen.getID()), null, Color.ORANGE));
                             } else {
-                                // Propietario, añadimos linea de texto
+                                // Propietario, aï¿½adimos linea de texto
                                 sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, Messages.getString("Zone.6") + citizen.getCitizenData().getFullName() + Messages.getString("Zone.7"), null, null, null, null, null, Color.GREEN)); //$NON-NLS-1$ //$NON-NLS-2$
                             }
                         } else {
@@ -691,7 +647,7 @@ public class Zone implements Externalizable {
                             if (citizen.getCitizenData().getZoneID() != zone.getID()) {
                                 smOwner.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, citizen.getCitizenData().getFullName(), null, CommandPanel.COMMAND_CHANGE_OWNER, Integer.toString(zone.getID()), Integer.toString(citizen.getID()), null, Color.ORANGE));
                             } else {
-                                // Propietario, añadimos linea de texto
+                                // Propietario, aï¿½adimos linea de texto
                                 sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, Messages.getString("Zone.6") + citizen.getCitizenData().getFullName() + Messages.getString("Zone.7"), null, null, null, null, null, Color.GREEN)); //$NON-NLS-1$ //$NON-NLS-2$
                             }
                         } else {
@@ -713,7 +669,7 @@ public class Zone implements Externalizable {
                         }
                     }
                 } else if (zmi.getType() == ZoneManagerItem.TYPE_BARRACKS) {
-                    // Añadimos la opción de cambiar/añadir propietario
+                    // Aï¿½adimos la opciï¿½n de cambiar/aï¿½adir propietario
                     SmartMenu smOwner = new SmartMenu(SmartMenu.TYPE_MENU, Messages.getString("Zone.1"), sm, null, null); //$NON-NLS-1$
                     SoldierGroupData sgd;
                     for (int i = 0; i < SoldierGroups.MAX_GROUPS; i++) {
@@ -725,7 +681,7 @@ public class Zone implements Externalizable {
                                 smOwner.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, sgd.getName(), null, CommandPanel.COMMAND_CHANGE_OWNER_GROUP, Integer.toString(zone.getID()), Integer.toString(i)));
                             }
                         } else {
-                            // Éste es el grupo propietario, añadimos una linea de texto
+                            // ï¿½ste es el grupo propietario, aï¿½adimos una linea de texto
                             sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, Messages.getString("Zone.8") + sgd.getName() + Messages.getString("Zone.9"), null, null, null, null, null, Color.GREEN)); //$NON-NLS-1$ //$NON-NLS-2$
                         }
                     }
@@ -739,6 +695,51 @@ public class Zone implements Externalizable {
             sm.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, Messages.getString("Zone.4") + zone, null, CommandPanel.COMMAND_DELETE_ZONE, Integer.toString(cell.getZoneID()), null, null)); //$NON-NLS-1$
             sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, null, null, null, null));
         }
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int iD) {
+        ID = iD;
+    }
+
+    public String getIniHeader() {
+        return iniHeader;
+    }
+
+    public void setIniHeader(String iniHeader) {
+        this.iniHeader = iniHeader;
+    }
+
+    public ArrayList<Point3DShort> getPoints() {
+        return points;
+    }
+
+    public void setPoints(ArrayList<Point3DShort> points) {
+        this.points = points;
+    }
+
+    public void addPoint(Point3DShort p3d) {
+        getPoints().add(p3d);
+    }
+
+    public boolean isOperative() {
+        return operative;
+    }
+
+    public void setOperative(boolean operative) {
+        this.operative = operative;
+    }
+
+    public String toString() {
+        ZoneManagerItem zmi = ZoneManager.getItem(getIniHeader());
+
+        if (zmi == null) {
+            return Messages.getString("Zone.3"); //$NON-NLS-1$
+        }
+        return zmi.getName();
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {

@@ -27,7 +27,7 @@ public final class AStarBinaryHeap extends ArrayList<AStarNodo> {
 //			return super.set (iIndex, nodo);
 //		}
 
-        // Aquí habrá que hacer un remove del actual y un add del nuevo
+        // Aquï¿½ habrï¿½ que hacer un remove del actual y un add del nuevo
         AStarNodo nodoReturn = remove(iIndex);
         add(nodo);
 
@@ -39,7 +39,7 @@ public final class AStarBinaryHeap extends ArrayList<AStarNodo> {
 //			return super.remove (iPosition);
 //		}
 
-        // Si es el último elemento lo quitamos tal cual
+        // Si es el ï¿½ltimo elemento lo quitamos tal cual
         if (iPosition + 1 == size()) {
             AStarNodo nodo = super.remove(iPosition);
             AStarQueueItem.openListIndexes[nodo.x][nodo.y][nodo.z] = -1;
@@ -50,13 +50,13 @@ public final class AStarBinaryHeap extends ArrayList<AStarNodo> {
         AStarNodo nodo = super.get(iPosition);
 
         if (size() > 1) {
-            // Pillamos el último y lo metemos en el hueco (Cuidado!! Usamos los métodos de super)
+            // Pillamos el ï¿½ltimo y lo metemos en el hueco (Cuidado!! Usamos los mï¿½todos de super)
             AStarNodo aux = super.remove(size() - 1);
             super.set(iPosition, aux);
             AStarQueueItem.openListIndexes[aux.x][aux.y][aux.z] = (short) iPosition;
             AStarQueueItem.openListIndexes[nodo.x][nodo.y][nodo.z] = -1;
 
-			// Miramos si hay que subirlo o bajarlo
+            // Miramos si hay que subirlo o bajarlo
             // Si su padre es mayor es que toca subirlo
             if (get((iPosition - 1) / 2).getF() > aux.getF()) {
                 subeNodo(iPosition);
@@ -65,7 +65,7 @@ public final class AStarBinaryHeap extends ArrayList<AStarNodo> {
             }
 
         } else {
-            // Sólo quedaba ese elemento, lo eliminamos
+            // Sï¿½lo quedaba ese elemento, lo eliminamos
             AStarNodo aux = super.remove(0);
             AStarQueueItem.openListIndexes[aux.x][aux.y][aux.z] = -1;
             //super.clear ();
@@ -75,7 +75,7 @@ public final class AStarBinaryHeap extends ArrayList<AStarNodo> {
     }
 
     /**
-     * Baja un nodo hasta su posición
+     * Baja un nodo hasta su posiciï¿½n
      *
      * @param iPosition
      */
@@ -105,7 +105,7 @@ public final class AStarBinaryHeap extends ArrayList<AStarNodo> {
                         iIndex = iIndexHijos + 1;
                     }
 
-                    // Actualizamos índices
+                    // Actualizamos ï¿½ndices
                     iIndexHijos = iIndex * 2 + 1;
                     if (iIndexHijos < size()) {
                         hijo1 = get(iIndexHijos);
@@ -117,7 +117,7 @@ public final class AStarBinaryHeap extends ArrayList<AStarNodo> {
     }
 
     /**
-     * Sube un nodo hasta su posición
+     * Sube un nodo hasta su posiciï¿½n
      *
      * @param iPosition
      */
@@ -127,7 +127,8 @@ public final class AStarBinaryHeap extends ArrayList<AStarNodo> {
 
             // Miramos si este elemento es menor que el de arriba (su padre)
             int iIndex = iPosition + 1;
-            int iIndexPadre = iIndex / 2 - 1;;
+            int iIndexPadre = iIndex / 2 - 1;
+            ;
             AStarNodo aux = get(iIndexPadre);
             while (iIndexPadre >= 0 && aux.getF() > nodo.getF()) {
                 // Swap (OJO!! Usamos el set del super)
@@ -136,7 +137,7 @@ public final class AStarBinaryHeap extends ArrayList<AStarNodo> {
                 AStarQueueItem.openListIndexes[nodo.x][nodo.y][nodo.z] = (short) iIndexPadre;
                 AStarQueueItem.openListIndexes[aux.x][aux.y][aux.z] = (short) (iIndex - 1);
 
-                // Nueva iteración
+                // Nueva iteraciï¿½n
                 iIndex = iIndexPadre + 1;
                 iIndexPadre = iIndex / 2 - 1;
                 if (iIndexPadre >= 0) {

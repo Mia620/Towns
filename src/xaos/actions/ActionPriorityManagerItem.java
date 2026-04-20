@@ -13,6 +13,10 @@ public class ActionPriorityManagerItem {
         setId(sID);
     }
 
+    public String getId() {
+        return id;
+    }
+
     public void setId(String sID) throws Exception {
         if (sID == null || sID.trim().length() == 0) {
             throw new Exception(Messages.getString("ActionManagerItem.0")); //$NON-NLS-1$
@@ -21,25 +25,21 @@ public class ActionPriorityManagerItem {
         this.id = sID;
     }
 
-    public String getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getName() {
-        return name;
+    public Tile getIcon() {
+        return icon;
     }
 
     public void setIcon(String sIcon) {
         if (sIcon != null) {
             this.icon = new Tile(sIcon);
         }
-    }
-
-    public Tile getIcon() {
-        return icon;
     }
 }

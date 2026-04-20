@@ -5,13 +5,12 @@ import xaos.utils.Messages;
 
 public class Water {
 
-    private static final long serialVersionUID = 2201137814233532108L;
-
     public final static Tile[] TERRAIN_WATER = {
-        new Tile("water"), //$NON-NLS-1$
-        new Tile("watermin"), //$NON-NLS-1$
-        new Tile("watermax"), //$NON-NLS-1$
+            new Tile("water"), //$NON-NLS-1$
+            new Tile("watermin"), //$NON-NLS-1$
+            new Tile("watermax"), //$NON-NLS-1$
     };
+    private static final long serialVersionUID = 2201137814233532108L;
 
     public Water() {
         for (int i = 0; i < TERRAIN_WATER.length; i++) {
@@ -25,6 +24,10 @@ public class Water {
         }
     }
 
+    public static String getTileName() {
+        return Messages.getString("Water.0"); //$NON-NLS-1$
+    }
+
     public Tile getWaterCursor(int iCount) {
         if (iCount > 4) {
             return TERRAIN_WATER[2];
@@ -33,10 +36,6 @@ public class Water {
         } else {
             return TERRAIN_WATER[0];
         }
-    }
-
-    public static String getTileName() {
-        return Messages.getString("Water.0"); //$NON-NLS-1$
     }
 
     public void updateAnimation() {

@@ -1,11 +1,11 @@
 package xaos.tiles.entities.living.allies;
 
+import xaos.tiles.entities.living.LivingEntity;
+
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.io.Serializable;
-
-import xaos.tiles.entities.living.LivingEntity;
 
 public class Ally extends LivingEntity implements Serializable {
 

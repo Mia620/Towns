@@ -1,15 +1,15 @@
 package xaos.gods;
 
-import java.util.ArrayList;
-
 import xaos.data.GodData;
 import xaos.main.Game;
 import xaos.utils.Messages;
 import xaos.utils.Names;
 import xaos.utils.Utils;
 
+import java.util.ArrayList;
+
 /**
- * Clase de tipo "managerItem", no es la que se añade a la lista de gods
+ * Clase de tipo "managerItem", no es la que se aï¿½ade a la lista de gods
  */
 public class GodManagerItem {
 
@@ -51,12 +51,16 @@ public class GodManagerItem {
         return godData;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
 
-    public String getId() {
-        return id;
+    public String getNamePool() {
+        return namePool;
     }
 
     public void setNamePool(String namePool) throws Exception {
@@ -71,8 +75,8 @@ public class GodManagerItem {
         }
     }
 
-    public String getNamePool() {
-        return namePool;
+    public String getSurName() {
+        return surName;
     }
 
     public void setSurName(String surName) throws Exception {
@@ -83,32 +87,32 @@ public class GodManagerItem {
         }
     }
 
-    public String getSurName() {
-        return surName;
+    public ArrayList<String> getItemsLike() {
+        return itemsLike;
     }
 
     public void setItemsLike(ArrayList<String> itemsLike) {
         this.itemsLike = itemsLike;
     }
 
-    public ArrayList<String> getItemsLike() {
-        return itemsLike;
-    }
-
     public void setItemsLikePCTInteger(ArrayList<Integer> itemsLikePCT) {
         this.itemsLikePCT = itemsLikePCT;
+    }
+
+    public ArrayList<Integer> getItemsLikePCT() {
+        return itemsLikePCT;
     }
 
     public void setItemsLikePCT(ArrayList<String> itemsLikePCT) throws Exception {
         if (itemsLikePCT == null) {
             setItemsLikePCTInteger(null);
 
-            // Si había items, BAM, error
+            // Si habï¿½a items, BAM, error
             if (getItemsLike() != null && getItemsLike().size() > 0) {
                 throw new Exception(Messages.getString("GodManagerItem.4")); //$NON-NLS-1$
             }
         } else {
-            // Si no hay items o el tamaño no es el mismo, BAM, error
+            // Si no hay items o el tamaï¿½o no es el mismo, BAM, error
             if (getItemsLike() == null || getItemsLike().size() != itemsLikePCT.size()) {
                 throw new Exception(Messages.getString("GodManagerItem.4")); //$NON-NLS-1$
             }
@@ -124,32 +128,32 @@ public class GodManagerItem {
         }
     }
 
-    public ArrayList<Integer> getItemsLikePCT() {
-        return itemsLikePCT;
+    public ArrayList<String> getItemsDislike() {
+        return itemsDislike;
     }
 
     public void setItemsDislike(ArrayList<String> itemsDislike) {
         this.itemsDislike = itemsDislike;
     }
 
-    public ArrayList<String> getItemsDislike() {
-        return itemsDislike;
-    }
-
     public void setItemsDislikePCTInteger(ArrayList<Integer> itemsDislikePCT) {
         this.itemsDislikePCT = itemsDislikePCT;
+    }
+
+    public ArrayList<Integer> getItemsDislikePCT() {
+        return itemsDislikePCT;
     }
 
     public void setItemsDislikePCT(ArrayList<String> itemsDislikePCT) throws Exception {
         if (itemsDislikePCT == null) {
             setItemsDislikePCTInteger(null);
 
-            // Si había items, BAM, error
+            // Si habï¿½a items, BAM, error
             if (getItemsDislike() != null && getItemsDislike().size() > 0) {
                 throw new Exception(Messages.getString("GodManagerItem.7")); //$NON-NLS-1$
             }
         } else {
-            // Si no hay items o el tamaño no es el mismo, BAM, error
+            // Si no hay items o el tamaï¿½o no es el mismo, BAM, error
             if (getItemsDislike() == null || getItemsDislike().size() != itemsDislikePCT.size()) {
                 throw new Exception(Messages.getString("GodManagerItem.7")); //$NON-NLS-1$
             }
@@ -165,39 +169,35 @@ public class GodManagerItem {
         }
     }
 
-    public ArrayList<Integer> getItemsDislikePCT() {
-        return itemsDislikePCT;
+    public ArrayList<String> getEventsWhenHappy() {
+        return eventsWhenHappy;
     }
 
     public void setEventsWhenHappy(ArrayList<String> eventsWhenHappy) {
         this.eventsWhenHappy = eventsWhenHappy;
     }
 
-    public ArrayList<String> getEventsWhenHappy() {
-        return eventsWhenHappy;
+    public ArrayList<String> getEventsWhenReallyHappy() {
+        return eventsWhenReallyHappy;
     }
 
     public void setEventsWhenReallyHappy(ArrayList<String> eventsWhenReallyHappy) {
         this.eventsWhenReallyHappy = eventsWhenReallyHappy;
     }
 
-    public ArrayList<String> getEventsWhenReallyHappy() {
-        return eventsWhenReallyHappy;
+    public ArrayList<String> getEventsWhenAngry() {
+        return eventsWhenAngry;
     }
 
     public void setEventsWhenAngry(ArrayList<String> eventsWhenAngry) {
         this.eventsWhenAngry = eventsWhenAngry;
     }
 
-    public ArrayList<String> getEventsWhenAngry() {
-        return eventsWhenAngry;
+    public ArrayList<String> getEventsWhenReallyAngry() {
+        return eventsWhenReallyAngry;
     }
 
     public void setEventsWhenReallyAngry(ArrayList<String> eventsWhenReallyAngry) {
         this.eventsWhenReallyAngry = eventsWhenReallyAngry;
-    }
-
-    public ArrayList<String> getEventsWhenReallyAngry() {
-        return eventsWhenReallyAngry;
     }
 }

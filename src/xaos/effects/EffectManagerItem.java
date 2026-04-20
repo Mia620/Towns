@@ -1,7 +1,5 @@
 package xaos.effects;
 
-import java.util.ArrayList;
-
 import xaos.data.EffectData;
 import xaos.data.HateData;
 import xaos.skills.SkillManagerItem;
@@ -9,8 +7,10 @@ import xaos.tiles.Tile;
 import xaos.utils.Messages;
 import xaos.utils.Utils;
 
+import java.util.ArrayList;
+
 /**
- * Clase de tipo "managerItem", no es la que se añade a las livings.
+ * Clase de tipo "managerItem", no es la que se aï¿½ade a las livings.
  */
 public class EffectManagerItem {
 
@@ -82,20 +82,24 @@ public class EffectManagerItem {
         return effectData;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
 
-    public String getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getName() {
-        return name;
+    public Tile getIcon() {
+        return icon;
     }
 
     public void setIcon(String icon) {
@@ -106,10 +110,6 @@ public class EffectManagerItem {
 
     public void setIcon(Tile icon) {
         this.icon = icon;
-    }
-
-    public Tile getIcon() {
-        return icon;
     }
 
     public String getDamagePCT() {
@@ -160,12 +160,12 @@ public class EffectManagerItem {
         }
     }
 
-    public void setDOT(String sDOT) {
-        this.DOT = sDOT;
-    }
-
     public String getDOT() {
         return DOT;
+    }
+
+    public void setDOT(String sDOT) {
+        this.DOT = sDOT;
     }
 
     public String getHealthPointsPCT() {
@@ -180,16 +180,16 @@ public class EffectManagerItem {
         }
     }
 
+    public String getLOSPCT() {
+        return LOSPCT;
+    }
+
     public void setLOSPCT(String lOSPCT) {
         if (lOSPCT == null || lOSPCT.trim().toString().length() == 0) {
             this.LOSPCT = "100"; //$NON-NLS-1$
         } else {
             this.LOSPCT = lOSPCT;
         }
-    }
-
-    public String getLOSPCT() {
-        return LOSPCT;
     }
 
     public String getSpeedPCT() {
@@ -224,6 +224,10 @@ public class EffectManagerItem {
         setAttackAllies(Boolean.parseBoolean(sAttackAllies));
     }
 
+    public boolean isRemoveTarget() {
+        return removeTarget;
+    }
+
     public void setRemoveTarget(boolean removeTarget) {
         this.removeTarget = removeTarget;
     }
@@ -232,8 +236,8 @@ public class EffectManagerItem {
         setRemoveTarget(Boolean.parseBoolean(sRemoveTarget));
     }
 
-    public boolean isRemoveTarget() {
-        return removeTarget;
+    public boolean isFlee() {
+        return flee;
     }
 
     public void setFlee(boolean flee) {
@@ -242,10 +246,6 @@ public class EffectManagerItem {
 
     public void setFlee(String sFlee) {
         setFlee(Boolean.parseBoolean(sFlee));
-    }
-
-    public boolean isFlee() {
-        return flee;
     }
 
     public String getGraphicChange() {
@@ -264,12 +264,16 @@ public class EffectManagerItem {
         this.raiseDead = raiseDead;
     }
 
+    public String getMaxRaised() {
+        return maxRaised;
+    }
+
     public void setMaxRaised(String maxRaised) {
         this.maxRaised = maxRaised;
     }
 
-    public String getMaxRaised() {
-        return maxRaised;
+    public String getOnHitPCT() {
+        return onHitPCT;
     }
 
     public void setOnHitPCT(String onHitPCT) {
@@ -280,8 +284,8 @@ public class EffectManagerItem {
         }
     }
 
-    public String getOnHitPCT() {
-        return onHitPCT;
+    public ArrayList<String> getOnHitEffects() {
+        return onHitEffects;
     }
 
     public void setOnHitEffects(String sOnHitEffects) {
@@ -292,8 +296,8 @@ public class EffectManagerItem {
         this.onHitEffects = onHitEffects;
     }
 
-    public ArrayList<String> getOnHitEffects() {
-        return onHitEffects;
+    public String getOnRangedHitPCT() {
+        return onRangedHitPCT;
     }
 
     public void setOnRangedHitPCT(String onRangedHitPCT) {
@@ -304,8 +308,8 @@ public class EffectManagerItem {
         }
     }
 
-    public String getOnRangedHitPCT() {
-        return onRangedHitPCT;
+    public ArrayList<String> getOnRangedHitEffects() {
+        return onRangedHitEffects;
     }
 
     public void setOnRangedHitEffects(String sOnRangedHitEffects) {
@@ -316,8 +320,8 @@ public class EffectManagerItem {
         this.onRangedHitEffects = onRangedHitEffects;
     }
 
-    public ArrayList<String> getOnRangedHitEffects() {
-        return onRangedHitEffects;
+    public ArrayList<String> getAfterEffects() {
+        return afterEffects;
     }
 
     public void setAfterEffects(ArrayList<String> afterEffects) {
@@ -328,8 +332,8 @@ public class EffectManagerItem {
         setAfterEffects(Utils.getArray(sAfterEffects));
     }
 
-    public ArrayList<String> getAfterEffects() {
-        return afterEffects;
+    public ArrayList<String> getCastEffects() {
+        return castEffects;
     }
 
     public void setCastEffects(ArrayList<String> castEffects) {
@@ -340,16 +344,16 @@ public class EffectManagerItem {
         setCastEffects(Utils.getArray(sCastEffects));
     }
 
-    public ArrayList<String> getCastEffects() {
-        return castEffects;
+    public String getCastCooldown() {
+        return castCooldown;
     }
 
     public void setCastCooldown(String castCooldown) {
         this.castCooldown = castCooldown;
     }
 
-    public String getCastCooldown() {
-        return castCooldown;
+    public int getCastTrigger() {
+        return castTrigger;
     }
 
     public void setCastTrigger(int iCastTrigger) {
@@ -376,16 +380,16 @@ public class EffectManagerItem {
         }
     }
 
-    public int getCastTrigger() {
-        return castTrigger;
+    public String getCastTargets() {
+        return castTargets;
     }
 
     public void setCastTargets(String sCastTargets) {
         this.castTargets = sCastTargets;
     }
 
-    public String getCastTargets() {
-        return castTargets;
+    public ArrayList<String> getEffectsImmune() {
+        return effectsImmune;
     }
 
     public void setEffectsImmune(ArrayList<String> effectsImmune) {
@@ -396,8 +400,8 @@ public class EffectManagerItem {
         setEffectsImmune(Utils.getArray(sEffectsImmune));
     }
 
-    public ArrayList<String> getEffectsImmune() {
-        return effectsImmune;
+    public ArrayList<String> getEffectsPrerequisite() {
+        return effectsPrerequisite;
     }
 
     public void setEffectsPrerequisite(ArrayList<String> effectsPrerequisite) {
@@ -408,8 +412,8 @@ public class EffectManagerItem {
         setEffectsPrerequisite(Utils.getArray(sEffectsPrerequisite));
     }
 
-    public ArrayList<String> getEffectsPrerequisite() {
-        return effectsPrerequisite;
+    public boolean isMessageWhenGain() {
+        return messageWhenGain;
     }
 
     public void setMessageWhenGain(boolean messageWhenGain) {
@@ -424,8 +428,8 @@ public class EffectManagerItem {
         }
     }
 
-    public boolean isMessageWhenGain() {
-        return messageWhenGain;
+    public boolean isMessageWhenVanish() {
+        return messageWhenVanish;
     }
 
     public void setMessageWhenVanish(boolean messageWhenVanish) {
@@ -440,15 +444,11 @@ public class EffectManagerItem {
         }
     }
 
-    public boolean isMessageWhenVanish() {
-        return messageWhenVanish;
+    public String getHappy() {
+        return happy;
     }
 
     public void setHappy(String happy) {
         this.happy = happy;
-    }
-
-    public String getHappy() {
-        return happy;
     }
 }

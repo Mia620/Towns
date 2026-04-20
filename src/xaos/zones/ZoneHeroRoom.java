@@ -1,18 +1,18 @@
 package xaos.zones;
 
+import xaos.main.Game;
+import xaos.tiles.entities.living.heroes.Hero;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import xaos.main.Game;
-import xaos.tiles.entities.living.heroes.Hero;
-
 public class ZoneHeroRoom extends Zone implements Externalizable {
 
     private static final long serialVersionUID = 5451613796754869362L;
 
-    private int ownerID = -1; // ID de héroe, propietario de la zona
+    private int ownerID = -1; // ID de hï¿½roe, propietario de la zona
 
     public ZoneHeroRoom() {
         super();
@@ -23,16 +23,8 @@ public class ZoneHeroRoom extends Zone implements Externalizable {
         setOwnerID(-1);
     }
 
-    public void setOwnerID(int ownerID) {
-        this.ownerID = ownerID;
-    }
-
-    public int getOwnerID() {
-        return ownerID;
-    }
-
     /**
-     * Asigna una zona personal libre a un héroe. Si el héroe YA tiene ID de
+     * Asigna una zona personal libre a un hï¿½roe. Si el hï¿½roe YA tiene ID de
      * zona NO hace nada y devolvemos false.
      *
      * @param hero
@@ -43,7 +35,7 @@ public class ZoneHeroRoom extends Zone implements Externalizable {
     }
 
     /**
-     * Asigna una zona personal CONCRETA y libre a un héroe Si el héroe YA tiene
+     * Asigna una zona personal CONCRETA y libre a un hï¿½roe Si el hï¿½roe YA tiene
      * ID de zona NO hace nada y devolvemos false.
      *
      * @param hero
@@ -73,7 +65,7 @@ public class ZoneHeroRoom extends Zone implements Externalizable {
     }
 
     /**
-     * Libera una personal hero zone, se usa si el héroe muere o se pira, por
+     * Libera una personal hero zone, se usa si el hï¿½roe muere o se pira, por
      * ejemplo.
      *
      * @param hero
@@ -90,6 +82,14 @@ public class ZoneHeroRoom extends Zone implements Externalizable {
                 }
             }
         }
+    }
+
+    public int getOwnerID() {
+        return ownerID;
+    }
+
+    public void setOwnerID(int ownerID) {
+        this.ownerID = ownerID;
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {

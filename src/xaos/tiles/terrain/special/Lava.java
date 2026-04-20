@@ -5,13 +5,12 @@ import xaos.utils.Messages;
 
 public class Lava {
 
-    private static final long serialVersionUID = 8093200100906408032L;
-
     public final static Tile[] TERRAIN_LAVA = {
-        new Tile("lava"), //$NON-NLS-1$
-        new Tile("lavamin"), //$NON-NLS-1$
-        new Tile("lavamax"), //$NON-NLS-1$
+            new Tile("lava"), //$NON-NLS-1$
+            new Tile("lavamin"), //$NON-NLS-1$
+            new Tile("lavamax"), //$NON-NLS-1$
     };
+    private static final long serialVersionUID = 8093200100906408032L;
 
     public Lava() {
         for (int i = 0; i < TERRAIN_LAVA.length; i++) {
@@ -25,6 +24,10 @@ public class Lava {
         }
     }
 
+    public static String getTileName() {
+        return Messages.getString("Lava.0"); //$NON-NLS-1$
+    }
+
     public Tile getLavaCursor(int iCount) {
         if (iCount > 4) {
             return TERRAIN_LAVA[2];
@@ -33,10 +36,6 @@ public class Lava {
         } else {
             return TERRAIN_LAVA[0];
         }
-    }
-
-    public static String getTileName() {
-        return Messages.getString("Lava.0"); //$NON-NLS-1$
     }
 
     public void updateAnimation() {

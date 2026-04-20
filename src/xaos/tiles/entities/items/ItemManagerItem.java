@@ -1,8 +1,5 @@
 package xaos.tiles.entities.items;
 
-import java.awt.Point;
-import java.util.ArrayList;
-
 import xaos.data.HateData;
 import xaos.effects.EffectManager;
 import xaos.tiles.entities.items.military.MilitaryItem;
@@ -10,6 +7,9 @@ import xaos.utils.Log;
 import xaos.utils.Messages;
 import xaos.utils.Utils;
 import xaos.utils.UtilsIniHeaders;
+
+import java.awt.*;
+import java.util.ArrayList;
 
 public class ItemManagerItem {
 
@@ -37,15 +37,15 @@ public class ItemManagerItem {
     private int floorWalkSpeed;
 
     // Habitat
-    private ArrayList<Integer> habitat; // Lista de terrenos donde puede crecer (o aparecer), se usa en los child (ver más abajo). (Ej: grass, sand, ...)
-    private ArrayList<String> habitatString; // Lista de terrenos donde puede crecer (o aparecer), se usa en los child (ver más abajo). (Ej: grass, sand, ...)
+    private ArrayList<Integer> habitat; // Lista de terrenos donde puede crecer (o aparecer), se usa en los child (ver mï¿½s abajo). (Ej: grass, sand, ...)
+    private ArrayList<String> habitatString; // Lista de terrenos donde puede crecer (o aparecer), se usa en los child (ver mï¿½s abajo). (Ej: grass, sand, ...)
     private String habitatGroup;
     private int habitatHeightMin;
     private int habitatHeightMax;
 
     // Age
-    private String maxAge; // Edad máxima del item
-    private String maxAgeItem; // Item que suelta al morir (Ej: los arbustos al morir se convierten en árbol)
+    private String maxAge; // Edad mï¿½xima del item
+    private String maxAgeItem; // Item que suelta al morir (Ej: los arbustos al morir se convierten en ï¿½rbol)
     private String maxAgeTerrain; // When the item dies it will generate a real terrain
     private boolean maxAgeNeedsWater;
     private int maxAgeNeedsWaterRadius;
@@ -57,7 +57,7 @@ public class ItemManagerItem {
 
     // Spawn
     private String spawn; // Objeto o living hijo (ej: arbusto)
-    private int spawnMaxItems; // Máximo de hijos alrrededor. Sólo aplica con items. (ej: Si ya tiene 3 arbustos alrededor no "suelta" otro)
+    private int spawnMaxItems; // Mï¿½ximo de hijos alrrededor. Sï¿½lo aplica con items. (ej: Si ya tiene 3 arbustos alrededor no "suelta" otro)
     private String spawnTurns; // Dice que se lanza cada turno para ver si toca soltar un hijo
 
     // Wall
@@ -67,7 +67,7 @@ public class ItemManagerItem {
     private boolean wallConnector; // Indica si es un conector con muros (ej: puertas, ventanas)
 
     // Doors
-    private boolean door; // Indica si es una puerta (para sacar el menú de open/close/lock)
+    private boolean door; // Indica si es una puerta (para sacar el menï¿½ de open/close/lock)
 
     // Food
     private boolean canBeEaten; // Indica si se puede comer
@@ -77,13 +77,13 @@ public class ItemManagerItem {
     private ArrayList<String> foodEffects;
 
     // Happiness value
-    private int happiness; // Modificador de happiness si el objeto está en LOS de los aldeanos
+    private int happiness; // Modificador de happiness si el objeto estï¿½ en LOS de los aldeanos
 
     // Sleep (camas)
-    private boolean canBeUsedToSleep; // Indica si se puede dormir ahí
+    private boolean canBeUsedToSleep; // Indica si se puede dormir ahï¿½
 
     // Sit (sillas)
-    private boolean canBeUsedToSit; // Indica si se puede sentar ahí
+    private boolean canBeUsedToSit; // Indica si se puede sentar ahï¿½
 
     // Zone mergers (bridges, stairs, ...)
     private boolean zoneMergerUp;
@@ -120,7 +120,7 @@ public class ItemManagerItem {
     private int value;
 
     // AlwaysOperative
-    private boolean alwaysOperative; // Indica si cuando se construye ya está operativo o tienen que ponerse en algún sitio para que lo esté
+    private boolean alwaysOperative; // Indica si cuando se construye ya estï¿½ operativo o tienen que ponerse en algï¿½n sitio para que lo estï¿½
 
     // Container
     private boolean container;
@@ -139,7 +139,7 @@ public class ItemManagerItem {
     private String attackSpeedModifier; // Modificador de turnos entre ataque y ataque
     private String defenseModifier; // Modificador de defensa
     private String healthModifier; // Modificador de vida
-    private String damageModifier;// Modificador de daño
+    private String damageModifier;// Modificador de daï¿½o
     private String LOSModifier;// Modificador de LOS
     private String movePCTModifier;// Modificador de movePCT
     private String walkSpeedModifier; // Modificador de turnos entre paso y paso
@@ -207,12 +207,16 @@ public class ItemManagerItem {
         setNumericalIniHeader(UtilsIniHeaders.getIntIniHeader(iniHeader));
     }
 
+    public int getNumericalIniHeader() {
+        return numericalIniHeader;
+    }
+
     public void setNumericalIniHeader(int numericalIniHeader) {
         this.numericalIniHeader = numericalIniHeader;
     }
 
-    public int getNumericalIniHeader() {
-        return numericalIniHeader;
+    public int getLevel() {
+        return level;
     }
 
     public void setLevel(int level) {
@@ -223,10 +227,6 @@ public class ItemManagerItem {
         setLevel(Utils.getInteger(sLevel, 0));
     }
 
-    public int getLevel() {
-        return level;
-    }
-
     public String getName() {
         return name;
     }
@@ -235,20 +235,20 @@ public class ItemManagerItem {
         this.name = name;
     }
 
-    public void setDescriptions(ArrayList<String> descriptions) {
-        this.descriptions = descriptions;
-    }
-
     public ArrayList<String> getDescriptions() {
         return descriptions;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setDescriptions(ArrayList<String> descriptions) {
+        this.descriptions = descriptions;
     }
 
     public String getType() {
         return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getBuilding() {
@@ -281,16 +281,16 @@ public class ItemManagerItem {
         prerequisites.add(prerequisite);
     }
 
+    public int getBuildingTime() {
+        return buildingTime;
+    }
+
     public void setBuildingTime(int buildingTime) {
         this.buildingTime = buildingTime;
     }
 
     public void setBuildingTime(String sBuildingTime) {
         setBuildingTime(Utils.launchDice(sBuildingTime));
-    }
-
-    public int getBuildingTime() {
-        return buildingTime;
     }
 
     public ArrayList<Integer> getHabitat() {
@@ -307,12 +307,12 @@ public class ItemManagerItem {
         }
     }
 
-    public void setHabitatAsString(ArrayList<String> habitat) {
-        this.habitatString = habitat;
-    }
-
     public ArrayList<String> getHabitatAsString() {
         return habitatString;
+    }
+
+    public void setHabitatAsString(ArrayList<String> habitat) {
+        this.habitatString = habitat;
     }
 
     public void addHabitats(ArrayList<Integer> habitats) {
@@ -330,12 +330,12 @@ public class ItemManagerItem {
         }
     }
 
-    public void setHabitatGroup(String habitatGroup) {
-        this.habitatGroup = habitatGroup;
-    }
-
     public String getHabitatGroup() {
         return habitatGroup;
+    }
+
+    public void setHabitatGroup(String habitatGroup) {
+        this.habitatGroup = habitatGroup;
     }
 
     public int getHabitatHeightMin() {
@@ -386,6 +386,10 @@ public class ItemManagerItem {
         this.maxAgeTerrain = maxAgeTerrain;
     }
 
+    public boolean isMaxAgeNeedsWater() {
+        return maxAgeNeedsWater;
+    }
+
     public void setMaxAgeNeedsWater(boolean maxAgeNeedsWater) {
         this.maxAgeNeedsWater = maxAgeNeedsWater;
     }
@@ -394,8 +398,8 @@ public class ItemManagerItem {
         setMaxAgeNeedsWater(Boolean.parseBoolean(sMaxAgeNeedsWater));
     }
 
-    public boolean isMaxAgeNeedsWater() {
-        return maxAgeNeedsWater;
+    public int getMaxAgeNeedsWaterRadius() {
+        return maxAgeNeedsWaterRadius;
     }
 
     public void setMaxAgeNeedsWaterRadius(int maxAgeNeedsWaterRadius) {
@@ -419,8 +423,8 @@ public class ItemManagerItem {
         }
     }
 
-    public int getMaxAgeNeedsWaterRadius() {
-        return maxAgeNeedsWaterRadius;
+    public ArrayList<String> getMaxAgeNeedsItems() {
+        return maxAgeNeedsItems;
     }
 
     public void setMaxAgeNeedsItems(ArrayList<String> alItems) {
@@ -431,8 +435,8 @@ public class ItemManagerItem {
         setMaxAgeNeedsItems(Utils.getArray(sMaxAgeNeedsItems));
     }
 
-    public ArrayList<String> getMaxAgeNeedsItems() {
-        return maxAgeNeedsItems;
+    public int getMaxAgeNeedsItemsRadius() {
+        return maxAgeNeedsItemsRadius;
     }
 
     public void setMaxAgeNeedsItemsRadius(int maxAgeNeedsItemsRadius) {
@@ -456,16 +460,12 @@ public class ItemManagerItem {
         }
     }
 
-    public int getMaxAgeNeedsItemsRadius() {
-        return maxAgeNeedsItemsRadius;
+    public String getHp() {
+        return hp;
     }
 
     public void setHp(String hp) {
         this.hp = hp;
-    }
-
-    public String getHp() {
-        return hp;
     }
 
     public String getSpawn() {
@@ -496,6 +496,10 @@ public class ItemManagerItem {
         this.spawnTurns = sSpawnTurns;
     }
 
+    public boolean isWall() {
+        return wall;
+    }
+
     public void setWall(String sWall) {
         setWall(Boolean.parseBoolean(sWall));
     }
@@ -504,8 +508,8 @@ public class ItemManagerItem {
         this.wall = wall;
     }
 
-    public boolean isWall() {
-        return wall;
+    public boolean isWallConnector() {
+        return wallConnector;
     }
 
     public void setWallConnector(boolean wallConnector) {
@@ -516,8 +520,8 @@ public class ItemManagerItem {
         setWallConnector(Boolean.parseBoolean(sWallConnector));
     }
 
-    public boolean isWallConnector() {
-        return wallConnector;
+    public boolean isDoor() {
+        return door;
     }
 
     public void setDoor(boolean door) {
@@ -526,10 +530,6 @@ public class ItemManagerItem {
 
     public void setDoor(String sDoor) {
         setDoor(Boolean.parseBoolean(sDoor));
-    }
-
-    public boolean isDoor() {
-        return door;
     }
 
     public void setCanBeEaten(String sCanBeEaten) {
@@ -542,6 +542,10 @@ public class ItemManagerItem {
 
     public boolean canBeEaten() {
         return canBeEaten;
+    }
+
+    public int getHappiness() {
+        return happiness;
     }
 
     public void setHappiness(String sHappiness) {
@@ -559,10 +563,6 @@ public class ItemManagerItem {
 
     public void setHappiness(int happiness) {
         this.happiness = happiness;
-    }
-
-    public int getHappiness() {
-        return happiness;
     }
 
     public void setCanBeUsedToSleep(String sCanBeUsedToSleep) {
@@ -589,16 +589,16 @@ public class ItemManagerItem {
         return canBeUsedToSit;
     }
 
+    public boolean isZoneMergerUp() {
+        return zoneMergerUp;
+    }
+
     public void setZoneMergerUp(String sZoneMergerUp) {
         setZoneMergerUp(Boolean.parseBoolean(sZoneMergerUp));
     }
 
     public void setZoneMergerUp(boolean zoneMergerUp) {
         this.zoneMergerUp = zoneMergerUp;
-    }
-
-    public boolean isZoneMergerUp() {
-        return zoneMergerUp;
     }
 
     public boolean canBeBuiltOnFloor() {
@@ -646,6 +646,10 @@ public class ItemManagerItem {
         }
     }
 
+    public boolean isGlue() {
+        return glue;
+    }
+
     public void setGlue(boolean glue) {
         this.glue = glue;
     }
@@ -654,8 +658,8 @@ public class ItemManagerItem {
         setGlue(Boolean.parseBoolean(sGlue));
     }
 
-    public boolean isGlue() {
-        return glue;
+    public boolean isBase() {
+        return base;
     }
 
     public void setBase(boolean base) {
@@ -666,8 +670,8 @@ public class ItemManagerItem {
         setBase(Boolean.parseBoolean(sBase));
     }
 
-    public boolean isBase() {
-        return base;
+    public boolean isBlocky() {
+        return blocky;
     }
 
     public void setBlocky(boolean blocky) {
@@ -678,8 +682,8 @@ public class ItemManagerItem {
         setBlocky(Boolean.parseBoolean(sBlocky));
     }
 
-    public boolean isBlocky() {
-        return blocky;
+    public boolean isText() {
+        return text;
     }
 
     public void setText(boolean text) {
@@ -690,8 +694,8 @@ public class ItemManagerItem {
         setText(Boolean.parseBoolean(sText));
     }
 
-    public boolean isText() {
-        return text;
+    public int getLightRadius() {
+        return lightRadius;
     }
 
     public void setLightRadius(int lightRadius) {
@@ -716,10 +720,6 @@ public class ItemManagerItem {
         }
     }
 
-    public int getLightRadius() {
-        return lightRadius;
-    }
-
     public int getLightIntValue(String sLight) throws Exception {
         if (sLight == null || sLight.trim().length() == 0) {
             return LIGHT_I_NONE;
@@ -736,6 +736,10 @@ public class ItemManagerItem {
         }
     }
 
+    public int getLightRed() {
+        return lightRed;
+    }
+
     public void setLightRed(int lightRed) {
         this.lightRed = lightRed;
     }
@@ -744,8 +748,8 @@ public class ItemManagerItem {
         setLightRed(getLightIntValue(sLightRed));
     }
 
-    public int getLightRed() {
-        return lightRed;
+    public int getLightGreen() {
+        return lightGreen;
     }
 
     public void setLightGreen(int lightGreen) {
@@ -756,8 +760,8 @@ public class ItemManagerItem {
         setLightGreen(getLightIntValue(sLightGreen));
     }
 
-    public int getLightGreen() {
-        return lightGreen;
+    public int getLightBlue() {
+        return lightBlue;
     }
 
     public void setLightBlue(int lightBlue) {
@@ -768,8 +772,8 @@ public class ItemManagerItem {
         setLightBlue(getLightIntValue(sLightBlue));
     }
 
-    public int getLightBlue() {
-        return lightBlue;
+    public boolean isTranslucent() {
+        return translucent;
     }
 
     public void setTranslucent(boolean translucent) {
@@ -780,8 +784,8 @@ public class ItemManagerItem {
         setTranslucent(Boolean.parseBoolean(sTranslucent));
     }
 
-    public boolean isTranslucent() {
-        return translucent;
+    public boolean isLocked() {
+        return locked;
     }
 
     public void setLocked(boolean locked) {
@@ -790,10 +794,6 @@ public class ItemManagerItem {
 
     public void setLocked(String sLocked) {
         setLocked(Boolean.parseBoolean(sLocked));
-    }
-
-    public boolean isLocked() {
-        return locked;
     }
 
     public int getValue() {
@@ -812,6 +812,10 @@ public class ItemManagerItem {
         }
     }
 
+    public boolean isAlwaysOperative() {
+        return alwaysOperative;
+    }
+
     public void setAlwaysOperative(boolean alwaysOperative) {
         this.alwaysOperative = alwaysOperative;
     }
@@ -825,8 +829,8 @@ public class ItemManagerItem {
         }
     }
 
-    public boolean isAlwaysOperative() {
-        return alwaysOperative;
+    public int getLocation() {
+        return location;
     }
 
     public void setLocation(int location) {
@@ -854,10 +858,6 @@ public class ItemManagerItem {
         }
     }
 
-    public int getLocation() {
-        return location;
-    }
-
     public String getAttackModifier() {
         return attackModifier;
     }
@@ -866,20 +866,20 @@ public class ItemManagerItem {
         this.attackModifier = attackModifier;
     }
 
-    public void setAttackSpeedModifier(String attackSpeedModifier) {
-        this.attackSpeedModifier = attackSpeedModifier;
-    }
-
     public String getAttackSpeedModifier() {
         return attackSpeedModifier;
     }
 
-    public void setWalkSpeedModifier(String walkSpeedModifier) {
-        this.walkSpeedModifier = walkSpeedModifier;
+    public void setAttackSpeedModifier(String attackSpeedModifier) {
+        this.attackSpeedModifier = attackSpeedModifier;
     }
 
     public String getWalkSpeedModifier() {
         return walkSpeedModifier;
+    }
+
+    public void setWalkSpeedModifier(String walkSpeedModifier) {
+        this.walkSpeedModifier = walkSpeedModifier;
     }
 
     public String getDefenseModifier() {
@@ -906,20 +906,24 @@ public class ItemManagerItem {
         this.damageModifier = damageModifier;
     }
 
+    public String getLOSModifier() {
+        return LOSModifier;
+    }
+
     public void setLOSModifier(String lOSModifier) {
         LOSModifier = lOSModifier;
     }
 
-    public String getLOSModifier() {
-        return LOSModifier;
+    public String getMovePCTModifier() {
+        return movePCTModifier;
     }
 
     public void setMovePCTModifier(String movePCTModifier) {
         this.movePCTModifier = movePCTModifier;
     }
 
-    public String getMovePCTModifier() {
-        return movePCTModifier;
+    public boolean isRanged() {
+        return ranged;
     }
 
     public void setRanged(boolean ranged) {
@@ -930,8 +934,8 @@ public class ItemManagerItem {
         setRanged(Boolean.parseBoolean(sRanged));
     }
 
-    public boolean isRanged() {
-        return ranged;
+    public String getRangedAmmo() {
+        return rangedAmmo;
     }
 
     public void setRangedAmmo(String rangedAmmo) throws Exception {
@@ -943,8 +947,8 @@ public class ItemManagerItem {
         this.rangedAmmo = rangedAmmo;
     }
 
-    public String getRangedAmmo() {
-        return rangedAmmo;
+    public boolean isRangedOneShoot() {
+        return rangedOneShoot;
     }
 
     public void setRangedOneShoot(boolean rangedOneShoot) {
@@ -955,24 +959,24 @@ public class ItemManagerItem {
         setRangedOneShoot(Boolean.parseBoolean(sRangedOneShoot));
     }
 
-    public boolean isRangedOneShoot() {
-        return rangedOneShoot;
+    public String getVerb() {
+        return verb;
     }
 
     public void setVerb(String verb) {
         this.verb = verb;
     }
 
-    public String getVerb() {
-        return verb;
+    public String getVerbInfinitive() {
+        return verbInfinitive;
     }
 
     public void setVerbInfinitive(String verbInfinitive) {
         this.verbInfinitive = verbInfinitive;
     }
 
-    public String getVerbInfinitive() {
-        return verbInfinitive;
+    public ArrayList<String> getWearEffects() {
+        return wearEffects;
     }
 
     public void setWearEffects(ArrayList<String> wearEffects) {
@@ -983,8 +987,8 @@ public class ItemManagerItem {
         setWearEffects(Utils.getArray(sWearEffects));
     }
 
-    public ArrayList<String> getWearEffects() {
-        return wearEffects;
+    public ArrayList<String> getTags() {
+        return tags;
     }
 
     public void setTags(ArrayList<String> tags) {
@@ -995,28 +999,28 @@ public class ItemManagerItem {
         setTags(Utils.getArray(sTags));
     }
 
-    public ArrayList<String> getTags() {
-        return tags;
+    public ArrayList<String> getActions() {
+        return actions;
     }
 
     public void setActions(ArrayList<String> actions) {
         this.actions = actions;
     }
 
-    public ArrayList<String> getActions() {
-        return actions;
-    }
-
     public boolean hasActions() {
         return actions != null && actions.size() > 0;
+    }
+
+    public ArrayList<String> getZones() {
+        return zones;
     }
 
     public void setZones(ArrayList<String> zones) {
         this.zones = zones;
     }
 
-    public ArrayList<String> getZones() {
-        return zones;
+    public boolean isTrap() {
+        return trap;
     }
 
     public void setTrap(boolean trap) {
@@ -1027,8 +1031,8 @@ public class ItemManagerItem {
         setTrap(Boolean.parseBoolean(sTrap));
     }
 
-    public boolean isTrap() {
-        return trap;
+    public ArrayList<String> getTrapEffects() {
+        return trapEffects;
     }
 
     public void setTrapEffects(ArrayList<String> trapEffects) throws Exception {
@@ -1043,24 +1047,24 @@ public class ItemManagerItem {
         setTrapEffects(Utils.getArray(sTrapEffects));
     }
 
-    public ArrayList<String> getTrapEffects() {
-        return trapEffects;
+    public String getTrapCooldown() {
+        return trapCooldown;
     }
 
     public void setTrapCooldown(String trapCooldown) {
         this.trapCooldown = trapCooldown;
     }
 
-    public String getTrapCooldown() {
-        return trapCooldown;
+    public String getTrapOnIcon() {
+        return trapOnIcon;
     }
 
     public void setTrapOnIcon(String trapOnIcon) {
         this.trapOnIcon = trapOnIcon;
     }
 
-    public String getTrapOnIcon() {
-        return trapOnIcon;
+    public HateData getTrapTargets() {
+        return trapTargets;
     }
 
     public void setTrapTargets(HateData trapTargets) {
@@ -1077,8 +1081,8 @@ public class ItemManagerItem {
         }
     }
 
-    public HateData getTrapTargets() {
-        return trapTargets;
+    public boolean isBlockFluids() {
+        return blockFluids;
     }
 
     public void setBlockFluids(boolean blockFluids) {
@@ -1089,8 +1093,8 @@ public class ItemManagerItem {
         setBlockFluids(Boolean.parseBoolean(sBlockFluids));
     }
 
-    public boolean isBlockFluids() {
-        return blockFluids;
+    public boolean isFluidsElevator() {
+        return fluidsElevator;
     }
 
     public void setFluidsElevator(boolean bFluidsElevator) {
@@ -1101,8 +1105,8 @@ public class ItemManagerItem {
         setFluidsElevator(Boolean.parseBoolean(sFluidsElevator));
     }
 
-    public boolean isFluidsElevator() {
-        return fluidsElevator;
+    public boolean isAllowFluids() {
+        return allowFluids;
     }
 
     public void setAllowFluids(boolean allowFluids) {
@@ -1113,8 +1117,8 @@ public class ItemManagerItem {
         setAllowFluids(Boolean.parseBoolean(sAllowFluids));
     }
 
-    public boolean isAllowFluids() {
-        return allowFluids;
+    public boolean isBury() {
+        return bury;
     }
 
     public void setBury(boolean bury) {
@@ -1125,8 +1129,8 @@ public class ItemManagerItem {
         setBury(Boolean.parseBoolean(sBury));
     }
 
-    public boolean isBury() {
-        return bury;
+    public boolean isBuryLocked() {
+        return buryLocked;
     }
 
     public void setBuryLocked(boolean buryLocked) {
@@ -1137,8 +1141,8 @@ public class ItemManagerItem {
         setBuryLocked(Boolean.parseBoolean(sBuryLocked));
     }
 
-    public boolean isBuryLocked() {
-        return buryLocked;
+    public ArrayList<String> getBuryItem() {
+        return buryItem;
     }
 
     public void setBuryItem(ArrayList<String> buryItem) {
@@ -1149,8 +1153,8 @@ public class ItemManagerItem {
         setBuryItem(Utils.getArray(buryItem));
     }
 
-    public ArrayList<String> getBuryItem() {
-        return buryItem;
+    public ArrayList<Integer> getBuryItemPCT() {
+        return buryItemPCT;
     }
 
     public void setBuryItemPCT(ArrayList<Integer> buryItemPCT) throws Exception {
@@ -1178,8 +1182,8 @@ public class ItemManagerItem {
         setBuryItemPCT(Utils.getArrayIntegers(sBuryItemPCT));
     }
 
-    public ArrayList<Integer> getBuryItemPCT() {
-        return buryItemPCT;
+    public boolean isBuryDestroyItem() {
+        return buryDestroyItem;
     }
 
     public void setBuryDestroyItem(boolean buryDestroyItem) {
@@ -1190,8 +1194,8 @@ public class ItemManagerItem {
         setBuryDestroyItem(Boolean.parseBoolean(sDestroyItem));
     }
 
-    public boolean isBuryDestroyItem() {
-        return buryDestroyItem;
+    public ArrayList<String> getBuryLivings() {
+        return buryLivings;
     }
 
     public void setBuryLivings(ArrayList<String> buryLivings) {
@@ -1202,8 +1206,8 @@ public class ItemManagerItem {
         setBuryLivings(Utils.getArray(sBuryLivings));
     }
 
-    public ArrayList<String> getBuryLivings() {
-        return buryLivings;
+    public ArrayList<Integer> getBuryLivingsPCT() {
+        return buryLivingsPCT;
     }
 
     public void setBuryLivingsPCT(ArrayList<Integer> buryLivingsPCT) throws Exception {
@@ -1222,8 +1226,8 @@ public class ItemManagerItem {
         setBuryLivingsPCT(Utils.getArrayIntegers(sBuryLivingsPCT));
     }
 
-    public ArrayList<Integer> getBuryLivingsPCT() {
-        return buryLivingsPCT;
+    public boolean isCanBeRotated() {
+        return canBeRotated;
     }
 
     public void setCanBeRotated(boolean canBeRotated) {
@@ -1234,16 +1238,16 @@ public class ItemManagerItem {
         setCanBeRotated(Boolean.parseBoolean(sCanBeRotated));
     }
 
-    public boolean isCanBeRotated() {
-        return canBeRotated;
+    public String getBuildAction() {
+        return buildAction;
     }
 
     public void setBuildAction(String buildAction) {
         this.buildAction = buildAction;
     }
 
-    public String getBuildAction() {
-        return buildAction;
+    public boolean isContainer() {
+        return container;
     }
 
     public void setContainer(boolean container) {
@@ -1254,8 +1258,8 @@ public class ItemManagerItem {
         setContainer(Boolean.parseBoolean(sContainer));
     }
 
-    public boolean isContainer() {
-        return container;
+    public int getContainerSize() {
+        return containerSize;
     }
 
     public void setContainerSize(int containerSize) {
@@ -1285,8 +1289,8 @@ public class ItemManagerItem {
         }
     }
 
-    public int getContainerSize() {
-        return containerSize;
+    public boolean isStackable() {
+        return stackable;
     }
 
     public void setStackable(boolean stackable) {
@@ -1297,8 +1301,8 @@ public class ItemManagerItem {
         setStackable(Boolean.parseBoolean(sStackable));
     }
 
-    public boolean isStackable() {
-        return stackable;
+    public int getStackableSize() {
+        return stackableSize;
     }
 
     public void setStackableSize(int stackableSize) {
@@ -1328,8 +1332,8 @@ public class ItemManagerItem {
         }
     }
 
-    public int getStackableSize() {
-        return stackableSize;
+    public int getSpeedUpPCT() {
+        return speedUpPCT;
     }
 
     public void setSpeedUpPCT(int speedUpPCT) {
@@ -1352,8 +1356,11 @@ public class ItemManagerItem {
         }
     }
 
-    public int getSpeedUpPCT() {
-        return speedUpPCT;
+    /**
+     * @return the floorWwalkSpeed
+     */
+    public int getFloorWalkSpeed() {
+        return floorWalkSpeed;
     }
 
     /**
@@ -1374,15 +1381,12 @@ public class ItemManagerItem {
         setFloorWalkSpeed(Utils.launchDice(sFloorWalkSpeed));
     }
 
-    /**
-     * @return the floorWwalkSpeed
-     */
-    public int getFloorWalkSpeed() {
-        return floorWalkSpeed;
-    }
-
     public boolean isMilitaryItem() {
         return location != 0;
+    }
+
+    public int getFoodValue() {
+        return foodValue;
     }
 
     public void setFoodValue(int foodValue) {
@@ -1393,8 +1397,8 @@ public class ItemManagerItem {
         setFoodValue(Utils.launchDice(sFoodValue));
     }
 
-    public int getFoodValue() {
-        return foodValue;
+    public int getFoodFillPCT() {
+        return foodFillPCT;
     }
 
     public void setFoodFillPCT(int foodFillPCT) {
@@ -1405,8 +1409,8 @@ public class ItemManagerItem {
         setFoodFillPCT(Utils.launchDice(sFoodFillPCT));
     }
 
-    public int getFoodFillPCT() {
-        return foodFillPCT;
+    public int getFoodEatTime() {
+        return foodEatTime;
     }
 
     public void setFoodEatTime(int foodEatTime) {
@@ -1417,8 +1421,8 @@ public class ItemManagerItem {
         setFoodEatTime(Utils.launchDice(sFoodEatTime));
     }
 
-    public int getFoodEatTime() {
-        return foodEatTime;
+    public ArrayList<String> getFoodEffects() {
+        return foodEffects;
     }
 
     public void setFoodEffects(ArrayList<String> foodEffects) throws Exception {
@@ -1435,10 +1439,6 @@ public class ItemManagerItem {
 
     public void setFoodEffects(String sFoodEffects) throws Exception {
         setFoodEffects(Utils.getArray(sFoodEffects));
-    }
-
-    public ArrayList<String> getFoodEffects() {
-        return foodEffects;
     }
 
     public String getEatString() {

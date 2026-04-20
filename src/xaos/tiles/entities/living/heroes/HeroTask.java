@@ -7,10 +7,8 @@ import java.io.ObjectOutput;
 
 public class HeroTask implements Externalizable {
 
-    private static final long serialVersionUID = -6266264964470429319L;
-
     public final static int TASK_NO_TASK = 0;
-    public final static int TASK_RAGE = 1; // Héroe entra en furia y empieza a petar aldeanos
+    public final static int TASK_RAGE = 1; // Hï¿½roe entra en furia y empieza a petar aldeanos
     public final static int TASK_LEAVING = 2; // Leaving the town
     public final static int TASK_DESTROY_BLOCKING = 3; // Destroys blocking items he found
     public final static int TASK_IDLE = 4;
@@ -18,7 +16,7 @@ public class HeroTask implements Externalizable {
     public final static int TASK_EATING = 6;
     public final static int TASK_SLEEPING = 7;
     public final static int TASK_EQUIPING = 8;
-
+    private static final long serialVersionUID = -6266264964470429319L;
     private int taskID;
 
     public HeroTask() {
@@ -29,17 +27,17 @@ public class HeroTask implements Externalizable {
     }
 
     /**
-     * @param taskID the taskID to set
-     */
-    public void setTaskID(int taskID) {
-        this.taskID = taskID;
-    }
-
-    /**
      * @return the taskID
      */
     public int getTaskID() {
         return taskID;
+    }
+
+    /**
+     * @param taskID the taskID to set
+     */
+    public void setTaskID(int taskID) {
+        this.taskID = taskID;
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {

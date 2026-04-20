@@ -1,16 +1,16 @@
 package xaos.tasks;
 
+import xaos.utils.Point3DShort;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.ArrayList;
 
-import xaos.utils.Point3DShort;
-
 /**
  * Clase usada por las tareas (Task's) para indicar donde hay que ir y sobre que
- * casilla actuar. Ej: Hay que ir a la posición 10,10,0 y minar la casilla
+ * casilla actuar. Ej: Hay que ir a la posiciï¿½n 10,10,0 y minar la casilla
  * 10,11,0
  */
 public final class HotPoint implements Externalizable {
@@ -18,7 +18,7 @@ public final class HotPoint implements Externalizable {
     private static final long serialVersionUID = 7742440798076745420L;
 
     /**
-     * Punto donde ejecutar la acción
+     * Punto donde ejecutar la acciï¿½n
      */
     private Point3DShort hotPoint;
 
@@ -28,7 +28,7 @@ public final class HotPoint implements Externalizable {
     private ArrayList<Point3DShort> places;
 
     /**
-     * Indica si el hotpoint está acabado
+     * Indica si el hotpoint estï¿½ acabado
      */
     private boolean finished;
 
@@ -64,7 +64,7 @@ public final class HotPoint implements Externalizable {
 
     public void setPlaces(ArrayList<Point3DShort> places, boolean maintainCurrentOrder) {
         if (maintainCurrentOrder && this.places != null && places != null) {
-            // Mantenemos el orden, ya que otros aldeanos podrían estar haciendo cosas
+            // Mantenemos el orden, ya que otros aldeanos podrï¿½an estar haciendo cosas
             int iSize = this.places.size();
             for (int i = (iSize - 1); i >= 0; i--) {
                 if (places.contains(this.places.get(i))) {
@@ -101,12 +101,12 @@ public final class HotPoint implements Externalizable {
         this.finished = finished;
     }
 
-    public void setParameter(int parameter) {
-        this.parameter = parameter;
-    }
-
     public int getParameter() {
         return parameter;
+    }
+
+    public void setParameter(int parameter) {
+        this.parameter = parameter;
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {

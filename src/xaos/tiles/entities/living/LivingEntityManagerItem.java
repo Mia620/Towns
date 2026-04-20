@@ -1,8 +1,5 @@
 package xaos.tiles.entities.living;
 
-import java.awt.Point;
-import java.util.ArrayList;
-
 import xaos.caravans.CaravanManager;
 import xaos.data.DropData;
 import xaos.data.LivingEntityData;
@@ -14,6 +11,9 @@ import xaos.utils.Messages;
 import xaos.utils.Utils;
 import xaos.utils.UtilsAL;
 import xaos.utils.UtilsIniHeaders;
+
+import java.awt.*;
+import java.util.ArrayList;
 
 public class LivingEntityManagerItem {
 
@@ -45,7 +45,7 @@ public class LivingEntityManagerItem {
     private int HPregeneration;
 
     // Age
-    private String maxAge; // Edad máxima del living
+    private String maxAge; // Edad mï¿½xima del living
     private String maxAgeLiving; // Living que "suelta" al morir
 
     // Equipment
@@ -211,7 +211,7 @@ public class LivingEntityManagerItem {
     }
 
     public LivingEntityData getRandom() {
-        // Se ponen aquí las cosas que hay que lanzar dados, las cosas fijas no hace falta, siempre se pueden consultar de un LivingEntityManagerItem
+        // Se ponen aquï¿½ las cosas que hay que lanzar dados, las cosas fijas no hace falta, siempre se pueden consultar de un LivingEntityManagerItem
         LivingEntityData led = new LivingEntityData();
         led.setName(getName());
 
@@ -249,12 +249,16 @@ public class LivingEntityManagerItem {
         return led;
     }
 
+    public String getIniHeader() {
+        return iniHeader;
+    }
+
     public void setIniHeader(String iniHeader) {
         this.iniHeader = iniHeader;
     }
 
-    public String getIniHeader() {
-        return iniHeader;
+    public int getType() {
+        return type;
     }
 
     public void setType(String type) throws Exception {
@@ -277,8 +281,8 @@ public class LivingEntityManagerItem {
         }
     }
 
-    public int getType() {
-        return type;
+    public int getLevel() {
+        return level;
     }
 
     public void setLevel(int level) {
@@ -289,10 +293,6 @@ public class LivingEntityManagerItem {
         setLevel(Utils.getInteger(sLevel, 0));
     }
 
-    public int getLevel() {
-        return level;
-    }
-
     public String getName() {
         return name;
     }
@@ -301,20 +301,24 @@ public class LivingEntityManagerItem {
         this.name = name;
     }
 
+    public String getNamePoolTag() {
+        return namePoolTag;
+    }
+
     public void setNamePoolTag(String namePoolTag) {
         this.namePoolTag = namePoolTag;
     }
 
-    public String getNamePoolTag() {
-        return namePoolTag;
+    public String getSurnamePoolTag() {
+        return surnamePoolTag;
     }
 
     public void setSurnamePoolTag(String surnamePoolTag) {
         this.surnamePoolTag = surnamePoolTag;
     }
 
-    public String getSurnamePoolTag() {
-        return surnamePoolTag;
+    public boolean isFemale() {
+        return female;
     }
 
     public void setFemale(boolean female) {
@@ -325,10 +329,6 @@ public class LivingEntityManagerItem {
         setFemale(Boolean.parseBoolean(sFemale));
     }
 
-    public boolean isFemale() {
-        return female;
-    }
-
     public String getAttack() {
         return attack;
     }
@@ -337,12 +337,12 @@ public class LivingEntityManagerItem {
         this.attack = attack;
     }
 
-    public void setAttackSpeed(String attackSpeed) {
-        this.attackSpeed = attackSpeed;
-    }
-
     public String getAttackSpeed() {
         return attackSpeed;
+    }
+
+    public void setAttackSpeed(String attackSpeed) {
+        this.attackSpeed = attackSpeed;
     }
 
     public String getDefense() {
@@ -369,12 +369,12 @@ public class LivingEntityManagerItem {
         this.attackVerb = attackVerb;
     }
 
-    public void setAttackVerbInfinitive(String attackVerbInfinitive) {
-        this.attackVerbInfinitive = attackVerbInfinitive;
-    }
-
     public String getAttackVerbInfinitive() {
         return attackVerbInfinitive;
+    }
+
+    public void setAttackVerbInfinitive(String attackVerbInfinitive) {
+        this.attackVerbInfinitive = attackVerbInfinitive;
     }
 
     public String getDamage() {
@@ -385,16 +385,12 @@ public class LivingEntityManagerItem {
         this.damage = damage;
     }
 
-    public void setLOS(String lOS) {
-        LOS = lOS;
-    }
-
     public String getLOS() {
         return LOS;
     }
 
-    public void setDropData(ArrayList<DropData> dropData) {
-        this.dropData = dropData;
+    public void setLOS(String lOS) {
+        LOS = lOS;
     }
 
     public ArrayList<DropData> getDropData() {
@@ -402,20 +398,24 @@ public class LivingEntityManagerItem {
         return dropData;
     }
 
-    public void setMovePCT(String sMovePCT) {
-        this.movePCT = sMovePCT;
+    public void setDropData(ArrayList<DropData> dropData) {
+        this.dropData = dropData;
     }
 
     public String getMovePCT() {
         return movePCT;
     }
 
-    public void setWalkSpeed(String walkSpeed) {
-        this.walkSpeed = walkSpeed;
+    public void setMovePCT(String sMovePCT) {
+        this.movePCT = sMovePCT;
     }
 
     public String getWalkSpeed() {
         return walkSpeed;
+    }
+
+    public void setWalkSpeed(String walkSpeed) {
+        this.walkSpeed = walkSpeed;
     }
 
     public void setGrouping(boolean grouping) {
@@ -430,16 +430,16 @@ public class LivingEntityManagerItem {
         return grouping;
     }
 
+    public int getHPRegeneration() {
+        return HPregeneration;
+    }
+
     public void setHPRegeneration(int iHPR) {
         this.HPregeneration = iHPR;
     }
 
     public void setHPRegeneration(String sHPR) {
         setHPRegeneration(Utils.getInteger(sHPR, 0));
-    }
-
-    public int getHPRegeneration() {
-        return HPregeneration;
     }
 
     public String getMaxAge() {
@@ -458,12 +458,16 @@ public class LivingEntityManagerItem {
         this.maxAgeLiving = maxAgeLiving;
     }
 
+    public ArrayList<String> getEquip() {
+        return equip;
+    }
+
     public void setEquip(ArrayList<String> equip) {
         this.equip = equip;
     }
 
-    public ArrayList<String> getEquip() {
-        return equip;
+    public ArrayList<String> getEquipAllowed() {
+        return equipAllowed;
     }
 
     public void setEquipAllowed(ArrayList<String> equipAllowed) {
@@ -472,14 +476,6 @@ public class LivingEntityManagerItem {
 
     public void setEquipAllowed(String sEquipAllowed) {
         setEquipAllowed(Utils.getArray(sEquipAllowed));
-    }
-
-    public ArrayList<String> getEquipAllowed() {
-        return equipAllowed;
-    }
-
-    public void setHabitat(ArrayList<Integer> habitat) {
-        this.habitat = habitat;
     }
 
     public void setHabitatAsString(ArrayList<String> habitat) throws Exception {
@@ -499,6 +495,10 @@ public class LivingEntityManagerItem {
 
     public ArrayList<Integer> getHabitat() {
         return habitat;
+    }
+
+    public void setHabitat(ArrayList<Integer> habitat) {
+        this.habitat = habitat;
     }
 
     public int getHabitatHeightMin() {
@@ -526,25 +526,29 @@ public class LivingEntityManagerItem {
     }
 
     /**
-     * @param hate the hate to set
-     */
-    public void setHate(String hate) {
-        this.hate = hate;
-    }
-
-    /**
      * @return the hate
      */
     public String getHate() {
         return hate;
     }
 
-    public void setBuilding(String building) {
-        this.building = building;
+    /**
+     * @param hate the hate to set
+     */
+    public void setHate(String hate) {
+        this.hate = hate;
     }
 
     public String getBuilding() {
         return building;
+    }
+
+    public void setBuilding(String building) {
+        this.building = building;
+    }
+
+    public int getBuildingTime() {
+        return buildingTime;
     }
 
     public void setBuildingTime(int buildingTime) {
@@ -555,28 +559,28 @@ public class LivingEntityManagerItem {
         setBuildingTime(Utils.launchDice(sBuildingTime));
     }
 
-    public int getBuildingTime() {
-        return buildingTime;
+    public ArrayList<String> getAltGraphics() {
+        return altGraphics;
     }
 
     public void setAltGraphics(ArrayList<String> altGraphics) {
         this.altGraphics = altGraphics;
     }
 
-    public ArrayList<String> getAltGraphics() {
-        return altGraphics;
+    public ArrayList<String> getActions() {
+        return actions;
     }
 
     public void setActions(ArrayList<String> actions) {
         this.actions = actions;
     }
 
-    public ArrayList<String> getActions() {
-        return actions;
-    }
-
     public boolean hasActions() {
         return actions != null && actions.size() > 0;
+    }
+
+    public boolean isFacingDirections() {
+        return facingDirections;
     }
 
     public void setFacingDirections(boolean facingDirections) {
@@ -590,16 +594,12 @@ public class LivingEntityManagerItem {
         setFacingDirections(Boolean.parseBoolean(sFacingDirections));
     }
 
-    public boolean isFacingDirections() {
-        return facingDirections;
-    }
-
     public String getMaxHungryTurns() {
         return maxHungryTurns;
     }
 
     public void setMaxHungryTurns(String maxHungryTurns) throws Exception {
-        // Sólo se llama si es citizen o hero
+        // Sï¿½lo se llama si es citizen o hero
         if (maxHungryTurns == null || maxHungryTurns.trim().length() == 0) {
             throw new Exception(Messages.getString("LivingEntityManagerItem.0")); //$NON-NLS-1$
         }
@@ -616,7 +616,7 @@ public class LivingEntityManagerItem {
     }
 
     public void setMaxSleepTurns(String maxSleepTurns) throws Exception {
-        // Sólo se llama si es citizen o hero
+        // Sï¿½lo se llama si es citizen o hero
         if (maxSleepTurns == null || maxSleepTurns.trim().length() == 0) {
             throw new Exception(Messages.getString("LivingEntityManagerItem.3")); //$NON-NLS-1$
         }
@@ -628,52 +628,56 @@ public class LivingEntityManagerItem {
         this.maxSleepTurns = maxSleepTurns;
     }
 
-    public void setHeroComePrerequisite(String heroPrerequisite) {
-        this.heroComePrerequisite = heroPrerequisite;
-    }
-
     public String getHeroComePrerequisite() {
         return heroComePrerequisite;
     }
 
-    public void setHeroStayPrerequisite(String heroPrerequisite) {
-        this.heroStayPrerequisite = heroPrerequisite;
+    public void setHeroComePrerequisite(String heroPrerequisite) {
+        this.heroComePrerequisite = heroPrerequisite;
     }
 
     public String getHeroStayPrerequisite() {
         return heroStayPrerequisite;
     }
 
-    public void setHeroBehaviour(String heroBehaviour) {
-        this.heroBehaviour = heroBehaviour;
+    public void setHeroStayPrerequisite(String heroPrerequisite) {
+        this.heroStayPrerequisite = heroPrerequisite;
     }
 
     public String getHeroBehaviour() {
         return heroBehaviour;
     }
 
-    public void setHeroSkills(String sHeroSkills) {
-        this.heroSkills = sHeroSkills;
+    public void setHeroBehaviour(String heroBehaviour) {
+        this.heroBehaviour = heroBehaviour;
     }
 
     public String getHeroSkills() {
         return heroSkills;
     }
 
-    public void setMoral(String moral) {
-        this.moral = moral;
+    public void setHeroSkills(String sHeroSkills) {
+        this.heroSkills = sHeroSkills;
     }
 
     public String getMoral() {
         return moral;
     }
 
-    public void setEatZone(String eatZone) {
-        this.eatZone = eatZone;
+    public void setMoral(String moral) {
+        this.moral = moral;
     }
 
     public String getEatZone() {
         return eatZone;
+    }
+
+    public void setEatZone(String eatZone) {
+        this.eatZone = eatZone;
+    }
+
+    public int[] getFollowEntity() {
+        return followEntity;
     }
 
     public void setFollowEntity(String followEntity) {
@@ -685,16 +689,16 @@ public class LivingEntityManagerItem {
         }
     }
 
-    public int[] getFollowEntity() {
-        return followEntity;
+    public String getFollowTurns() {
+        return followTurns;
     }
 
     public void setFollowTurns(String followTurns) {
         this.followTurns = followTurns;
     }
 
-    public String getFollowTurns() {
-        return followTurns;
+    public ArrayList<String> getEffects() {
+        return effects;
     }
 
     public void setEffects(ArrayList<String> effects) throws Exception {
@@ -713,8 +717,8 @@ public class LivingEntityManagerItem {
         setEffects(Utils.getArray(sEffects));
     }
 
-    public ArrayList<String> getEffects() {
-        return effects;
+    public ArrayList<String> getEffectsImmune() {
+        return effectsImmune;
     }
 
     public void setEffectsImmune(ArrayList<String> effectsImmune) throws Exception {
@@ -733,8 +737,8 @@ public class LivingEntityManagerItem {
         setEffectsImmune(Utils.getArray(sEffectsImmune));
     }
 
-    public ArrayList<String> getEffectsImmune() {
-        return effectsImmune;
+    public boolean isEvadeTraps() {
+        return evadeTraps;
     }
 
     public void setEvadeTraps(boolean evadeTraps) {
@@ -745,8 +749,8 @@ public class LivingEntityManagerItem {
         setEvadeTraps(Boolean.parseBoolean(sEvadeTraps));
     }
 
-    public boolean isEvadeTraps() {
-        return evadeTraps;
+    public String getCaravan() {
+        return caravan;
     }
 
     public void setCaravan(String sCaravan) throws Exception {
@@ -759,8 +763,8 @@ public class LivingEntityManagerItem {
         this.caravan = sCaravan;
     }
 
-    public String getCaravan() {
-        return caravan;
+    public int[] getSteal() {
+        return steal;
     }
 
     public void setSteal(ArrayList<String> steal) throws Exception {
@@ -786,7 +790,7 @@ public class LivingEntityManagerItem {
                 }
             }
 
-            // Llegados aquí tenemos una lista de items, comprobamos que existan
+            // Llegados aquï¿½ tenemos una lista de items, comprobamos que existan
             for (int i = 0; i < alItems.size(); i++) {
                 if (ItemManager.getItem(alItems.get(i)) == null) {
                     throw new Exception(Messages.getString("LivingEntityManagerItem.11") + " [" + alItems.get(i) + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -807,8 +811,8 @@ public class LivingEntityManagerItem {
         setSteal(Utils.getArray(sSteal));
     }
 
-    public int[] getSteal() {
-        return steal;
+    public int[] getStealLivings() {
+        return stealLivings;
     }
 
     public void setStealLivings(ArrayList<String> alStealLivings) {
@@ -826,8 +830,8 @@ public class LivingEntityManagerItem {
         setStealLivings(Utils.getArray(sStealLivings));
     }
 
-    public int[] getStealLivings() {
-        return stealLivings;
+    public String getFxDead() {
+        return fxDead;
     }
 
     public void setFxDead(String fxDead) throws Exception {
@@ -841,8 +845,8 @@ public class LivingEntityManagerItem {
         }
     }
 
-    public String getFxDead() {
-        return fxDead;
+    public int[] getFoodNeeded() {
+        return foodNeeded;
     }
 
     public void setFoodNeeded(ArrayList<String> alFoodNeeded) {
@@ -864,8 +868,8 @@ public class LivingEntityManagerItem {
         this.foodNeeded = foodNeeded;
     }
 
-    public int[] getFoodNeeded() {
-        return foodNeeded;
+    public int getFoodNeededTurns() {
+        return foodNeededTurns;
     }
 
     public void setFoodNeededTurns(String foodNeededTurns) throws Exception {
@@ -887,8 +891,8 @@ public class LivingEntityManagerItem {
         }
     }
 
-    public int getFoodNeededTurns() {
-        return foodNeededTurns;
+    public int getFoodNeededDieTurns() {
+        return foodNeededDieTurns;
     }
 
     public void setFoodNeededDieTurns(int foodNeededDieTurns) throws Exception {
@@ -913,8 +917,8 @@ public class LivingEntityManagerItem {
         }
     }
 
-    public int getFoodNeededDieTurns() {
-        return foodNeededDieTurns;
+    public boolean isAnimatedWhenIdle() {
+        return animatedWhenIdle;
     }
 
     public void setAnimatedWhenIdle(boolean animatedWhenIdle) {
@@ -925,8 +929,8 @@ public class LivingEntityManagerItem {
         setAnimatedWhenIdle(Boolean.parseBoolean(sAnimatedWhenIdle));
     }
 
-    public boolean isAnimatedWhenIdle() {
-        return animatedWhenIdle;
+    public String getWorkCounterPCT() {
+        return workCounterPCT;
     }
 
     public void setWorkCounterPCT(String sWorkCounterPCT) throws Exception {
@@ -939,8 +943,8 @@ public class LivingEntityManagerItem {
         this.workCounterPCT = sWorkCounterPCT;
     }
 
-    public String getWorkCounterPCT() {
-        return workCounterPCT;
+    public String getIdleCounterPCT() {
+        return idleCounterPCT;
     }
 
     public void setIdleCounterPCT(String sIdleCounterPCT) throws Exception {
@@ -951,9 +955,5 @@ public class LivingEntityManagerItem {
             }
         }
         this.idleCounterPCT = sIdleCounterPCT;
-    }
-
-    public String getIdleCounterPCT() {
-        return idleCounterPCT;
     }
 }

@@ -1,8 +1,8 @@
 package xaos.tiles.terrain;
 
-import java.util.ArrayList;
-
 import xaos.utils.Utils;
+
+import java.util.ArrayList;
 
 public class TerrainManagerItem {
 
@@ -47,12 +47,12 @@ public class TerrainManagerItem {
         this.iniHeader = iniHeader;
     }
 
-    public void setTerrainID(int terrainID) {
-        this.terrainID = terrainID;
-    }
-
     public int getTerrainID() {
         return terrainID;
+    }
+
+    public void setTerrainID(int terrainID) {
+        this.terrainID = terrainID;
     }
 
     public String getName() {
@@ -95,12 +95,16 @@ public class TerrainManagerItem {
         setDropPCT(Utils.getInteger(sDropPCT, 0));
     }
 
+    public String getLadderItem() {
+        return ladderItem;
+    }
+
     public void setLadderItem(String ladderItem) {
         this.ladderItem = ladderItem;
     }
 
-    public String getLadderItem() {
-        return ladderItem;
+    public boolean isCanBeFilled() {
+        return canBeFilled;
     }
 
     public void setCanBeFilled(boolean canBeFilled) {
@@ -111,16 +115,16 @@ public class TerrainManagerItem {
         setCanBeFilled(Boolean.parseBoolean(sCanBeFilled));
     }
 
-    public boolean isCanBeFilled() {
-        return canBeFilled;
+    public String getGroup() {
+        return group;
     }
 
     public void setGroup(String group) {
         this.group = group;
     }
 
-    public String getGroup() {
-        return group;
+    public boolean isBlocky() {
+        return blocky;
     }
 
     public void setBlocky(boolean blocky) {
@@ -135,16 +139,12 @@ public class TerrainManagerItem {
         }
     }
 
-    public boolean isBlocky() {
-        return blocky;
+    public ArrayList<String> getActions() {
+        return actions;
     }
 
     public void setActions(ArrayList<String> actions) {
         this.actions = actions;
-    }
-
-    public ArrayList<String> getActions() {
-        return actions;
     }
 
     public boolean hasActions() {

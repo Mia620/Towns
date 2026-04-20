@@ -4,13 +4,12 @@ import xaos.tiles.Tile;
 
 public class Orders {
 
-    private static final long serialVersionUID = -3349547564930871768L;
-
     public final static Tile[] TERRAIN_ORDERS = {
-        new Tile("orders"), //$NON-NLS-1$
-        new Tile("ordersBlock"), //$NON-NLS-1$
-        new Tile("ordersMiniBlock"), //$NON-NLS-1$
+            new Tile("orders"), //$NON-NLS-1$
+            new Tile("ordersBlock"), //$NON-NLS-1$
+            new Tile("ordersMiniBlock"), //$NON-NLS-1$
     };
+    private static final long serialVersionUID = -3349547564930871768L;
 
     public Orders() {
         for (int i = 0; i < TERRAIN_ORDERS.length; i++) {

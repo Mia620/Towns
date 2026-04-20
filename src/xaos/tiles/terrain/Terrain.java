@@ -1,14 +1,6 @@
 package xaos.tiles.terrain;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import xaos.TownsProperties;
-
 import xaos.actions.ActionManager;
 import xaos.actions.ActionManagerItem;
 import xaos.data.SoldierData;
@@ -30,24 +22,25 @@ import xaos.tiles.entities.items.ItemManagerItem;
 import xaos.tiles.entities.living.Citizen;
 import xaos.tiles.entities.living.LivingEntityManager;
 import xaos.tiles.entities.living.LivingEntityManagerItem;
-import xaos.utils.Messages;
-import xaos.utils.Point3D;
-import xaos.utils.Point3DShort;
-import xaos.utils.Utils;
-import xaos.utils.UtilsAL;
+import xaos.utils.*;
 import xaos.zones.Zone;
 
-public class Terrain implements Externalizable {
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
-    private static final long serialVersionUID = -1566260935587865427L;
+public class Terrain implements Externalizable {
 
     public static final byte FLUIDS_NONE = 0;
     public static final byte FLUIDS_WATER = 1;
     public static final byte FLUIDS_LAVA = 2;
-
     public static final byte FLUIDS_COUNT_MAX = 6;
     public static final byte FLUIDS_COUNT_INFINITE = 7;
-
+    private static final long serialVersionUID = -1566260935587865427L;
     private short mineTurns; // If mineTurns reachs 0, cell it's mined
 
     private byte fluidType;
@@ -62,190 +55,6 @@ public class Terrain implements Externalizable {
     public Terrain(String iniHeader) {
         setTerrainID(TerrainManager.getItem(iniHeader).getTerrainID());
         setTerrainTileID(getTerrainID() * TerrainManager.SLOPES_INIHEADER.length);
-    }
-
-    public void refreshTransients() {
-        setTerrainTileID(getTerrainID() * TerrainManager.SLOPES_INIHEADER.length);
-    }
-
-    public int getMineTurns() {
-        return mineTurns;
-    }
-
-    public void setMineTurns(int mineTurns) {
-        this.mineTurns = (short) mineTurns;
-    }
-
-    /**
-     * Mina la celda actual y si ha acabado sacamos el material
-     *
-     * @param world
-     * @param x
-     * @param y
-     * @param z
-     */
-    public void mine(short x, short y, short z, boolean bMineLadder) {
-        if (getMineTurns() > 0) {
-            setMineTurns(getMineTurns() - 1);
-
-            if (getMineTurns() % 5 == 0) {
-                UtilsAL.play(UtilsAL.SOURCE_FX_MINE, z);
-            }
-
-            if (getMineTurns() <= 0) {
-                // Mined !!
-                Cell currentCell = World.getCell(x, y, z);
-                Cell cellOver = null;
-                currentCell.setMined(true);
-                currentCell.setBlocky(false);
-
-                // Vamos a diggear también la casilla de justo arriba
-                if (z > 0) {
-                    cellOver = World.getCell(x, y, z - 1);
-                    cellOver.setDiscovered(true);
-                    cellOver.setDigged(true);
-
-                    // Creamos raw material en la casilla
-                    if (!bMineLadder) {
-                        Item rm = createDrop(currentCell.getTerrain(), x, y, z);
-                        if (rm != null) {
-                            rm.init(x, y, z);
-                            rm.setOperative(true);
-                            currentCell.setEntity(rm);
-                        }
-                    }
-                }
-
-                // Slopes de ella, la de arriba y las adyacentes
-                for (short i = -1; i <= 1; i++) {
-                    for (short j = -1; j <= 1; j++) {
-                        for (short k = 0; k <= 1; k++) {
-                            Terrain.checkSlope(World.getCells(), (short) (x + i), (short) (y + j), (short) (z + k));
-                            Game.getWorld().addFluidCellToProcess(x + i, y + j, z + k, false);
-                        }
-                    }
-                }
-                Game.getWorld().addFluidCellToProcess(x, y, z - 1, false);
-                Game.getWorld().addFluidCellToProcess(x, y, z + 1, false);
-
-                // Discovered a las adyacentes
-                discoverNeighbours(x, y, z);
-                if (z > 0) {
-                    discoverNeighbours(x, y, z - 1);
-                }
-
-                // Discovered abajo si la celda está minada
-                if (z < (World.MAP_DEPTH - 1)) {
-                    Cell cell = World.getCell(x, y, z + 1);
-                    cell.setDiscovered(true);
-                    discoverNeighbours(x, y, z + 1);
-                }
-
-                if (z > 0) {
-                    // Si la casilla de arriba está digged las cosas deben caer
-                    cellOver.fallThings();
-                }
-
-                // Añadimos el item de la celda de arriba (si tiene) a la lista de items posibles a caer, tambien los de los lados (por si tienen glue)
-                Item item;
-                if (z > 0) {
-                    item = cellOver.getItem();
-                    if (item != null) {
-                        World.addFallItem(item.getID());
-                    }
-                }
-                if (x > 0) {
-                    item = World.getCell(x - 1, y, z).getItem();
-                    if (item != null) {
-                        World.addFallItem(item.getID());
-                    }
-                }
-                if (x < (World.MAP_WIDTH - 1)) {
-                    item = World.getCell(x + 1, y, z).getItem();
-                    if (item != null) {
-                        World.addFallItem(item.getID());
-                    }
-                }
-                if (y > 0) {
-                    item = World.getCell(x, y - 1, z).getItem();
-                    if (item != null) {
-                        World.addFallItem(item.getID());
-                    }
-                }
-                if (y < (World.MAP_HEIGHT - 1)) {
-                    item = World.getCell(x, y + 1, z).getItem();
-                    if (item != null) {
-                        World.addFallItem(item.getID());
-                    }
-                }
-
-                // Si no mina en la planta (floor) más baja descubrimos una nueva planta (floor)
-                Game.getWorld().discoverFloor(z);
-
-                if (z > 0) {
-                    // Si ha diggeado en una stockpile le quitamos el flag
-                    Stockpile.deleteStockpilePoint(x, y, (short) (z - 1));
-
-                    // Si ha diggeado en una zone le quitamos el flag
-                    Zone.deleteZonePoint(x, y, z - 1);
-                }
-
-                // Minimap reload
-                MiniMapPanel.setMinimapReload(z);
-                MiniMapPanel.setMinimapReload(z - 1);
-
-                if (bMineLadder) {
-                    // Antes de minar miro si es un mine a ladder y pillo el ItemManagerItem, ya que luego quizá la celda se ha convertido en AIR debido a otras tareas o lo que sea
-                    ItemManagerItem imiLadder = null;
-                    // Bingo, creamos el item si se puede
-                    String sLadderItem = TerrainManager.getItemByID(currentCell.getTerrain().getTerrainID()).getLadderItem();
-                    if (sLadderItem != null) {
-                        imiLadder = ItemManager.getItem(sLadderItem);
-
-                        if (Item.isCellAvailableForItem(imiLadder, x, y, z, true, true)) {
-                            Item itemLadder = Item.createItem(imiLadder);
-                            itemLadder.setOperative(true);
-                            itemLadder.setLocked(true);
-                            itemLadder.init(x, y, z);
-                            currentCell.setEntity(itemLadder);
-                        }
-                    }
-                }
-
-                // Cambiamos el tipo a AIR (al final por si el mine suelta un drop o por si metemos un ladder)
-                setTerrainID(TerrainManagerItem.TERRAIN_AIR_ID);
-                setTerrainTileID(TerrainManagerItem.TERRAIN_AIR_ID * TerrainManager.SLOPES_INIHEADER.length);
-
-                // Accesing points para las tareas de MINE pueden haber cambiado
-                Game.getWorld().getTaskManager().setReCheckMinePlaces(true);
-
-                // ShouldPaintUnders
-                Cell.setShouldPaintUnders(World.getCells(), x, y, z);
-
-                // Shadows
-                Cell.generateFullShadows(x, y, z);
-
-                // Light
-                Cell.generateLightsItemRemovedCellMined(x, y, z, ItemManagerItem.MAX_LIGHT_RADIUS);
-
-                // Open cell
-                Cell.generateOpen(World.getCells(), x, y);
-
-                // ShouldPaintUnders 2 (potser pot anar a dalt, per si acàs no li poso :D )
-                if (z < (World.MAP_DEPTH - 1)) {
-                    Cell.setShouldPaintUnders(World.getCells(), x, y, (short) (z + 1));
-                }
-
-                // ASZID
-                if (z > 0) {
-                    cellOver.setAstarZoneID(-1);
-                    //if (!Cell.splitTrickZoneID (x, y, z - 1)) {
-                    World.setRecheckASZID(true);
-                    //}
-                }
-                Cell.mergeZoneID(x, y, z, false);
-            }
-        }
     }
 
     public static void discoverNeighbours(int x, int y, int z) {
@@ -276,45 +85,6 @@ public class Terrain implements Externalizable {
                 World.getCell(x + 1, y + 1, z).setDiscovered(true);
             }
         }
-    }
-
-    public int getFluidType() {
-        return fluidType;
-    }
-
-    public void setFluidType(int fluidType) {
-        this.fluidType = (byte) fluidType;
-    }
-
-    public int getFluidCount() {
-        return fluidCount;
-    }
-
-    /**
-     * @param fluidCount
-     */
-    public void setFluidCount(int fluidCount) {
-        this.fluidCount = (byte) fluidCount;
-    }
-
-    public boolean hasFluids() {
-        return getFluidCount() > 0;
-    }
-
-    public void setTerrainID(int terrainID) {
-        this.terrainID = (short) terrainID;
-    }
-
-    public int getTerrainID() {
-        return terrainID;
-    }
-
-    public void setTerrainTileID(int terrainTileID) {
-        this.terrainTileID = (short) terrainTileID;
-    }
-
-    public int getTerrainTileID() {
-        return terrainTileID;
     }
 
     public static SmartMenu createMenuItems(Cell cell, SmartMenu smParent) {
@@ -449,28 +219,8 @@ public class Terrain implements Externalizable {
         return menuAddEvent;
     }
 
-//	public static SmartMenu createMenuGods (SmartMenu smParent) {
-//		SmartMenu menuChangeGodStatus = new SmartMenu (SmartMenu.TYPE_MENU, "Change god status", smParent, null, null); //$NON-NLS-1$
-//		ArrayList<GodData> alGods = Game.getWorld ().getGods ();
-//
-//		if (alGods != null) {
-//			for (int i = 0; i < alGods.size (); i++) {
-//				SmartMenu smGod = new SmartMenu (SmartMenu.TYPE_MENU, alGods.get (i).getFullName (), menuChangeGodStatus, null, null);
-//				smGod.addItem (new SmartMenu (SmartMenu.TYPE_ITEM, "-5 status", null, CommandPanel.COMMAND_GOD_STATUS_LOWER_5, alGods.get (i).getGodID (), null, null)); //$NON-NLS-1$ //$NON-NLS-2$
-//				smGod.addItem (new SmartMenu (SmartMenu.TYPE_ITEM, "+5 status", null, CommandPanel.COMMAND_GOD_STATUS_RAISE_5, alGods.get (i).getGodID (), null, null)); //$NON-NLS-1$ //$NON-NLS-2$
-//				smGod.addItem (new SmartMenu (SmartMenu.TYPE_TEXT, null, null, null, null));
-//				smGod.addItem (new SmartMenu (SmartMenu.TYPE_ITEM, Messages.getString ("Terrain.8"), null, CommandPanel.COMMAND_BACK, null));
-//				menuChangeGodStatus.addItem (smGod);
-//			}
-//		}
-//
-//		menuChangeGodStatus.addItem (new SmartMenu (SmartMenu.TYPE_TEXT, null, null, null, null));
-//		menuChangeGodStatus.addItem (new SmartMenu (SmartMenu.TYPE_ITEM, Messages.getString ("Terrain.8"), smParent, CommandPanel.COMMAND_BACK, null)); //$NON-NLS-1$
-//
-//		return menuChangeGodStatus;
-//	}
     /**
-     * Fills a contextual menú refering citizens of a cell
+     * Fills a contextual menï¿½ refering citizens of a cell
      *
      * @param cell
      * @param sm
@@ -577,7 +327,7 @@ public class Terrain implements Externalizable {
 
             if (alPatrolSoldiers.size() > 0 || alPatrolGroups.size() > 0) {
                 if (cell.getAstarZoneID() != -1) {
-                    // Hay soldados con patrol, creamos el menú de poner punto de patrol
+                    // Hay soldados con patrol, creamos el menï¿½ de poner punto de patrol
                     SmartMenu menuPatrols = new SmartMenu(SmartMenu.TYPE_MENU, Messages.getString("Terrain.9"), sm, null, null); //$NON-NLS-1$
 
                     for (int i = 0; i < alPatrolSoldiers.size(); i++) {
@@ -595,7 +345,7 @@ public class Terrain implements Externalizable {
 
             // Ahora los remove patrol points
             if (cell.isFlagPatrol()) {
-                // Miramos si hay más de 1 aldeano con ese punto, para crear un menú lista (también miramos los grupos)
+                // Miramos si hay mï¿½s de 1 aldeano con ese punto, para crear un menï¿½ lista (tambiï¿½n miramos los grupos)
                 SmartMenu menuPatrols = new SmartMenu(SmartMenu.TYPE_MENU, Messages.getString("Terrain.10"), sm, null, null); //$NON-NLS-1$
 
                 for (int i = 0; i < alPatrolSoldiers.size(); i++) {
@@ -666,7 +416,7 @@ public class Terrain implements Externalizable {
 //			}
             if (cell.isMined() && cell.getCoordinates().z < (World.MAP_DEPTH - 1)) {
                 Point3DShort p3d = cell.getCoordinates();
-                // Si está minado buscamos acciones de la celda de abajo
+                // Si estï¿½ minado buscamos acciones de la celda de abajo
                 Cell cellUnder = World.getCell(p3d.x, p3d.y, p3d.z + 1);
                 TerrainManagerItem tmiUnder = TerrainManager.getItemByID(cellUnder.getTerrain().getTerrainID());
                 if (tmiUnder.hasActions()) {
@@ -721,8 +471,8 @@ public class Terrain implements Externalizable {
             return false;
         }
 
-		// Podrá ir hacia arriba si aquí hay una escalera operativa y arriba está digado
-        // (ESTO YA NO APLICA) También puede ir hacia arriba si arriba hay una escalera operativa esta digado y aquí está minado
+        // Podrï¿½ ir hacia arriba si aquï¿½ hay una escalera operativa y arriba estï¿½ digado
+        // (ESTO YA NO APLICA) Tambiï¿½n puede ir hacia arriba si arriba hay una escalera operativa esta digado y aquï¿½ estï¿½ minado
         // Up
         Cell cell = World.getCell(x, y, z - 1);
         if (!cell.isDiscovered() || !cell.isDigged()) {
@@ -735,7 +485,7 @@ public class Terrain implements Externalizable {
             return false;
         }
 
-        // Se cumplen los prerequisitos, sólo nos falta mirar que aquí o arriba haya escalera (SÓLO AQUÍ, ARRIBA YA NO APLICA)
+        // Se cumplen los prerequisitos, sï¿½lo nos falta mirar que aquï¿½ o arriba haya escalera (Sï¿½LO AQUï¿½, ARRIBA YA NO APLICA)
         Item item = cell.getItem();
         if (item != null && item.isOperative() && item.isLocked()) {
             if (ItemManager.getItem(item.getIniHeader()).isZoneMergerUp()) {
@@ -743,7 +493,7 @@ public class Terrain implements Externalizable {
             }
         }
 
-		// item = cellUp.getItem ();
+        // item = cellUp.getItem ();
         // if (item != null && item.isOperative () && item.isLocked ()) {
         // if (ItemManager.getItem (item.getIniHeader ()).isZoneMergerUpDown ()) {
         // return true;
@@ -775,8 +525,8 @@ public class Terrain implements Externalizable {
             return false;
         }
 
-		// Podrá ir hacia abajo si aquí hay una escalera operativa, está digado y abajo está minado (ESTO YA NO APLICA)
-        // También puede ir hacia abajo si abajo hay una escalera operativa esta minado (se presupone) y aquí está digado
+        // Podrï¿½ ir hacia abajo si aquï¿½ hay una escalera operativa, estï¿½ digado y abajo estï¿½ minado (ESTO YA NO APLICA)
+        // Tambiï¿½n puede ir hacia abajo si abajo hay una escalera operativa esta minado (se presupone) y aquï¿½ estï¿½ digado
         // Cell
         Cell cell = World.getCell(x, y, z);
         if (!cell.isDiscovered() || !cell.isDigged()) {
@@ -788,7 +538,7 @@ public class Terrain implements Externalizable {
             return false;
         }
 
-		// Se cumplen los prerequisitos, sólo nos falta mirar que aquí o abajo haya escalera (SÓLO ABAJO)
+        // Se cumplen los prerequisitos, sï¿½lo nos falta mirar que aquï¿½ o abajo haya escalera (Sï¿½LO ABAJO)
         // Item item = cell.getItem ();
         // if (item != null && item.isOperative () && item.isLocked ()) {
         // if (ItemManager.getItem (item.getIniHeader ()).isZoneMergerUpDown ()) {
@@ -814,7 +564,7 @@ public class Terrain implements Externalizable {
         Cell cellCurrent = cells[x][y][z];
         if (!cellCurrent.isMined()) {
             Cell cell;
-            // Miramos que gráfico usar
+            // Miramos que grï¿½fico usar
             buffer = new StringBuffer("_"); //$NON-NLS-1$
             if (y > 0) {
                 cell = cells[x][y - 1][z];
@@ -850,7 +600,7 @@ public class Terrain implements Externalizable {
             }
 
             if (buffer.length() == 5) {
-				// Interiors
+                // Interiors
                 // Miramos donde hay "huecos" en las diagonales
                 // Noroeste (N)
                 if (x > 0 && y > 0) {
@@ -900,7 +650,7 @@ public class Terrain implements Externalizable {
     }
 
     /**
-     * Cambia los gráficos de todas las celdas según las adyacentes (slopes
+     * Cambia los grï¿½ficos de todas las celdas segï¿½n las adyacentes (slopes
      * outside)
      *
      * @param cells
@@ -913,6 +663,250 @@ public class Terrain implements Externalizable {
                 }
             }
         }
+    }
+
+    public void refreshTransients() {
+        setTerrainTileID(getTerrainID() * TerrainManager.SLOPES_INIHEADER.length);
+    }
+
+    public int getMineTurns() {
+        return mineTurns;
+    }
+
+    public void setMineTurns(int mineTurns) {
+        this.mineTurns = (short) mineTurns;
+    }
+
+    /**
+     * Mina la celda actual y si ha acabado sacamos el material
+     *
+     * @param world
+     * @param x
+     * @param y
+     * @param z
+     */
+    public void mine(short x, short y, short z, boolean bMineLadder) {
+        if (getMineTurns() > 0) {
+            setMineTurns(getMineTurns() - 1);
+
+            if (getMineTurns() % 5 == 0) {
+                UtilsAL.play(UtilsAL.SOURCE_FX_MINE, z);
+            }
+
+            if (getMineTurns() <= 0) {
+                // Mined !!
+                Cell currentCell = World.getCell(x, y, z);
+                Cell cellOver = null;
+                currentCell.setMined(true);
+                currentCell.setBlocky(false);
+
+                // Vamos a diggear tambiï¿½n la casilla de justo arriba
+                if (z > 0) {
+                    cellOver = World.getCell(x, y, z - 1);
+                    cellOver.setDiscovered(true);
+                    cellOver.setDigged(true);
+
+                    // Creamos raw material en la casilla
+                    if (!bMineLadder) {
+                        Item rm = createDrop(currentCell.getTerrain(), x, y, z);
+                        if (rm != null) {
+                            rm.init(x, y, z);
+                            rm.setOperative(true);
+                            currentCell.setEntity(rm);
+                        }
+                    }
+                }
+
+                // Slopes de ella, la de arriba y las adyacentes
+                for (short i = -1; i <= 1; i++) {
+                    for (short j = -1; j <= 1; j++) {
+                        for (short k = 0; k <= 1; k++) {
+                            Terrain.checkSlope(World.getCells(), (short) (x + i), (short) (y + j), (short) (z + k));
+                            Game.getWorld().addFluidCellToProcess(x + i, y + j, z + k, false);
+                        }
+                    }
+                }
+                Game.getWorld().addFluidCellToProcess(x, y, z - 1, false);
+                Game.getWorld().addFluidCellToProcess(x, y, z + 1, false);
+
+                // Discovered a las adyacentes
+                discoverNeighbours(x, y, z);
+                if (z > 0) {
+                    discoverNeighbours(x, y, z - 1);
+                }
+
+                // Discovered abajo si la celda estï¿½ minada
+                if (z < (World.MAP_DEPTH - 1)) {
+                    Cell cell = World.getCell(x, y, z + 1);
+                    cell.setDiscovered(true);
+                    discoverNeighbours(x, y, z + 1);
+                }
+
+                if (z > 0) {
+                    // Si la casilla de arriba estï¿½ digged las cosas deben caer
+                    cellOver.fallThings();
+                }
+
+                // Aï¿½adimos el item de la celda de arriba (si tiene) a la lista de items posibles a caer, tambien los de los lados (por si tienen glue)
+                Item item;
+                if (z > 0) {
+                    item = cellOver.getItem();
+                    if (item != null) {
+                        World.addFallItem(item.getID());
+                    }
+                }
+                if (x > 0) {
+                    item = World.getCell(x - 1, y, z).getItem();
+                    if (item != null) {
+                        World.addFallItem(item.getID());
+                    }
+                }
+                if (x < (World.MAP_WIDTH - 1)) {
+                    item = World.getCell(x + 1, y, z).getItem();
+                    if (item != null) {
+                        World.addFallItem(item.getID());
+                    }
+                }
+                if (y > 0) {
+                    item = World.getCell(x, y - 1, z).getItem();
+                    if (item != null) {
+                        World.addFallItem(item.getID());
+                    }
+                }
+                if (y < (World.MAP_HEIGHT - 1)) {
+                    item = World.getCell(x, y + 1, z).getItem();
+                    if (item != null) {
+                        World.addFallItem(item.getID());
+                    }
+                }
+
+                // Si no mina en la planta (floor) mï¿½s baja descubrimos una nueva planta (floor)
+                Game.getWorld().discoverFloor(z);
+
+                if (z > 0) {
+                    // Si ha diggeado en una stockpile le quitamos el flag
+                    Stockpile.deleteStockpilePoint(x, y, (short) (z - 1));
+
+                    // Si ha diggeado en una zone le quitamos el flag
+                    Zone.deleteZonePoint(x, y, z - 1);
+                }
+
+                // Minimap reload
+                MiniMapPanel.setMinimapReload(z);
+                MiniMapPanel.setMinimapReload(z - 1);
+
+                if (bMineLadder) {
+                    // Antes de minar miro si es un mine a ladder y pillo el ItemManagerItem, ya que luego quizï¿½ la celda se ha convertido en AIR debido a otras tareas o lo que sea
+                    ItemManagerItem imiLadder = null;
+                    // Bingo, creamos el item si se puede
+                    String sLadderItem = TerrainManager.getItemByID(currentCell.getTerrain().getTerrainID()).getLadderItem();
+                    if (sLadderItem != null) {
+                        imiLadder = ItemManager.getItem(sLadderItem);
+
+                        if (Item.isCellAvailableForItem(imiLadder, x, y, z, true, true)) {
+                            Item itemLadder = Item.createItem(imiLadder);
+                            itemLadder.setOperative(true);
+                            itemLadder.setLocked(true);
+                            itemLadder.init(x, y, z);
+                            currentCell.setEntity(itemLadder);
+                        }
+                    }
+                }
+
+                // Cambiamos el tipo a AIR (al final por si el mine suelta un drop o por si metemos un ladder)
+                setTerrainID(TerrainManagerItem.TERRAIN_AIR_ID);
+                setTerrainTileID(TerrainManagerItem.TERRAIN_AIR_ID * TerrainManager.SLOPES_INIHEADER.length);
+
+                // Accesing points para las tareas de MINE pueden haber cambiado
+                Game.getWorld().getTaskManager().setReCheckMinePlaces(true);
+
+                // ShouldPaintUnders
+                Cell.setShouldPaintUnders(World.getCells(), x, y, z);
+
+                // Shadows
+                Cell.generateFullShadows(x, y, z);
+
+                // Light
+                Cell.generateLightsItemRemovedCellMined(x, y, z, ItemManagerItem.MAX_LIGHT_RADIUS);
+
+                // Open cell
+                Cell.generateOpen(World.getCells(), x, y);
+
+                // ShouldPaintUnders 2 (potser pot anar a dalt, per si acï¿½s no li poso :D )
+                if (z < (World.MAP_DEPTH - 1)) {
+                    Cell.setShouldPaintUnders(World.getCells(), x, y, (short) (z + 1));
+                }
+
+                // ASZID
+                if (z > 0) {
+                    cellOver.setAstarZoneID(-1);
+                    //if (!Cell.splitTrickZoneID (x, y, z - 1)) {
+                    World.setRecheckASZID(true);
+                    //}
+                }
+                Cell.mergeZoneID(x, y, z, false);
+            }
+        }
+    }
+
+    public int getFluidType() {
+        return fluidType;
+    }
+
+//	public static SmartMenu createMenuGods (SmartMenu smParent) {
+//		SmartMenu menuChangeGodStatus = new SmartMenu (SmartMenu.TYPE_MENU, "Change god status", smParent, null, null); //$NON-NLS-1$
+//		ArrayList<GodData> alGods = Game.getWorld ().getGods ();
+//
+//		if (alGods != null) {
+//			for (int i = 0; i < alGods.size (); i++) {
+//				SmartMenu smGod = new SmartMenu (SmartMenu.TYPE_MENU, alGods.get (i).getFullName (), menuChangeGodStatus, null, null);
+//				smGod.addItem (new SmartMenu (SmartMenu.TYPE_ITEM, "-5 status", null, CommandPanel.COMMAND_GOD_STATUS_LOWER_5, alGods.get (i).getGodID (), null, null)); //$NON-NLS-1$ //$NON-NLS-2$
+//				smGod.addItem (new SmartMenu (SmartMenu.TYPE_ITEM, "+5 status", null, CommandPanel.COMMAND_GOD_STATUS_RAISE_5, alGods.get (i).getGodID (), null, null)); //$NON-NLS-1$ //$NON-NLS-2$
+//				smGod.addItem (new SmartMenu (SmartMenu.TYPE_TEXT, null, null, null, null));
+//				smGod.addItem (new SmartMenu (SmartMenu.TYPE_ITEM, Messages.getString ("Terrain.8"), null, CommandPanel.COMMAND_BACK, null));
+//				menuChangeGodStatus.addItem (smGod);
+//			}
+//		}
+//
+//		menuChangeGodStatus.addItem (new SmartMenu (SmartMenu.TYPE_TEXT, null, null, null, null));
+//		menuChangeGodStatus.addItem (new SmartMenu (SmartMenu.TYPE_ITEM, Messages.getString ("Terrain.8"), smParent, CommandPanel.COMMAND_BACK, null)); //$NON-NLS-1$
+//
+//		return menuChangeGodStatus;
+//	}
+
+    public void setFluidType(int fluidType) {
+        this.fluidType = (byte) fluidType;
+    }
+
+    public int getFluidCount() {
+        return fluidCount;
+    }
+
+    /**
+     * @param fluidCount
+     */
+    public void setFluidCount(int fluidCount) {
+        this.fluidCount = (byte) fluidCount;
+    }
+
+    public boolean hasFluids() {
+        return getFluidCount() > 0;
+    }
+
+    public int getTerrainID() {
+        return terrainID;
+    }
+
+    public void setTerrainID(int terrainID) {
+        this.terrainID = (short) terrainID;
+    }
+
+    public int getTerrainTileID() {
+        return terrainTileID;
+    }
+
+    public void setTerrainTileID(int terrainTileID) {
+        this.terrainTileID = (short) terrainTileID;
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {

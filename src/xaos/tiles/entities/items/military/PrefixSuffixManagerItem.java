@@ -5,7 +5,7 @@ import xaos.utils.Utils;
 
 public class PrefixSuffixManagerItem {
 
-    private String id; // Sólo se usa al cargar mods y lost <delete>
+    private String id; // Sï¿½lo se usa al cargar mods y lost <delete>
     private String type;
     private String name;
     private String attack;
@@ -32,12 +32,16 @@ public class PrefixSuffixManagerItem {
         return psd;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
 
-    public String getId() {
-        return id;
+    public String getType() {
+        return type;
     }
 
     public void setType(String type) throws Exception {
@@ -45,10 +49,6 @@ public class PrefixSuffixManagerItem {
             throw new Exception(Messages.getString("PrefixSuffixData.2") + type + "]"); //$NON-NLS-1$ //$NON-NLS-2$
         }
         this.type = type;
-    }
-
-    public String getType() {
-        return type;
     }
 
     public String getName() {
@@ -67,20 +67,20 @@ public class PrefixSuffixManagerItem {
         this.attack = attack;
     }
 
-    public void setAttackSpeed(String attackSpeed) {
-        this.attackSpeed = attackSpeed;
-    }
-
     public String getAttackSpeed() {
         return attackSpeed;
     }
 
-    public void setWalkSpeed(String walkSpeed) {
-        this.walkSpeed = walkSpeed;
+    public void setAttackSpeed(String attackSpeed) {
+        this.attackSpeed = attackSpeed;
     }
 
     public String getWalkSpeed() {
         return walkSpeed;
+    }
+
+    public void setWalkSpeed(String walkSpeed) {
+        this.walkSpeed = walkSpeed;
     }
 
     public String getDefense() {
@@ -107,19 +107,19 @@ public class PrefixSuffixManagerItem {
         this.damage = damage;
     }
 
-    public void setLOS(String lOS) {
-        LOS = lOS;
-    }
-
     public String getLOS() {
         return LOS;
     }
 
-    public void setMovePCT(String movePCT) {
-        this.movePCT = movePCT;
+    public void setLOS(String lOS) {
+        LOS = lOS;
     }
 
     public String getMovePCT() {
         return movePCT;
+    }
+
+    public void setMovePCT(String movePCT) {
+        this.movePCT = movePCT;
     }
 }

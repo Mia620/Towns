@@ -1,1243 +1,1243 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <effects>
-	<effect>
-		<id>enrage</id>
-		<name esES="Enrabiar">Enrage</name>
-		<icon>ef_enrage</icon>
-
-		<damagePCT>200</damagePCT>
-		<defensePCT>50</defensePCT>
-		<lasts>720</lasts>
-
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
-
-	<effect>
-		<id>battlecryself</id>
-		<name esES="Grito de batalla">Battle cry</name>
-		<icon>ef_battlecry</icon>
-
-		<damagePCT>130</damagePCT>
-		<defensePCT>130</defensePCT>
-		<lasts>240</lasts>
-
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
-
-	<effect>
-		<id>battlecryfriendlies</id>
-		<name esES="Grito de batalla">Battle cry</name>
-		<icon>ef_battlecry</icon>
-
-		<damagePCT>110</damagePCT>
-		<speedPCT>110</speedPCT>
-		<lasts>180</lasts>
-
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
-
-	<effect>
-		<id>atkpoison</id>
-		<name esES="Ataque envenenado">Poison attack</name>
-		<icon>ef_atkpoison</icon>
+    <effect>
+        <id>enrage</id>
+        <name esES="Enrabiar">Enrage</name>
+        <icon>ef_enrage</icon>
+
+        <damagePCT>200</damagePCT>
+        <defensePCT>50</defensePCT>
+        <lasts>720</lasts>
+
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
+
+    <effect>
+        <id>battlecryself</id>
+        <name esES="Grito de batalla">Battle cry</name>
+        <icon>ef_battlecry</icon>
+
+        <damagePCT>130</damagePCT>
+        <defensePCT>130</defensePCT>
+        <lasts>240</lasts>
+
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
+
+    <effect>
+        <id>battlecryfriendlies</id>
+        <name esES="Grito de batalla">Battle cry</name>
+        <icon>ef_battlecry</icon>
+
+        <damagePCT>110</damagePCT>
+        <speedPCT>110</speedPCT>
+        <lasts>180</lasts>
+
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
+
+    <effect>
+        <id>atkpoison</id>
+        <name esES="Ataque envenenado">Poison attack</name>
+        <icon>ef_atkpoison</icon>
 
-		<onHitPCT>100</onHitPCT>
-		<onHitEffects>dotpoison200</onHitEffects>
-		<lasts>720</lasts>
+        <onHitPCT>100</onHitPCT>
+        <onHitEffects>dotpoison200</onHitEffects>
+        <lasts>720</lasts>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-	<effect>
-		<id>dotpoison100</id>
-		<name esES="Envenenado">Poisoned</name>
-		<icon>ef_poison</icon>
+    <effect>
+        <id>dotpoison100</id>
+        <name esES="Envenenado">Poisoned</name>
+        <icon>ef_poison</icon>
 
-		<DOT>1</DOT>
-		<lasts>100</lasts>
+        <DOT>1</DOT>
+        <lasts>100</lasts>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-	<effect>
-		<id>dotpoison200</id>
-		<name esES="Envenenado">Poisoned</name>
-		<icon>ef_poison</icon>
+    <effect>
+        <id>dotpoison200</id>
+        <name esES="Envenenado">Poisoned</name>
+        <icon>ef_poison</icon>
 
-		<DOT>2</DOT>
-		<lasts>100</lasts>
+        <DOT>2</DOT>
+        <lasts>100</lasts>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-	<effect>
-		<id>confused</id>
-		<name esES="Confundido">Confused</name>
-
-		<removeTarget>true</removeTarget>
-		<lasts>120</lasts>
-		<icon>ef_confused</icon>
-
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
-
-	<effect>
-		<id>dotbleeding</id>
-		<name esES="Sangrando">Bleeding</name>
-		<icon>ef_bleeding</icon>
-
-		<DOT>1</DOT>
-		<lasts>100</lasts>
-
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
-
-	<effect>
-		<id>heal</id>
-		<name esES="Curando">Healing</name>
-		<icon>ef_heal</icon>
+    <effect>
+        <id>confused</id>
+        <name esES="Confundido">Confused</name>
+
+        <removeTarget>true</removeTarget>
+        <lasts>120</lasts>
+        <icon>ef_confused</icon>
+
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
+
+    <effect>
+        <id>dotbleeding</id>
+        <name esES="Sangrando">Bleeding</name>
+        <icon>ef_bleeding</icon>
+
+        <DOT>1</DOT>
+        <lasts>100</lasts>
+
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
+
+    <effect>
+        <id>heal</id>
+        <name esES="Curando">Healing</name>
+        <icon>ef_heal</icon>
 
-		<DOT>-1</DOT>
-		<lasts>100</lasts>
+        <DOT>-1</DOT>
+        <lasts>100</lasts>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-	<effect>
-		<id>armorheal</id>
-		<name esES="Curando">Healing</name>
-		<icon>ef_heal</icon>
+    <effect>
+        <id>armorheal</id>
+        <name esES="Curando">Healing</name>
+        <icon>ef_heal</icon>
 
-		<DOT>-1</DOT>
+        <DOT>-1</DOT>
 
-		<messageWhenVanish>false</messageWhenVanish>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+    </effect>
 
-	<effect>
-		<id>freeze</id>
-		<name esES="Congelado">Frozen</name>
-		<icon>ef_freeze</icon>
+    <effect>
+        <id>freeze</id>
+        <name esES="Congelado">Frozen</name>
+        <icon>ef_freeze</icon>
 
-		<speedPCT>0</speedPCT>
-		<lasts>50</lasts>
+        <speedPCT>0</speedPCT>
+        <lasts>50</lasts>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-	<effect>
-		<id>stun</id>
-		<name esES="Ataque aturdidor">Stun attack</name>
+    <effect>
+        <id>stun</id>
+        <name esES="Ataque aturdidor">Stun attack</name>
 
-		<onHitPCT>5</onHitPCT>
-		<onHitEffects>stunned,confused</onHitEffects>
+        <onHitPCT>5</onHitPCT>
+        <onHitEffects>stunned,confused</onHitEffects>
 
-		<lasts>180</lasts>
+        <lasts>180</lasts>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-	<effect>
-		<id>weaponstun</id>
-		<name esES="Ataque aturdidor">Stun attack</name>
+    <effect>
+        <id>weaponstun</id>
+        <name esES="Ataque aturdidor">Stun attack</name>
 
-		<onHitPCT>15</onHitPCT>
-		<onHitEffects>stunned,confused</onHitEffects>
+        <onHitPCT>15</onHitPCT>
+        <onHitEffects>stunned,confused</onHitEffects>
 
-		<messageWhenVanish>false</messageWhenVanish>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+    </effect>
 
-	<effect>
-		<id>stunned</id>
-		<name esES="Aturdido">Stunned</name>
-		<icon>ef_stun</icon>
+    <effect>
+        <id>stunned</id>
+        <name esES="Aturdido">Stunned</name>
+        <icon>ef_stun</icon>
 
-		<speedPCT>0</speedPCT>
-		<attackSpeedPCT>0</attackSpeedPCT>
-		<lasts>50</lasts>
+        <speedPCT>0</speedPCT>
+        <attackSpeedPCT>0</attackSpeedPCT>
+        <lasts>50</lasts>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-	<effect>
-		<id>beast</id>
-		<name esES="Poder de la bestia">Power of the beast</name>
+    <effect>
+        <id>beast</id>
+        <name esES="Poder de la bestia">Power of the beast</name>
 
-		<attackPCT>130</attackPCT>
-		<damagePCT>130</damagePCT>
-		<healthPointsPCT>130</healthPointsPCT>
-		<defensePCT>25</defensePCT>
-		<graphicChange>bearhighlander</graphicChange>
-		<lasts>720</lasts>
+        <attackPCT>130</attackPCT>
+        <damagePCT>130</damagePCT>
+        <healthPointsPCT>130</healthPointsPCT>
+        <defensePCT>25</defensePCT>
+        <graphicChange>bearhighlander</graphicChange>
+        <lasts>720</lasts>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-	<effect>
-		<id>attackauraself</id>
-		<name esES="Aura de ataque">Attack aura</name>
-		<icon>ef_attackaura</icon>
+    <effect>
+        <id>attackauraself</id>
+        <name esES="Aura de ataque">Attack aura</name>
+        <icon>ef_attackaura</icon>
 
-		<attackPCT>110</attackPCT>
-		<lasts>540</lasts>
+        <attackPCT>110</attackPCT>
+        <lasts>540</lasts>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-	<effect>
-		<id>attackaurafriendlies</id>
-		<name esES="Aura de ataque">Attack aura</name>
-		<icon>ef_attackaura</icon>
+    <effect>
+        <id>attackaurafriendlies</id>
+        <name esES="Aura de ataque">Attack aura</name>
+        <icon>ef_attackaura</icon>
 
-		<attackPCT>105</attackPCT>
-		<lasts>270</lasts>
+        <attackPCT>105</attackPCT>
+        <lasts>270</lasts>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-	<effect>
-		<id>criticalshot</id>
-		<name esES="Disparo crítico">Critical shot</name>
-		<icon>ef_criticalshot</icon>
+    <effect>
+        <id>criticalshot</id>
+        <name esES="Disparo crítico">Critical shot</name>
+        <icon>ef_criticalshot</icon>
 
-		<onRangedHitPCT>10</onRangedHitPCT>
-		<onRangedHitEffects>damage750</onRangedHitEffects>
+        <onRangedHitPCT>10</onRangedHitPCT>
+        <onRangedHitEffects>damage750</onRangedHitEffects>
 
-		<messageWhenVanish>false</messageWhenVanish>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+    </effect>
 
-	<effect>
-		<id>damage100</id>
-		<name esES="Daño directo">Direct damage</name>
+    <effect>
+        <id>damage100</id>
+        <name esES="Daño directo">Direct damage</name>
 
-		<DOT>100</DOT>
-		<lasts>1</lasts>
+        <DOT>100</DOT>
+        <lasts>1</lasts>
 
-		<messageWhenVanish>false</messageWhenVanish>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+    </effect>
 
-	<effect>
-		<id>damage200</id>
-		<name esES="Daño directo">Direct damage</name>
+    <effect>
+        <id>damage200</id>
+        <name esES="Daño directo">Direct damage</name>
 
-		<DOT>200</DOT>
-		<lasts>1</lasts>
+        <DOT>200</DOT>
+        <lasts>1</lasts>
 
-		<messageWhenVanish>false</messageWhenVanish>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+    </effect>
 
-	<effect>
-		<id>damage750</id>
-		<name esES="Daño directo">Direct damage</name>
+    <effect>
+        <id>damage750</id>
+        <name esES="Daño directo">Direct damage</name>
 
-		<DOT>1d500+500</DOT>
-		<lasts>1</lasts>
+        <DOT>1d500+500</DOT>
+        <lasts>1</lasts>
 
-		<messageWhenVanish>false</messageWhenVanish>
-	</effect>
-
-	<effect>
-		<id>convertpig</id>
-		<name esES="Convertir en cerdo">Turn into a pig</name>
-
-		<attackPCT>30</attackPCT>
-		<damagePCT>30</damagePCT>
-		<defensePCT>30</defensePCT>
-		<graphicChange>pig</graphicChange>
-		<lasts>120</lasts>
+        <messageWhenVanish>false</messageWhenVanish>
+    </effect>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+    <effect>
+        <id>convertpig</id>
+        <name esES="Convertir en cerdo">Turn into a pig</name>
 
-	<effect>
-		<id>defenseauraself</id>
-		<name esES="Aura de defensa">Defense aura</name>
-		<icon>ef_defenseaura</icon>
+        <attackPCT>30</attackPCT>
+        <damagePCT>30</damagePCT>
+        <defensePCT>30</defensePCT>
+        <graphicChange>pig</graphicChange>
+        <lasts>120</lasts>
 
-		<defensePCT>130</defensePCT>
-		<lasts>540</lasts>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+    <effect>
+        <id>defenseauraself</id>
+        <name esES="Aura de defensa">Defense aura</name>
+        <icon>ef_defenseaura</icon>
 
-	<effect>
-		<id>defenseaurafriendlies</id>
-		<name esES="Aura de defensa">Defense aura</name>
-		<icon>ef_defenseaura</icon>
+        <defensePCT>130</defensePCT>
+        <lasts>540</lasts>
 
-		<defensePCT>115</defensePCT>
-		<lasts>270</lasts>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+    <effect>
+        <id>defenseaurafriendlies</id>
+        <name esES="Aura de defensa">Defense aura</name>
+        <icon>ef_defenseaura</icon>
 
-	<effect>
-		<id>twistedmind</id>
-		<name esES="Mente retorcida">Twisted mind</name>
-		<icon>ef_twistedmind</icon>
+        <defensePCT>115</defensePCT>
+        <lasts>270</lasts>
 
-		<attackAllies>true</attackAllies>
-		<lasts>120</lasts>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+    <effect>
+        <id>twistedmind</id>
+        <name esES="Mente retorcida">Twisted mind</name>
+        <icon>ef_twistedmind</icon>
 
-	<effect>
-		<id>lycanthropy</id>
-		<name esES="Licantropía">Lycanthropy</name>
+        <attackAllies>true</attackAllies>
+        <lasts>120</lasts>
 
-		<onHitPCT>1</onHitPCT>
-		<onHitEffects>lycanthropyinfected</onHitEffects>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<messageWhenVanish>false</messageWhenVanish>
-	</effect>
-	
-	<effect>
-		<id>lycanthropyenhanced</id>
-		<name esES="Licantropía">Lycanthropy</name>
+    <effect>
+        <id>lycanthropy</id>
+        <name esES="Licantropía">Lycanthropy</name>
 
-		<onHitPCT>5</onHitPCT>
-		<onHitEffects>lycanthropyinfected</onHitEffects>
+        <onHitPCT>1</onHitPCT>
+        <onHitEffects>lycanthropyinfected</onHitEffects>
 
-		<messageWhenVanish>false</messageWhenVanish>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+    </effect>
 
-	<effect>
-		<id>lycanthropyinfected</id>
-		<name esES="Licantropía">Lycanthropy</name>
+    <effect>
+        <id>lycanthropyenhanced</id>
+        <name esES="Licantropía">Lycanthropy</name>
 
-		<attackPCT>110</attackPCT>
-		<damagePCT>110</damagePCT>
-		<healthPointsPCT>110</healthPointsPCT>
-		<defensePCT>110</defensePCT>
-		<lasts>1d2880+4880</lasts>
-		<speedPCT>75</speedPCT>
-		<afterEffects>turntowolf</afterEffects>
+        <onHitPCT>5</onHitPCT>
+        <onHitEffects>lycanthropyinfected</onHitEffects>
 
-		<messageWhenVanish>false</messageWhenVanish>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+    </effect>
 
-	<effect>
-		<id>turntowolf</id>
-		<name esES="Hombre lobo">Werewolf</name>
+    <effect>
+        <id>lycanthropyinfected</id>
+        <name esES="Licantropía">Lycanthropy</name>
 
-		<onHitPCT>1</onHitPCT>
-		<onHitEffects>lycanthropyinfected</onHitEffects>
+        <attackPCT>110</attackPCT>
+        <damagePCT>110</damagePCT>
+        <healthPointsPCT>110</healthPointsPCT>
+        <defensePCT>110</defensePCT>
+        <lasts>1d2880+4880</lasts>
+        <speedPCT>75</speedPCT>
+        <afterEffects>turntowolf</afterEffects>
 
-		<attackPCT>120</attackPCT>
-		<damagePCT>120</damagePCT>
-		<healthPointsPCT>120</healthPointsPCT>
-		<defensePCT>120</defensePCT>
-		<lasts>1d360+360</lasts>
-		<attackAllies>true</attackAllies>
-		<graphicChange>werewolf</graphicChange>
-		<afterEffects>lycanthropyinfected</afterEffects>
-
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
-
-	<effect>
-		<id>cripplingshot</id>
-		<name esES="Disparo paralizante">Crippling shot</name>
-
-		<onRangedHitPCT>15</onRangedHitPCT>
-		<onRangedHitEffects>slow</onRangedHitEffects>
-
-		<messageWhenVanish>false</messageWhenVanish>
-	</effect>
-
-	<effect>
-		<id>slow</id>
-		<name esES="Lento">Slow</name>
-		<icon>ef_slow</icon>
-
-		<speedPCT>10</speedPCT>
-		<lasts>100</lasts>
-
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
-
-	<effect>
-		<id>damage62</id>
-		<name esES="Daño directo">Direct damage</name>
-
-		<DOT>1d25+50</DOT>
-		<lasts>1</lasts>
-
-		<messageWhenVanish>false</messageWhenVanish>
-	</effect>
-
-	<effect>
-		<id>bellyache</id>
-		<name esES="Dolor de barriga">Bellyache</name>
-		<icon>ef_bellyache</icon>
-
-		<DOT>1</DOT>
-		<lasts>60</lasts>
-
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
-
-	<effect>
-		<id>atkpoisonlow</id>
-		<name esES="Ataque envenenado">Poison attack</name>
-		<icon>ef_atkpoison</icon>
-
-		<onHitPCT>15</onHitPCT>
-		<onHitEffects>dotpoison100</onHitEffects>
-
-		<messageWhenVanish>false</messageWhenVanish>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+    </effect>
 
-	<effect>
-		<id>flameattack</id>
-		<name esES="Ataque de llamas">Flames attack</name>
-		<icon>ef_flameattack</icon>
+    <effect>
+        <id>turntowolf</id>
+        <name esES="Hombre lobo">Werewolf</name>
 
-		<onHitPCT>20</onHitPCT>
-		<onHitEffects>flamesdamage200</onHitEffects>
-		<onRangedHitPCT>20</onRangedHitPCT>
-		<onRangedHitEffects>flamesdamage200</onRangedHitEffects>
-
-		<messageWhenVanish>false</messageWhenVanish>
-	</effect>
-
-	<effect>
-		<id>flamesdamage200</id>
-		<name esES="Quemar">Burn</name>
-		<icon>ef_flamedamage</icon>
-
-		<DOT>2</DOT>
-		<lasts>100</lasts>
-
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
-
-	<effect>
-		<id>flamesdamage100</id>
-		<name esES="Quemar">Burn</name>
-		<icon>ef_flamedamage</icon>
-
-		<DOT>1</DOT>
-		<lasts>100</lasts>
-
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
-	
-	<effect>
-		<id>beastmask</id>
-		<name esES="Poder de la bestia">Power of the beast</name>
-
-		<attackPCT>130</attackPCT>
-		<damagePCT>130</damagePCT>
-		<healthPointsPCT>150</healthPointsPCT>
-		<speedPCT>140</speedPCT>
-		<defensePCT>25</defensePCT>
-		<graphicChange>bearhighlander</graphicChange>
-		<afterEffects>beastmaskcooldown</afterEffects>
-		<lasts>1440</lasts>
+        <onHitPCT>1</onHitPCT>
+        <onHitEffects>lycanthropyinfected</onHitEffects>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <attackPCT>120</attackPCT>
+        <damagePCT>120</damagePCT>
+        <healthPointsPCT>120</healthPointsPCT>
+        <defensePCT>120</defensePCT>
+        <lasts>1d360+360</lasts>
+        <attackAllies>true</attackAllies>
+        <graphicChange>werewolf</graphicChange>
+        <afterEffects>lycanthropyinfected</afterEffects>
 
-	<effect>
-		<id>beastmaskcooldown</id>
-		<name esES="Cansancio">Tiredness</name>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<speedPCT>40</speedPCT>
-		<effectsImmune>beastmask</effectsImmune>
-		<afterEffects>beastmask</afterEffects>
-		<lasts>500</lasts>
+    <effect>
+        <id>cripplingshot</id>
+        <name esES="Disparo paralizante">Crippling shot</name>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <onRangedHitPCT>15</onRangedHitPCT>
+        <onRangedHitEffects>slow</onRangedHitEffects>
 
-	<effect>
-		<id>trickster</id>
-		<name esES="Ataque confundidor">Confusing attack</name>
+        <messageWhenVanish>false</messageWhenVanish>
+    </effect>
 
-		<onHitPCT>10</onHitPCT>
-		<onHitEffects>confused</onHitEffects>
+    <effect>
+        <id>slow</id>
+        <name esES="Lento">Slow</name>
+        <icon>ef_slow</icon>
 
-		<messageWhenVanish>false</messageWhenVanish>
-	</effect>
+        <speedPCT>10</speedPCT>
+        <lasts>100</lasts>
 
-	<effect>
-		<id>magicshield</id>
-		<name esES="Escudo mágico">Magical shield</name>
-		<icon>ef_defenseaura</icon>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<defensePCT>140</defensePCT>
+    <effect>
+        <id>damage62</id>
+        <name esES="Daño directo">Direct damage</name>
 
-		<messageWhenVanish>false</messageWhenVanish>
-	</effect>
+        <DOT>1d25+50</DOT>
+        <lasts>1</lasts>
 
-	<effect>
-		<id>plague</id>
-		<name esES="Plaga">Plague</name>
+        <messageWhenVanish>false</messageWhenVanish>
+    </effect>
 
-		<onHitPCT>20</onHitPCT>
-		<onHitEffects>plagued</onHitEffects>
+    <effect>
+        <id>bellyache</id>
+        <name esES="Dolor de barriga">Bellyache</name>
+        <icon>ef_bellyache</icon>
 
-		<messageWhenVanish>false</messageWhenVanish>
-	</effect>
+        <DOT>1</DOT>
+        <lasts>60</lasts>
 
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-	<effect>
-		<id>plagued</id>
-		<name esES="Plagado">Plagued</name>
+    <effect>
+        <id>atkpoisonlow</id>
+        <name esES="Ataque envenenado">Poison attack</name>
+        <icon>ef_atkpoison</icon>
 
-		<icon>ef_plagued</icon>
-		
-		<speedPCT>70</speedPCT>
-		<castEffects>plagued</castEffects>
-		<castCooldown>1d100</castCooldown>
-		<castTargets>ENEMY</castTargets>
-		<DOT>2</DOT>
-		<lasts>100</lasts>
-		<afterEffects>plagueresist</afterEffects>
+        <onHitPCT>15</onHitPCT>
+        <onHitEffects>dotpoison100</onHitEffects>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
-
-	<effect>
-		<id>plagueresist</id>
-		<name esES="Resistencia al Plagado">plague resist</name>
+        <messageWhenVanish>false</messageWhenVanish>
+    </effect>
 
-		<effectsImmune>plagued</effectsImmune>
-		<lasts>500</lasts>
+    <effect>
+        <id>flameattack</id>
+        <name esES="Ataque de llamas">Flames attack</name>
+        <icon>ef_flameattack</icon>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <onHitPCT>20</onHitPCT>
+        <onHitEffects>flamesdamage200</onHitEffects>
+        <onRangedHitPCT>20</onRangedHitPCT>
+        <onRangedHitEffects>flamesdamage200</onRangedHitEffects>
 
-	<effect>
-		<id>fireresist</id>
-		<name esES="Resistencia al fuego">Fire resist</name>
+        <messageWhenVanish>false</messageWhenVanish>
+    </effect>
 
-		<effectsImmune>flamesdamage100,flamesdamage200</effectsImmune>
+    <effect>
+        <id>flamesdamage200</id>
+        <name esES="Quemar">Burn</name>
+        <icon>ef_flamedamage</icon>
 
-		<messageWhenVanish>false</messageWhenVanish>
-	</effect>
+        <DOT>2</DOT>
+        <lasts>100</lasts>
 
-	<effect>
-		<id>fireaura</id>
-		<name esES="Aura de fuego">Fire aura</name>
-		<icon>ef_fireaura</icon>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<effectsImmune>flamesdamage100,flamesdamage200</effectsImmune>
-		<castEffects>flamesdamage100</castEffects>
-		<castCooldown>1d400+400</castCooldown>
-		<castTargets>ENEMY</castTargets>
+    <effect>
+        <id>flamesdamage100</id>
+        <name esES="Quemar">Burn</name>
+        <icon>ef_flamedamage</icon>
 
-		<messageWhenVanish>false</messageWhenVanish>
-	</effect>
+        <DOT>1</DOT>
+        <lasts>100</lasts>
 
-	<effect>
-		<id>lightningattack</id>
-		<name esES="Ataque relámpago">Lightning attack</name>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<onHitPCT>20</onHitPCT>
-		<onHitEffects>lightningdamage350</onHitEffects>
+    <effect>
+        <id>beastmask</id>
+        <name esES="Poder de la bestia">Power of the beast</name>
 
-		<messageWhenVanish>false</messageWhenVanish>
-	</effect>
+        <attackPCT>130</attackPCT>
+        <damagePCT>130</damagePCT>
+        <healthPointsPCT>150</healthPointsPCT>
+        <speedPCT>140</speedPCT>
+        <defensePCT>25</defensePCT>
+        <graphicChange>bearhighlander</graphicChange>
+        <afterEffects>beastmaskcooldown</afterEffects>
+        <lasts>1440</lasts>
 
-	<effect>
-		<id>lightningdamage350</id>
-		<name esES="Daño relámpago">Lightning Damage</name>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<icon>ef_lightning</icon>
-		
-		<DOT>1d50+300</DOT>
-		<lasts>1</lasts>
+    <effect>
+        <id>beastmaskcooldown</id>
+        <name esES="Cansancio">Tiredness</name>
 
-		<castEffects>lightningafter</castEffects>
-		<castCooldown>1d200</castCooldown>
-		<castTargets>ENEMY</castTargets>		
+        <speedPCT>40</speedPCT>
+        <effectsImmune>beastmask</effectsImmune>
+        <afterEffects>beastmask</afterEffects>
+        <lasts>500</lasts>
 
-		<messageWhenVanish>false</messageWhenVanish>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-	<effect>
-		<id>lightningafter</id>
-		<name esES="Daño relámpago">Lightning Damage</name>
-		<icon>ef_lightning</icon>
+    <effect>
+        <id>trickster</id>
+        <name esES="Ataque confundidor">Confusing attack</name>
 
-		<DOT>50</DOT>
-		<lasts>1</lasts>
+        <onHitPCT>10</onHitPCT>
+        <onHitEffects>confused</onHitEffects>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+    </effect>
 
-	<effect>
-		<id>happy</id>
-		<name esES="Feliz de pastel">Cake happy</name>
-		<icon>ef_happy</icon>
+    <effect>
+        <id>magicshield</id>
+        <name esES="Escudo mágico">Magical shield</name>
+        <icon>ef_defenseaura</icon>
 
-		<happy>1</happy>
-		<lasts>2d5+2</lasts>
-		<afterEffects>cakehappyfulfilled</afterEffects>
+        <defensePCT>140</defensePCT>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+    </effect>
 
-	<effect>
-		<id>cakehappyfulfilled</id>
-		<name esES="Lleno de pastel">Cake fulfilled</name>
+    <effect>
+        <id>plague</id>
+        <name esES="Plaga">Plague</name>
 
-		<effectsImmune>happy</effectsImmune>
-		<lasts>16400</lasts>
+        <onHitPCT>20</onHitPCT>
+        <onHitEffects>plagued</onHitEffects>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+    </effect>
 
-	<effect>
-		<id>fishinghappy</id>
-		<name esES="Feliz de pesca">Fishing happy</name>
-		<icon>ef_happy</icon>
 
-		<happy>1</happy>
-		<lasts>1d3</lasts>
+    <effect>
+        <id>plagued</id>
+        <name esES="Plagado">Plagued</name>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <icon>ef_plagued</icon>
 
-	<!-- FODO VARIETY EFFECTS -->
+        <speedPCT>70</speedPCT>
+        <castEffects>plagued</castEffects>
+        <castCooldown>1d100</castCooldown>
+        <castTargets>ENEMY</castTargets>
+        <DOT>2</DOT>
+        <lasts>100</lasts>
+        <afterEffects>plagueresist</afterEffects>
 
-	<effect>
-		<id>fruithappy</id>
-		<name esES="Feliz de fruta">Fruit happy</name>
-		<icon>ef_happy</icon>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<happy>1</happy>
-		<lasts>1d2</lasts>
-		<afterEffects>fruithappyfulfilled</afterEffects>
+    <effect>
+        <id>plagueresist</id>
+        <name esES="Resistencia al Plagado">plague resist</name>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <effectsImmune>plagued</effectsImmune>
+        <lasts>500</lasts>
 
-	<effect>
-		<id>fruithappyfulfilled</id>
-		<name esES="Lleno de fruta">Fruit fulfilled</name>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<effectsImmune>fruithappy</effectsImmune>
-		<lasts>16400</lasts>
+    <effect>
+        <id>fireresist</id>
+        <name esES="Resistencia al fuego">Fire resist</name>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <effectsImmune>flamesdamage100,flamesdamage200</effectsImmune>
 
-	<effect>
-		<id>bakedhappy</id>
-		<name esES="Feliz de horneado">Baked happy</name>
-		<icon>ef_happy</icon>
+        <messageWhenVanish>false</messageWhenVanish>
+    </effect>
 
-		<happy>1</happy>
-		<lasts>1d2</lasts>
-		<afterEffects>bakedhappyfulfilled</afterEffects>
+    <effect>
+        <id>fireaura</id>
+        <name esES="Aura de fuego">Fire aura</name>
+        <icon>ef_fireaura</icon>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <effectsImmune>flamesdamage100,flamesdamage200</effectsImmune>
+        <castEffects>flamesdamage100</castEffects>
+        <castCooldown>1d400+400</castCooldown>
+        <castTargets>ENEMY</castTargets>
 
-	<effect>
-		<id>bakedhappyfulfilled</id>
-		<name esES="Lleno de horneado">Baked fulfilled</name>
+        <messageWhenVanish>false</messageWhenVanish>
+    </effect>
 
-		<effectsImmune>bakedhappy</effectsImmune>
-		<lasts>16400</lasts>
+    <effect>
+        <id>lightningattack</id>
+        <name esES="Ataque relámpago">Lightning attack</name>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <onHitPCT>20</onHitPCT>
+        <onHitEffects>lightningdamage350</onHitEffects>
 
-	<effect>
-		<id>meathappy</id>
-		<name esES="Feliz de carne">Meat happy</name>
-		<icon>ef_happy</icon>
+        <messageWhenVanish>false</messageWhenVanish>
+    </effect>
 
-		<happy>1</happy>
-		<lasts>1d2</lasts>
-		<afterEffects>meathappyfulfilled</afterEffects>
+    <effect>
+        <id>lightningdamage350</id>
+        <name esES="Daño relámpago">Lightning Damage</name>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <icon>ef_lightning</icon>
 
-	<effect>
-		<id>meathappyfulfilled</id>
-		<name esES="Lleno de carne">Meat fulfilled</name>
+        <DOT>1d50+300</DOT>
+        <lasts>1</lasts>
 
-		<effectsImmune>meathappy</effectsImmune>
-		<lasts>16400</lasts>
+        <castEffects>lightningafter</castEffects>
+        <castCooldown>1d200</castCooldown>
+        <castTargets>ENEMY</castTargets>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+    </effect>
 
-	<effect>
-		<id>drinkhappy</id>
-		<name esES="Feliz de bebida">Drink happy</name>
-		<icon>ef_happy</icon>
+    <effect>
+        <id>lightningafter</id>
+        <name esES="Daño relámpago">Lightning Damage</name>
+        <icon>ef_lightning</icon>
 
-		<happy>1</happy>
-		<lasts>1d2</lasts>
-		<afterEffects>drinkhappyfulfilled</afterEffects>
+        <DOT>50</DOT>
+        <lasts>1</lasts>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-	<effect>
-		<id>drinkhappyfulfilled</id>
-		<name esES="Lleno de bebida">Drink fulfilled</name>
+    <effect>
+        <id>happy</id>
+        <name esES="Feliz de pastel">Cake happy</name>
+        <icon>ef_happy</icon>
 
-		<effectsImmune>drinkhappy</effectsImmune>
-		<lasts>16400</lasts>
+        <happy>1</happy>
+        <lasts>2d5+2</lasts>
+        <afterEffects>cakehappyfulfilled</afterEffects>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-	<effect>
-		<id>egghappy</id>
-		<name esES="Feliz de huevos">Egg happy</name>
-		<icon>ef_happy</icon>
+    <effect>
+        <id>cakehappyfulfilled</id>
+        <name esES="Lleno de pastel">Cake fulfilled</name>
 
-		<happy>1</happy>
-		<lasts>1d2</lasts>
-		<afterEffects>egghappyfulfilled</afterEffects>
+        <effectsImmune>happy</effectsImmune>
+        <lasts>16400</lasts>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-	<effect>
-		<id>egghappyfulfilled</id>
-		<name esES="Lleno de huevos">Egg fulfilled</name>
+    <effect>
+        <id>fishinghappy</id>
+        <name esES="Feliz de pesca">Fishing happy</name>
+        <icon>ef_happy</icon>
 
-		<effectsImmune>egghappy</effectsImmune>
-		<lasts>16400</lasts>
+        <happy>1</happy>
+        <lasts>1d3</lasts>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-	<effect>
-		<id>mixhappy</id>
-		<name esES="Feliz de mezcla">Mix happy</name>
-		<icon>ef_happy</icon>
+    <!-- FODO VARIETY EFFECTS -->
 
-		<happy>1</happy>
-		<lasts>1d2</lasts>
-		<afterEffects>mixhappyfulfilled</afterEffects>
+    <effect>
+        <id>fruithappy</id>
+        <name esES="Feliz de fruta">Fruit happy</name>
+        <icon>ef_happy</icon>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <happy>1</happy>
+        <lasts>1d2</lasts>
+        <afterEffects>fruithappyfulfilled</afterEffects>
 
-	<effect>
-		<id>mixhappyfulfilled</id>
-		<name esES="Lleno de mezcla">Mix fulfilled</name>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<effectsImmune>mixhappy</effectsImmune>
-		<lasts>16400</lasts>
+    <effect>
+        <id>fruithappyfulfilled</id>
+        <name esES="Lleno de fruta">Fruit fulfilled</name>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <effectsImmune>fruithappy</effectsImmune>
+        <lasts>16400</lasts>
 
-	<effect>
-		<id>silverbolt</id>
-		<name esES="Rayo de plata">Silver bolt</name>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<onHitPCT>50</onHitPCT>
-		<onHitEffects>silverpurged</onHitEffects>
-		<lasts>720</lasts>
+    <effect>
+        <id>bakedhappy</id>
+        <name esES="Feliz de horneado">Baked happy</name>
+        <icon>ef_happy</icon>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
+        <happy>1</happy>
+        <lasts>1d2</lasts>
+        <afterEffects>bakedhappyfulfilled</afterEffects>
 
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-	<effect>
-		<id>silverpurged</id>
-		<name esES="Purgado de plata">Silver purged</name>
+    <effect>
+        <id>bakedhappyfulfilled</id>
+        <name esES="Lleno de horneado">Baked fulfilled</name>
 
-		<effectsImmune>lycanthropy,lycanthropyinfected,turntowolf</effectsImmune>
-		<lasts>400</lasts>
+        <effectsImmune>bakedhappy</effectsImmune>
+        <lasts>16400</lasts>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-	</effect>
+    <effect>
+        <id>meathappy</id>
+        <name esES="Feliz de carne">Meat happy</name>
+        <icon>ef_happy</icon>
 
-	<!-- Weapons damage types-->
+        <happy>1</happy>
+        <lasts>1d2</lasts>
+        <afterEffects>meathappyfulfilled</afterEffects>
 
-	<effect>
-		<id>blunt5</id>
-		<name esES="Daño contundente">Blunt damage</name>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<onHitPCT>5</onHitPCT>
-		<onHitEffects>blunted</onHitEffects>
-		<lasts>720</lasts>
+    <effect>
+        <id>meathappyfulfilled</id>
+        <name esES="Lleno de carne">Meat fulfilled</name>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <effectsImmune>meathappy</effectsImmune>
+        <lasts>16400</lasts>
 
-	<effect>
-		<id>blunt10</id>
-		<name esES="Daño contundente">Blunt damage</name>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<onHitPCT>10</onHitPCT>
-		<onHitEffects>blunted</onHitEffects>
-		<lasts>720</lasts>
+    <effect>
+        <id>drinkhappy</id>
+        <name esES="Feliz de bebida">Drink happy</name>
+        <icon>ef_happy</icon>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <happy>1</happy>
+        <lasts>1d2</lasts>
+        <afterEffects>drinkhappyfulfilled</afterEffects>
 
-	<effect>
-		<id>blunt15</id>
-		<name esES="Daño contundente">Blunt damage</name>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<onHitPCT>15</onHitPCT>
-		<onHitEffects>blunted</onHitEffects>
-		<lasts>720</lasts>
+    <effect>
+        <id>drinkhappyfulfilled</id>
+        <name esES="Lleno de bebida">Drink fulfilled</name>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <effectsImmune>drinkhappy</effectsImmune>
+        <lasts>16400</lasts>
 
-	<effect>
-		<id>blunted</id>
-		<name esES="Aturdido">Stunned</name>
-		<icon>ef_stun</icon>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<speedPCT>0</speedPCT>
-		<attackSpeedPCT>0</attackSpeedPCT>
-		<lasts>15</lasts>
+    <effect>
+        <id>egghappy</id>
+        <name esES="Feliz de huevos">Egg happy</name>
+        <icon>ef_happy</icon>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <happy>1</happy>
+        <lasts>1d2</lasts>
+        <afterEffects>egghappyfulfilled</afterEffects>
 
-	<effect>
-		<id>pierce5</id>
-		<name esES="Daño perforante">Pierce damage</name>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<onHitPCT>5</onHitPCT>
-		<onHitEffects>pierced</onHitEffects>
-		<lasts>720</lasts>
+    <effect>
+        <id>egghappyfulfilled</id>
+        <name esES="Lleno de huevos">Egg fulfilled</name>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <effectsImmune>egghappy</effectsImmune>
+        <lasts>16400</lasts>
 
-	<effect>
-		<id>pierce10</id>
-		<name esES="Daño perforante">Pierce damage</name>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<onHitPCT>10</onHitPCT>
-		<onHitEffects>pierced</onHitEffects>
-		<lasts>720</lasts>
+    <effect>
+        <id>mixhappy</id>
+        <name esES="Feliz de mezcla">Mix happy</name>
+        <icon>ef_happy</icon>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <happy>1</happy>
+        <lasts>1d2</lasts>
+        <afterEffects>mixhappyfulfilled</afterEffects>
 
-	<effect>
-		<id>pierce15</id>
-		<name esES="Daño perforante">Pierce damage</name>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<onHitPCT>15</onHitPCT>
-		<onHitEffects>pierced</onHitEffects>
-		<lasts>720</lasts>
+    <effect>
+        <id>mixhappyfulfilled</id>
+        <name esES="Lleno de mezcla">Mix fulfilled</name>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <effectsImmune>mixhappy</effectsImmune>
+        <lasts>16400</lasts>
 
-	<effect>
-		<id>pierced</id>
-		<name esES="Perforado">Pierced</name>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<DOT>1d25+200</DOT>
-		<lasts>1</lasts>
+    <effect>
+        <id>silverbolt</id>
+        <name esES="Rayo de plata">Silver bolt</name>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <onHitPCT>50</onHitPCT>
+        <onHitEffects>silverpurged</onHitEffects>
+        <lasts>720</lasts>
 
-	
-	<effect>
-		<id>slash5</id>
-		<name esES="Daño cortante">Slash damage</name>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
 
-		<onHitPCT>5</onHitPCT>
-		<onHitEffects>dotbleeding</onHitEffects>
-		<lasts>420</lasts>
+    </effect>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+    <effect>
+        <id>silverpurged</id>
+        <name esES="Purgado de plata">Silver purged</name>
 
-	<effect>
-		<id>slash10</id>
-		<name esES="Daño cortante">Slash damage</name>
+        <effectsImmune>lycanthropy,lycanthropyinfected,turntowolf</effectsImmune>
+        <lasts>400</lasts>
 
-		<onHitPCT>10</onHitPCT>
-		<onHitEffects>dotbleeding</onHitEffects>
-		<lasts>420</lasts>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+    </effect>
 
-	<effect>
-		<id>slash15</id>
-		<name esES="Daño cortante">Slash damage</name>
+    <!-- Weapons damage types-->
 
-		<onHitPCT>15</onHitPCT>
-		<onHitEffects>dotbleeding</onHitEffects>
-		<lasts>420</lasts>
+    <effect>
+        <id>blunt5</id>
+        <name esES="Daño contundente">Blunt damage</name>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <onHitPCT>5</onHitPCT>
+        <onHitEffects>blunted</onHitEffects>
+        <lasts>720</lasts>
 
-	<effect>
-		<id>magic5</id>
-		<name esES="Daño mágico">Magic damage</name>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<onHitPCT>5</onHitPCT>
-		<onHitEffects>magicdamage</onHitEffects>
-		<lasts>720</lasts>
+    <effect>
+        <id>blunt10</id>
+        <name esES="Daño contundente">Blunt damage</name>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <onHitPCT>10</onHitPCT>
+        <onHitEffects>blunted</onHitEffects>
+        <lasts>720</lasts>
 
-	<effect>
-		<id>magic10</id>
-		<name esES="Daño mágico">Magic damage</name>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<onHitPCT>10</onHitPCT>
-		<onHitEffects>magicdamage</onHitEffects>
-		<lasts>720</lasts>
+    <effect>
+        <id>blunt15</id>
+        <name esES="Daño contundente">Blunt damage</name>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <onHitPCT>15</onHitPCT>
+        <onHitEffects>blunted</onHitEffects>
+        <lasts>720</lasts>
 
-	<effect>
-		<id>magic15</id>
-		<name esES="Daño mágico">Magic damage</name>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<onHitPCT>15</onHitPCT>
-		<onHitEffects>magicdamage</onHitEffects>
-		<lasts>720</lasts>
+    <effect>
+        <id>blunted</id>
+        <name esES="Aturdido">Stunned</name>
+        <icon>ef_stun</icon>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <speedPCT>0</speedPCT>
+        <attackSpeedPCT>0</attackSpeedPCT>
+        <lasts>15</lasts>
 
-	<effect>
-		<id>magicdamage</id>
-		<name esES="Daño mágico">Magic damage</name>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<DOT>1d25+200</DOT>
-		<lasts>1</lasts>
+    <effect>
+        <id>pierce5</id>
+        <name esES="Daño perforante">Pierce damage</name>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <onHitPCT>5</onHitPCT>
+        <onHitEffects>pierced</onHitEffects>
+        <lasts>720</lasts>
 
-	<!-- Weapons damage types-->
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-	<!-- Damage types resistance-->
+    <effect>
+        <id>pierce10</id>
+        <name esES="Daño perforante">Pierce damage</name>
 
-	<effect>
-		<id>pierceresist</id>
-		<name esES="Resistencia a perforaciones">Pierce resist</name>
+        <onHitPCT>10</onHitPCT>
+        <onHitEffects>pierced</onHitEffects>
+        <lasts>720</lasts>
 
-		<effectsImmune>pierce5,pierce10,pierce15</effectsImmune>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+    <effect>
+        <id>pierce15</id>
+        <name esES="Daño perforante">Pierce damage</name>
 
-	<effect>
-		<id>bluntresist</id>
-		<name esES="Resistencia a golpes">Blunt resist</name>
+        <onHitPCT>15</onHitPCT>
+        <onHitEffects>pierced</onHitEffects>
+        <lasts>720</lasts>
 
-		<effectsImmune>blunt5,blunt10,blunt15</effectsImmune>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+    <effect>
+        <id>pierced</id>
+        <name esES="Perforado">Pierced</name>
 
-	<effect>
-		<id>slashresist</id>
-		<name esES="Resistencia a cortes">Slash resist</name>
+        <DOT>1d25+200</DOT>
+        <lasts>1</lasts>
 
-		<effectsImmune>slash5,slash10,slash15</effectsImmune>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
 
-	<effect>
-		<id>magicresist</id>
-		<name esES="Resistencia mágica">Magic resist</name>
+    <effect>
+        <id>slash5</id>
+        <name esES="Daño cortante">Slash damage</name>
 
-		<effectsImmune>magic5,magic10,magic15</effectsImmune>
+        <onHitPCT>5</onHitPCT>
+        <onHitEffects>dotbleeding</onHitEffects>
+        <lasts>420</lasts>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-	<!-- Damage types resistance-->
+    <effect>
+        <id>slash10</id>
+        <name esES="Daño cortante">Slash damage</name>
 
-	<effect>
-		<id>batskill</id>
-		<name esES="Encanto de muerciélago">Bat charm</name>
+        <onHitPCT>10</onHitPCT>
+        <onHitEffects>dotbleeding</onHitEffects>
+        <lasts>420</lasts>
 
-		<castEffects>bathappy</castEffects>
-		<castCooldown>1d600+400</castCooldown>
-		<castTargets>CITIZEN</castTargets>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+    <effect>
+        <id>slash15</id>
+        <name esES="Daño cortante">Slash damage</name>
 
-	<effect>
-		<id>bathappy</id>
-		<name esES="Encantado de muerciélago">Bat charmed</name>
-		<icon>ef_happy</icon>
+        <onHitPCT>15</onHitPCT>
+        <onHitEffects>dotbleeding</onHitEffects>
+        <lasts>420</lasts>
 
-		<happy>1</happy>
-		<lasts>1d3</lasts>
-		<afterEffects>batcharmed</afterEffects>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+    <effect>
+        <id>magic5</id>
+        <name esES="Daño mágico">Magic damage</name>
 
-	<effect>
-		<id>batcharmed</id>
-		<name esES="Encantado de muerciélago">Bat charmed</name>
+        <onHitPCT>5</onHitPCT>
+        <onHitEffects>magicdamage</onHitEffects>
+        <lasts>720</lasts>
 
-		<effectsImmune>bathappy</effectsImmune>
-		<lasts>2880</lasts>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+    <effect>
+        <id>magic10</id>
+        <name esES="Daño mágico">Magic damage</name>
 
-	<effect>
-		<id>dauntingscream</id>
-		<name esES="Grito desalentador">Daunting scream</name>
+        <onHitPCT>10</onHitPCT>
+        <onHitEffects>magicdamage</onHitEffects>
+        <lasts>720</lasts>
 
-		<castEffects>daunted</castEffects>
-		<castTargets>CITIZEN,HERO</castTargets>
-		<castTrigger>NEAR_DEATH</castTrigger>
-  		<castCooldown>1d400+400</castCooldown>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+    <effect>
+        <id>magic15</id>
+        <name esES="Daño mágico">Magic damage</name>
 
-	<effect>
-		<id>daunted</id>
-		<name esES="Desalentado">Daunted</name>
-		<removeTarget>true</removeTarget>
-		<flee>true</flee>
-		<afterEffects>dauntingresist</afterEffects>
-		<lasts>1</lasts>
+        <onHitPCT>15</onHitPCT>
+        <onHitEffects>magicdamage</onHitEffects>
+        <lasts>720</lasts>
 
-		<messageWhenVanish>false</messageWhenVanish>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-	<effect>
-		<id>dauntingresist</id>
-		<name esES="Resistencia al desaliento">Daunting resist</name>
-	
-		<effectsImmune>daunted</effectsImmune>
-		<lasts>1600</lasts>
+    <effect>
+        <id>magicdamage</id>
+        <name esES="Daño mágico">Magic damage</name>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <DOT>1d25+200</DOT>
+        <lasts>1</lasts>
 
-	<effect>
-		<id>sproutexplosion</id>
-		<name esES="Explosión de brote">Sprout explosion</name>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<castTrigger>HITTED</castTrigger>
-		<castEffects>explosion</castEffects>
-		<castTargets>explosivesprout</castTargets>
-		<castCooldown>10</castCooldown>
+    <!-- Weapons damage types-->
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+    <!-- Damage types resistance-->
 
-	<effect>
-		<id>sproutexplosionpoison</id>
-		<name esES="Explosión de brote venenosa">Sprout explosion poison</name>
+    <effect>
+        <id>pierceresist</id>
+        <name esES="Resistencia a perforaciones">Pierce resist</name>
 
-		<castTrigger>HITTED</castTrigger>
-		<castEffects>dotpoison200</castEffects>
-		<castTargets>ENEMY</castTargets>
-		<castCooldown>10</castCooldown>
+        <effectsImmune>pierce5,pierce10,pierce15</effectsImmune>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-	<effect>
-		<id>explosion</id>
-		<name esES="Explosión de brote">Sprout explosion</name>
-	
-		<lasts>15</lasts>
-		
-		<DOT>250</DOT>
-		<lasts>4</lasts>
-		<graphicChange>explosivesproutexplode</graphicChange>
+    <effect>
+        <id>bluntresist</id>
+        <name esES="Resistencia a golpes">Blunt resist</name>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <effectsImmune>blunt5,blunt10,blunt15</effectsImmune>
 
-	<effect>
-		<id>aoedamage</id>
-		<name esES="Daño de area">Aoe damage</name>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<castEffects>damage100</castEffects>
-		<castTargets>ENEMY</castTargets>
-		<castCooldown>4</castCooldown>
-		<lasts>5</lasts>
+    <effect>
+        <id>slashresist</id>
+        <name esES="Resistencia a cortes">Slash resist</name>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <effectsImmune>slash5,slash10,slash15</effectsImmune>
 
-	<effect>
-		<id>treeprotector</id>
-		<name esES="Protector del bosque">Protector of the forest</name>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<castEffects>treeprotection</castEffects>
-		<castTargets>herbalist</castTargets>
-		<castCooldown>1d20</castCooldown>
+    <effect>
+        <id>magicresist</id>
+        <name esES="Resistencia mágica">Magic resist</name>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <effectsImmune>magic5,magic10,magic15</effectsImmune>
 
-	<effect>
-		<id>treeprotection</id>
-		<name esES="Protección del bosque">Protection of the forest</name>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<defensePCT>110</defensePCT>
-		<DOT>-1</DOT>
-		<lasts>100</lasts>
+    <!-- Damage types resistance-->
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+    <effect>
+        <id>batskill</id>
+        <name esES="Encanto de muerciélago">Bat charm</name>
 
-	<effect>
-		<id>turtleshield</id>
-		<name esES="Escudo de la tortuga">Shield of the turtle</name>
+        <castEffects>bathappy</castEffects>
+        <castCooldown>1d600+400</castCooldown>
+        <castTargets>CITIZEN</castTargets>
 
-		<castEffects>defenseauraenemies</castEffects>
-		<castTargets>ENEMY</castTargets>
-		<castCooldown>20</castCooldown>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+    <effect>
+        <id>bathappy</id>
+        <name esES="Encantado de muerciélago">Bat charmed</name>
+        <icon>ef_happy</icon>
 
-	<effect>
-		<id>defenseauraenemies</id>
-		<name esES="Aura de defensa">Defense aura</name>
-		<icon>ef_defenseaura</icon>
+        <happy>1</happy>
+        <lasts>1d3</lasts>
+        <afterEffects>batcharmed</afterEffects>
 
-		<defensePCT>120</defensePCT>
-		<lasts>270</lasts>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+    <effect>
+        <id>batcharmed</id>
+        <name esES="Encantado de muerciélago">Bat charmed</name>
 
-	<effect>
-		<id>godlightning</id>
-		<name esES="Rayo de los dioses">Gods lightning</name>
+        <effectsImmune>bathappy</effectsImmune>
+        <lasts>2880</lasts>
 
-		<DOT>10000</DOT>
-		<lasts>5</lasts>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<messageWhenVanish>false</messageWhenVanish>
-	</effect>
+    <effect>
+        <id>dauntingscream</id>
+        <name esES="Grito desalentador">Daunting scream</name>
 
-	<effect>
-		<id>farchants</id>
-		<name esES="Cánticos remotos">Far chants</name>
+        <castEffects>daunted</castEffects>
+        <castTargets>CITIZEN,HERO</castTargets>
+        <castTrigger>NEAR_DEATH</castTrigger>
+        <castCooldown>1d400+400</castCooldown>
 
-		<damagePCT>120</damagePCT>
-		<defensePCT>120</defensePCT>
-		<attackPCT>120</attackPCT>
-		<healthPointsPCT>120</healthPointsPCT>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<lasts>1440</lasts>
+    <effect>
+        <id>daunted</id>
+        <name esES="Desalentado">Daunted</name>
+        <removeTarget>true</removeTarget>
+        <flee>true</flee>
+        <afterEffects>dauntingresist</afterEffects>
+        <lasts>1</lasts>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+        <messageWhenVanish>false</messageWhenVanish>
+    </effect>
 
-	<effect>
-		<id>parrotsmell</id>
-		<name esES="Olor a zanahoria">Parrot smell</name>
+    <effect>
+        <id>dauntingresist</id>
+        <name esES="Resistencia al desaliento">Daunting resist</name>
 
-		<LOSPCT>180</LOSPCT>
+        <effectsImmune>daunted</effectsImmune>
+        <lasts>1600</lasts>
 
-		<lasts>1440</lasts>
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 
-		<messageWhenVanish>false</messageWhenVanish>
-		<messageWhenGain>false</messageWhenGain>
-	</effect>
+    <effect>
+        <id>sproutexplosion</id>
+        <name esES="Explosión de brote">Sprout explosion</name>
+
+        <castTrigger>HITTED</castTrigger>
+        <castEffects>explosion</castEffects>
+        <castTargets>explosivesprout</castTargets>
+        <castCooldown>10</castCooldown>
+
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
+
+    <effect>
+        <id>sproutexplosionpoison</id>
+        <name esES="Explosión de brote venenosa">Sprout explosion poison</name>
+
+        <castTrigger>HITTED</castTrigger>
+        <castEffects>dotpoison200</castEffects>
+        <castTargets>ENEMY</castTargets>
+        <castCooldown>10</castCooldown>
+
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
+
+    <effect>
+        <id>explosion</id>
+        <name esES="Explosión de brote">Sprout explosion</name>
+
+        <lasts>15</lasts>
+
+        <DOT>250</DOT>
+        <lasts>4</lasts>
+        <graphicChange>explosivesproutexplode</graphicChange>
+
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
+
+    <effect>
+        <id>aoedamage</id>
+        <name esES="Daño de area">Aoe damage</name>
+
+        <castEffects>damage100</castEffects>
+        <castTargets>ENEMY</castTargets>
+        <castCooldown>4</castCooldown>
+        <lasts>5</lasts>
+
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
+
+    <effect>
+        <id>treeprotector</id>
+        <name esES="Protector del bosque">Protector of the forest</name>
+
+        <castEffects>treeprotection</castEffects>
+        <castTargets>herbalist</castTargets>
+        <castCooldown>1d20</castCooldown>
+
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
+
+    <effect>
+        <id>treeprotection</id>
+        <name esES="Protección del bosque">Protection of the forest</name>
+
+        <defensePCT>110</defensePCT>
+        <DOT>-1</DOT>
+        <lasts>100</lasts>
+
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
+
+    <effect>
+        <id>turtleshield</id>
+        <name esES="Escudo de la tortuga">Shield of the turtle</name>
+
+        <castEffects>defenseauraenemies</castEffects>
+        <castTargets>ENEMY</castTargets>
+        <castCooldown>20</castCooldown>
+
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
+
+    <effect>
+        <id>defenseauraenemies</id>
+        <name esES="Aura de defensa">Defense aura</name>
+        <icon>ef_defenseaura</icon>
+
+        <defensePCT>120</defensePCT>
+        <lasts>270</lasts>
+
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
+
+    <effect>
+        <id>godlightning</id>
+        <name esES="Rayo de los dioses">Gods lightning</name>
+
+        <DOT>10000</DOT>
+        <lasts>5</lasts>
+
+        <messageWhenVanish>false</messageWhenVanish>
+    </effect>
+
+    <effect>
+        <id>farchants</id>
+        <name esES="Cánticos remotos">Far chants</name>
+
+        <damagePCT>120</damagePCT>
+        <defensePCT>120</defensePCT>
+        <attackPCT>120</attackPCT>
+        <healthPointsPCT>120</healthPointsPCT>
+
+        <lasts>1440</lasts>
+
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
+
+    <effect>
+        <id>parrotsmell</id>
+        <name esES="Olor a zanahoria">Parrot smell</name>
+
+        <LOSPCT>180</LOSPCT>
+
+        <lasts>1440</lasts>
+
+        <messageWhenVanish>false</messageWhenVanish>
+        <messageWhenGain>false</messageWhenGain>
+    </effect>
 </effects>

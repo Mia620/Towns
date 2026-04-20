@@ -1,11 +1,5 @@
 package xaos.data;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.util.ArrayList;
-
 import xaos.actions.ActionPriorityManager;
 import xaos.main.Game;
 import xaos.main.World;
@@ -15,6 +9,12 @@ import xaos.tiles.entities.living.LivingEntityManager;
 import xaos.tiles.entities.living.LivingEntityManagerItem;
 import xaos.utils.Messages;
 import xaos.utils.UtilsIniHeaders;
+
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.util.ArrayList;
 
 public class CitizenGroupData implements Externalizable {
 
@@ -62,12 +62,12 @@ public class CitizenGroupData implements Externalizable {
         this.livingIDs = livingIDs;
     }
 
-    public void setJobsDenied(ArrayList<Integer> jobsDenied) {
-        this.jobsDenied = jobsDenied;
-    }
-
     public ArrayList<Integer> getJobsDenied() {
         return jobsDenied;
+    }
+
+    public void setJobsDenied(ArrayList<Integer> jobsDenied) {
+        this.jobsDenied = jobsDenied;
     }
 
     public boolean containsDeniedJob(int iJob) {

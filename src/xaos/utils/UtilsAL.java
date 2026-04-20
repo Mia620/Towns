@@ -1,20 +1,19 @@
 package xaos.utils;
 
+import org.lwjgl.openal.AL;
+import org.newdawn.slick.openal.Audio;
+import org.newdawn.slick.openal.AudioLoader;
+import org.newdawn.slick.openal.SoundStore;
+import org.newdawn.slick.util.ResourceLoader;
+import xaos.Towns;
+import xaos.main.Game;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Properties;
-
-import org.lwjgl.openal.AL;
-import org.newdawn.slick.openal.Audio;
-import org.newdawn.slick.openal.AudioLoader;
-import org.newdawn.slick.openal.SoundStore;
-import org.newdawn.slick.util.ResourceLoader;
-
-import xaos.Towns;
-import xaos.main.Game;
 
 public final class UtilsAL {
 
@@ -23,9 +22,9 @@ public final class UtilsAL {
 
     public final static String SOURCE_FX_CLICK = "fxclick"; //$NON-NLS-1$
 
-//	public final static String SOURCE_FX_CHOP = 6;
+    //	public final static String SOURCE_FX_CHOP = 6;
     public final static String SOURCE_FX_MINE = "fxmine"; //$NON-NLS-1$
-//	public final static String SOURCE_FX_DIG = 8;
+    //	public final static String SOURCE_FX_DIG = 8;
     public final static String SOURCE_FX_EAT = "fxeat"; //$NON-NLS-1$
 
     public final static String SOURCE_FX_DEAD = "fxdead"; //$NON-NLS-1$
@@ -84,8 +83,8 @@ public final class UtilsAL {
      * Carga un fichero de audio en la hash
      *
      * @param sKey
-     * @param sFile Fichero, si se le pasa null (o vacío) no pasa nada, mete
-     * null en la hash
+     * @param sFile Fichero, si se le pasa null (o vacï¿½o) no pasa nada, mete
+     *              null en la hash
      * @return
      */
     private static boolean loadAudio(String sKey, String sFile) {
@@ -244,12 +243,12 @@ public final class UtilsAL {
         return sKey != null && (sKey.equals(SOURCE_MUSIC_MAINMENU) || sKey.equals(SOURCE_MUSIC_INGAME));
     }
 
-    public static void setOpenALON(boolean openALON) {
-        UtilsAL.openALON = openALON;
-    }
-
     public static boolean isOpenALON() {
         return openALON;
+    }
+
+    public static void setOpenALON(boolean openALON) {
+        UtilsAL.openALON = openALON;
     }
 
     public static boolean exists(String fxKey) {

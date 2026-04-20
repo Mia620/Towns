@@ -1,25 +1,23 @@
 package xaos.utils;
 
-import java.util.ArrayList;
-
 import xaos.main.Game;
 import xaos.main.World;
 import xaos.tiles.Cell;
 import xaos.tiles.entities.living.LivingEntity;
 import xaos.tiles.terrain.Terrain;
 
+import java.util.ArrayList;
+
 public final class AStarQueueItem {
 
+    public static short openListIndexes[][][];
+    private static boolean closedList[][][];
     private int livingEntityID;
     private int livingEntityType;
     private Point3DShort startPoint;
     private Point3DShort endPoint;
-
     private boolean finished;
     private ArrayList<Point3DShort> path;
-
-    private static boolean closedList[][][];
-    public static short openListIndexes[][][];
     private AStarBinaryHeap openList;
     private boolean iniToEnd;
 
@@ -37,6 +35,150 @@ public final class AStarQueueItem {
         setSiege(bSiege);
     }
 
+    public static boolean[][][] getClosedList() {
+        return closedList;
+    }
+
+    public static void setClosedList(boolean[][][] list) {
+        closedList = list;
+    }
+
+    /**
+     * Busca bresenham lines en el camino y reemplaza (y elminina) los puntos
+     * que toque con la misma Esto evita diagonales raras al andar El mï¿½todo
+     * tiene que ser rï¿½pido para no perder performance
+     *
+     * @param alPath
+     */
+    public static void preSmoothPath(ArrayList<Point3DShort> alPath) {//, int livingType) {
+        if (alPath == null || alPath.size() < 3) {
+            return;
+        }
+
+        // Empieza la fiesta
+        // Miramos la primera Z, porque ï¿½ste mï¿½todo no funciona para Z distintas
+        int startIndex = 0;
+        short z = alPath.get(0).z;
+
+        // Miramos donde cambia la Z
+        int iIndex = 1;
+        while (iIndex < alPath.size()) {
+            if (alPath.get(iIndex).z != z) {
+                // Z diferente, bingo
+                // Llamamos al optimizador real (en caso de paths > 2)
+                if ((startIndex + 3) < iIndex) {
+                    iIndex = smoothPath(alPath, startIndex, (iIndex - 1), z); //, livingType);
+//				} else {
+                    // Path demasiado corto, no hay que tocar el ï¿½ndice
+                }
+
+                // Obtenemos la nueva Z
+                startIndex = iIndex;
+                z = alPath.get(startIndex).z;
+            } else {
+                // Misma Z
+                iIndex++;
+            }
+        }
+
+        // Al salir de aquï¿½ smootheamos el ï¿½ltimo tramo
+        smoothPath(alPath, startIndex, alPath.size() - 1, z); //, livingType);
+    }
+
+    /**
+     * Busca bresenham lines en el camino y reemplaza (y elminina) los puntos
+     * que toque con la misma Esto evita diagonales raras al andar El mï¿½todo
+     * tiene que ser rï¿½pido para no perder performance
+     *
+     * @param alPath     Camino
+     * @param startIndex Inicio
+     * @param endIndex   Final
+     * @return indica el nuevo startIndex
+     */
+    private static int smoothPath(ArrayList<Point3DShort> alPath, int startIndex, int endIndex, short z) { //, int livingType) {
+        int returnNewIndex = endIndex;
+
+        int stepSize = (int) Math.sqrt(Math.sqrt(endIndex - startIndex));
+        if (stepSize < 2) {
+            stepSize = 2;
+        }
+
+        ArrayList<Point3DShort> alBresenham;
+        int iIndexStart = startIndex;
+        int iIndexEnd = endIndex;
+
+        while ((iIndexStart + 3) < returnNewIndex) {
+            alBresenham = Utils.bresenhamLine(alPath.get(iIndexStart), alPath.get(iIndexEnd), z); //, livingType);
+            if (alBresenham != null && alBresenham.size() > 2 && countWalk(alPath, iIndexStart, alBresenham.size()) >= countWalk(alBresenham, 0, alBresenham.size())) {
+//			if (alBresenham != null && alBresenham.size () > 2) {
+                // Linea recta, sustituimos
+                // Miramos el tamaï¿½o de lo que tenemos en el path
+                int subPathSize = (iIndexEnd - iIndexStart);
+                if (alBresenham.size() <= (subPathSize + 1)) {
+                    // Linea del mismo tamaï¿½o o mï¿½s corta, primero sustituimos el path
+
+                    for (int j = 0; j < alBresenham.size(); j++) {
+                        alPath.get(iIndexStart + j).setPoint(alBresenham.get(j).x, alBresenham.get(j).y, alBresenham.get(j).z);
+                    }
+
+                    if (alBresenham.size() < subPathSize) {
+                        // Linea mï¿½s corta, hay que borrar lo sobrante del path
+                        while (subPathSize > alBresenham.size()) {
+                            alPath.remove(iIndexStart + alBresenham.size());
+                            returnNewIndex--;
+                            subPathSize--;
+                        }
+                    }
+
+                    // Cambiamos el ï¿½ndex al final de lo copiado
+                    iIndexStart = iIndexStart + alBresenham.size();
+
+                    // Reseteamos el end index
+                    iIndexEnd = returnNewIndex;
+                } else {
+                    // Lo encontrado es mï¿½s largo.... ï¿½?ï¿½? raro
+                    iIndexEnd -= stepSize;
+                    if (iIndexEnd <= iIndexStart) {
+                        iIndexEnd = returnNewIndex;
+                        iIndexStart += stepSize;
+                    }
+                }
+
+            } else {
+                // Sin path o path demasiado corto
+                iIndexEnd -= stepSize;
+                if (iIndexEnd <= iIndexStart) {
+                    iIndexEnd = returnNewIndex;
+                    iIndexStart += stepSize;
+                }
+            }
+
+            // Limpiamos la lista Bresenham
+            Point3DShort.returnToPool(alBresenham);
+        }
+
+        return (returnNewIndex + 1);
+    }
+
+    /**
+     * Cuenta el valor de walk para recorrer un camino
+     *
+     * @param list
+     * @return
+     */
+    private static int countWalk(ArrayList<Point3DShort> list, int iIni, int iNumCells) {
+        int iReturn = 0;
+        for (int i = 0; i < iNumCells; i++) {
+            if (list.size() > (iIni + i)) {
+                iReturn += Cell.getCellWalkNeeded(list.get(iIni + i));
+            } else {
+                iReturn += 100;
+            }
+        }
+
+        return iReturn;
+    }
+
     public int getLivingEntityID() {
         return livingEntityID;
     }
@@ -46,17 +188,17 @@ public final class AStarQueueItem {
     }
 
     /**
-     * @param livingEntityType the livingEntityType to set
-     */
-    public void setLivingEntityType(int livingEntityType) {
-        this.livingEntityType = livingEntityType;
-    }
-
-    /**
      * @return the livingEntityType
      */
     public int getLivingEntityType() {
         return livingEntityType;
+    }
+
+    /**
+     * @param livingEntityType the livingEntityType to set
+     */
+    public void setLivingEntityType(int livingEntityType) {
+        this.livingEntityType = livingEntityType;
     }
 
     public Point3DShort getStartPoint() {
@@ -83,14 +225,6 @@ public final class AStarQueueItem {
         this.finished = finished;
     }
 
-    public static boolean[][][] getClosedList() {
-        return closedList;
-    }
-
-    public static void setClosedList(boolean[][][] list) {
-        closedList = list;
-    }
-
     public AStarBinaryHeap getOpenList() {
         return openList;
     }
@@ -108,33 +242,33 @@ public final class AStarQueueItem {
     }
 
     /**
-     * @param numCellsToRemove the numCellsToRemove to set
-     */
-    public void setNumCellsToRemove(int numCellsToRemove) {
-        this.numCellsToRemove = numCellsToRemove;
-    }
-
-    /**
      * @return the numCellsToRemove
      */
     public int getNumCellsToRemove() {
         return numCellsToRemove;
     }
 
-    public void setNewItem(boolean newItem) {
-        this.newItem = newItem;
+    /**
+     * @param numCellsToRemove the numCellsToRemove to set
+     */
+    public void setNumCellsToRemove(int numCellsToRemove) {
+        this.numCellsToRemove = numCellsToRemove;
     }
 
     public boolean isNewItem() {
         return newItem;
     }
 
-    public void setSiege(boolean siege) {
-        this.siege = siege;
+    public void setNewItem(boolean newItem) {
+        this.newItem = newItem;
     }
 
     public boolean isSiege() {
         return siege;
+    }
+
+    public void setSiege(boolean siege) {
+        this.siege = siege;
     }
 
     public ArrayList<Point3DShort> getPath() {
@@ -146,29 +280,29 @@ public final class AStarQueueItem {
     }
 
     /**
-     * Continua (o empieza) la búsqueda A* hasta un máximo de "iMaxIterations"
+     * Continua (o empieza) la bï¿½squeda A* hasta un mï¿½ximo de "iMaxIterations"
      * iteraciones.
      *
      * @param iMaxIterations
-     * @return el número de iteraciones efectuadas
+     * @return el nï¿½mero de iteraciones efectuadas
      */
     public int search(int iMaxIterations) {
-        // Miramos si las 2 celdas aún están en la misma zona (por si acaso alguien ha digado o hecho algo mientras buscaba)
+        // Miramos si las 2 celdas aï¿½n estï¿½n en la misma zona (por si acaso alguien ha digado o hecho algo mientras buscaba)
         if (World.getCell(startPoint).getAstarZoneID() != World.getCell(endPoint).getAstarZoneID()) {
-			// Cagada, ASZI distinto, finished task!
+            // Cagada, ASZI distinto, finished task!
             //setClosedList (null);
             setFinished(true);
             return 0;
         }
 
-		// Miramos si es una continuación
+        // Miramos si es una continuaciï¿½n
         //boolean bContinue = getClosedList () != null;
         AStarNodo nodo = null;
         if (isNewItem()) {
             setNewItem(false);
-			// Miramos las casillas cercanas al punto final y origen, empezaremos la búsqueda por el que tenga más
-            // restricciones, o sea, el que tenga más cells-NO-Allowed
-            // Segun que ruta podemos mejorar la velocidad de búsqueda en un grado 10.000 a 1 (aprox.)
+            // Miramos las casillas cercanas al punto final y origen, empezaremos la bï¿½squeda por el que tenga mï¿½s
+            // restricciones, o sea, el que tenga mï¿½s cells-NO-Allowed
+            // Segun que ruta podemos mejorar la velocidad de bï¿½squeda en un grado 10.000 a 1 (aprox.)
 
             // Miramos en un cuadro de 7x7 y contamos las NO allowed para cada punto
             int iNOAllowedInicial = 0;
@@ -223,7 +357,7 @@ public final class AStarQueueItem {
                 }
             }
 
-            // Añadimos el primer nodo en la lista abierta
+            // Aï¿½adimos el primer nodo en la lista abierta
             nodo = AStarNodo.getPoolInstance(startPoint.x, startPoint.y, startPoint.z, null, endPoint.x, endPoint.y, endPoint.z);
             openList = new AStarBinaryHeap();
             openList.add(nodo);
@@ -234,12 +368,12 @@ public final class AStarQueueItem {
         int iIterations = 0;
         while (iIterations < iMaxIterations && !openList.isEmpty()) {
             iIterations++;
-            nodo = openList.remove(0); // Pillamos el 1er nodo (la lista ya estará ordenada)
+            nodo = openList.remove(0); // Pillamos el 1er nodo (la lista ya estarï¿½ ordenada)
             if (nodo.x == endPoint.x && nodo.y == endPoint.y && nodo.z == endPoint.z) { // Hemos encontrado el destino
                 bEncontrado = true;
                 break;
             } else {
-				// Miramos cuadros adyacentes y los metemos en la lista abierta
+                // Miramos cuadros adyacentes y los metemos en la lista abierta
 
                 // Arriba / Abajo
                 if (Terrain.canGoUp(nodo)) {
@@ -255,11 +389,11 @@ public final class AStarQueueItem {
                 checkNewNode(nodo, openList, nodo.x, nodo.y + 1, nodo.z);
                 checkNewNode(nodo, openList, nodo.x + 1, nodo.y, nodo.z);
 
-				// Diagonales
-                // Es más rápido (casi el doble) si no las miramos, aunque el camino puede quedar ortopédico
-                // Aunque eso se soluciona con la optimización de caminos que hacemos una vez encontrado el mismo
+                // Diagonales
+                // Es mï¿½s rï¿½pido (casi el doble) si no las miramos, aunque el camino puede quedar ortopï¿½dico
+                // Aunque eso se soluciona con la optimizaciï¿½n de caminos que hacemos una vez encontrado el mismo
                 // El problema es que a veces no encuentra camino debido a que llega a un final de caminillo donde no hay diagonales posibles
-                // pero por la mitad de ese camino si que había.
+                // pero por la mitad de ese camino si que habï¿½a.
                 // De momento las miramos siempre
                 checkNewNode(nodo, openList, nodo.x - 1, nodo.y - 1, nodo.z);
                 checkNewNode(nodo, openList, nodo.x - 1, nodo.y + 1, nodo.z);
@@ -319,8 +453,8 @@ public final class AStarQueueItem {
                 }
             }
 
-			//setClosedList (null);
-			// Tenemos 1 camino posible a destino, optimizamos la ruta para que no sea ortopédica
+            //setClosedList (null);
+            // Tenemos 1 camino posible a destino, optimizamos la ruta para que no sea ortopï¿½dica
             //preSmoothPath (alReturn, getLivingEntityType ());
             preSmoothPath(alReturn);
             setPath(alReturn);
@@ -331,7 +465,7 @@ public final class AStarQueueItem {
                 //setClosedList (null);
                 setFinished(true);
 //			} else {
-                // Aún no ha acabado
+                // Aï¿½n no ha acabado
             }
         }
 
@@ -339,10 +473,10 @@ public final class AStarQueueItem {
     }
 
     /**
-     * Método interno del A*
+     * Mï¿½todo interno del A*
      */
     private boolean checkNewNode(AStarNodo currentNode, AStarBinaryHeap alListaAbierta, int x, int y, int z) {
-        // Miro la closedList[0][0].length, no fuera que el levels discovered creciera mientras busca un camino y decidiera buscar por ahí
+        // Miro la closedList[0][0].length, no fuera que el levels discovered creciera mientras busca un camino y decidiera buscar por ahï¿½
         if (z >= getClosedList()[0][0].length) {
             return false;
         }
@@ -372,7 +506,7 @@ public final class AStarQueueItem {
     }
 
     private boolean checkNewNodeDown(AStarNodo currentNode, AStarBinaryHeap alListaAbierta, int x, int y, int z) {
-        // Miro la closedList[0][0].length, no fuera que el levels discovered creciera mientras busca un camino y decidiera buscar por ahí
+        // Miro la closedList[0][0].length, no fuera que el levels discovered creciera mientras busca un camino y decidiera buscar por ahï¿½
         if (z >= getClosedList()[0][0].length) {
             return false;
         }
@@ -401,7 +535,7 @@ public final class AStarQueueItem {
     }
 
     /**
-     * Método interno del A*
+     * Mï¿½todo interno del A*
      */
     private boolean isAllowed(int x, int y, int z) {
         if (x < 0 || x >= World.MAP_WIDTH || y < 0 || y >= World.MAP_HEIGHT || z < 0 || z > Game.getWorld().getNumFloorsDiscovered()) {
@@ -410,142 +544,5 @@ public final class AStarQueueItem {
 //		return World.getCell (currentNode.x, currentNode.y, currentNode.z).getAstarZoneID () == World.getCell (x, y, z).getAstarZoneID ();
 
         return LivingEntity.isCellAllowed(x, y, z);
-    }
-
-    /**
-     * Busca bresenham lines en el camino y reemplaza (y elminina) los puntos
-     * que toque con la misma Esto evita diagonales raras al andar El método
-     * tiene que ser rápido para no perder performance
-     *
-     * @param alPath
-     */
-    public static void preSmoothPath(ArrayList<Point3DShort> alPath) {//, int livingType) {
-        if (alPath == null || alPath.size() < 3) {
-            return;
-        }
-
-		// Empieza la fiesta
-        // Miramos la primera Z, porque éste método no funciona para Z distintas
-        int startIndex = 0;
-        short z = alPath.get(0).z;
-
-        // Miramos donde cambia la Z
-        int iIndex = 1;
-        while (iIndex < alPath.size()) {
-            if (alPath.get(iIndex).z != z) {
-				// Z diferente, bingo
-                // Llamamos al optimizador real (en caso de paths > 2)
-                if ((startIndex + 3) < iIndex) {
-                    iIndex = smoothPath(alPath, startIndex, (iIndex - 1), z); //, livingType);
-//				} else {
-                    // Path demasiado corto, no hay que tocar el índice
-                }
-
-                // Obtenemos la nueva Z
-                startIndex = iIndex;
-                z = alPath.get(startIndex).z;
-            } else {
-                // Misma Z
-                iIndex++;
-            }
-        }
-
-        // Al salir de aquí smootheamos el último tramo
-        smoothPath(alPath, startIndex, alPath.size() - 1, z); //, livingType);
-    }
-
-    /**
-     * Busca bresenham lines en el camino y reemplaza (y elminina) los puntos
-     * que toque con la misma Esto evita diagonales raras al andar El método
-     * tiene que ser rápido para no perder performance
-     *
-     * @param alPath Camino
-     * @param startIndex Inicio
-     * @param endIndex Final
-     *
-     * @return indica el nuevo startIndex
-     */
-    private static int smoothPath(ArrayList<Point3DShort> alPath, int startIndex, int endIndex, short z) { //, int livingType) {
-        int returnNewIndex = endIndex;
-
-        int stepSize = (int) Math.sqrt(Math.sqrt(endIndex - startIndex));
-        if (stepSize < 2) {
-            stepSize = 2;
-        }
-
-        ArrayList<Point3DShort> alBresenham;
-        int iIndexStart = startIndex;
-        int iIndexEnd = endIndex;
-
-        while ((iIndexStart + 3) < returnNewIndex) {
-            alBresenham = Utils.bresenhamLine(alPath.get(iIndexStart), alPath.get(iIndexEnd), z); //, livingType);
-            if (alBresenham != null && alBresenham.size() > 2 && countWalk(alPath, iIndexStart, alBresenham.size()) >= countWalk(alBresenham, 0, alBresenham.size())) {
-//			if (alBresenham != null && alBresenham.size () > 2) {
-                // Linea recta, sustituimos
-                // Miramos el tamaño de lo que tenemos en el path
-                int subPathSize = (iIndexEnd - iIndexStart);
-                if (alBresenham.size() <= (subPathSize + 1)) {
-                    // Linea del mismo tamaño o más corta, primero sustituimos el path
-
-                    for (int j = 0; j < alBresenham.size(); j++) {
-                        alPath.get(iIndexStart + j).setPoint(alBresenham.get(j).x, alBresenham.get(j).y, alBresenham.get(j).z);
-                    }
-
-                    if (alBresenham.size() < subPathSize) {
-                        // Linea más corta, hay que borrar lo sobrante del path
-                        while (subPathSize > alBresenham.size()) {
-                            alPath.remove(iIndexStart + alBresenham.size());
-                            returnNewIndex--;
-                            subPathSize--;
-                        }
-                    }
-
-                    // Cambiamos el índex al final de lo copiado
-                    iIndexStart = iIndexStart + alBresenham.size();
-
-                    // Reseteamos el end index
-                    iIndexEnd = returnNewIndex;
-                } else {
-                    // Lo encontrado es más largo.... ¿?¿? raro
-                    iIndexEnd -= stepSize;
-                    if (iIndexEnd <= iIndexStart) {
-                        iIndexEnd = returnNewIndex;
-                        iIndexStart += stepSize;
-                    }
-                }
-
-            } else {
-                // Sin path o path demasiado corto
-                iIndexEnd -= stepSize;
-                if (iIndexEnd <= iIndexStart) {
-                    iIndexEnd = returnNewIndex;
-                    iIndexStart += stepSize;
-                }
-            }
-
-            // Limpiamos la lista Bresenham
-            Point3DShort.returnToPool(alBresenham);
-        }
-
-        return (returnNewIndex + 1);
-    }
-
-    /**
-     * Cuenta el valor de walk para recorrer un camino
-     *
-     * @param list
-     * @return
-     */
-    private static int countWalk(ArrayList<Point3DShort> list, int iIni, int iNumCells) {
-        int iReturn = 0;
-        for (int i = 0; i < iNumCells; i++) {
-            if (list.size() > (iIni + i)) {
-                iReturn += Cell.getCellWalkNeeded(list.get(iIni + i));
-            } else {
-                iReturn += 100;
-            }
-        }
-
-        return iReturn;
     }
 }

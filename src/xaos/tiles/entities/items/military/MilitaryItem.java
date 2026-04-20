@@ -1,11 +1,5 @@
 package xaos.tiles.entities.items.military;
 
-import java.awt.Color;
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-
 import xaos.main.Game;
 import xaos.tiles.entities.items.Item;
 import xaos.tiles.entities.items.ItemManager;
@@ -13,16 +7,20 @@ import xaos.tiles.entities.items.ItemManagerItem;
 import xaos.tiles.entities.living.LivingEntity;
 import xaos.utils.Messages;
 
-public class MilitaryItem extends Item implements Externalizable {
+import java.awt.*;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
-    private static final long serialVersionUID = 2994148931507925799L;
+public class MilitaryItem extends Item implements Externalizable {
 
     public final static int LOCATION_HEAD = 1;
     public final static int LOCATION_BODY = 2;
     public final static int LOCATION_LEGS = 3;
     public final static int LOCATION_FEET = 4;
     public final static int LOCATION_WEAPON = 5;
-
+    private static final long serialVersionUID = 2994148931507925799L;
     private int attackModifier;
     private int attackSpeedModifier;
     private int defenseModifier;
@@ -42,6 +40,43 @@ public class MilitaryItem extends Item implements Externalizable {
     public MilitaryItem(String sIniHeader) {
         super(sIniHeader);
         refreshTransients();
+    }
+
+    /**
+     * Comprueba si el item pasado es mejor que lo que lleve puesto la living
+     *
+     * @param le   Living a mirar
+     * @param item Objeto a comparar
+     * @return true si el item pasado es mejor que lo que lleve puesto la living
+     */
+    public static boolean isBetterItem(LivingEntity le, MilitaryItem item) {
+        MilitaryItem itemWeared = null;
+        ItemManagerItem imi = ItemManager.getItem(item.getIniHeader());
+        switch (imi.getLocation()) {
+            case LOCATION_HEAD:
+                itemWeared = le.getEquippedData().getHead();
+                break;
+            case LOCATION_BODY:
+                itemWeared = le.getEquippedData().getBody();
+                break;
+            case LOCATION_LEGS:
+                itemWeared = le.getEquippedData().getLegs();
+                break;
+            case LOCATION_FEET:
+                itemWeared = le.getEquippedData().getFeet();
+                break;
+            case LOCATION_WEAPON:
+                itemWeared = le.getEquippedData().getWeapon();
+                break;
+        }
+
+        if (itemWeared != null) {
+            // Lleva algo, los comparamos
+            // Sï¿½lo miramos el level del item
+            return ItemManager.getItem(itemWeared.getIniHeader()).getLevel() < imi.getLevel();
+        }
+
+        return true;
     }
 
     public String getTileName() {
@@ -83,10 +118,6 @@ public class MilitaryItem extends Item implements Externalizable {
         this.attackModifier = attackModifier;
     }
 
-    public void setAttackSpeedModifier(int attackSpeedModifier) {
-        this.attackSpeedModifier = attackSpeedModifier;
-    }
-
     public int getAttackSpeedModifier() {
         int iTmp = 0;
         if (prefix != null) {
@@ -98,8 +129,8 @@ public class MilitaryItem extends Item implements Externalizable {
         return attackSpeedModifier + iTmp;
     }
 
-    public void setWalkSpeedModifier(int walkSpeedModifier) {
-        this.walkSpeedModifier = walkSpeedModifier;
+    public void setAttackSpeedModifier(int attackSpeedModifier) {
+        this.attackSpeedModifier = attackSpeedModifier;
     }
 
     public int getWalkSpeedModifier() {
@@ -111,6 +142,10 @@ public class MilitaryItem extends Item implements Externalizable {
             iTmp += suffix.getWalkSpeed();
         }
         return walkSpeedModifier + iTmp;
+    }
+
+    public void setWalkSpeedModifier(int walkSpeedModifier) {
+        this.walkSpeedModifier = walkSpeedModifier;
     }
 
     public int getDefenseModifier() {
@@ -158,10 +193,6 @@ public class MilitaryItem extends Item implements Externalizable {
         this.damageModifier = damageModifier;
     }
 
-    public void setLOSModifier(int lOSModifier) {
-        LOSModifier = lOSModifier;
-    }
-
     public int getLOSModifier() {
         int iTmp = 0;
         if (prefix != null) {
@@ -173,8 +204,8 @@ public class MilitaryItem extends Item implements Externalizable {
         return LOSModifier + iTmp;
     }
 
-    public void setMovePCTModifier(int movePCTModifier) {
-        this.movePCTModifier = movePCTModifier;
+    public void setLOSModifier(int lOSModifier) {
+        LOSModifier = lOSModifier;
     }
 
     public int getMovePCTModifier() {
@@ -188,20 +219,24 @@ public class MilitaryItem extends Item implements Externalizable {
         return movePCTModifier + iTmp;
     }
 
-    public void setPrefix(PrefixSuffixData prefix) {
-        this.prefix = prefix;
+    public void setMovePCTModifier(int movePCTModifier) {
+        this.movePCTModifier = movePCTModifier;
     }
 
     public PrefixSuffixData getPrefix() {
         return prefix;
     }
 
-    public void setSuffix(PrefixSuffixData suffix) {
-        this.suffix = suffix;
+    public void setPrefix(PrefixSuffixData prefix) {
+        this.prefix = prefix;
     }
 
     public PrefixSuffixData getSuffix() {
         return suffix;
+    }
+
+    public void setSuffix(PrefixSuffixData suffix) {
+        this.suffix = suffix;
     }
 
     public String getExtendedTilename() {
@@ -254,43 +289,6 @@ public class MilitaryItem extends Item implements Externalizable {
         }
 
         return color;
-    }
-
-    /**
-     * Comprueba si el item pasado es mejor que lo que lleve puesto la living
-     *
-     * @param le Living a mirar
-     * @param item Objeto a comparar
-     * @return true si el item pasado es mejor que lo que lleve puesto la living
-     */
-    public static boolean isBetterItem(LivingEntity le, MilitaryItem item) {
-        MilitaryItem itemWeared = null;
-        ItemManagerItem imi = ItemManager.getItem(item.getIniHeader());
-        switch (imi.getLocation()) {
-            case LOCATION_HEAD:
-                itemWeared = le.getEquippedData().getHead();
-                break;
-            case LOCATION_BODY:
-                itemWeared = le.getEquippedData().getBody();
-                break;
-            case LOCATION_LEGS:
-                itemWeared = le.getEquippedData().getLegs();
-                break;
-            case LOCATION_FEET:
-                itemWeared = le.getEquippedData().getFeet();
-                break;
-            case LOCATION_WEAPON:
-                itemWeared = le.getEquippedData().getWeapon();
-                break;
-        }
-
-        if (itemWeared != null) {
-			// Lleva algo, los comparamos
-            // Sólo miramos el level del item
-            return ItemManager.getItem(itemWeared.getIniHeader()).getLevel() < imi.getLevel();
-        }
-
-        return true;
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {

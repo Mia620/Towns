@@ -1,19 +1,7 @@
 package xaos.tasks;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-
 import org.lwjgl.input.Keyboard;
-
-import xaos.actions.Action;
-import xaos.actions.ActionManager;
-import xaos.actions.ActionManagerItem;
-import xaos.actions.QueueData;
-import xaos.actions.QueueItem;
+import xaos.actions.*;
 import xaos.campaign.TutorialTrigger;
 import xaos.data.HeroPrerequisite;
 import xaos.data.SoldierGroupData;
@@ -40,133 +28,113 @@ import xaos.tiles.entities.living.heroes.Hero;
 import xaos.tiles.entities.living.heroes.HeroManager;
 import xaos.tiles.terrain.TerrainManager;
 import xaos.tiles.terrain.TerrainManagerItem;
-import xaos.utils.ColorGL;
-import xaos.utils.Log;
-import xaos.utils.Messages;
-import xaos.utils.Point3D;
-import xaos.utils.Point3DShort;
-import xaos.utils.Utils;
-import xaos.utils.UtilsIniHeaders;
-import xaos.zones.Zone;
-import xaos.zones.ZoneBarracks;
-import xaos.zones.ZoneHeroRoom;
-import xaos.zones.ZoneManager;
-import xaos.zones.ZoneManagerItem;
-import xaos.zones.ZonePersonal;
+import xaos.utils.*;
+import xaos.zones.*;
+
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 public final class Task implements Externalizable {
-
-    private static final long serialVersionUID = -1621427522490649314L;
-
-    public static int ID_INDEX = 0;
 
     // Tipos de tarea
     public final static int TASK_NO_TASK = 0; // Sin tarea
     public final static int TASK_DIG = 3; // Tarea de digar (mine abajo)
     public final static int TASK_MINE = 4; // Tarea de minar
-    public final static int TASK_CANCEL_ORDER = 5; // Cancelar órden (mine/dig/chop)
+    public final static int TASK_CANCEL_ORDER = 5; // Cancelar ï¿½rden (mine/dig/chop)
     public final static int TASK_MINE_LADDER = 7; // Tarea de minar y poner escalera
-
     // Citizens
     public final static int TASK_WEAR = 10; // Tarea de equipar aldeano
     public final static int TASK_WEAR_OFF = 11; // Tarea de 'des'equipar aldeano
     public final static int TASK_CONVERT_TO_CIVILIAN = 12; // Tarea de convertir un soldado en civil
     public final static int TASK_CONVERT_TO_SOLDIER = 13; // Tarea de convertir un civil en soldado
-    public final static int TASK_FIGHT = 14; // Tarea de luchar, sólo se asigna a soldados
+    public final static int TASK_FIGHT = 14; // Tarea de luchar, sï¿½lo se asigna a soldados
     public final static int TASK_HEAL = 15; // Tarea de curarse
     public final static int TASK_AUTOEQUIP = 16; // Tarea de autoequiparse
     public final static int TASK_SOLDIER_SET_STATE = 17; // Tarea de cambiar el estado de un soldado (guard, boss around, patrol)
-    public final static int TASK_SOLDIER_ADD_PATROL_POINT = 18; // Tarea de añadir un punto de patrol a un soldado
+    public final static int TASK_SOLDIER_ADD_PATROL_POINT = 18; // Tarea de aï¿½adir un punto de patrol a un soldado
     public final static int TASK_SOLDIER_REMOVE_PATROL_POINT = 19; // Tarea de eliminar un punto de patrol a un soldado
-
     // Groups
-    public final static int TASK_SOLDIER_ADD_PATROL_POINT_GROUP = 20; // Tarea de añadir un punto de patrol a un grupo
+    public final static int TASK_SOLDIER_ADD_PATROL_POINT_GROUP = 20; // Tarea de aï¿½adir un punto de patrol a un grupo
     public final static int TASK_SOLDIER_REMOVE_PATROL_POINT_GROUP = 21; // Tarea de eliminar un punto de patrol a un grupo
-
     // Buildings
     public final static int TASK_BUILD = 25; // Tarea de construir (edificios)
     public final static int TASK_DESTROY_BUILDING = 26;
     public final static int TASK_TURN_OFF_NON_STOP = 27;
     public final static int TASK_TURN_ON_NON_STOP = 28;
-
     // Terrain
     public final static int TASK_TERRAIN_RAISE = 30;
     public final static int TASK_TERRAIN_LOWER = 31;
     public final static int TASK_TERRAIN_CHANGE = 32;
     public final static int TASK_TERRAIN_ADD_FLUID = 33;
     public final static int TASK_TERRAIN_REMOVE_FLUID = 34;
-
     // Items
-    public final static int TASK_CREATE_AND_PLACE = 40; // Tarea de construir (items) y ponerlos en algún sitio
-    public final static int TASK_REMOVE_BUILDING_TASK = 41; // Tarea de eliminar el item que se está construyendo de un edificio
+    public final static int TASK_CREATE_AND_PLACE = 40; // Tarea de construir (items) y ponerlos en algï¿½n sitio
+    public final static int TASK_REMOVE_BUILDING_TASK = 41; // Tarea de eliminar el item que se estï¿½ construyendo de un edificio
     public final static int TASK_CREATE_IN_A_BUILDING = 42; // Tarea de construir (items) en un edificio dado
     public final static int TASK_CREATE = 43; // Tarea de construir (items) sin especificar edificio ni place
     public final static int TASK_DESTROY_ENTITY = 44;
-    public final static int TASK_CREATE_AND_PLACE_ROW = 45; // Tarea de construir (items) y ponerlos en algún sitio. Se crea una fila de ellos
+    public final static int TASK_CREATE_AND_PLACE_ROW = 45; // Tarea de construir (items) y ponerlos en algï¿½n sitio. Se crea una fila de ellos
     public final static int TASK_LOCK = 46;
     public final static int TASK_UNLOCK_OPEN = 47;
     public final static int TASK_UNLOCK_CLOSE = 48;
-
     // Stockpiles
     public final static int TASK_STOCKPILE = 50; // Tarea de crear stockpile
     public final static int TASK_DELETE_STOCKPILE = 51;
-
     // Zones
     public final static int TASK_CREATE_ZONE = 56; // Tarea de crear zonas (hospital, comedor, carpenters, ...)
     public final static int TASK_DELETE_ZONE = 57; // Tarea de eliminar zona
     public final static int TASK_EXPAND_ZONE = 58; // Tarea de expandir zona
     public final static int TASK_CHANGE_OWNER = 59; // Tarea de cambiar el propietario de la zona
     public final static int TASK_CHANGE_OWNER_GROUP = 60; // Tarea de cambiar el grupo propietario de la zona
-
     // Haul / Move / put in containers
     public final static int TASK_HAUL = 65; // Tarea de haul (son especiales, se crean "on the fly" y no se guardan en la lista de tareas, desaparecen cuando el aldeano las suelta
     public final static int TASK_MOVE_AND_LOCK = 66; // Como el haul pero persistente (SI se guarda en la lista de tareas). Se usan solamente en las tareas de create, en el caso de que ya haya un item en el mundo y no haya que construir nada
-    public final static int TASK_DROP = 67; // Igual que la tarea de haul a excepción que el aldeano no tiene ir a recoger nada ("on the fly" también)
-    public final static int TASK_PUT_IN_CONTAINER = 68; // Igual que la tarea de haul a excepción que el aldeano no tiene ir a recoger nada ("on the fly" también)
-    public final static int TASK_REMOVE_FROM_CONTAINER = 69; // Igual que la tarea de haul a excepción que el aldeano no tiene ir a recoger nada ("on the fly" también)
-
+    public final static int TASK_DROP = 67; // Igual que la tarea de haul a excepciï¿½n que el aldeano no tiene ir a recoger nada ("on the fly" tambiï¿½n)
+    public final static int TASK_PUT_IN_CONTAINER = 68; // Igual que la tarea de haul a excepciï¿½n que el aldeano no tiene ir a recoger nada ("on the fly" tambiï¿½n)
+    public final static int TASK_REMOVE_FROM_CONTAINER = 69; // Igual que la tarea de haul a excepciï¿½n que el aldeano no tiene ir a recoger nada ("on the fly" tambiï¿½n)
     // Sleep / eat
     public final static int TASK_SLEEP = 70;
     public final static int TASK_EAT = 71;
-
     // Custom action
     public final static int TASK_CUSTOM_ACTION = 80;
     public final static int TASK_QUEUE = 81;
     public final static int TASK_QUEUE_AND_PLACE = 82;
     public final static int TASK_QUEUE_AND_PLACE_ROW = 83;
     public final static int TASK_QUEUE_AND_PLACE_AREA = 84;
-
-	// Containers
+    // Containers
 //	public final static int TASK_CONTAINER_ENABLE_ALL = 90;
 //	public final static int TASK_CONTAINER_DISABLE_ALL = 91;
 //	public final static int TASK_CONTAINER_ENABLE_ITEM = 92;
 //	public final static int TASK_CONTAINER_DISABLE_ITEM = 93;
     // Caravan
     public final static int TASK_MOVE_TO_CARAVAN = 100;
-
     // Food
     public final static int TASK_FOOD_NEEDED = 110;
-
     // Estados de tarea
     public final static int STATE_CREATING_INIZONE = 1; // Para marcar el inicio de un area
     public final static int STATE_CREATING_ENDZONE = 2; // Para marcar el final de un area
     public final static int STATE_CREATING_SINGLEPOINT = 3; // Para marcar un punto en el mapa
-    public final static int STATE_CREATED = 10; // Para indicar que la tarea ya está creada
-
+    public final static int STATE_CREATED = 10; // Para indicar que la tarea ya estï¿½ creada
+    private static final long serialVersionUID = -1621427522490649314L;
+    public static int ID_INDEX = 0;
     private int id; // ID
     private int task; // Tipo de tarea (minar, construir, ...)
-    private int state; // Estado actual en la creación de la misma (ej: marcando punto inicial de la zona, ...)
-    private Point3D pointIni; // Punto inicial de la zona (también se usa en el casi de tareas de un solo punto (ej: construir))
+    private int state; // Estado actual en la creaciï¿½n de la misma (ej: marcando punto inicial de la zona, ...)
+    private Point3D pointIni; // Punto inicial de la zona (tambiï¿½n se usa en el casi de tareas de un solo punto (ej: construir))
     private Point3D pointEnd; // Punto final de la zona
     private ArrayList<HotPoint> hotPoints;
-    private int maxCitizens; // Máximo de aldeanos que pueden realizar la tarea
-    private String parameter; // Parámetro usado en ciertas tareas
-    private String parameter2; // Parámetro usado en ciertas tareas
-    private int face = Item.FACE_WEST; // Parámetro usado para rotar los items construidos
+    private int maxCitizens; // Mï¿½ximo de aldeanos que pueden realizar la tarea
+    private String parameter; // Parï¿½metro usado en ciertas tareas
+    private String parameter2; // Parï¿½metro usado en ciertas tareas
+    private int face = Item.FACE_WEST; // Parï¿½metro usado para rotar los items construidos
 
-    private boolean finished = false; // Indica si la tarea está finalizada para que el gestor de taeras la elimine cuando le pete
+    private boolean finished = false; // Indica si la tarea estï¿½ finalizada para que el gestor de taeras la elimine cuando le pete
 
-    private transient Tile tile; // Icono para mostrar al setear esa acción
+    private transient Tile tile; // Icono para mostrar al setear esa acciï¿½n
     private transient int iconType; // Tipo de icono para saber que textura usar
 
     public Task() {
@@ -177,30 +145,6 @@ public final class Task implements Externalizable {
         ID_INDEX++;
         setTask(iTaskID);
         setMaxCitizens(1); // Por defecto 1
-    }
-
-    public void setID(int id) {
-        this.id = id;
-    }
-
-    public int getID() {
-        return id;
-    }
-
-    public int getTask() {
-        return task;
-    }
-
-    public void setTask(int taskID) {
-        task = taskID;
-
-        if (task == Task.TASK_MINE || task == Task.TASK_MINE_LADDER || task == Task.TASK_DIG || task == Task.TASK_CANCEL_ORDER || task == Task.TASK_STOCKPILE || task == Task.TASK_CREATE_ZONE || task == Task.TASK_EXPAND_ZONE || task == Task.TASK_CREATE_AND_PLACE_ROW || task == Task.TASK_QUEUE_AND_PLACE_ROW || task == Task.TASK_QUEUE_AND_PLACE_AREA || task == Task.TASK_CUSTOM_ACTION) {
-            setState(STATE_CREATING_INIZONE);
-        } else if (task == Task.TASK_BUILD || task == Task.TASK_CREATE_AND_PLACE || task == Task.TASK_QUEUE_AND_PLACE) {
-            setState(STATE_CREATING_SINGLEPOINT);
-        } else {
-            setState(STATE_CREATED);
-        }
     }
 
     /**
@@ -227,7 +171,7 @@ public final class Task implements Externalizable {
             case TASK_CUSTOM_ACTION:
             case TASK_MINE:
             case TASK_MINE_LADDER:
-            //case TASK_DIG: // No hace falta, un aldeano nunca tendrá esta tarea
+                //case TASK_DIG: // No hace falta, un aldeano nunca tendrï¿½ esta tarea
             case TASK_FIGHT:
             case TASK_BUILD:
             case TASK_CREATE:
@@ -261,6 +205,188 @@ public final class Task implements Externalizable {
                 return false;
             default:
                 return true;
+        }
+    }
+
+    /**
+     * Devuelve una lista de puntos adyacentes accesibles
+     *
+     * @param x
+     * @param y
+     * @param z
+     * @param task
+     * @return una lista de puntos adyacentes accesibles
+     */
+    public static ArrayList<Point3DShort> getAccesingPoints(int x, int y, int z, int task) {
+        ArrayList<Point3DShort> places = new ArrayList<Point3DShort>();
+        if (x > 0) {
+            if (y > 0) {
+                places.add(Point3DShort.getPoolInstance(x - 1, y - 1, z));
+            }
+            places.add(Point3DShort.getPoolInstance(x - 1, y, z));
+            if (y < (World.MAP_HEIGHT - 1)) {
+                places.add(Point3DShort.getPoolInstance(x - 1, y + 1, z));
+            }
+        }
+        if (x < (World.MAP_WIDTH - 1)) {
+            if (y > 0) {
+                places.add(Point3DShort.getPoolInstance(x + 1, y - 1, z));
+            }
+            places.add(Point3DShort.getPoolInstance(x + 1, y, z));
+            if (y < (World.MAP_HEIGHT - 1)) {
+                places.add(Point3DShort.getPoolInstance(x + 1, y + 1, z));
+            }
+        }
+        if (y > 0) {
+            places.add(Point3DShort.getPoolInstance(x, y - 1, z));
+        }
+        if (y < (World.MAP_HEIGHT - 1)) {
+            places.add(Point3DShort.getPoolInstance(x, y + 1, z));
+        }
+
+        // Abajo
+        if (z < (World.MAP_DEPTH - 1)) {
+            // Minar desde abajo
+            places.add(Point3DShort.getPoolInstance(x, y, z + 1));
+        }
+
+        // Celdas vecinas de arriba (sï¿½lo si la central estï¿½ minada)
+        if (z > 0 && World.getCell(x, y, z - 1).isMined()) {
+            // Oeste
+            if (x > 0) {
+                if (y > 0) {
+                    places.add(Point3DShort.getPoolInstance(x - 1, y - 1, z - 1));
+                }
+                places.add(Point3DShort.getPoolInstance(x - 1, y, z - 1));
+                if (y < (World.MAP_HEIGHT - 1)) {
+                    places.add(Point3DShort.getPoolInstance(x - 1, y + 1, z - 1));
+                }
+            }
+            // Este
+            if (x < (World.MAP_WIDTH - 1)) {
+                if (y > 0) {
+                    places.add(Point3DShort.getPoolInstance(x + 1, y - 1, z - 1));
+                }
+                places.add(Point3DShort.getPoolInstance(x + 1, y, z - 1));
+                if (y < (World.MAP_HEIGHT - 1)) {
+                    places.add(Point3DShort.getPoolInstance(x + 1, y + 1, z - 1));
+                }
+            }
+            // Norte
+            if (y > 0) {
+                places.add(Point3DShort.getPoolInstance(x, y - 1, z - 1));
+            }
+            // Sur
+            if (y < (World.MAP_HEIGHT - 1)) {
+                places.add(Point3DShort.getPoolInstance(x, y + 1, z - 1));
+            }
+        }
+
+        // Celdas vecinas de abajo (sï¿½lo si la central estï¿½ minada)
+        if (z < (World.MAP_DEPTH - 1) && World.getCell(x, y, z + 1).isMined()) {
+            // Oeste
+            if (x > 0) {
+                if (y > 0) {
+                    places.add(Point3DShort.getPoolInstance(x - 1, y - 1, z + 1));
+                }
+                places.add(Point3DShort.getPoolInstance(x - 1, y, z + 1));
+                if (y < (World.MAP_HEIGHT - 1)) {
+                    places.add(Point3DShort.getPoolInstance(x - 1, y + 1, z + 1));
+                }
+            }
+            // Este
+            if (x < (World.MAP_WIDTH - 1)) {
+                if (y > 0) {
+                    places.add(Point3DShort.getPoolInstance(x + 1, y - 1, z + 1));
+                }
+                places.add(Point3DShort.getPoolInstance(x + 1, y, z + 1));
+                if (y < (World.MAP_HEIGHT - 1)) {
+                    places.add(Point3DShort.getPoolInstance(x + 1, y + 1, z + 1));
+                }
+            }
+            // Norte
+            if (y > 0) {
+                places.add(Point3DShort.getPoolInstance(x, y - 1, z + 1));
+            }
+            // Sur
+            if (y < (World.MAP_HEIGHT - 1)) {
+                places.add(Point3DShort.getPoolInstance(x, y + 1, z + 1));
+            }
+        }
+
+        // Justo arriba (la pongo al final para que sea la ï¿½ltima opciï¿½n de los aldeanos en caso de mine)
+        //if (task != TASK_MINE && task != TASK_MINE_LADDER && task != TASK_DIG) {
+        if (z > 0) {
+            places.add(Point3DShort.getPoolInstance(x, y, z - 1));
+        }
+        //}
+
+        return places;
+    }
+
+    /**
+     * Devuelve una lista de puntos adyacentes accesibles que estï¿½n en la zona
+     * pasada
+     *
+     * @param p3d
+     * @return una lista de puntos adyacentes accesibles que estï¿½n en la zona
+     * pasada
+     * @para aszi
+     * @para task
+     */
+    public static ArrayList<Point3DShort> getAccesingPointsMatchingASZI(Point3DShort p3d, int aszi, int task) {
+        return getAccesingPointsMatchingASZI(p3d.x, p3d.y, p3d.z, aszi, task);
+    }
+
+    public static ArrayList<Point3DShort> getAccesingPointsMatchingASZI(Point3D p3d, int aszi, int task) {
+        return getAccesingPointsMatchingASZI(p3d.x, p3d.y, p3d.z, aszi, task);
+    }
+
+    /**
+     * Devuelve una lista de puntos adyacentes accesibles que estï¿½n en la zona
+     * pasada
+     *
+     * @param x
+     * @param y
+     * @param z
+     * @return una lista de puntos adyacentes accesibles que estï¿½n en la zona
+     * pasada
+     * @para aszi
+     */
+    public static ArrayList<Point3DShort> getAccesingPointsMatchingASZI(int x, int y, int z, int aszi, int task) {
+        ArrayList<Point3DShort> places = getAccesingPoints(x, y, z, task);
+        ArrayList<Point3DShort> placesOK = new ArrayList<Point3DShort>();
+
+        for (int i = 0; i < places.size(); i++) {
+            if (World.getCell(places.get(i)).getAstarZoneID() == aszi) {
+                placesOK.add(places.get(i));
+            }
+        }
+
+        return placesOK;
+    }
+
+    public int getID() {
+        return id;
+    }
+
+    public void setID(int id) {
+        this.id = id;
+    }
+
+    public int getTask() {
+        return task;
+    }
+
+    public void setTask(int taskID) {
+        task = taskID;
+
+        if (task == Task.TASK_MINE || task == Task.TASK_MINE_LADDER || task == Task.TASK_DIG || task == Task.TASK_CANCEL_ORDER || task == Task.TASK_STOCKPILE || task == Task.TASK_CREATE_ZONE || task == Task.TASK_EXPAND_ZONE || task == Task.TASK_CREATE_AND_PLACE_ROW || task == Task.TASK_QUEUE_AND_PLACE_ROW || task == Task.TASK_QUEUE_AND_PLACE_AREA || task == Task.TASK_CUSTOM_ACTION) {
+            setState(STATE_CREATING_INIZONE);
+        } else if (task == Task.TASK_BUILD || task == Task.TASK_CREATE_AND_PLACE || task == Task.TASK_QUEUE_AND_PLACE) {
+            setState(STATE_CREATING_SINGLEPOINT);
+        } else {
+            setState(STATE_CREATED);
         }
     }
 
@@ -433,8 +559,8 @@ public final class Task implements Externalizable {
             setZoneHotPoints();
             setState(STATE_CREATED);
 
-			// Controlamos que no haya acabado
-            // Podría ser en el caso de marcar una zona no accesible para una tarea
+            // Controlamos que no haya acabado
+            // Podrï¿½a ser en el caso de marcar una zona no accesible para una tarea
             if (isFinished()) {
                 Game.deleteCurrentTask();
             } else {
@@ -454,8 +580,8 @@ public final class Task implements Externalizable {
             setZoneHotPoints();
             setState(STATE_CREATED);
 
-			// Controlamos que no haya acabado
-            // Podría ser en el caso de marcar una zona no accesible para una tarea
+            // Controlamos que no haya acabado
+            // Podrï¿½a ser en el caso de marcar una zona no accesible para una tarea
             if (isFinished()) {
                 Game.deleteCurrentTask();
             } else {
@@ -515,12 +641,12 @@ public final class Task implements Externalizable {
         this.parameter2 = parameter2;
     }
 
-    public void setFace(int face) {
-        this.face = face;
-    }
-
     public int getFace() {
         return face;
+    }
+
+    public void setFace(int face) {
+        this.face = face;
     }
 
     private void checkCancelTask(ArrayList<TaskManagerItem> alTasks) {
@@ -530,7 +656,7 @@ public final class Task implements Externalizable {
         for (int x = 0; x < alTasks.size(); x++) {
             task = alTasks.get(x).getTask();
             if (task.getTask() == Task.TASK_MINE || task.getTask() == Task.TASK_MINE_LADDER) {
-				// Tarea mine/dig
+                // Tarea mine/dig
                 // Miramos los puntos
                 alPoints = task.getHotPoints();
                 for (int p = 0; p < alPoints.size(); p++) {
@@ -545,7 +671,7 @@ public final class Task implements Externalizable {
                                 Game.getWorld().getTaskManager().setHotPointFinished(task, p);
                                 // Quitamos el flag de tarea de la celda
                                 World.getCell(p3dCancel).setFlagOrders(false);
-                                // El aldeano ya mirará si el hp está acabado y se quitará de la tarea
+                                // El aldeano ya mirarï¿½ si el hp estï¿½ acabado y se quitarï¿½ de la tarea
                             }
                         }
                     }
@@ -636,7 +762,7 @@ public final class Task implements Externalizable {
     }
 
     /**
-     * Crea los hotpoints, también setea el maxCitizens para la tarea segun
+     * Crea los hotpoints, tambiï¿½n setea el maxCitizens para la tarea segun
      * estos
      */
     public void setZoneHotPoints() {
@@ -673,8 +799,8 @@ public final class Task implements Externalizable {
 
         Cell cell;
         if (getTask() == TASK_MINE || getTask() == TASK_DIG || getTask() == TASK_MINE_LADDER || getTask() == TASK_CUSTOM_ACTION || getTask() == TASK_CANCEL_ORDER) {
-            ArrayList<ActionManagerItem> alAmis = new ArrayList<ActionManagerItem>(); // Con arrays por si se usa lo de 2 (o más) acciones en 1 mismo botón
-            ArrayList<String> alParameters = new ArrayList<String>(); // Con arrays por si se usa lo de 2 (o más) acciones en 1 mismo botón
+            ArrayList<ActionManagerItem> alAmis = new ArrayList<ActionManagerItem>(); // Con arrays por si se usa lo de 2 (o mï¿½s) acciones en 1 mismo botï¿½n
+            ArrayList<String> alParameters = new ArrayList<String>(); // Con arrays por si se usa lo de 2 (o mï¿½s) acciones en 1 mismo botï¿½n
             if (getTask() == TASK_CUSTOM_ACTION) {
                 String sParameter = getParameter();
                 if (sParameter.contains(",")) { //$NON-NLS-1$
@@ -691,13 +817,13 @@ public final class Task implements Externalizable {
                 }
             }
 
-            // Recorremos todas las celdas de la órden (o órdenes)
+            // Recorremos todas las celdas de la ï¿½rden (o ï¿½rdenes)
             for (short x = x0; x <= x1; x++) {
                 for (short y = y0; y <= y1; y++) {
                     cell = cells[x][y][getPointIni().z];
 
                     if (getTask() == Task.TASK_MINE || getTask() == Task.TASK_MINE_LADDER || getTask() == Task.TASK_DIG) {
-						// MINE: Por cada celda minable añadimos su coordenada a los hotpoints, y alloweds adyacentes a las places
+                        // MINE: Por cada celda minable aï¿½adimos su coordenada a los hotpoints, y alloweds adyacentes a las places
                         // DIG: Se crea tarea de mine de la celda de abajo
                         if (getTask() == Task.TASK_DIG) {
                             if (getPointIni().z < (World.MAP_DEPTH - 2)) {
@@ -754,13 +880,13 @@ public final class Task implements Externalizable {
                                 }
 
                                 if (!bLiving) {
-                                    // Acción de terrain?
+                                    // Acciï¿½n de terrain?
                                     if (cell.isMined() && cell.getCoordinates().z < (World.MAP_DEPTH - 1)) {
 
                                         Cell cellUnder = World.getCell(x, y, getPointIni().z + 1);
                                         TerrainManagerItem tmi = TerrainManager.getItemByID(cellUnder.getTerrain().getTerrainID());
                                         if (tmi.getActions().contains(sParameter)) {
-                                            // Celda posible para acción de terrain
+                                            // Celda posible para acciï¿½n de terrain
                                             boolean bCasillaOcupada = cell.getTerrain().hasFluids() || cell.isFlagOrders();
                                             if (!bCasillaOcupada) {
                                                 if (cell.hasItem()) {
@@ -806,7 +932,7 @@ public final class Task implements Externalizable {
             }
 
             if (getTask() == Task.TASK_CANCEL_ORDER) {
-				// Miramos si existen tareas dig/mine/custom en el manager
+                // Miramos si existen tareas dig/mine/custom en el manager
                 // En ese caso miramos si alguno de sus puntos se corresponde con alguno de la lista de puntos a cancelar
                 checkCancelTask(Game.getWorld().getTaskManager().getTaskItems());
                 checkCancelTask(Game.getWorld().getTaskManager().getTaskItemsTemp());
@@ -819,7 +945,7 @@ public final class Task implements Externalizable {
                 setMaxCitizens(0);
                 setFinished(true);
             } else {
-                // Seteamos el flag de casilla con "Órdenes" en cada celda (se usa en el pintado)
+                // Seteamos el flag de casilla con "ï¿½rdenes" en cada celda (se usa en el pintado)
                 for (int x = 0; x < getHotPoints().size(); x++) {
                     World.getCell(getHotPoints().get(x).getHotPoint()).setFlagOrders(true);
                 }
@@ -835,7 +961,7 @@ public final class Task implements Externalizable {
             // BUILD
             cell = cells[x0][y0][z];
 
-			// BUILD: Miramos si la celda es accesible en todas las casillas
+            // BUILD: Miramos si la celda es accesible en todas las casillas
             // Excepto las que no forman parte del edificio ya que ahora no tienen porque ser rectangulares
             BuildingManagerItem item = BuildingManager.getItem(getParameter());
             Building building = Building.createBuilding(item);
@@ -872,14 +998,14 @@ public final class Task implements Externalizable {
                     }
 
                     if (p3d == null) {
-                        // No debería pasar nunca
+                        // No deberï¿½a pasar nunca
                         Log.log(Log.LEVEL_ERROR, Messages.getString("Task.31") + building.getIniHeader() + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
                     }
                     addHotPoint(new HotPoint(p3d, p3d));
 
                     setMaxCitizens(1);
 
-                    // Tarea de construcción, metemos el building donde toca y los aldeanos ya lo construirán y pondrán operativo
+                    // Tarea de construcciï¿½n, metemos el building donde toca y los aldeanos ya lo construirï¿½n y pondrï¿½n operativo
                     building.setCoordinates(x0, y0, z);
 
                     // Cargamos los prerequisitos
@@ -887,7 +1013,7 @@ public final class Task implements Externalizable {
                     building.setPrerequisites(bmi.getPrerequisites());
                     building.setPrerequisitesLiving(bmi.getPrerequisitesFriendly());
 
-                    // Si es un edificio automático le metemos en cola el primer item/living que pueda construir y le ponemos non-stop
+                    // Si es un edificio automï¿½tico le metemos en cola el primer item/living que pueda construir y le ponemos non-stop
                     if (bmi.isAutomatic()) {
                         boolean bSpawn = (bmi.getType() != null && bmi.getType().equalsIgnoreCase(Building.TYPE_SPAWN));
 
@@ -916,7 +1042,7 @@ public final class Task implements Externalizable {
                                 }
 
                                 if (alDrops.size() == 0) {
-                                    // No debería pasar
+                                    // No deberï¿½a pasar
                                     Log.log(Log.LEVEL_ERROR, Messages.getString("Task.33"), getClass().toString()); //$NON-NLS-1$
                                 } else {
                                     itemName = alDrops.get(Utils.getRandomBetween(0, alDrops.size() - 1));
@@ -936,12 +1062,12 @@ public final class Task implements Externalizable {
                         }
                     }
 
-                    // Lo añadimos
+                    // Lo aï¿½adimos
                     World.getCells()[x0][y0][z].setEntity(building);
                     World.getBuildings().add(building);
 
-					// Activamos el flag de building a todas las casillas que formen parte del edificio
-                    // Quitamos también el flag de stockpile y/o zona (si lo hubiera)
+                    // Activamos el flag de building a todas las casillas que formen parte del edificio
+                    // Quitamos tambiï¿½n el flag de stockpile y/o zona (si lo hubiera)
                     for (short x = x0; x < (x0 + item.getWidth()); x++) {
                         for (short y = y0; y < (y0 + item.getHeight()); y++) {
                             char groundDataChar = item.getGroundData().charAt((y - y0) * item.getWidth() + (x - x0));
@@ -975,15 +1101,15 @@ public final class Task implements Externalizable {
                         stockpile.disableAll();
                     }
 
-                    // Añadimos la stockpile al mundo
+                    // Aï¿½adimos la stockpile al mundo
                     Game.getWorld().addStockPile(stockpile);
 
                     // Tutorial flow
-                    Game.updateTutorialFlow (TutorialTrigger.TYPE_INT_PILE, UtilsIniHeaders.getIntIniHeader (getParameter()), null);
+                    Game.updateTutorialFlow(TutorialTrigger.TYPE_INT_PILE, UtilsIniHeaders.getIntIniHeader(getParameter()), null);
                 }
             }
 
-            // No hay que hacer nada más, el Manager de tareas ya se encargará de crear/asignar tareas de haul
+            // No hay que hacer nada mï¿½s, el Manager de tareas ya se encargarï¿½ de crear/asignar tareas de haul
         } else if (getTask() == TASK_CREATE_ZONE) {
             // ZONE: Marcamos las celdas que toca como zone del tipo pasado
             Zone zone;
@@ -1044,10 +1170,10 @@ public final class Task implements Externalizable {
                             for (int i = 0; i < World.getHeroIDs().size(); i++) {
                                 hero = (Hero) World.getLivingEntityByID(World.getHeroIDs().get(i));
                                 if (!hero.getCitizenData().hasZone()) {
-                                    // Héroe sin zona personal, se la metemos (si es que le molan las free rooms)
+                                    // Hï¿½roe sin zona personal, se la metemos (si es que le molan las free rooms)
                                     HeroPrerequisite hPrerequisite = HeroPrerequisite.getHeroPrerequisite(HeroManager.getStayPrerequisites(LivingEntityManager.getItem(hero.getIniHeader()).getHeroStayPrerequisite()), HeroPrerequisite.ID_FREE_ROOM);
                                     if (hPrerequisite != null && hPrerequisite.isValueBoolean()) {
-                                        // Héroe necesita free room para stay
+                                        // Hï¿½roe necesita free room para stay
                                         hero.getCitizenData().setZoneID(zone.getID());
                                         ((ZoneHeroRoom) zone).setOwnerID(hero.getID());
                                         break;
@@ -1067,16 +1193,16 @@ public final class Task implements Externalizable {
                             }
                         }
 
-                        // Añadimos la zone al mundo
+                        // Aï¿½adimos la zone al mundo
                         Game.getWorld().addZone(zone, false);
 
                         // Tutorial flow
-                        Game.updateTutorialFlow (TutorialTrigger.TYPE_INT_ZONE, UtilsIniHeaders.getIntIniHeader (zone.getIniHeader ()), null);
+                        Game.updateTutorialFlow(TutorialTrigger.TYPE_INT_ZONE, UtilsIniHeaders.getIntIniHeader(zone.getIniHeader()), null);
                     }
                 }
             }
 
-            // No hay que hacer nada más
+            // No hay que hacer nada mï¿½s
         } else if (getTask() == TASK_EXPAND_ZONE) {
             // EXPAND ZONE
             Zone zone = Zone.getZone(Integer.parseInt(getParameter()));
@@ -1106,7 +1232,7 @@ public final class Task implements Externalizable {
                 Log.log(Log.LEVEL_ERROR, Messages.getString("Task.37"), getClass().toString()); //$NON-NLS-1$
             }
 
-            // No hay que hacer nada más
+            // No hay que hacer nada mï¿½s
         } else if (getTask() == TASK_CREATE_AND_PLACE || getTask() == TASK_QUEUE_AND_PLACE) {
             // CREATE: Miramos si en la casilla indicada se puede meter el item y, si no existe item, que tengamos un edificio
             cell = cells[x0][y0][z];
@@ -1120,14 +1246,14 @@ public final class Task implements Externalizable {
             if (imi == null) {
                 Log.log(Log.LEVEL_ERROR, Messages.getString("Task.30") + getParameter() + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
             } else {
-                // Miramos si se puede poner el item en todas las casillas (sólo 1, he borrado el width/height)
+                // Miramos si se puede poner el item en todas las casillas (sï¿½lo 1, he borrado el width/height)
                 boolean bAvailableForBuilding = true;
                 if (!Item.isCellAvailableForItem(imi, x0, y0, z, true, true)) {
                     bAvailableForBuilding = false;
                 }
                 if (bAvailableForBuilding) {
                     if (imi.canBeBuiltOnHoles()) {
-                        // Miramos si hay algún ASZID distinto de -1
+                        // Miramos si hay algï¿½n ASZID distinto de -1
                         boolean bAllUnavailable = true;
                         foriteming:
                         for (short itemX = (short) (x0 - 1); itemX <= (x0 + 1); itemX++) {
@@ -1168,9 +1294,9 @@ public final class Task implements Externalizable {
                 boolean bItemEnElMundo = false;
                 if (bAvailableForBuilding) {
                     // Miramos si en el mundo hay algun item NO-LOCKED de estos
-                    int numItems = Item.getNumItems(UtilsIniHeaders.getIntIniHeader(imi.getIniHeader()), false, Game.getWorld ().getRestrictHaulEquippingLevel ());
+                    int numItems = Item.getNumItems(UtilsIniHeaders.getIntIniHeader(imi.getIniHeader()), false, Game.getWorld().getRestrictHaulEquippingLevel());
                     if (numItems > 0) {
-						// Hay items, miramos si alguno no está locked
+                        // Hay items, miramos si alguno no estï¿½ locked
                         //Integer[] aItems = World.getItems ().keySet ().toArray (new Integer [0]);
                         ArrayList<Integer> aItems = Item.getMapItems().get(imi.getNumericalIniHeader());
                         if (aItems != null) {
@@ -1178,19 +1304,19 @@ public final class Task implements Externalizable {
                             for (int i = 0; i < aItems.size(); i++) {
                                 itemAux = Item.getItemByID(aItems.get(i), true);
                                 if (itemAux != null && itemAux.getNumericIniHeader() == imi.getNumericalIniHeader()) {
-                                    // Item del tipo deseado, miramos si no está locked y en la misma zona A* que el destino
+                                    // Item del tipo deseado, miramos si no estï¿½ locked y en la misma zona A* que el destino
                                     if (!itemAux.isLocked()) {
                                         // Item NO locked, miramos que no haya otro aldeano que lo vaya a usar
                                         if (!itemInUse(itemAux)) {
                                             int iItemASZID = World.getCell(itemAux.getCoordinates()).getAstarZoneID();
                                             int iItemASZIDDestination = World.getCell(x0, y0, z).getAstarZoneID();
                                             if (iItemASZID != -1 && (iItemASZID == iItemASZIDDestination || iItemASZIDDestination == -1)) {
-												// Caso especial, ladders, estos van en una casilla digada, entonces el A*ZI será distinto
-                                                // Hay que mirar si las casillas adyacentes (desde donde se colocará) son accesibles
+                                                // Caso especial, ladders, estos van en una casilla digada, entonces el A*ZI serï¿½ distinto
+                                                // Hay que mirar si las casillas adyacentes (desde donde se colocarï¿½) son accesibles
                                                 if (ItemManager.getItem(itemAux.getIniHeader()).canBeBuiltOnHoles()) {
                                                     ArrayList<Point3DShort> alPoints = getAccesingPointsMatchingASZI(x0, y0, z, iItemASZID, getTask());
                                                     if (alPoints.size() > 0) {
-														// De guais, tenemos casillas accesibles en la misma zona que el item
+                                                        // De guais, tenemos casillas accesibles en la misma zona que el item
                                                         // Creamos una tarea de MOVE (como las haul pero persistentes)
                                                         bItemEnElMundo = true;
                                                         Task task = new Task(TASK_MOVE_AND_LOCK);
@@ -1198,7 +1324,7 @@ public final class Task implements Externalizable {
 
                                                         task.setPointEnd(new Point3D(x0, y0, z));
 
-                                                        // Seteamos el flag de casilla con "Órdenes" en cada celda (se usa en el pintado)
+                                                        // Seteamos el flag de casilla con "ï¿½rdenes" en cada celda (se usa en el pintado)
                                                         World.getCell(x0, y0, z).setFlagOrders(true);
 
                                                         task.setParameter(itemAux.getIniHeader());
@@ -1215,7 +1341,7 @@ public final class Task implements Externalizable {
                                                     task.setPointIni(itemAux.getCoordinates().toPoint3D());
                                                     task.setPointEnd(new Point3D(x0, y0, z));
 
-                                                    // Seteamos el flag de casilla con "Órdenes" en cada celda (se usa en el pintado)
+                                                    // Seteamos el flag de casilla con "ï¿½rdenes" en cada celda (se usa en el pintado)
                                                     World.getCell(x0, y0, z).setFlagOrders(true);
 
                                                     task.setParameter(itemAux.getIniHeader());
@@ -1234,10 +1360,10 @@ public final class Task implements Externalizable {
                     }
                 }
 
-                // Si llega aquí es que no hemos encontrado item en el mundo, tendremos que construirlo
+                // Si llega aquï¿½ es que no hemos encontrado item en el mundo, tendremos que construirlo
                 if (!bItemEnElMundo) {
                     if (bAvailableForBuilding) {
-                        // Aquí distinguimos entre tarea QUEUE o tarea normal de toda la vida
+                        // Aquï¿½ distinguimos entre tarea QUEUE o tarea normal de toda la vida
                         if (getTask() == TASK_QUEUE_AND_PLACE) {
                             // QUEUE
                             Action action = new Action(getParameter());
@@ -1247,7 +1373,7 @@ public final class Task implements Externalizable {
                             action.setFace(MainPanel.itemBuildFace);
                             Game.getWorld().getTaskManager().addCustomAction(action, true, false);
                         } else {
-                            // Miramos si tenemos el edificio, el más cercano (y con la cola de items más pequeña) a donde se deja el item
+                            // Miramos si tenemos el edificio, el mï¿½s cercano (y con la cola de items mï¿½s pequeï¿½a) a donde se deja el item
                             ArrayList<Building> buildings = World.getBuildings();
                             Building building;
                             int iBuildingCercano = -1;
@@ -1256,7 +1382,7 @@ public final class Task implements Externalizable {
                             int iDistance = Utils.MAX_DISTANCE;
                             int iDistanceSinCola = Utils.MAX_DISTANCE;
 
-                            // Buscamos la cola de items más pequeña
+                            // Buscamos la cola de items mï¿½s pequeï¿½a
                             int iMinCola = 1000;
                             for (int i = 0; i < buildings.size(); i++) {
                                 building = buildings.get(i);
@@ -1267,7 +1393,7 @@ public final class Task implements Externalizable {
                                 }
                             }
 
-                            // Buscamos el edicifio más cercano que tenga la cola mínima obtenida arriba
+                            // Buscamos el edicifio mï¿½s cercano que tenga la cola mï¿½nima obtenida arriba
                             for (int i = 0; i < buildings.size(); i++) {
                                 building = buildings.get(i);
                                 if (building.isOperative() && building.getIniHeader().equals(imi.getBuilding())) {
@@ -1279,7 +1405,7 @@ public final class Task implements Externalizable {
                                     BuildingManagerItem bmi = BuildingManager.getItem(building.getIniHeader());
                                     p3dBuildingAux = bmi.getEntranceBaseCoordinates().merge(building.getCoordinates());
 
-									// Caso especial, puentes y ladders (o items que se construyen desde una casilla anterior a destino)
+                                    // Caso especial, puentes y ladders (o items que se construyen desde una casilla anterior a destino)
                                     // Miramos accesingpoints ya que se construye desde casillas adyacentes
                                     if (ItemManager.getItem(imi.getIniHeader()).canBeBuiltOnHoles()) {
                                         int iBuildingASZID = World.getCell(p3dBuildingAux).getAstarZoneID();
@@ -1322,17 +1448,17 @@ public final class Task implements Externalizable {
                             }
 
                             if (iBuildingCercano != -1) {
-                                // Tenemos el edificio más cercano, lo pillamos y le añadimos el item en su cola
+                                // Tenemos el edificio mï¿½s cercano, lo pillamos y le aï¿½adimos el item en su cola
                                 Item item = Item.createItem(imi);
                                 item.setCoordinates(x0, y0, z); // Destino del item cuando se construya
 
-                                // Seteamos el flag de casilla con "Órdenes" en cada celda (se usa en el pintado)
+                                // Seteamos el flag de casilla con "ï¿½rdenes" en cada celda (se usa en el pintado)
                                 World.getCell(x0, y0, z).setFlagOrders(true);
 
                                 // Cargamos los prerequisitos
                                 item.setPrerequisites(ItemManager.getItem(getParameter()).getPrerequisites());
 
-                                // Lo añadimos al edificio
+                                // Lo aï¿½adimos al edificio
                                 buildings.get(iBuildingCercano).addItem(item);
                             } else {
                                 if (imi.getBuilding() != null) {
@@ -1347,7 +1473,7 @@ public final class Task implements Externalizable {
 
             }
         } else if (getTask() == TASK_CREATE_AND_PLACE_ROW) {
-			// Por cada punto de la fila (row) crearemos una tarea de create_and_place
+            // Por cada punto de la fila (row) crearemos una tarea de create_and_place
             // Miramos si la fila es horizontal o vertical
             boolean bHorizontal = (x1 - x0) >= (y1 - y0);
 
@@ -1377,7 +1503,7 @@ public final class Task implements Externalizable {
                 MainPanel.toggle3DMouse();
             }
         } else if (getTask() == TASK_QUEUE_AND_PLACE_ROW) {
-			// Por cada punto de la fila (row) crearemos una tarea de queue_and_place
+            // Por cada punto de la fila (row) crearemos una tarea de queue_and_place
             // Miramos si la fila es horizontal o vertical
             boolean bHorizontal = (x1 - x0) >= (y1 - y0);
 
@@ -1407,7 +1533,7 @@ public final class Task implements Externalizable {
                 MainPanel.toggle3DMouse();
             }
         } else if (getTask() == TASK_QUEUE_AND_PLACE_AREA) {
-			// Por cada punto de la fila (row) y columna (col) crearemos una tarea de queue_and_place
+            // Por cada punto de la fila (row) y columna (col) crearemos una tarea de queue_and_place
 
             boolean bToggle3D = false;
             if (MainPanel.tDMouseON) {
@@ -1429,7 +1555,7 @@ public final class Task implements Externalizable {
             }
         }
 
-        // Si no hay hotpoints es que la tarea ya está terminada
+        // Si no hay hotpoints es que la tarea ya estï¿½ terminada
         if (getHotPoints().size() == 0) {
             // Tarea finalizada
             setFinished(true);
@@ -1448,10 +1574,10 @@ public final class Task implements Externalizable {
     }
 
     /**
-     * Setea el máximo de aldeanos para la tarea. Excepciones: Si es tarea de
-     * construcción sólo permite 1 aldeano
+     * Setea el mï¿½ximo de aldeanos para la tarea. Excepciones: Si es tarea de
+     * construcciï¿½n sï¿½lo permite 1 aldeano
      *
-     * @param maxCitizens Máximo de aldeanos
+     * @param maxCitizens Mï¿½ximo de aldeanos
      */
     public void setMaxCitizens(int maxCitizens) {
         if (maxCitizens > 1 && getTask() == TASK_BUILD) {
@@ -1462,10 +1588,10 @@ public final class Task implements Externalizable {
     }
 
     /**
-     * Indica si el item pasado está en uso. Vamos, que otro aldeano va a por él
+     * Indica si el item pasado estï¿½ en uso. Vamos, que otro aldeano va a por ï¿½l
      *
      * @param item
-     * @return true si el item pasado está en uso
+     * @return true si el item pasado estï¿½ en uso
      */
     private boolean itemInUse(Item item) {
         Task task;
@@ -1492,7 +1618,7 @@ public final class Task implements Externalizable {
             }
         }
 
-        // Si llega aquí es que ningún aldeano tiene tarea con ese item, vamos a mirar que no esté pendiente en el taskManager
+        // Si llega aquï¿½ es que ningï¿½n aldeano tiene tarea con ese item, vamos a mirar que no estï¿½ pendiente en el taskManager
         ArrayList<TaskManagerItem> alTasks = Game.getWorld().getTaskManager().getTaskItems();
         for (int i = 0; i < alTasks.size(); i++) {
             task = alTasks.get(i).getTask();
@@ -1518,7 +1644,7 @@ public final class Task implements Externalizable {
 
     /**
      * Indica si, para un punto de una tarea ya existe otra tarea con el mismo
-     * punto y el mismo NO está finished Se usa para DIG/CHOP/MINE/CUSTOM
+     * punto y el mismo NO estï¿½ finished Se usa para DIG/CHOP/MINE/CUSTOM
      * solamente
      *
      * @param taskID
@@ -1571,164 +1697,6 @@ public final class Task implements Externalizable {
      */
     public HotPoint getHotPoint(int hotPointIndex) {
         return getHotPoints().get(hotPointIndex);
-    }
-
-    /**
-     * Devuelve una lista de puntos adyacentes accesibles
-     *
-     * @param x
-     * @param y
-     * @param z
-     * @param task
-     * @return una lista de puntos adyacentes accesibles
-     */
-    public static ArrayList<Point3DShort> getAccesingPoints(int x, int y, int z, int task) {
-        ArrayList<Point3DShort> places = new ArrayList<Point3DShort>();
-        if (x > 0) {
-            if (y > 0) {
-                places.add(Point3DShort.getPoolInstance(x - 1, y - 1, z));
-            }
-            places.add(Point3DShort.getPoolInstance(x - 1, y, z));
-            if (y < (World.MAP_HEIGHT - 1)) {
-                places.add(Point3DShort.getPoolInstance(x - 1, y + 1, z));
-            }
-        }
-        if (x < (World.MAP_WIDTH - 1)) {
-            if (y > 0) {
-                places.add(Point3DShort.getPoolInstance(x + 1, y - 1, z));
-            }
-            places.add(Point3DShort.getPoolInstance(x + 1, y, z));
-            if (y < (World.MAP_HEIGHT - 1)) {
-                places.add(Point3DShort.getPoolInstance(x + 1, y + 1, z));
-            }
-        }
-        if (y > 0) {
-            places.add(Point3DShort.getPoolInstance(x, y - 1, z));
-        }
-        if (y < (World.MAP_HEIGHT - 1)) {
-            places.add(Point3DShort.getPoolInstance(x, y + 1, z));
-        }
-
-        // Abajo
-        if (z < (World.MAP_DEPTH - 1)) {
-            // Minar desde abajo
-            places.add(Point3DShort.getPoolInstance(x, y, z + 1));
-        }
-
-        // Celdas vecinas de arriba (sólo si la central está minada)
-        if (z > 0 && World.getCell(x, y, z - 1).isMined()) {
-            // Oeste
-            if (x > 0) {
-                if (y > 0) {
-                    places.add(Point3DShort.getPoolInstance(x - 1, y - 1, z - 1));
-                }
-                places.add(Point3DShort.getPoolInstance(x - 1, y, z - 1));
-                if (y < (World.MAP_HEIGHT - 1)) {
-                    places.add(Point3DShort.getPoolInstance(x - 1, y + 1, z - 1));
-                }
-            }
-            // Este
-            if (x < (World.MAP_WIDTH - 1)) {
-                if (y > 0) {
-                    places.add(Point3DShort.getPoolInstance(x + 1, y - 1, z - 1));
-                }
-                places.add(Point3DShort.getPoolInstance(x + 1, y, z - 1));
-                if (y < (World.MAP_HEIGHT - 1)) {
-                    places.add(Point3DShort.getPoolInstance(x + 1, y + 1, z - 1));
-                }
-            }
-            // Norte
-            if (y > 0) {
-                places.add(Point3DShort.getPoolInstance(x, y - 1, z - 1));
-            }
-            // Sur
-            if (y < (World.MAP_HEIGHT - 1)) {
-                places.add(Point3DShort.getPoolInstance(x, y + 1, z - 1));
-            }
-        }
-
-        // Celdas vecinas de abajo (sólo si la central está minada)
-        if (z < (World.MAP_DEPTH - 1) && World.getCell(x, y, z + 1).isMined()) {
-            // Oeste
-            if (x > 0) {
-                if (y > 0) {
-                    places.add(Point3DShort.getPoolInstance(x - 1, y - 1, z + 1));
-                }
-                places.add(Point3DShort.getPoolInstance(x - 1, y, z + 1));
-                if (y < (World.MAP_HEIGHT - 1)) {
-                    places.add(Point3DShort.getPoolInstance(x - 1, y + 1, z + 1));
-                }
-            }
-            // Este
-            if (x < (World.MAP_WIDTH - 1)) {
-                if (y > 0) {
-                    places.add(Point3DShort.getPoolInstance(x + 1, y - 1, z + 1));
-                }
-                places.add(Point3DShort.getPoolInstance(x + 1, y, z + 1));
-                if (y < (World.MAP_HEIGHT - 1)) {
-                    places.add(Point3DShort.getPoolInstance(x + 1, y + 1, z + 1));
-                }
-            }
-            // Norte
-            if (y > 0) {
-                places.add(Point3DShort.getPoolInstance(x, y - 1, z + 1));
-            }
-            // Sur
-            if (y < (World.MAP_HEIGHT - 1)) {
-                places.add(Point3DShort.getPoolInstance(x, y + 1, z + 1));
-            }
-        }
-
-		// Justo arriba (la pongo al final para que sea la última opción de los aldeanos en caso de mine)
-        //if (task != TASK_MINE && task != TASK_MINE_LADDER && task != TASK_DIG) {
-        if (z > 0) {
-            places.add(Point3DShort.getPoolInstance(x, y, z - 1));
-        }
-        //}
-
-        return places;
-    }
-
-    /**
-     * Devuelve una lista de puntos adyacentes accesibles que estén en la zona
-     * pasada
-     *
-     * @param p3d
-     * @para aszi
-     * @para task
-     * @return una lista de puntos adyacentes accesibles que estén en la zona
-     * pasada
-     */
-    public static ArrayList<Point3DShort> getAccesingPointsMatchingASZI(Point3DShort p3d, int aszi, int task) {
-        return getAccesingPointsMatchingASZI(p3d.x, p3d.y, p3d.z, aszi, task);
-    }
-
-    public static ArrayList<Point3DShort> getAccesingPointsMatchingASZI(Point3D p3d, int aszi, int task) {
-        return getAccesingPointsMatchingASZI(p3d.x, p3d.y, p3d.z, aszi, task);
-    }
-
-    /**
-     * Devuelve una lista de puntos adyacentes accesibles que estén en la zona
-     * pasada
-     *
-     * @param x
-     * @param y
-     * @param z
-     * @para aszi
-     * @return una lista de puntos adyacentes accesibles que estén en la zona
-     * pasada
-     */
-    public static ArrayList<Point3DShort> getAccesingPointsMatchingASZI(int x, int y, int z, int aszi, int task) {
-        ArrayList<Point3DShort> places = getAccesingPoints(x, y, z, task);
-        ArrayList<Point3DShort> placesOK = new ArrayList<Point3DShort>();
-
-        for (int i = 0; i < places.size(); i++) {
-            if (World.getCell(places.get(i)).getAstarZoneID() == aszi) {
-                placesOK.add(places.get(i));
-            }
-        }
-
-        return placesOK;
     }
 
     public ArrayList<HotPoint> getHotPoints() {

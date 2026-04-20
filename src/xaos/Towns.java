@@ -1,21 +1,14 @@
 package xaos;
 
-import xaos.property.PropertyFile;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Properties;
-
 import xaos.main.Game;
+import xaos.property.Property;
+import xaos.property.PropertyFile;
 import xaos.utils.Log;
 import xaos.utils.Messages;
 
-import xaos.property.Property;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Properties;
 
 public final class Towns {
 
@@ -44,8 +37,6 @@ public final class Towns {
             Game.exit();
         }
     }
-
-    public native boolean SteamAPI_Init();
 
     /**
      * Loads town.ini
@@ -132,7 +123,7 @@ public final class Towns {
     /**
      * Returns a main property converted to int with default value if error
      *
-     * @param sProperty Propery name
+     * @param sProperty     Propery name
      * @param iDefaultValue Default value in case of error
      * @return a property converted to int with default value if error
      */
@@ -144,7 +135,7 @@ public final class Towns {
      * Returns a property converted to int with default value 0
      *
      * @param propertyFile
-     * @param sProperty Property name
+     * @param sProperty    Property name
      * @return a property converted to int with default value 0
      */
     public static int getPropertiesInt(PropertyFile propertyFile, String sProperty) {
@@ -155,7 +146,7 @@ public final class Towns {
      * Returns a property converted to int with default value if error
      *
      * @param propertyFile
-     * @param sProperty Propery name
+     * @param sProperty     Propery name
      * @param iDefaultValue Default value in case of error
      * @return a property converted to int with default value if error
      */
@@ -186,7 +177,7 @@ public final class Towns {
     /**
      *
      * @param propertyFile
-     * @param sProperty Property name
+     * @param sProperty    Property name
      * @return a property from a .ini, null if something fails
      */
     public static String getPropertiesString(PropertyFile propertyFile, String sProperty) {
@@ -225,4 +216,6 @@ public final class Towns {
         }
         propertiesGraphics = null;
     }
+
+    public native boolean SteamAPI_Init();
 }

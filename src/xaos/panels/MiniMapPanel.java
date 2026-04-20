@@ -1,9 +1,6 @@
 package xaos.panels;
 
-import java.nio.ByteBuffer;
-
 import org.lwjgl.opengl.GL11;
-
 import xaos.main.Game;
 import xaos.main.World;
 import xaos.tiles.Cell;
@@ -11,25 +8,19 @@ import xaos.tiles.Tile;
 import xaos.tiles.entities.Entity;
 import xaos.tiles.terrain.Terrain;
 import xaos.tiles.terrain.TerrainManager;
-import xaos.utils.ColorGL;
-import xaos.utils.ImageData;
-import xaos.utils.Point3D;
-import xaos.utils.Point3DShort;
-import xaos.utils.TextureData;
-import xaos.utils.UtilsGL;
+import xaos.utils.*;
+
+import java.nio.ByteBuffer;
 
 public final class MiniMapPanel {
 
-//    public static int TEXTURE_MINIMAPS_INDEX = 32;
-    private static TextureData[] minimapTextures;
-
     private static final Tile YELLOW_TILE = new Tile("ui_yellow"); //$NON-NLS-1$
-
     public static int renderX;
     public static int renderY;
     public static int renderWidth;
     public static int renderHeight;
-
+    //    public static int TEXTURE_MINIMAPS_INDEX = 32;
+    private static TextureData[] minimapTextures;
     private static boolean[] texturesReload;
     private static int textureRefreshRate;
 
@@ -49,7 +40,7 @@ public final class MiniMapPanel {
         texturesReload = null;
     }
 
-    public static void render () {
+    public static void render() {
         if (texturesReload == null) {
             loadTextures();
         }
@@ -74,17 +65,17 @@ public final class MiniMapPanel {
         UtilsGL.drawTexture(renderX, renderY + renderHeight / 2, renderX + renderWidth / 2, renderY + renderHeight, renderX + renderWidth, renderY + renderHeight / 2, renderX + renderWidth / 2, renderY, 0, 0, 1, 1);
         UtilsGL.glEnd();
 
-        // Calculamos el tamaño del cuadrado amarillo teniendo en cuenta el tamaño del mainpanel y del minimapa
+        // Calculamos el tamaï¿½o del cuadrado amarillo teniendo en cuenta el tamaï¿½o del mainpanel y del minimapa
         int iSquareX = (pointView.x + pointView.y - (World.MAP_WIDTH - World.MAP_HEIGHT) / 2) / 2;
         int iSquareY = (pointView.y - pointView.x + (World.MAP_WIDTH + World.MAP_HEIGHT) / 2) / 2;
         int iSquareWidth = ((MainPanel.renderWidth / Tile.TERRAIN_ICON_WIDTH) * renderWidth) / World.MAP_WIDTH;
         int iSquareHeight = ((MainPanel.renderHeight / Tile.TERRAIN_ICON_HEIGHT) * renderHeight) / World.MAP_HEIGHT;
 
-        // Lo pasamos al tamaño que toca
+        // Lo pasamos al tamaï¿½o que toca
         iSquareX = (iSquareX * renderWidth) / World.MAP_WIDTH;
         iSquareY = (iSquareY * renderHeight) / World.MAP_HEIGHT;
 
-        // Lo posicionamos en la pantalla (restamos también la mitad del cuadradito amarillo para que quede centrado)
+        // Lo posicionamos en la pantalla (restamos tambiï¿½n la mitad del cuadradito amarillo para que quede centrado)
         iSquareX += (renderX - iSquareWidth / 2);
         iSquareY += (renderY - iSquareHeight / 2);
 
@@ -173,7 +164,7 @@ public final class MiniMapPanel {
     }
 
     /**
-     * Retorna el color a pintar de una celda según el terreno y/o lo que haya
+     * Retorna el color a pintar de una celda segï¿½n el terreno y/o lo que haya
      * en ella
      *
      * @param x
@@ -228,8 +219,8 @@ public final class MiniMapPanel {
     }
 
     /**
-     * Indica si el mouse está encima del minimapa. Como se dibuja en forma de
-     * diamante hacemos el cálculo necesario
+     * Indica si el mouse estï¿½ encima del minimapa. Como se dibuja en forma de
+     * diamante hacemos el cï¿½lculo necesario
      *
      * @param x
      * @param y
@@ -272,7 +263,7 @@ public final class MiniMapPanel {
 
     /**
      * Limpia todos los datos (se usa cuando se sale de la partida y se va al
-     * menú principal)
+     * menï¿½ principal)
      */
     public static void clear() {
         texturesReload = null;

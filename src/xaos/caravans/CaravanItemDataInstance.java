@@ -1,11 +1,11 @@
 package xaos.caravans;
 
+import xaos.tiles.entities.items.Item;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-
-import xaos.tiles.entities.items.Item;
 
 public class CaravanItemDataInstance implements Externalizable {
 
@@ -26,12 +26,12 @@ public class CaravanItemDataInstance implements Externalizable {
         this.item = item;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
     public int getPrice() {
         return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     public int getQuantity() {

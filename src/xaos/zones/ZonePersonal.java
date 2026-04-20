@@ -1,12 +1,12 @@
 package xaos.zones;
 
+import xaos.main.Game;
+import xaos.tiles.entities.living.Citizen;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-
-import xaos.main.Game;
-import xaos.tiles.entities.living.Citizen;
 
 public class ZonePersonal extends Zone implements Externalizable {
 
@@ -21,14 +21,6 @@ public class ZonePersonal extends Zone implements Externalizable {
     public ZonePersonal(String sIniHeader) {
         super(sIniHeader);
         setOwnerID(-1);
-    }
-
-    public void setOwnerID(int ownerID) {
-        this.ownerID = ownerID;
-    }
-
-    public int getOwnerID() {
-        return ownerID;
     }
 
     /**
@@ -89,6 +81,14 @@ public class ZonePersonal extends Zone implements Externalizable {
                 }
             }
         }
+    }
+
+    public int getOwnerID() {
+        return ownerID;
+    }
+
+    public void setOwnerID(int ownerID) {
+        this.ownerID = ownerID;
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {

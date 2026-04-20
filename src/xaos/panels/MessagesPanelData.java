@@ -1,13 +1,13 @@
 package xaos.panels;
 
+import xaos.utils.ColorGL;
+import xaos.utils.Point3DShort;
+import xaos.utils.UtilFont;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-
-import xaos.utils.ColorGL;
-import xaos.utils.Point3DShort;
-import xaos.utils.UtilFont;
 
 public final class MessagesPanelData implements Externalizable {
 
@@ -18,7 +18,7 @@ public final class MessagesPanelData implements Externalizable {
     private Point3DShort view;
     private int entityID;
     ;
-	private int width;
+    private int width;
 
     public MessagesPanelData() {
     }
@@ -73,17 +73,17 @@ public final class MessagesPanelData implements Externalizable {
     }
 
     /**
-     * @param width the width to set
-     */
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    /**
      * @return the width
      */
     public int getWidth() {
         return width;
+    }
+
+    /**
+     * @param width the width to set
+     */
+    public void setWidth(int width) {
+        this.width = width;
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {

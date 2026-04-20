@@ -1,16 +1,9 @@
 package xaos.panels;
 
-import java.awt.Color;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Calendar;
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
-import xaos.property.PropertyFile;
-
 import xaos.Towns;
 import xaos.TownsProperties;
 import xaos.campaign.CampaignData;
@@ -18,16 +11,13 @@ import xaos.campaign.CampaignManager;
 import xaos.main.Game;
 import xaos.panels.menus.ContextMenu;
 import xaos.panels.menus.SmartMenu;
-import xaos.utils.ColorGL;
-import xaos.utils.LanguageData;
-import xaos.utils.Log;
-import xaos.utils.Messages;
-import xaos.utils.Point3D;
-import xaos.utils.TextureData;
-import xaos.utils.UtilFont;
-import xaos.utils.Utils;
-import xaos.utils.UtilsGL;
-import xaos.utils.UtilsKeyboard;
+import xaos.property.PropertyFile;
+import xaos.utils.*;
+
+import java.awt.*;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 public final class MainMenuPanel implements Runnable {
 
@@ -35,32 +25,26 @@ public final class MainMenuPanel implements Runnable {
     public static int TEXTURE_SMP_LOGO_ID;
     public static int TEXTURE_LOADING_ID;
     public static int TEXTURE_TOWNS_LOGO_ID;
-
+    public static float startingGame = 80f;
+    public static boolean deleteLogoTexture = false;
+    public static boolean loadingGame = false;
+    public static boolean useBuryTemporary = true;
+    public static ColorGL startingGameColor;
+    public final ColorGL COLORGL_BLACK = new ColorGL(Color.BLACK);
+    public final ColorGL COLORGL_WHITE = new ColorGL(Color.WHITE);
+    public final ColorGL COLORGL_RED = new ColorGL(Color.RED);
     public boolean active;
-
     private int renderX;
     private int renderY;
     private int renderWidth;
     private int renderHeight;
     private int xMenu;
     private int yMenu;
-
     private int imageLoadingWidth;
     private int imageLoadingHeight;
     private int imageTownsLogoWidth;
     private int imageTownsLogoHeight;
-
     private ContextMenu menu;
-
-    public final ColorGL COLORGL_BLACK = new ColorGL(Color.BLACK);
-    public final ColorGL COLORGL_WHITE = new ColorGL(Color.WHITE);
-    public final ColorGL COLORGL_RED = new ColorGL(Color.RED);
-
-    public static float startingGame = 80f;
-    public static boolean deleteLogoTexture = false;
-    public static boolean loadingGame = false;
-    public static boolean useBuryTemporary = true;
-    public static ColorGL startingGameColor;
     private String loadingText = new String();
 
     private boolean settingSavegameName = false;
@@ -151,10 +135,10 @@ public final class MainMenuPanel implements Runnable {
         // Campaign / new game
         ArrayList<CampaignData> alCampaigns = CampaignManager.getCampaigns();
         if (alCampaigns != null && alCampaigns.size() > 0) {
-        	// Tutorial
+            // Tutorial
             SmartMenu menuTutorial = new SmartMenu(SmartMenu.TYPE_MENU, Messages.getString("MainMenuPanel.82"), mainMenu, null, null, null, null, textColor); //$NON-NLS-1$
-            menuTutorial.setTrasparency (mainMenu.isTrasparency());
-            menuTutorial.setBorderColor (borderColor);
+            menuTutorial.setTrasparency(mainMenu.isTrasparency());
+            menuTutorial.setBorderColor(borderColor);
             menuTutorial.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, Messages.getString("MainMenuPanel.82"), null, null, null, null)); //$NON-NLS-1$
             menuTutorial.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, null, null, null, null, null));
 
@@ -168,12 +152,12 @@ public final class MainMenuPanel implements Runnable {
             // Fill the menus (tutorial OR new game)
             for (int i = 0; i < alCampaigns.size(); i++) {
                 String sCampaignID = alCampaigns.get(i).getId();
-                boolean bTutorial = alCampaigns.get(i).isTutorial ();
+                boolean bTutorial = alCampaigns.get(i).isTutorial();
                 SmartMenu campaign;
                 if (bTutorial) {
-                	campaign = menuTutorial;
+                    campaign = menuTutorial;
                 } else {
-                	campaign = menuCampaign;
+                    campaign = menuCampaign;
                 }
 
 //                SmartMenu campaign = new SmartMenu(SmartMenu.TYPE_MENU, alCampaigns.get(i).getName(), menuCampaign, null, null, null, null, textColor);
@@ -187,7 +171,7 @@ public final class MainMenuPanel implements Runnable {
                     String missionName = alCampaigns.get(i).getMissions().get(j).getName();
                     String sMissionID = alCampaigns.get(i).getMissions().get(j).getId();
 
-                    // Añadimos la opción de bajar burieds
+                    // Aï¿½adimos la opciï¿½n de bajar burieds
                     if (Game.isAllowBury() && alCampaigns.get(i).getMissions().get(j).isAllowBury()) {
                         SmartMenu loadBurieds = new SmartMenu(SmartMenu.TYPE_MENU, missionName, campaign, null, null, null, null, textColor);
                         loadBurieds.setTrasparency(true);
@@ -291,7 +275,7 @@ public final class MainMenuPanel implements Runnable {
 
                 // Load game
                 menuLoad.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, Messages.getString("MainMenuPanel.40") + Utils.removeExtension(fAux.getName()) + sDate, null, CommandPanel.COMMAND_MM_CONTINUEGAME, fAux.getName(), null, null, textColor)); //$NON-NLS-1$
-                // Delete game (con su submenú de confirmación)
+                // Delete game (con su submenï¿½ de confirmaciï¿½n)
                 SmartMenu menuDelete = new SmartMenu(SmartMenu.TYPE_MENU, Messages.getString("MainMenuPanel.49") + Utils.removeExtension(fAux.getName()) + sDate, menuLoad, null, null, null, null, Color.RED); //$NON-NLS-1$
                 menuDelete.setTrasparency(mainMenu.isTrasparency());
                 menuDelete.setBorderColor(borderColor);
@@ -354,7 +338,7 @@ public final class MainMenuPanel implements Runnable {
         mainMenu.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, null, null, null, null));
 
         // Servers
-		SmartMenu smServers = new SmartMenu(SmartMenu.TYPE_MENU, Messages.getString("MainMenuPanel.71"), mainMenu, null, null, null, null, textColor); //$NON-NLS-1$
+        SmartMenu smServers = new SmartMenu(SmartMenu.TYPE_MENU, Messages.getString("MainMenuPanel.71"), mainMenu, null, null, null, null, textColor); //$NON-NLS-1$
         smServers.setTrasparency(mainMenu.isTrasparency());
         smServers.setBorderColor(borderColor);
         smServers.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, Messages.getString("MainMenuPanel.71"), null, null, null, null)); //$NON-NLS-1$
@@ -598,7 +582,7 @@ public final class MainMenuPanel implements Runnable {
                 if (ld.mod == null || Game.getModsLoaded() == null) {
                     menuAux = new SmartMenu(SmartMenu.TYPE_ITEM, ld.name, null, CommandPanel.COMMAND_CHANGE_LANGUAGE, ld.language, ld.country, null, textColor);
                 } else {
-                    // Buscamos el índice del mod
+                    // Buscamos el ï¿½ndice del mod
                     int iModIndex = -1;
                     for (int m = 0; m < Game.getModsLoaded().size(); m++) {
                         if (Game.getModsLoaded().get(m).equals(ld.mod)) {
@@ -755,6 +739,10 @@ public final class MainMenuPanel implements Runnable {
         }
     }
 
+    public boolean isSettingNewServer() {
+        return settingNewServer;
+    }
+
     public void setSettingNewServer(boolean bSettingNewServer) {
         this.settingNewServer = bSettingNewServer;
 
@@ -763,13 +751,9 @@ public final class MainMenuPanel implements Runnable {
         }
     }
 
-    public boolean isSettingNewServer() {
-        return settingNewServer;
-    }
-
     /**
      * Cambia los textos de todos los menus COMMAND_CHANGE_HOTKEY Se llama
-     * después deredifinir alguna tecla.
+     * despuï¿½s deredifinir alguna tecla.
      *
      */
     private void checkChangeHotkeyMenusText(SmartMenu sm) {
@@ -839,7 +823,7 @@ public final class MainMenuPanel implements Runnable {
             UtilsGL.drawTexture(centerX - imageLoadingWidth / 2, centerY + 10, centerX + imageLoadingWidth / 2, centerY + 10 + imageLoadingHeight, 0, 0, 1, 1);
             UtilsGL.glEnd();
 
-            // Si hay texto de loading lo pintamos también
+            // Si hay texto de loading lo pintamos tambiï¿½n
             String sLoadingText = getLoadingText();
             if (sLoadingText.length() > 0) {
                 bTextureFontLoaded = true;
@@ -852,7 +836,7 @@ public final class MainMenuPanel implements Runnable {
             }
         }
 
-        // Versión del juego abajo a la derecha
+        // Versiï¿½n del juego abajo a la derecha
         if (!bTextureFontLoaded) {
             GL11.glBindTexture(GL11.GL_TEXTURE_2D, Game.TEXTURE_FONT_ID);
             GL11.glTexEnvf(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE);
@@ -871,7 +855,7 @@ public final class MainMenuPanel implements Runnable {
         UtilsGL.glEnd();
 
         if (!loadingGame && !isSettingSavegameName() && !isSettingHotkey() && !isSettingNewServer()) {
-            // Pintamos el menú
+            // Pintamos el menï¿½
             menu.render();
         }
 
@@ -883,7 +867,7 @@ public final class MainMenuPanel implements Runnable {
     }
 
     /**
-     * Método que se llama cuando pulse con el ratón.
+     * Mï¿½todo que se llama cuando pulse con el ratï¿½n.
      *
      * @param x Coordenada X
      * @param y Coordenada Y
@@ -894,7 +878,7 @@ public final class MainMenuPanel implements Runnable {
         } else {
             if (mouseButton == 0) {
                 if (isSettingSavegameName()) {
-                    // Ha pulsado en algún sitio mientras el panel de savegame name está abierto
+                    // Ha pulsado en algï¿½n sitio mientras el panel de savegame name estï¿½ abierto
                     int iMousePanel = TypingPanel.whereIsMouse(x, y);
                     if (iMousePanel == UIPanel.MOUSE_TYPING_PANEL_CLOSE) {
                         // Cerramos
@@ -902,20 +886,20 @@ public final class MainMenuPanel implements Runnable {
                     } else if (iMousePanel == UIPanel.MOUSE_TYPING_PANEL_CONFIRM) {
                         if (TypingPanel.getNewText() != null && TypingPanel.getNewText().length() > 0) {
                             // Confirmamos y empieza la partida
-                            if (!Utils.existsSavegame(TypingPanel.getNewText())) { // Sólo si no existe en disco previamente
+                            if (!Utils.existsSavegame(TypingPanel.getNewText())) { // Sï¿½lo si no existe en disco previamente
                                 startGame(TypingPanel.getNewText());
                             }
                         }
                     }
                 } else if (isSettingHotkey()) {
-                    // Ha pulsado en algún sitio mientras el panel de hotkeys está abierto
+                    // Ha pulsado en algï¿½n sitio mientras el panel de hotkeys estï¿½ abierto
                     int iMousePanel = TypingPanel.whereIsMouse(x, y);
                     if (iMousePanel == UIPanel.MOUSE_TYPING_PANEL_CLOSE) {
                         // Cerramos
                         setSettingHotkey(false, 0);
                     }
                 } else if (isSettingNewServer()) {
-                    // Ha pulsado en algún sitio mientras el panel de new server está abierto
+                    // Ha pulsado en algï¿½n sitio mientras el panel de new server estï¿½ abierto
                     int iMousePanel = TypingPanel.whereIsMouse(x, y);
                     if (iMousePanel == UIPanel.MOUSE_TYPING_PANEL_CLOSE) {
                         // Cerramos
@@ -938,7 +922,7 @@ public final class MainMenuPanel implements Runnable {
     }
 
     /**
-     * Método llamado al pulsar una tecla cuando estamos en el main menu
+     * Mï¿½todo llamado al pulsar una tecla cuando estamos en el main menu
      *
      * @param iKey
      */
@@ -947,7 +931,7 @@ public final class MainMenuPanel implements Runnable {
             if (TypingPanel.keyPressed(iKey)) {
                 // Ya ha acabado (o ha pulsado ESC)
                 if (TypingPanel.getNewText() != null && TypingPanel.getNewText().length() > 0) {
-                    // Todo ok, toca empezar la partida (sólo si la partida no existe previamente en disco)
+                    // Todo ok, toca empezar la partida (sï¿½lo si la partida no existe previamente en disco)
                     if (!Utils.existsSavegame(TypingPanel.getNewText())) {
                         startGame(TypingPanel.getNewText());
                     }
@@ -1005,11 +989,8 @@ public final class MainMenuPanel implements Runnable {
         useBuryTemporary = true;
     }
 
-    public void setActive(boolean bActive) {
-        if (bActive) {
-            createMenu();
-        }
-        active = bActive;
+    public String getLoadingText() {
+        return loadingText;
     }
 
     public void setLoadingText(String sLoadingText) {
@@ -1025,12 +1006,15 @@ public final class MainMenuPanel implements Runnable {
         }
     }
 
-    public String getLoadingText() {
-        return loadingText;
-    }
-
     public boolean isActive() {
         return active;
+    }
+
+    public void setActive(boolean bActive) {
+        if (bActive) {
+            createMenu();
+        }
+        active = bActive;
     }
 
     public void resize(int renderX, int renderY, int renderWidth, int renderHeight) {
@@ -1069,27 +1053,20 @@ public final class MainMenuPanel implements Runnable {
         deleteLogoTexture = true;
     }
 
-    public void setSaveGameCampaignID(String saveGameCampaignID) {
-        this.saveGameCampaignID = saveGameCampaignID;
-    }
-
     public String getSaveGameCampaignID() {
         return saveGameCampaignID;
     }
 
-    public void setSaveGameMissionID(String saveGameMissionID) {
-        this.saveGameMissionID = saveGameMissionID;
+    public void setSaveGameCampaignID(String saveGameCampaignID) {
+        this.saveGameCampaignID = saveGameCampaignID;
     }
 
     public String getSaveGameMissionID() {
         return saveGameMissionID;
     }
 
-    /**
-     * @param errorToShow the errorToShow to set
-     */
-    public void setErrorToShow(String errorToShow) {
-        this.errorToShow = errorToShow;
+    public void setSaveGameMissionID(String saveGameMissionID) {
+        this.saveGameMissionID = saveGameMissionID;
     }
 
     /**
@@ -1097,5 +1074,12 @@ public final class MainMenuPanel implements Runnable {
      */
     public String getErrorToShow() {
         return errorToShow;
+    }
+
+    /**
+     * @param errorToShow the errorToShow to set
+     */
+    public void setErrorToShow(String errorToShow) {
+        this.errorToShow = errorToShow;
     }
 }

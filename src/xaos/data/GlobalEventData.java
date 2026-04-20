@@ -1,100 +1,31 @@
 package xaos.data;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-
 import xaos.events.EventManager;
 import xaos.events.EventManagerItem;
 import xaos.main.Game;
 import xaos.tiles.Tile;
+
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 public class GlobalEventData implements Externalizable {
 
     private static final long serialVersionUID = 1943236493343125044L;
 
     private static Tile TILE_EVENT = new Tile("icon_events");
-
+    private static Tile icon; // Toma el valor del icono del primer evento (o "icon_events", "icon_eventsON");
     private boolean shadows;
     private boolean halfShadows;
     private float red;
     private float green;
     private float blue;
-    private int waitPCT; // Suma (multiplicación) de todos los PCT activos
-    private int walkSpeedPCT; // Suma (multiplicación) de todos los PCT activos
-    private static Tile icon; // Toma el valor del icono del primer evento (o "icon_events", "icon_eventsON");
+    private int waitPCT; // Suma (multiplicaciï¿½n) de todos los PCT activos
+    private int walkSpeedPCT; // Suma (multiplicaciï¿½n) de todos los PCT activos
 
     public GlobalEventData() {
         reset();
-    }
-
-    public void reset() {
-        setShadows(false);
-        setHalfShadows(false);
-        setRed(0);
-        setGreen(0);
-        setBlue(0);
-        setWaitPCT(100);
-        setWalkSpeedPCT(100);
-
-        setIcon();
-    }
-
-    public void setShadows(boolean shadows) {
-        this.shadows = shadows;
-    }
-
-    public boolean isShadows() {
-        return shadows;
-    }
-
-    public void setHalfShadows(boolean halfShadows) {
-        this.halfShadows = halfShadows;
-    }
-
-    public boolean isHalfShadows() {
-        return halfShadows;
-    }
-
-    public void setRed(float red) {
-        this.red = red;
-    }
-
-    public float getRed() {
-        return red;
-    }
-
-    public void setGreen(float green) {
-        this.green = green;
-    }
-
-    public float getGreen() {
-        return green;
-    }
-
-    public void setBlue(float blue) {
-        this.blue = blue;
-    }
-
-    public float getBlue() {
-        return blue;
-    }
-
-    public void setWaitPCT(int waitPCT) {
-        this.waitPCT = waitPCT;
-    }
-
-    public int getWaitPCT() {
-        return waitPCT;
-    }
-
-    public void setWalkSpeedPCT(int walkSpeedPCT) {
-        this.walkSpeedPCT = walkSpeedPCT;
-    }
-
-    public int getWalkSpeedPCT() {
-        return walkSpeedPCT;
     }
 
     public static Tile getIcon() {
@@ -117,8 +48,76 @@ public class GlobalEventData implements Externalizable {
             }
         }
 
-        // Si llega aquí es que aún no está inicializado o no hay eventos, metemos el default
+        // Si llega aquï¿½ es que aï¿½n no estï¿½ inicializado o no hay eventos, metemos el default
         icon = TILE_EVENT;
+    }
+
+    public void reset() {
+        setShadows(false);
+        setHalfShadows(false);
+        setRed(0);
+        setGreen(0);
+        setBlue(0);
+        setWaitPCT(100);
+        setWalkSpeedPCT(100);
+
+        setIcon();
+    }
+
+    public boolean isShadows() {
+        return shadows;
+    }
+
+    public void setShadows(boolean shadows) {
+        this.shadows = shadows;
+    }
+
+    public boolean isHalfShadows() {
+        return halfShadows;
+    }
+
+    public void setHalfShadows(boolean halfShadows) {
+        this.halfShadows = halfShadows;
+    }
+
+    public float getRed() {
+        return red;
+    }
+
+    public void setRed(float red) {
+        this.red = red;
+    }
+
+    public float getGreen() {
+        return green;
+    }
+
+    public void setGreen(float green) {
+        this.green = green;
+    }
+
+    public float getBlue() {
+        return blue;
+    }
+
+    public void setBlue(float blue) {
+        this.blue = blue;
+    }
+
+    public int getWaitPCT() {
+        return waitPCT;
+    }
+
+    public void setWaitPCT(int waitPCT) {
+        this.waitPCT = waitPCT;
+    }
+
+    public int getWalkSpeedPCT() {
+        return walkSpeedPCT;
+    }
+
+    public void setWalkSpeedPCT(int walkSpeedPCT) {
+        this.walkSpeedPCT = walkSpeedPCT;
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {

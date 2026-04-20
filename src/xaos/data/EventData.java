@@ -1,13 +1,5 @@
 package xaos.data;
 
-import java.awt.Point;
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import xaos.actions.Action;
 import xaos.actions.ActionManager;
 import xaos.actions.QueueData;
@@ -15,12 +7,7 @@ import xaos.effects.EffectManager;
 import xaos.effects.EffectManagerItem;
 import xaos.events.EventManager;
 import xaos.events.EventManagerItem;
-import xaos.generator.BezierData;
-import xaos.generator.ChangeData;
-import xaos.generator.HeightSeedData;
-import xaos.generator.MapGeneratorItem;
-import xaos.generator.ParentMapData;
-import xaos.generator.SeedData;
+import xaos.generator.*;
 import xaos.main.Game;
 import xaos.main.World;
 import xaos.panels.MiniMapPanel;
@@ -35,19 +22,22 @@ import xaos.tiles.entities.living.LivingEntityManagerItem;
 import xaos.tiles.terrain.Terrain;
 import xaos.tiles.terrain.TerrainManager;
 import xaos.tiles.terrain.TerrainManagerItem;
-import xaos.utils.Log;
+import xaos.utils.*;
 import xaos.utils.Messages;
-import xaos.utils.Point3D;
-import xaos.utils.Utils;
-import xaos.utils.UtilsAL;
-import xaos.utils.UtilsIniHeaders;
+
+import java.awt.*;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class EventData implements Externalizable {
 
     private static final long serialVersionUID = 8911321568004507866L;
-
+    private static HashMap<String, ArrayList<Point3D>> hmSeedsIDs = new HashMap<String, ArrayList<Point3D>>();
     private String eventID;
-
     private int order;
     private int turns;
     private int eventCooldown;
@@ -55,9 +45,82 @@ public class EventData implements Externalizable {
     private int walkSpeedPCT;
     private int fxRunningTurns;
 
-    private static HashMap<String, ArrayList<Point3D>> hmSeedsIDs = new HashMap<String, ArrayList<Point3D>>();
-
     public EventData() {
+    }
+
+    public EventData(String effectID) {
+        setEventID(effectID);
+    }
+
+    /**
+     * Indica si hay alguna casilla de tipo (terrain) alrrededor del punto
+     * pasado
+     *
+     * @param asMap
+     * @param x
+     * @param y
+     * @param z
+     * @return
+     */
+    private static boolean checkNeighbors(int x, int y, int z, int iTerrainID, int radius) {
+        for (int i = -radius; i <= radius; i++) {
+            for (int j = -radius; j <= radius; j++) {
+                for (int n = -radius; n <= radius; n++) {
+                    if (i != 0 || j != 0 || n != 0) {
+                        if (Utils.isInsideMap(x + i, y + j, n + z)) {
+                            // Miramos si tiene el terrain
+                            if (World.getCell(x + i, y + j, n + z).getTerrain().getTerrainID() == iTerrainID) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Indica si hay alguna casilla de tipo especial (terrain) alrrededor del
+     * punto pasado
+     *
+     * @param asMap
+     * @param x
+     * @param y
+     * @param z
+     * @return
+     */
+    private static boolean checkNeighborsSpecial(int x, int y, int z, int iSpecialTerrain, int radius) {
+        Cell cell;
+        for (int i = -radius; i <= radius; i++) {
+            for (int j = -radius; j <= radius; j++) {
+                for (int n = -radius; n <= radius; n++) {
+                    if (i != 0 || j != 0 || n != 0) {
+                        if (Utils.isInsideMap(x + i, y + j, n + z)) {
+                            // Miramos si tiene el terrain
+                            cell = World.getCell(x + i, y + j, n + z);
+                            if (cell.getTerrain().hasFluids()) {
+                                // Miramos que sea el special correcto
+                                if (iSpecialTerrain == MapGeneratorItem.SPECIAL_INT_WATER || iSpecialTerrain == MapGeneratorItem.SPECIAL_INT_WATER_1 || iSpecialTerrain == MapGeneratorItem.SPECIAL_INT_WATER_INF) {
+                                    // Agua
+                                    if (cell.getTerrain().getFluidType() == Terrain.FLUIDS_WATER) {
+                                        return true;
+                                    }
+                                } else if (iSpecialTerrain == MapGeneratorItem.SPECIAL_INT_LAVA || iSpecialTerrain == MapGeneratorItem.SPECIAL_INT_LAVA_1 || iSpecialTerrain == MapGeneratorItem.SPECIAL_INT_LAVA_INF) {
+                                    // Lava
+                                    if (cell.getTerrain().getFluidType() == Terrain.FLUIDS_LAVA) {
+                                        return true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     private void launch() {
@@ -178,20 +241,20 @@ public class EventData implements Externalizable {
      * Aplica la lista de efectos a quien toque
      *
      * @param emi
-     * @param effectsList afterEat, afterSleep, effects, ...
-     * @param singleLiving Si se pasa una living sólo intenta aplicarlo a ella,
-     * no a todos
+     * @param effectsList  afterEat, afterSleep, effects, ...
+     * @param singleLiving Si se pasa una living sï¿½lo intenta aplicarlo a ella,
+     *                     no a todos
      */
     public void launchEffects(EventManagerItem emi, ArrayList<String> effectsList, LivingEntity singleLiving) {
         if (emi.getTargets() != null && emi.getTargets().size() > 0) {
-            // Tiene targets, vamos a ver si aplicamos efectos de 1 sólo uso (<effects>)
+            // Tiene targets, vamos a ver si aplicamos efectos de 1 sï¿½lo uso (<effects>)
             if (effectsList != null && effectsList.size() > 0) {
                 ArrayList<String> alTargets = emi.getTargets();
                 ArrayList<String> alPCTs = emi.getTargetsPCT();
 
-                // Por si acaso han cambiado el xml, comprobamos tamaños y esas cosas
+                // Por si acaso han cambiado el xml, comprobamos tamaï¿½os y esas cosas
                 if (alTargets != null && alPCTs != null && alTargets.size() == alPCTs.size()) {
-					// Go, go, go
+                    // Go, go, go
 
                     // Miramos que no sea una single living, para aplicar ya de raiz el openCell
                     if (singleLiving != null && emi.isTargetsOpenCell() && !World.getCell(singleLiving.getCoordinates()).isOpen()) {
@@ -199,7 +262,7 @@ public class EventData implements Externalizable {
                     }
 
                     if (emi.getTargetsRandomCell() == null || emi.getTargetsRandomCell().length() == 0) {
-						// No hay random cell, recorremos effects y targets normalmente
+                        // No hay random cell, recorremos effects y targets normalmente
                         // Recorremos todos los efectos y los vamos metiendo
                         EffectManagerItem efmi;
                         foreffects:
@@ -246,7 +309,7 @@ public class EventData implements Externalizable {
                                     }
 
                                     if (iTargetType == LivingEntity.TYPE_HERO) {
-                                        // Héroes
+                                        // Hï¿½roes
                                         for (int h = 0; h < World.getHeroIDs().size(); h++) {
                                             le = World.getLivingEntityByID(World.getHeroIDs().get((h)));
                                             if (le != null && Utils.getRandomBetween(1, 100) <= iPCT) {
@@ -328,7 +391,7 @@ public class EventData implements Externalizable {
                             }
                         }
                     } else {
-                        // Hay random cell, allá vamos!
+                        // Hay random cell, allï¿½ vamos!
                         int iNumCells = Utils.launchDice(emi.getTargetsRandomCell());
                         Cell cell;
                         while (iNumCells > 0) {
@@ -343,8 +406,8 @@ public class EventData implements Externalizable {
                                 if (emi.isTargetsOpenCell() && !cell.isOpen()) {
                                     continue;
                                 }
-								// Cell con livings
-                                // Por cada livings que esté en el target le meteremos todos los efectos
+                                // Cell con livings
+                                // Por cada livings que estï¿½ en el target le meteremos todos los efectos
                                 LivingEntityManagerItem lemi;
                                 LivingEntity le;
                                 for (int l = 0; l < cell.getLivings().size(); l++) {
@@ -352,7 +415,7 @@ public class EventData implements Externalizable {
                                     lemi = LivingEntityManager.getItem(le.getIniHeader());
                                     if (lemi != null) {
                                         if (emi.getTargetsHateData().isHate(le)) {
-                                            // Miramos si es un target válido
+                                            // Miramos si es un target vï¿½lido
                                             int iTargetIndex = -1;
                                             int iType = lemi.getType();
                                             for (int t = 0; t < alTargets.size(); t++) {
@@ -441,7 +504,7 @@ public class EventData implements Externalizable {
         }
 
         if (turns <= 0) {
-            // Se acabó
+            // Se acabï¿½
             return true;
         }
 
@@ -479,7 +542,7 @@ public class EventData implements Externalizable {
                                 item = Item.getItemByID(alItems.get(it));
 
                                 if (item != null) {
-									// maxAgePCT
+                                    // maxAgePCT
                                     // Le aplicamos el maxAgePCT al age y al maxAge
                                     if (bRestore) {
                                         item.setAge((item.getAge() * 100) / iPCT);
@@ -498,7 +561,7 @@ public class EventData implements Externalizable {
                                 item = Item.getItemByID(alItems.get(it));
 
                                 if (item != null) {
-									// maxAgePCT
+                                    // maxAgePCT
                                     // Le aplicamos el maxAgePCT al age y al maxAge
                                     if (bRestore) {
                                         item.setAge((item.getAge() * 100) / iPCT);
@@ -741,7 +804,7 @@ public class EventData implements Externalizable {
 
         TerrainManagerItem tmi = TerrainManager.getItemByID(iTerrainID);
 
-		// Eliminamos fluidos en caso de no ser AIR
+        // Eliminamos fluidos en caso de no ser AIR
         // La des-minamos en caso de no ser AIR, minamos en caso de air
         if (iTerrainID != TerrainManagerItem.TERRAIN_AIR_ID) {
             if (!bJustChange) {
@@ -780,7 +843,7 @@ public class EventData implements Externalizable {
     private void generateTerrainSpecial(int iSpecialType, int x, int y, int z) {
         Cell cell = World.getCell(x, y, z);
 
-		// Los special son simplemente fluidos, minamos la celda y metemos el fluido que toque
+        // Los special son simplemente fluidos, minamos la celda y metemos el fluido que toque
         // Borramos cosas (fluidos)
         World.deleteCellAll(cell, true);
 
@@ -788,7 +851,7 @@ public class EventData implements Externalizable {
             World.deleteCellAll(World.getCell(x, y, z - 1), true);
         }
 
-		// Eliminamos fluidos en caso de no ser AIR
+        // Eliminamos fluidos en caso de no ser AIR
         // La des-minamos en caso de no ser AIR, minamos en caso de air
         cell.getTerrain().setMineTurns(0);
         cell.setMined(true);
@@ -901,7 +964,7 @@ public class EventData implements Externalizable {
                 for (int y = 0; y < World.MAP_HEIGHT; y++) {
                     for (int z = 0; z < World.MAP_DEPTH; z++) {
                         if (abMap[x][y][z]) {
-							// 6 randoms para ver si crece hacia algun lado
+                            // 6 randoms para ver si crece hacia algun lado
                             // Norte
                             if ((y - 1) >= 0) {
                                 if (Utils.getRandomBetween(1, 100) <= sd.northPCT) {
@@ -1046,7 +1109,7 @@ public class EventData implements Externalizable {
             hsd.flatsBetweenLevels = 1;
         }
 
-		// Todo cargado, procedemos
+        // Todo cargado, procedemos
         boolean[][] abMap = new boolean[World.MAP_WIDTH][World.MAP_HEIGHT];
 
         // Metemos las seeds
@@ -1092,7 +1155,7 @@ public class EventData implements Externalizable {
             for (int x = 0; x < World.MAP_WIDTH; x++) {
                 for (int y = 0; y < World.MAP_HEIGHT; y++) {
                     if (abMap[x][y]) {
-						// 4 randoms para ver si crece hacia algun lado
+                        // 4 randoms para ver si crece hacia algun lado
                         // Norte
                         if ((y - 1) >= 0) {
                             if (Utils.getRandomBetween(1, 100) <= hsd.northPCT) {
@@ -1143,13 +1206,13 @@ public class EventData implements Externalizable {
             }
         }
 
-		// Seeds crecidas, toca raisear el terreno
+        // Seeds crecidas, toca raisear el terreno
         // Creamos un auxiliar
         boolean[][] abMapAux = new boolean[abMap.length][abMap[0].length];
 
         boolean bHaySeeds = true;
         while (bHaySeeds) {
-            // Copiamos el auxiliar (y de paso miramos que aún haya seeds)
+            // Copiamos el auxiliar (y de paso miramos que aï¿½n haya seeds)
             bHaySeeds = false;
             for (int x = 0; x < World.MAP_WIDTH; x++) {
                 for (int y = 0; y < World.MAP_HEIGHT; y++) {
@@ -1169,8 +1232,8 @@ public class EventData implements Externalizable {
             for (int x = 0; x < World.MAP_WIDTH; x++) {
                 for (int y = 0; y < World.MAP_HEIGHT; y++) {
                     if (abMap[x][y]) {
-						// Raiseamos
-                        // Buscamos el último _AIR
+                        // Raiseamos
+                        // Buscamos el ï¿½ltimo _AIR
                         boolean bHayAIRs = false;
                         for (int z = 0; z <= World.MAP_NUM_LEVELS_OUTSIDE; z++) {
                             cell = World.getCell(x, y, z);
@@ -1179,7 +1242,7 @@ public class EventData implements Externalizable {
                             } else {
                                 // Tenemos un no-air
                                 if (bHayAIRs) {
-                                    // Tiene espacio por encima, así que simplemente cambiamos el terrain por el de abajo
+                                    // Tiene espacio por encima, asï¿½ que simplemente cambiamos el terrain por el de abajo
                                     generateTerrain(cell.getTerrain().getTerrainID(), x, y, z - 1, false);
                                 }
                             }
@@ -1303,135 +1366,60 @@ public class EventData implements Externalizable {
         }
     }
 
-    /**
-     * Indica si hay alguna casilla de tipo (terrain) alrrededor del punto
-     * pasado
-     *
-     * @param asMap
-     * @param x
-     * @param y
-     * @param z
-     * @return
-     */
-    private static boolean checkNeighbors(int x, int y, int z, int iTerrainID, int radius) {
-        for (int i = -radius; i <= radius; i++) {
-            for (int j = -radius; j <= radius; j++) {
-                for (int n = -radius; n <= radius; n++) {
-                    if (i != 0 || j != 0 || n != 0) {
-                        if (Utils.isInsideMap(x + i, y + j, n + z)) {
-                            // Miramos si tiene el terrain
-                            if (World.getCell(x + i, y + j, n + z).getTerrain().getTerrainID() == iTerrainID) {
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Indica si hay alguna casilla de tipo especial (terrain) alrrededor del
-     * punto pasado
-     *
-     * @param asMap
-     * @param x
-     * @param y
-     * @param z
-     * @return
-     */
-    private static boolean checkNeighborsSpecial(int x, int y, int z, int iSpecialTerrain, int radius) {
-        Cell cell;
-        for (int i = -radius; i <= radius; i++) {
-            for (int j = -radius; j <= radius; j++) {
-                for (int n = -radius; n <= radius; n++) {
-                    if (i != 0 || j != 0 || n != 0) {
-                        if (Utils.isInsideMap(x + i, y + j, n + z)) {
-                            // Miramos si tiene el terrain
-                            cell = World.getCell(x + i, y + j, n + z);
-                            if (cell.getTerrain().hasFluids()) {
-                                // Miramos que sea el special correcto
-                                if (iSpecialTerrain == MapGeneratorItem.SPECIAL_INT_WATER || iSpecialTerrain == MapGeneratorItem.SPECIAL_INT_WATER_1 || iSpecialTerrain == MapGeneratorItem.SPECIAL_INT_WATER_INF) {
-                                    // Agua
-                                    if (cell.getTerrain().getFluidType() == Terrain.FLUIDS_WATER) {
-                                        return true;
-                                    }
-                                } else if (iSpecialTerrain == MapGeneratorItem.SPECIAL_INT_LAVA || iSpecialTerrain == MapGeneratorItem.SPECIAL_INT_LAVA_1 || iSpecialTerrain == MapGeneratorItem.SPECIAL_INT_LAVA_INF) {
-                                    // Lava
-                                    if (cell.getTerrain().getFluidType() == Terrain.FLUIDS_LAVA) {
-                                        return true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
-
-    public EventData(String effectID) {
-        setEventID(effectID);
+    public String getEventID() {
+        return eventID;
     }
 
     public void setEventID(String eventID) {
         this.eventID = eventID;
     }
 
-    public String getEventID() {
-        return eventID;
+    public int getOrder() {
+        return order;
     }
 
     public void setOrder(int order) {
         this.order = order;
     }
 
-    public int getOrder() {
-        return order;
+    public int getTurns() {
+        return turns;
     }
 
     public void setTurns(int turns) {
         this.turns = turns;
     }
 
-    public int getTurns() {
-        return turns;
+    public int getEventCooldown() {
+        return eventCooldown;
     }
 
     public void setEventCooldown(int eventCooldown) {
         this.eventCooldown = eventCooldown;
     }
 
-    public int getEventCooldown() {
-        return eventCooldown;
+    public int getWaitPCT() {
+        return waitPCT;
     }
 
     public void setWaitPCT(int waitPCT) {
         this.waitPCT = waitPCT;
     }
 
-    public int getWaitPCT() {
-        return waitPCT;
+    public int getWalkSpeedPCT() {
+        return walkSpeedPCT;
     }
 
     public void setWalkSpeedPCT(int walkSpeedPCT) {
         this.walkSpeedPCT = walkSpeedPCT;
     }
 
-    public int getWalkSpeedPCT() {
-        return walkSpeedPCT;
+    public int getFxRunningTurns() {
+        return fxRunningTurns;
     }
 
     public void setFxRunningTurns(int fxRunningTurns) {
         this.fxRunningTurns = fxRunningTurns;
-    }
-
-    public int getFxRunningTurns() {
-        return fxRunningTurns;
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {

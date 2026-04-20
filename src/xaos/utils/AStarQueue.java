@@ -1,13 +1,13 @@
 package xaos.utils;
 
-import java.util.ArrayList;
-
 import xaos.main.World;
 import xaos.tiles.entities.living.LivingEntity;
 
+import java.util.ArrayList;
+
 public final class AStarQueue implements Runnable {
 
-    // Número de iteraciones a tratar en cada pasada del bucle principal
+    // Nï¿½mero de iteraciones a tratar en cada pasada del bucle principal
     public static int NUM_ITERATIONS = 2048 * 2;
 
     private static ArrayList<AStarQueueItem> requests;
@@ -26,15 +26,15 @@ public final class AStarQueue implements Runnable {
     }
 
     /**
-     * Añade una petición de búsqueda de camino A*
+     * Aï¿½ade una peticiï¿½n de bï¿½squeda de camino A*
      *
-     * @param item petición
+     * @param item peticiï¿½n
      */
     public static void addRequest(AStarQueueItem item) {
         // Borramos lo que tenga
         removeItem(item.getLivingEntityID());
 
-        // Añadimos la petición
+        // Aï¿½adimos la peticiï¿½n
         synchronized (requests) {
             requests.add(item);
         }
@@ -47,7 +47,7 @@ public final class AStarQueue implements Runnable {
     private static void removeItem(int iLivingEntityID) {
         AStarQueueItem itemAux;
 
-		// Primero los requests (importante)
+        // Primero los requests (importante)
         // Eliminaremos de paso los nulls que encontremos
         synchronized (requests) {
             int i = requests.size() - 1;
@@ -58,7 +58,7 @@ public final class AStarQueue implements Runnable {
                 if (itemAux == null) {
                     requests.remove(i);
                 } else if (itemAux.getLivingEntityID() == iLivingEntityID) {
-                    // Está en la cola, borramos lo que hay
+                    // Estï¿½ en la cola, borramos lo que hay
                     requests.remove(i);
                     break;
                 }
@@ -67,7 +67,7 @@ public final class AStarQueue implements Runnable {
             }
         }
 
-        // Después los finished requests
+        // Despuï¿½s los finished requests
         synchronized (finishedRequests) {
             int i = finishedRequests.size() - 1;
 
@@ -76,7 +76,7 @@ public final class AStarQueue implements Runnable {
                 if (itemAux == null) {
                     finishedRequests.remove(i);
                 } else if (itemAux.getLivingEntityID() == iLivingEntityID) {
-                    // Está en la cola, borramos lo que hay
+                    // Estï¿½ en la cola, borramos lo que hay
                     finishedRequests.remove(i);
                     break;
                 }
@@ -117,17 +117,38 @@ public final class AStarQueue implements Runnable {
                             }
                         }
 
-                        // Le ponemos el camino a la living y la marcamos para que no espere más
+                        // Le ponemos el camino a la living y la marcamos para que no espere mï¿½s
                         le.setPath(path);
                         le.setWaitingForPath(false);
 
-						// Si el path es null es que no ha encontrado camino, en ese caso levantamos el flag de "recheckASZID" en World para que haga un rechequeo
+                        // Si el path es null es que no ha encontrado camino, en ese caso levantamos el flag de "recheckASZID" en World para que haga un rechequeo
                         //World.setRecheckASZID (true);
                     }
                 }
                 iIndex--;
             }
         }
+    }
+
+    public static void exit() {
+        exit = true;
+    }
+
+    public static boolean isExitOK() {
+        return exitOK;
+    }
+
+    public static void pause() {
+        pause = true;
+    }
+
+    public static void resume() {
+        pause = false;
+        pauseOK = false;
+    }
+
+    public static boolean isPauseOK() {
+        return pauseOK;
     }
 
     public void run() {
@@ -159,7 +180,7 @@ public final class AStarQueue implements Runnable {
 
                         if (item.isFinished()) {
 //							finished++;
-                            // Búsqueda terminada, la ponemos en la cola de acabados
+                            // Bï¿½squeda terminada, la ponemos en la cola de acabados
                             AStarQueueItem qItem = requests.remove(0);
                             synchronized (finishedRequests) {
                                 finishedRequests.add(qItem);
@@ -191,26 +212,5 @@ public final class AStarQueue implements Runnable {
         }
 
         exitOK = true;
-    }
-
-    public static void exit() {
-        exit = true;
-    }
-
-    public static boolean isExitOK() {
-        return exitOK;
-    }
-
-    public static void pause() {
-        pause = true;
-    }
-
-    public static void resume() {
-        pause = false;
-        pauseOK = false;
-    }
-
-    public static boolean isPauseOK() {
-        return pauseOK;
     }
 }

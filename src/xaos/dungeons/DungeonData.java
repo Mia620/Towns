@@ -1,9 +1,9 @@
 package xaos.dungeons;
 
-import java.util.ArrayList;
-
 import xaos.utils.Messages;
 import xaos.utils.Utils;
+
+import java.util.ArrayList;
 
 public class DungeonData {
 
@@ -16,12 +16,12 @@ public class DungeonData {
     private String type;
     private ArrayList<MonsterData> monsters;
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public short getLevel() {

@@ -32,12 +32,12 @@ public class SkillData implements Externalizable {
         this.coolDown = coolDown;
     }
 
-    public void setUse(int use) {
-        this.use = use;
-    }
-
     public int getUse() {
         return use;
+    }
+
+    public void setUse(int use) {
+        this.use = use;
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {

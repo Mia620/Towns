@@ -1,22 +1,17 @@
 package xaos.data;
 
-import java.io.Externalizable;
-import java.io.File;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import xaos.Towns;
 import xaos.main.Game;
 import xaos.utils.Log;
 import xaos.utils.Messages;
 import xaos.utils.UtilsXML;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Type implements Externalizable {
 
@@ -41,85 +36,6 @@ public class Type implements Externalizable {
         setName(getTypeName(id));
     }
 
-    public ArrayList<String> getElements() {
-        if (elements == null) {
-            elements = new ArrayList<String>();
-        }
-
-        return elements;
-    }
-
-    public void setElements(ArrayList<String> elements) {
-        this.elements = elements;
-    }
-
-    public ArrayList<String> getElementNames() {
-        if (elementNames == null) {
-            elementNames = new ArrayList<String>();
-        }
-
-        return elementNames;
-    }
-
-    public void setElementNames(ArrayList<String> elementNames) {
-        this.elementNames = elementNames;
-    }
-
-    public String getID() {
-        return id;
-    }
-
-    public void setID(String id) {
-        this.id = id;
-    }
-
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    public void addElement(String element, String elementName) {
-        getElements().add(element);
-        getElementNames().add(elementName);
-    }
-
-    public void removeElements() {
-        while (getElements().size() > 0) {
-            getElements().remove(0);
-            getElementNames().remove(0);
-        }
-    }
-
-    public void removeElement(String sElement) {
-        int iIndex = getElements().indexOf(sElement);
-        if (iIndex != -1) {
-            getElements().remove(iIndex);
-            getElementNames().remove(iIndex);
-        }
-    }
-
-    public boolean contains(String sElement) {
-        return getElements().contains(sElement);
-    }
-
-    public String getElementName(String sElement) {
-        int iIndex = getElements().indexOf(sElement);
-        if (iIndex != -1) {
-            return getElementNames().get(iIndex);
-        }
-
-        return null;
-    }
-
     public static String getIcon(String sTypeID) {
         if (typeIcons == null) {
             loadTypeNamesAndIcons();
@@ -129,7 +45,7 @@ public class Type implements Externalizable {
     }
 
     /**
-     * Devuelve el tipo principal de un nombre de tipo ej: food.meat devolvería
+     * Devuelve el tipo principal de un nombre de tipo ej: food.meat devolverï¿½a
      * food
      *
      * @param sTypeName
@@ -198,8 +114,8 @@ public class Type implements Externalizable {
         try {
             Document doc = UtilsXML.loadXMLFile(sXMLPath); //$NON-NLS-1$ //$NON-NLS-2$
 
-			// Tenemos el documento XML parseado
-            // Lo recorremos entero y vamos añadiendo los nombres a la hash
+            // Tenemos el documento XML parseado
+            // Lo recorremos entero y vamos aï¿½adiendo los nombres a la hash
             NodeList nodeList = doc.getDocumentElement().getChildNodes();
             Node node;
             String sTypeID, sName;
@@ -224,7 +140,7 @@ public class Type implements Externalizable {
                     }
                     sName = UtilsXML.getChildValue(nodeList, sTypeID);
 
-                    // Lo añadimos a la hash
+                    // Lo aï¿½adimos a la hash
                     if (sName != null) {
                         typeNames.put(sTypeID, sName);
                     } else {
@@ -246,6 +162,85 @@ public class Type implements Externalizable {
     public static void clear() {
         typeNames = null;
         typeIcons = null;
+    }
+
+    public ArrayList<String> getElements() {
+        if (elements == null) {
+            elements = new ArrayList<String>();
+        }
+
+        return elements;
+    }
+
+    public void setElements(ArrayList<String> elements) {
+        this.elements = elements;
+    }
+
+    public ArrayList<String> getElementNames() {
+        if (elementNames == null) {
+            elementNames = new ArrayList<String>();
+        }
+
+        return elementNames;
+    }
+
+    public void setElementNames(ArrayList<String> elementNames) {
+        this.elementNames = elementNames;
+    }
+
+    public String getID() {
+        return id;
+    }
+
+    public void setID(String id) {
+        this.id = id;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void addElement(String element, String elementName) {
+        getElements().add(element);
+        getElementNames().add(elementName);
+    }
+
+    public void removeElements() {
+        while (getElements().size() > 0) {
+            getElements().remove(0);
+            getElementNames().remove(0);
+        }
+    }
+
+    public void removeElement(String sElement) {
+        int iIndex = getElements().indexOf(sElement);
+        if (iIndex != -1) {
+            getElements().remove(iIndex);
+            getElementNames().remove(iIndex);
+        }
+    }
+
+    public boolean contains(String sElement) {
+        return getElements().contains(sElement);
+    }
+
+    public String getElementName(String sElement) {
+        int iIndex = getElements().indexOf(sElement);
+        if (iIndex != -1) {
+            return getElementNames().get(iIndex);
+        }
+
+        return null;
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {

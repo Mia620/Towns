@@ -11,12 +11,12 @@ public class GeneratorItem {
     private String name;
     private ArrayList<GeneratorNode> list;
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {

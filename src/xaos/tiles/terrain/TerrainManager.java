@@ -1,14 +1,8 @@
 package xaos.tiles.terrain;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import xaos.Towns;
 import xaos.main.Game;
 import xaos.tiles.Tile;
@@ -16,6 +10,11 @@ import xaos.tiles.entities.items.ItemManager;
 import xaos.utils.Log;
 import xaos.utils.Messages;
 import xaos.utils.UtilsXML;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class TerrainManager {
 
@@ -167,8 +166,8 @@ public class TerrainManager {
         try {
             Document doc = UtilsXML.loadXMLFile(sXMLName); //$NON-NLS-1$
 
-			// Tenemos el documento XML parseado
-            // Lo recorremos entero y vamos añadiendo los terrenos (TerrainManagerItem) a la hash
+            // Tenemos el documento XML parseado
+            // Lo recorremos entero y vamos aï¿½adiendo los terrenos (TerrainManagerItem) a la hash
             NodeList nodeList = doc.getDocumentElement().getChildNodes();
             Node node;
             TerrainManagerItem item;
@@ -197,7 +196,7 @@ public class TerrainManager {
                         continue;
                     }
 
-					// Building
+                    // Building
                     // Obtenemos el nameID, width i height
                     sIniHeader = node.getNodeName();
                     boolean bExists = terrainList.containsKey(sIniHeader);
@@ -256,7 +255,7 @@ public class TerrainManager {
                         item.setBlocky(UtilsXML.getChildValue(node.getChildNodes(), "blocky")); //$NON-NLS-1$
                     }
 
-                    // Lo añadimos a la hash
+                    // Lo aï¿½adimos a la hash
                     terrainList.put(sIniHeader, item);
                 }
             }

@@ -1,16 +1,8 @@
 package xaos.actions;
 
-import java.awt.Color;
-import java.io.File;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import xaos.Towns;
 import xaos.data.CitizenGroupData;
 import xaos.data.CitizenGroups;
@@ -27,6 +19,13 @@ import xaos.utils.Messages;
 import xaos.utils.UtilsIniHeaders;
 import xaos.utils.UtilsXML;
 
+import java.awt.*;
+import java.io.File;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class ActionPriorityManager {
 
     public static String PRIORITY_MINE_DIG = "_MINEDIG_"; //$NON-NLS-1$
@@ -38,7 +37,7 @@ public class ActionPriorityManager {
     private static HashMap<String, ActionPriorityManagerItem> itemList;
 
     private static ArrayList<String> prioritiesList; // Lista ordenada con las prioridades
-    private static HashMap<String, Integer> prioritiesValues; // Prioridad numérica de cada "item" (se corresponde con la posición en la lista, se usa para performance)
+    private static HashMap<String, Integer> prioritiesValues; // Prioridad numï¿½rica de cada "item" (se corresponde con la posiciï¿½n en la lista, se usa para performance)
 
     public static void loadItems() {
         // Cargar de fichero
@@ -79,8 +78,8 @@ public class ActionPriorityManager {
         try {
             Document doc = UtilsXML.loadXMLFile(sXMLName); //$NON-NLS-1$
 
-			// Tenemos el documento XML parseado
-            // Lo recorremos entero y vamos añadiendo a la hash
+            // Tenemos el documento XML parseado
+            // Lo recorremos entero y vamos aï¿½adiendo a la hash
             NodeList nodeList = doc.getDocumentElement().getChildNodes();
             Node node;
             ActionPriorityManagerItem item;
@@ -114,7 +113,7 @@ public class ActionPriorityManager {
                         prioritiesList.add(sID);
                     }
 
-                    // Lo añadimos a la hash
+                    // Lo aï¿½adimos a la hash
                     itemList.put(sID, item);
                 }
             }
@@ -211,7 +210,7 @@ public class ActionPriorityManager {
 
         SmartMenu smProfessionsMenu = new SmartMenu(SmartMenu.TYPE_MENU, "Professions", null, null, null); //$NON-NLS-1$
 
-        // Añadimos el enable todo/disable todo
+        // Aï¿½adimos el enable todo/disable todo
         SmartMenu smAux = new SmartMenu(SmartMenu.TYPE_ITEM, Messages.getString("Container.3"), null, CommandPanel.COMMAND_PROFESSIONS_ENABLE_ALL, Integer.toString(iCitizenID), null, null, Color.GREEN); //$NON-NLS-1$
         smAux.setIcon("iconenableall"); //$NON-NLS-1$
         smProfessionsMenu.addItem(smAux);
@@ -219,7 +218,7 @@ public class ActionPriorityManager {
         smAux.setIcon("icondisableall"); //$NON-NLS-1$
         smProfessionsMenu.addItem(smAux);
 
-        // Añadimos 1 linea por cada priority (para poner/quitar)
+        // Aï¿½adimos 1 linea por cada priority (para poner/quitar)
         for (int i = 0; i < alPriorities.size(); i++) {
             ActionPriorityManagerItem apmi = getItem(alPriorities.get(i));
             if (apmi != null) {
@@ -253,7 +252,7 @@ public class ActionPriorityManager {
 
         SmartMenu smJobGroupMenu = new SmartMenu(SmartMenu.TYPE_MENU, "Job group", null, null, null); //$NON-NLS-1$
 
-        // Añadimos el enable todo/disable todo
+        // Aï¿½adimos el enable todo/disable todo
         SmartMenu smAux = new SmartMenu(SmartMenu.TYPE_ITEM, Messages.getString("Container.3"), null, CommandPanel.COMMAND_JOB_GROUP_ENABLE_ALL, Integer.toString(iGroupID), null, null, Color.GREEN); //$NON-NLS-1$
         smAux.setIcon("iconenableall"); //$NON-NLS-1$
         smJobGroupMenu.addItem(smAux);
@@ -261,7 +260,7 @@ public class ActionPriorityManager {
         smAux.setIcon("icondisableall"); //$NON-NLS-1$
         smJobGroupMenu.addItem(smAux);
 
-        // Añadimos 1 linea por cada priority (para poner/quitar)
+        // Aï¿½adimos 1 linea por cada priority (para poner/quitar)
         for (int i = 0; i < alPriorities.size(); i++) {
             ActionPriorityManagerItem apmi = getItem(alPriorities.get(i));
             if (apmi != null) {
@@ -361,7 +360,7 @@ public class ActionPriorityManager {
         prioritiesList = (ArrayList<String>) ois.readObject();
         prioritiesValues = (HashMap<String, Integer>) ois.readObject();
 
-        // Si hay más prioridades, las metemos
+        // Si hay mï¿½s prioridades, las metemos
         if (itemList != null && prioritiesList != null && prioritiesValues != null && prioritiesList.size() == prioritiesValues.size()) {
             if (itemList.size() != prioritiesList.size()) {
                 loadItems();

@@ -1,18 +1,17 @@
 package xaos.zones;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import xaos.Towns;
 import xaos.main.Game;
 import xaos.utils.Log;
 import xaos.utils.Messages;
 import xaos.utils.UtilsXML;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ZoneManager {
 
@@ -57,8 +56,8 @@ public class ZoneManager {
         try {
             Document doc = UtilsXML.loadXMLFile(sXMLName); //$NON-NLS-1$
 
-			// Tenemos el documento XML parseado
-            // Lo recorremos entero y vamos añadiendo las zonas (ZoneManagerItem) a la hash
+            // Tenemos el documento XML parseado
+            // Lo recorremos entero y vamos aï¿½adiendo las zonas (ZoneManagerItem) a la hash
             NodeList nodeList = doc.getDocumentElement().getChildNodes();
             Node node;
             ZoneManagerItem item;
@@ -116,7 +115,7 @@ public class ZoneManager {
                         item.setNeighbors(UtilsXML.getChildValues(node.getChildNodes(), "neighbor")); //$NON-NLS-1$
                     }
 
-                    // Lo añadimos a la hash
+                    // Lo aï¿½adimos a la hash
                     zoneList.put(sIniHeader, item);
                 }
             }

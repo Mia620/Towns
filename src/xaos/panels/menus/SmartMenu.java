@@ -1,17 +1,5 @@
 package xaos.panels.menus;
 
-import java.awt.Color;
-import java.io.Externalizable;
-import java.io.File;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.util.ArrayList;
-import java.util.Locale;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.w3c.dom.Document;
@@ -19,7 +7,6 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import xaos.TownsProperties;
-
 import xaos.actions.ActionManager;
 import xaos.actions.ActionManagerItem;
 import xaos.actions.QueueItem;
@@ -35,48 +22,42 @@ import xaos.tiles.entities.items.ItemManagerItem;
 import xaos.tiles.entities.living.LivingEntityManager;
 import xaos.tiles.entities.living.LivingEntityManagerItem;
 import xaos.tiles.terrain.TerrainManager;
-import xaos.utils.ColorGL;
-import xaos.utils.Log;
-import xaos.utils.Messages;
-import xaos.utils.Point3D;
-import xaos.utils.UtilFont;
-import xaos.utils.Utils;
-import xaos.utils.UtilsAL;
-import xaos.utils.UtilsGL;
-import xaos.utils.UtilsIniHeaders;
+import xaos.utils.*;
 import xaos.zones.ZoneManager;
 import xaos.zones.ZoneManagerItem;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.awt.*;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Locale;
+
 public class SmartMenu implements Externalizable {
-
-    private static final long serialVersionUID = -2274612491197616852L;
-
-    private static Tile RED_TILE = new Tile("ui_red"); //$NON-NLS-1$
 
     public final static int TYPE_NO_TYPE = -1;
     public final static int TYPE_TEXT = 0;
     public final static int TYPE_MENU = 1;
     public final static int TYPE_ITEM = 2;
-
     public final static int ICON_TYPE_UI = 0;
     public final static int ICON_TYPE_ITEM = 1;
-
     public final static Color COLOR_SUBMENU = Color.ORANGE.brighter();
     public final static ColorGL COLORGL_SUBMENU = new ColorGL(COLOR_SUBMENU);
-
+    private static final long serialVersionUID = -2274612491197616852L;
+    private static Tile RED_TILE = new Tile("ui_red"); //$NON-NLS-1$
     private int type;
-    private String id; // Se usa en los menuXXX.xml , así los mods pueden referirse a un item para borrarlo
+    private String id; // Se usa en los menuXXX.xml , asï¿½ los mods pueden referirse a un item para borrarlo
     private String name;
     private SmartMenu parent;
     private ArrayList<SmartMenu> items;
-    private String command; // Acción que lanza este item
-    private String parameter; // Parámetro del comando
-    private String parameter2; // Parámetro 2 del comando
+    private String command; // Acciï¿½n que lanza este item
+    private String parameter; // Parï¿½metro del comando
+    private String parameter2; // Parï¿½metro 2 del comando
     private Point3D directCoordinates; // Se usa en los menus contextuales, ya que lanzan un comando en casillas concretas
     private ColorGL color;
-    private boolean trasparency; // Si es transparente no se dibuja el rectángulo negro abajo
+    private boolean trasparency; // Si es transparente no se dibuja el rectï¿½ngulo negro abajo
     private boolean dynamic; // Para sustituir cadenas de texto de los menues
-    private boolean maintainOpen; // Para saber si hay que cerrar el menú al clicar en una opción
+    private boolean maintainOpen; // Para saber si hay que cerrar el menï¿½ al clicar en una opciï¿½n
     private ColorGL borderColor; // Si es distinto de null pinta un borde a los textos del color indicado
     private Tile icon; // Icono a usar en los menus
     private int iconType; // Tipo de icono (ui, items, ...)
@@ -111,266 +92,10 @@ public class SmartMenu implements Externalizable {
         this.color = new ColorGL(color);
     }
 
-    public void refreshTransients() {
-        if (parent != null) {
-            parent.refreshTransients();
-        }
-
-        if (getItems() != null) {
-            for (int i = 0; i < getItems().size(); i++) {
-                getItems().get(i).refreshTransients();
-            }
-        }
-
-        if (getIcon() != null) {
-            getIcon().refreshTransients();
-        }
-    }
-
-    public String getID() {
-        return id;
-    }
-
-    public void setID(String sID) {
-        this.id = sID;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public SmartMenu getParent() {
-        return parent;
-    }
-
-    public void setParent(SmartMenu parent) {
-        this.parent = parent;
-    }
-
-    public ArrayList<SmartMenu> getItems() {
-        if (items == null) {
-            items = new ArrayList<SmartMenu>();
-        }
-        return items;
-    }
-
-    public void setItems(ArrayList<SmartMenu> items) {
-        this.items = items;
-    }
-
-    public void addItem(SmartMenu item) {
-        if (items == null) {
-            items = new ArrayList<SmartMenu>();
-        }
-
-        items.add(item);
-    }
-
-    public String getCommand() {
-        return command;
-    }
-
-    public void setCommand(String command) {
-        this.command = command;
-    }
-
-    public String getParameter() {
-        return parameter;
-    }
-
-    public void setParameter(String parameter) {
-        this.parameter = parameter;
-    }
-
-    public String getParameter2() {
-        return parameter2;
-    }
-
-    public void setParameter2(String parameter2) {
-        this.parameter2 = parameter2;
-    }
-
-    public Point3D getDirectCoordinates() {
-        return directCoordinates;
-    }
-
-    public void setDirectCoordinates(Point3D directCoordinates) {
-        this.directCoordinates = directCoordinates;
-    }
-
-    public void setColor(ColorGL color) {
-        this.color = color;
-    }
-
-    public ColorGL getColor() {
-        return color;
-    }
-
-    public void setTrasparency(boolean trasparency) {
-        this.trasparency = trasparency;
-    }
-
-    public boolean isTrasparency() {
-        return trasparency;
-    }
-
-    public void setDynamic(boolean dynamic) {
-        this.dynamic = dynamic;
-    }
-
-    public boolean isDynamic() {
-        return dynamic;
-    }
-
-    public void setMaintainOpen(boolean mOpen) {
-        this.maintainOpen = mOpen;
-    }
-
-    public boolean isMaintainOpen() {
-        return maintainOpen;
-    }
-
-    public void setBorderColor(Color borderColor) {
-        setBorderColor(new ColorGL(borderColor));
-    }
-
-    public void setBorderColor(ColorGL borderColor) {
-        this.borderColor = borderColor;
-    }
-
-    public ColorGL getBorderColor() {
-        return borderColor;
-    }
-
-    public void setIcon(String icon) {
-        if (icon != null) {
-            this.icon = new Tile(icon);
-        }
-    }
-
-    public Tile getIcon() {
-        return icon;
-    }
-
-    public void setIconType(int iconType) {
-        this.iconType = iconType;
-    }
-
-    public int getIconType() {
-        return iconType;
-    }
-
-    public void setPrerequisites(ArrayList<String> prerequisites) {
-        this.prerequisites = prerequisites;
-    }
-
-    public ArrayList<String> getPrerequisites() {
-        return prerequisites;
-    }
-
-    public void setPrerequisitesColor(ArrayList<ColorGL> prerequisitesColor) {
-        this.prerequisitesColor = prerequisitesColor;
-    }
-
-    public ArrayList<ColorGL> getPrerequisitesColor() {
-        return prerequisitesColor;
-    }
-
-    public void render(int x, int y, int width, int height, boolean isContext) {
-        if (!isTrasparency()) {
-            GL11.glColor4f(1, 1, 1, 1);
-            GL11.glBindTexture(GL11.GL_TEXTURE_2D, UIPanel.tileTooltipBackground.getTextureID());
-            UtilsGL.glBegin(GL11.GL_QUADS);
-            UtilsGL.drawTexture(x, y, x + width, y + height, UIPanel.tileTooltipBackground.getTileSetTexX0(), UIPanel.tileTooltipBackground.getTileSetTexY0(), UIPanel.tileTooltipBackground.getTileSetTexX1(), UIPanel.tileTooltipBackground.getTileSetTexY1());
-            UtilsGL.glEnd();
-        }
-
-        // Rectángulito rojo en el item marcado (excepto TYPE_TEXT)
-        int iY;
-        int mouseX = Mouse.getX();
-        int mouseY = UtilsGL.getHeight() - Mouse.getY() - 1;
-        int itemIndex = -1;
-        if (isContext) {
-            if (mouseX >= x && mouseX < (x + width) && mouseY >= y && mouseY < (y + getItems().size() * UtilFont.MAX_HEIGHT)) {
-                itemIndex = (mouseY - y) / UtilFont.MAX_HEIGHT;
-                if (getItems().get(itemIndex).getType() != TYPE_TEXT) {
-                    iY = y + itemIndex * UtilFont.MAX_HEIGHT + 1;
-                    GL11.glBindTexture(GL11.GL_TEXTURE_2D, RED_TILE.getTextureID());
-                    GL11.glColor3f(1, 0, 0);
-                    UtilsGL.glBegin(GL11.GL_QUADS);
-                    UtilsGL.drawTexture(x, iY, x + width, iY + UtilFont.MAX_HEIGHT, RED_TILE.getTileSetTexX0(), RED_TILE.getTileSetTexY0(), RED_TILE.getTileSetTexX1(), RED_TILE.getTileSetTexY1());
-                    UtilsGL.glEnd();
-                }
-            }
-        }
-
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, Game.TEXTURE_FONT_ID);
-        GL11.glTexEnvf(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE);
-
-        // Menú
-        UtilsGL.glBegin(GL11.GL_QUADS);
-        String sTexto;
-        SmartMenu item;
-        for (int i = 0; i < getItems().size(); i++) {
-            item = getItems().get(i);
-            iY = y + (i * UtilFont.MAX_HEIGHT) + 1;
-            if (item.isDynamic()) {
-                sTexto = Utils.getDynamicString(item.getName());
-            } else {
-                sTexto = item.getName();
-            }
-
-            if (item.getBorderColor() != null) {
-                UtilsGL.drawString(sTexto, x, iY - 1, item.getBorderColor());
-                UtilsGL.drawString(sTexto, x + 1, iY - 1, item.getBorderColor());
-                UtilsGL.drawString(sTexto, x + 2, iY - 1, item.getBorderColor());
-                UtilsGL.drawString(sTexto, x, iY, item.getBorderColor());
-                UtilsGL.drawString(sTexto, x + 2, iY, item.getBorderColor());
-                UtilsGL.drawString(sTexto, x, iY + 1, item.getBorderColor());
-                UtilsGL.drawString(sTexto, x + 1, iY + 1, item.getBorderColor());
-                UtilsGL.drawString(sTexto, x + 2, iY + 1, item.getBorderColor());
-
-                if (item.getParent() != null) {
-                    UtilsGL.drawString(sTexto, x + 1, iY, COLORGL_SUBMENU);
-                } else {
-                    UtilsGL.drawString(sTexto, x + 1, iY, item.getColor());
-                }
-            } else {
-                if (item.getParent() != null) {
-                    UtilsGL.drawString(sTexto, x, iY, COLORGL_SUBMENU);
-                } else {
-                    UtilsGL.drawString(sTexto, x, iY, item.getColor());
-                }
-            }
-
-        }
-        UtilsGL.glEnd();
-
-        // Tooltip
-        if (itemIndex != -1) {
-            SmartMenu menuItem = getItems().get(itemIndex);
-            if (menuItem.getPrerequisites() != null && menuItem.getPrerequisites().size() > 0) {
-                MainPanel.renderMessages(mouseX, mouseY + Tile.TERRAIN_ICON_HEIGHT / 2, UtilsGL.getWidth(), UtilsGL.getHeight(), Tile.TERRAIN_ICON_WIDTH / 2, menuItem.getPrerequisites(), menuItem.getPrerequisitesColor());
-            }
-        }
-    }
-
     /**
-     * Carga los menús del .xml y lo mapea todo a clases SmartMenu
+     * Carga los menï¿½s del .xml y lo mapea todo a clases SmartMenu
      *
-     * @return el padre de todos los menús
+     * @return el padre de todos los menï¿½s
      */
     public static void readXMLMenu(SmartMenu menuInicial, String sFilename, String sCampaignID, String sMissionID) {
         //SmartMenu menuInicial = new SmartMenu ();
@@ -400,7 +125,7 @@ public class SmartMenu implements Externalizable {
 
             String sLocale = Locale.getDefault().getLanguage() + Locale.getDefault().getCountry();
             if (node.getNodeType() == Node.ELEMENT_NODE) {
-                // Si el elemento se llama "item" es que es un item, en otro caso es un submenú
+                // Si el elemento se llama "item" es que es un item, en otro caso es un submenï¿½
 
                 NamedNodeMap map = node.getAttributes();
                 if (node.getNodeName().equalsIgnoreCase("ITEM")) { //$NON-NLS-1$
@@ -452,7 +177,7 @@ public class SmartMenu implements Externalizable {
                             }
                         }
                         if (sName == null || sName.length() == 0) {
-                            // No encuentra name, miramos si es una tarea de CREATE, CREATEANDPLACE, CREATEANDPLACEROW o BUILD para obtener la cadena de la definición del item/edificio
+                            // No encuentra name, miramos si es una tarea de CREATE, CREATEANDPLACE, CREATEANDPLACEROW o BUILD para obtener la cadena de la definiciï¿½n del item/edificio
                             if (parameter != null
                                     && parameter.getNodeValue() != null
                                     && parameter.getNodeValue().length() > 0
@@ -525,7 +250,7 @@ public class SmartMenu implements Externalizable {
                             if (code != null && code.getNodeValue() != null && parameter != null && parameter.getNodeValue() != null) {
                                 String sCode = code.getNodeValue();
                                 String sParameter = parameter.getNodeValue();
-                                // Miramos si es un código de crear objeto, en ese caso el icono se pilla según el mismo
+                                // Miramos si es un cï¿½digo de crear objeto, en ese caso el icono se pilla segï¿½n el mismo
                                 if (sCode.equals(CommandPanel.COMMAND_QUEUE) || sCode.equals(CommandPanel.COMMAND_QUEUE_AND_PLACE) || sCode.equals(CommandPanel.COMMAND_QUEUE_AND_PLACE_ROW) || sCode.equals(CommandPanel.COMMAND_QUEUE_AND_PLACE_AREA)) {
                                     ActionManagerItem ami = ActionManager.getItem(sParameter);
 
@@ -543,15 +268,15 @@ public class SmartMenu implements Externalizable {
                         // Prerequisitos
                         setPrerequisites(item, code, parameter);
 
-                        // Si es un back lo añadimos tal cual, en otro caso miramos que no haya un back, para añadirlo justo antes
+                        // Si es un back lo aï¿½adimos tal cual, en otro caso miramos que no haya un back, para aï¿½adirlo justo antes
                         if (item.getCommand() != null && item.getCommand().equalsIgnoreCase(CommandPanel.COMMAND_BACK)) {
                             smartMenu.addItem(item);
                         } else {
-                            // Miramos que el último no sea un back
+                            // Miramos que el ï¿½ltimo no sea un back
                             if (smartMenu.getItems().size() > 0) {
                                 SmartMenu smLast = smartMenu.getItems().get(smartMenu.getItems().size() - 1);
                                 if (smLast.getCommand() != null && smLast.getCommand().equals(CommandPanel.COMMAND_BACK)) {
-                                    // Hay un back, añadimos el item justo antes
+                                    // Hay un back, aï¿½adimos el item justo antes
                                     smLast = smartMenu.getItems().remove(smartMenu.getItems().size() - 1);
                                     smartMenu.addItem(item);
                                     smartMenu.addItem(smLast);
@@ -612,7 +337,7 @@ public class SmartMenu implements Externalizable {
                         subMenu = smartMenu.getItems().get(iIndex);
                     } else {
                         subMenu = new SmartMenu(SmartMenu.TYPE_MENU, sName, smartMenu, null, sMenuID);
-                        subMenu.setID (sMenuID);
+                        subMenu.setID(sMenuID);
                     }
 
                     if (sName != null) {
@@ -642,7 +367,7 @@ public class SmartMenu implements Externalizable {
         if (code != null && code.getNodeValue() != null && parameter != null && parameter.getNodeValue() != null) {
             String sCode = code.getNodeValue();
             String sParameter = parameter.getNodeValue();
-            // Miramos si es un código de crear objeto, en ese caso el icono se pilla según el mismo
+            // Miramos si es un cï¿½digo de crear objeto, en ese caso el icono se pilla segï¿½n el mismo
             ItemManagerItem imi = null;
             LivingEntityManagerItem lemi = null;
             ArrayList<String> alMessages = new ArrayList<String>();
@@ -882,7 +607,7 @@ public class SmartMenu implements Externalizable {
                 alMessages.add(0, item.getName());
                 alColor.add(0, new ColorGL(null));
 
-                // Añadimos zonas
+                // Aï¿½adimos zonas
                 boolean bBlankLineAdded = false;
                 if (imi != null && imi.getZones() != null && imi.getZones().size() > 0) {
                     // Linea en blanco
@@ -918,52 +643,7 @@ public class SmartMenu implements Externalizable {
     }
 
     /**
-     * Comprueba si se ha clicado en un submenu o en un item En el primer caso
-     * devuelve dicho submenú En el segundo caso ejecuta la acción
-     * correspondiente y se devuelve él mismo
-     *
-     * @param x X Relativa al menú
-     * @param y Y relativa al menú
-     * @return
-     */
-    public SmartMenu mousePressed(int x, int y) {
-        // Miramos donde ha clicado
-        int iMenuIndex = y / UtilFont.MAX_HEIGHT; // Posición donde ha clicado
-
-        if (iMenuIndex >= getItems().size() || y < 0) {
-            return this;
-        }
-
-        UtilsAL.play(UtilsAL.SOURCE_FX_CLICK);
-
-        SmartMenu menu = getItems().get(iMenuIndex);
-        if (menu.getType() == SmartMenu.TYPE_MENU) {
-            return menu;
-        } else if (menu.getType() == SmartMenu.TYPE_ITEM) {
-            if (menu.getCommand().equals(CommandPanel.COMMAND_BACK)) {
-                return getParent();
-            } else if (menu.getCommand().equals(CommandPanel.COMMAND_CLOSE_CONTEXT)) {
-                Game.deleteCurrentContextMenu();
-                return null;
-            } else {
-                CommandPanel.executeCommand(menu.getCommand(), menu.getParameter(), menu.getParameter2(), menu.getDirectCoordinates(), menu.getIcon(), menu.getIconType());
-                if (Game.getCurrentState() == Game.STATE_SHOWING_CONTEXT_MENU && !menu.getCommand().equals(CommandPanel.COMMAND_EXIT_TO_MAIN_MENU)) {
-                    if (menu.isMaintainOpen()) {
-                        return this;
-                    }
-                    Game.deleteCurrentContextMenu();
-                    return null;
-//				} else if (menu.getCommand ().equals (CommandPanel.COMMAND_SAVE_OPTIONS)) {
-//					return getParent ();
-                }
-            }
-        }
-
-        return this;
-    }
-
-    /**
-     * Divide el menú en varias pantallas en el caso de que sea demasiado ganso
+     * Divide el menï¿½ en varias pantallas en el caso de que sea demasiado ganso
      *
      * @param menu
      */
@@ -995,7 +675,7 @@ public class SmartMenu implements Externalizable {
             alParts.add(sm);
         }
 
-        // Añadimos los forwards
+        // Aï¿½adimos los forwards
         for (int i = 0; i < alParts.size(); i++) {
             if (i < (alParts.size() - 1)) {
                 alParts.get(i).addItem(new SmartMenu(TYPE_TEXT, null, null, null, null));
@@ -1006,6 +686,307 @@ public class SmartMenu implements Externalizable {
         }
 
         return alParts.get(0);
+    }
+
+    public void refreshTransients() {
+        if (parent != null) {
+            parent.refreshTransients();
+        }
+
+        if (getItems() != null) {
+            for (int i = 0; i < getItems().size(); i++) {
+                getItems().get(i).refreshTransients();
+            }
+        }
+
+        if (getIcon() != null) {
+            getIcon().refreshTransients();
+        }
+    }
+
+    public String getID() {
+        return id;
+    }
+
+    public void setID(String sID) {
+        this.id = sID;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public SmartMenu getParent() {
+        return parent;
+    }
+
+    public void setParent(SmartMenu parent) {
+        this.parent = parent;
+    }
+
+    public ArrayList<SmartMenu> getItems() {
+        if (items == null) {
+            items = new ArrayList<SmartMenu>();
+        }
+        return items;
+    }
+
+    public void setItems(ArrayList<SmartMenu> items) {
+        this.items = items;
+    }
+
+    public void addItem(SmartMenu item) {
+        if (items == null) {
+            items = new ArrayList<SmartMenu>();
+        }
+
+        items.add(item);
+    }
+
+    public String getCommand() {
+        return command;
+    }
+
+    public void setCommand(String command) {
+        this.command = command;
+    }
+
+    public String getParameter() {
+        return parameter;
+    }
+
+    public void setParameter(String parameter) {
+        this.parameter = parameter;
+    }
+
+    public String getParameter2() {
+        return parameter2;
+    }
+
+    public void setParameter2(String parameter2) {
+        this.parameter2 = parameter2;
+    }
+
+    public Point3D getDirectCoordinates() {
+        return directCoordinates;
+    }
+
+    public void setDirectCoordinates(Point3D directCoordinates) {
+        this.directCoordinates = directCoordinates;
+    }
+
+    public ColorGL getColor() {
+        return color;
+    }
+
+    public void setColor(ColorGL color) {
+        this.color = color;
+    }
+
+    public boolean isTrasparency() {
+        return trasparency;
+    }
+
+    public void setTrasparency(boolean trasparency) {
+        this.trasparency = trasparency;
+    }
+
+    public boolean isDynamic() {
+        return dynamic;
+    }
+
+    public void setDynamic(boolean dynamic) {
+        this.dynamic = dynamic;
+    }
+
+    public boolean isMaintainOpen() {
+        return maintainOpen;
+    }
+
+    public void setMaintainOpen(boolean mOpen) {
+        this.maintainOpen = mOpen;
+    }
+
+    public ColorGL getBorderColor() {
+        return borderColor;
+    }
+
+    public void setBorderColor(Color borderColor) {
+        setBorderColor(new ColorGL(borderColor));
+    }
+
+    public void setBorderColor(ColorGL borderColor) {
+        this.borderColor = borderColor;
+    }
+
+    public Tile getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        if (icon != null) {
+            this.icon = new Tile(icon);
+        }
+    }
+
+    public int getIconType() {
+        return iconType;
+    }
+
+    public void setIconType(int iconType) {
+        this.iconType = iconType;
+    }
+
+    public ArrayList<String> getPrerequisites() {
+        return prerequisites;
+    }
+
+    public void setPrerequisites(ArrayList<String> prerequisites) {
+        this.prerequisites = prerequisites;
+    }
+
+    public ArrayList<ColorGL> getPrerequisitesColor() {
+        return prerequisitesColor;
+    }
+
+    public void setPrerequisitesColor(ArrayList<ColorGL> prerequisitesColor) {
+        this.prerequisitesColor = prerequisitesColor;
+    }
+
+    public void render(int x, int y, int width, int height, boolean isContext) {
+        if (!isTrasparency()) {
+            GL11.glColor4f(1, 1, 1, 1);
+            GL11.glBindTexture(GL11.GL_TEXTURE_2D, UIPanel.tileTooltipBackground.getTextureID());
+            UtilsGL.glBegin(GL11.GL_QUADS);
+            UtilsGL.drawTexture(x, y, x + width, y + height, UIPanel.tileTooltipBackground.getTileSetTexX0(), UIPanel.tileTooltipBackground.getTileSetTexY0(), UIPanel.tileTooltipBackground.getTileSetTexX1(), UIPanel.tileTooltipBackground.getTileSetTexY1());
+            UtilsGL.glEnd();
+        }
+
+        // Rectï¿½ngulito rojo en el item marcado (excepto TYPE_TEXT)
+        int iY;
+        int mouseX = Mouse.getX();
+        int mouseY = UtilsGL.getHeight() - Mouse.getY() - 1;
+        int itemIndex = -1;
+        if (isContext) {
+            if (mouseX >= x && mouseX < (x + width) && mouseY >= y && mouseY < (y + getItems().size() * UtilFont.MAX_HEIGHT)) {
+                itemIndex = (mouseY - y) / UtilFont.MAX_HEIGHT;
+                if (getItems().get(itemIndex).getType() != TYPE_TEXT) {
+                    iY = y + itemIndex * UtilFont.MAX_HEIGHT + 1;
+                    GL11.glBindTexture(GL11.GL_TEXTURE_2D, RED_TILE.getTextureID());
+                    GL11.glColor3f(1, 0, 0);
+                    UtilsGL.glBegin(GL11.GL_QUADS);
+                    UtilsGL.drawTexture(x, iY, x + width, iY + UtilFont.MAX_HEIGHT, RED_TILE.getTileSetTexX0(), RED_TILE.getTileSetTexY0(), RED_TILE.getTileSetTexX1(), RED_TILE.getTileSetTexY1());
+                    UtilsGL.glEnd();
+                }
+            }
+        }
+
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, Game.TEXTURE_FONT_ID);
+        GL11.glTexEnvf(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE);
+
+        // Menï¿½
+        UtilsGL.glBegin(GL11.GL_QUADS);
+        String sTexto;
+        SmartMenu item;
+        for (int i = 0; i < getItems().size(); i++) {
+            item = getItems().get(i);
+            iY = y + (i * UtilFont.MAX_HEIGHT) + 1;
+            if (item.isDynamic()) {
+                sTexto = Utils.getDynamicString(item.getName());
+            } else {
+                sTexto = item.getName();
+            }
+
+            if (item.getBorderColor() != null) {
+                UtilsGL.drawString(sTexto, x, iY - 1, item.getBorderColor());
+                UtilsGL.drawString(sTexto, x + 1, iY - 1, item.getBorderColor());
+                UtilsGL.drawString(sTexto, x + 2, iY - 1, item.getBorderColor());
+                UtilsGL.drawString(sTexto, x, iY, item.getBorderColor());
+                UtilsGL.drawString(sTexto, x + 2, iY, item.getBorderColor());
+                UtilsGL.drawString(sTexto, x, iY + 1, item.getBorderColor());
+                UtilsGL.drawString(sTexto, x + 1, iY + 1, item.getBorderColor());
+                UtilsGL.drawString(sTexto, x + 2, iY + 1, item.getBorderColor());
+
+                if (item.getParent() != null) {
+                    UtilsGL.drawString(sTexto, x + 1, iY, COLORGL_SUBMENU);
+                } else {
+                    UtilsGL.drawString(sTexto, x + 1, iY, item.getColor());
+                }
+            } else {
+                if (item.getParent() != null) {
+                    UtilsGL.drawString(sTexto, x, iY, COLORGL_SUBMENU);
+                } else {
+                    UtilsGL.drawString(sTexto, x, iY, item.getColor());
+                }
+            }
+
+        }
+        UtilsGL.glEnd();
+
+        // Tooltip
+        if (itemIndex != -1) {
+            SmartMenu menuItem = getItems().get(itemIndex);
+            if (menuItem.getPrerequisites() != null && menuItem.getPrerequisites().size() > 0) {
+                MainPanel.renderMessages(mouseX, mouseY + Tile.TERRAIN_ICON_HEIGHT / 2, UtilsGL.getWidth(), UtilsGL.getHeight(), Tile.TERRAIN_ICON_WIDTH / 2, menuItem.getPrerequisites(), menuItem.getPrerequisitesColor());
+            }
+        }
+    }
+
+    /**
+     * Comprueba si se ha clicado en un submenu o en un item En el primer caso
+     * devuelve dicho submenï¿½ En el segundo caso ejecuta la acciï¿½n
+     * correspondiente y se devuelve ï¿½l mismo
+     *
+     * @param x X Relativa al menï¿½
+     * @param y Y relativa al menï¿½
+     * @return
+     */
+    public SmartMenu mousePressed(int x, int y) {
+        // Miramos donde ha clicado
+        int iMenuIndex = y / UtilFont.MAX_HEIGHT; // Posiciï¿½n donde ha clicado
+
+        if (iMenuIndex >= getItems().size() || y < 0) {
+            return this;
+        }
+
+        UtilsAL.play(UtilsAL.SOURCE_FX_CLICK);
+
+        SmartMenu menu = getItems().get(iMenuIndex);
+        if (menu.getType() == SmartMenu.TYPE_MENU) {
+            return menu;
+        } else if (menu.getType() == SmartMenu.TYPE_ITEM) {
+            if (menu.getCommand().equals(CommandPanel.COMMAND_BACK)) {
+                return getParent();
+            } else if (menu.getCommand().equals(CommandPanel.COMMAND_CLOSE_CONTEXT)) {
+                Game.deleteCurrentContextMenu();
+                return null;
+            } else {
+                CommandPanel.executeCommand(menu.getCommand(), menu.getParameter(), menu.getParameter2(), menu.getDirectCoordinates(), menu.getIcon(), menu.getIconType());
+                if (Game.getCurrentState() == Game.STATE_SHOWING_CONTEXT_MENU && !menu.getCommand().equals(CommandPanel.COMMAND_EXIT_TO_MAIN_MENU)) {
+                    if (menu.isMaintainOpen()) {
+                        return this;
+                    }
+                    Game.deleteCurrentContextMenu();
+                    return null;
+//				} else if (menu.getCommand ().equals (CommandPanel.COMMAND_SAVE_OPTIONS)) {
+//					return getParent ();
+                }
+            }
+        }
+
+        return this;
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {

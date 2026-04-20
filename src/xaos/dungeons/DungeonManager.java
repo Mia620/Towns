@@ -1,18 +1,17 @@
 package xaos.dungeons;
 
-import java.util.ArrayList;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import xaos.main.Game;
 import xaos.main.World;
 import xaos.utils.Log;
 import xaos.utils.Messages;
 import xaos.utils.Utils;
 import xaos.utils.UtilsXML;
+
+import java.util.ArrayList;
 
 /**
  * Carga los datos de dungeons y tiene un array con los mismos
@@ -32,8 +31,8 @@ public class DungeonManager {
                 doc = UtilsXML.loadXMLFile(alPathToFiles.get(p));
 
                 if (doc != null) {
-					// Tenemos el documento XML parseado
-                    // Lo recorremos entero y vamos añadiendo los datos al array
+                    // Tenemos el documento XML parseado
+                    // Lo recorremos entero y vamos aï¿½adiendo los datos al array
                     NodeList nodeList = doc.getDocumentElement().getChildNodes();
                     Node node;
                     for (int i = 0; i < nodeList.getLength(); i++) {
@@ -84,7 +83,7 @@ public class DungeonManager {
                                 // Monsters
                                 dungeonData.setMonsters(loadMonsters(node.getChildNodes()));
 
-                                // Lo añadimos al array
+                                // Lo aï¿½adimos al array
                                 if (iIndexExists != -1) {
                                     alDungeons.add(iIndexExists, dungeonData);
                                 } else {

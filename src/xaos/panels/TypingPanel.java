@@ -1,17 +1,12 @@
 package xaos.panels;
 
-import java.awt.Point;
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
-
 import xaos.main.Game;
 import xaos.tiles.Tile;
-import xaos.utils.ColorGL;
-import xaos.utils.Messages;
-import xaos.utils.UtilFont;
-import xaos.utils.Utils;
-import xaos.utils.UtilsGL;
+import xaos.utils.*;
+
+import java.awt.*;
 
 public class TypingPanel {
 
@@ -135,7 +130,7 @@ public class TypingPanel {
     }
 
     /**
-     * Determina donde está el mouse y llama al render (mousePanel) Se usa, de
+     * Determina donde estï¿½ el mouse y llama al render (mousePanel) Se usa, de
      * momento, desde el main menu, para teclear el nombre de la partida grabada
      */
     public static void render(int mouseX, int mouseY) {
@@ -204,7 +199,7 @@ public class TypingPanel {
     }
 
     /**
-     * Añade un caracter al texto y retorna true en caso de que ya haya
+     * Aï¿½ade un caracter al texto y retorna true en caso de que ya haya
      * terminado.
      *
      * @param key
@@ -215,7 +210,7 @@ public class TypingPanel {
     }
 
     /**
-     * Añade un caracter al texto y retorna true en caso de que ya haya
+     * Aï¿½ade un caracter al texto y retorna true en caso de que ya haya
      * terminado.
      *
      * @param key
@@ -256,7 +251,7 @@ public class TypingPanel {
                 String sChar = getKeyString(key, shift);
                 if (sChar != null) {
                     if (sChar.equals(" ")) { //$NON-NLS-1$
-                        // Si ya tenía un espacio al final pasamos de éste
+                        // Si ya tenï¿½a un espacio al final pasamos de ï¿½ste
                         if (getNewText().length() > 0) {
                             if (getNewText().charAt(getNewText().length() - 1) != ' ') {
                                 setNewText(getNewText() + sChar);
@@ -388,7 +383,7 @@ public class TypingPanel {
     public static void setNewText(String newText) {
         TypingPanel.newText = newText;
 
-        // En el caso de que esté pòniendo el nombre de una partida, miraremos que no exista en disco
+        // En el caso de que estï¿½ pï¿½niendo el nombre de una partida, miraremos que no exista en disco
         if (TYPING_TYPE == TYPE_SAVEGAME_NAME) {
             if (Utils.existsSavegame(getNewText())) {
                 setSubTitle(Messages.getString("TypingPanel.1")); //$NON-NLS-1$
@@ -400,13 +395,13 @@ public class TypingPanel {
         updateNewTextPosition();
     }
 
+    public static String getSubTitle() {
+        return subTitle;
+    }
+
     public static void setSubTitle(String subTitle) {
         TypingPanel.subTitle = subTitle;
         updateSubTitlePosition();
-    }
-
-    public static String getSubTitle() {
-        return subTitle;
     }
 
     public static Point getPanelPoint() {

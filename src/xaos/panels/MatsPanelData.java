@@ -1,12 +1,8 @@
 package xaos.panels;
 
-import java.io.File;
-import java.util.ArrayList;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import xaos.Towns;
 import xaos.main.Game;
 import xaos.tiles.Tile;
@@ -15,6 +11,9 @@ import xaos.utils.Log;
 import xaos.utils.Messages;
 import xaos.utils.Utils;
 import xaos.utils.UtilsXML;
+
+import java.io.File;
+import java.util.ArrayList;
 
 public class MatsPanelData {
 
@@ -62,8 +61,8 @@ public class MatsPanelData {
         try {
             Document doc = UtilsXML.loadXMLFile(sXMLPath); //$NON-NLS-1$ //$NON-NLS-2$
 
-			// Tenemos el documento XML parseado
-            // Lo recorremos entero y vamos añadiendo los grupos
+            // Tenemos el documento XML parseado
+            // Lo recorremos entero y vamos aï¿½adiendo los grupos
             NodeList nodeList = doc.getDocumentElement().getChildNodes();
             Node node;
             String sAux, sIniHeader;
@@ -162,7 +161,7 @@ public class MatsPanelData {
                             Log.log(Log.LEVEL_ERROR, Messages.getString("MatsPanelData.6"), "MatsPanelData"); //$NON-NLS-1$ //$NON-NLS-2$
                             Game.exit();
                         }
-                        // Ordenamos alfabéticamente
+                        // Ordenamos alfabï¿½ticamente
                         for (int t = 0; t < alItems.size(); t++) {
                             alItemNames.add(ItemManager.getItem(alItems.get(t)).getName());
                         }
