@@ -29,7 +29,7 @@ application {
 sourceSets {
     main {
         java {
-            srcDirs = ['src/xaos']
+            srcDirs = ['src']
         }
         resources {
             srcDirs = ['src/data']
