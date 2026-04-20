@@ -29,7 +29,7 @@ public class GeneratorItem {
 
     public ArrayList<GeneratorNode> getList() {
         if (list == null) {
-            list = new ArrayList<GeneratorNode>();
+            list = new ArrayList<>();
         }
         return list;
     }

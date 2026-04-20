@@ -7,6 +7,7 @@ import xaos.utils.Log;
 import xaos.utils.Messages;
 
 import java.io.*;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -80,9 +81,9 @@ public final class Towns {
             }
 
             ArrayList<String> alMods = Game.getModsLoaded();
-            if (alMods != null && alMods.size() > 0) {
-                for (int i = 0; i < alMods.size(); i++) {
-                    String sModGraphicsIniPath = fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator") + alMods.get(i) + System.getProperty("file.separator") + "graphics.ini";
+            if (!alMods.isEmpty()) {
+                for (String alMod : alMods) {
+                    String sModGraphicsIniPath = fUserFolder.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.MODS_FOLDER1 + FileSystems.getDefault().getSeparator() + alMod + FileSystems.getDefault().getSeparator() + "graphics.ini";
                     File fIni = new File(sModGraphicsIniPath);
                     if (fIni.exists()) {
                         propertiesGraphics.load(new FileInputStream(fIni));
@@ -187,19 +188,16 @@ public final class Towns {
             loadPropertiesGraphics();
         }
 
-        if (sProperty == null || sProperty.length() == 0) {
+        if (sProperty == null || sProperty.isEmpty()) {
             Log.log(Log.LEVEL_ERROR, Messages.getString("Towns.15"), "Towns"); //$NON-NLS-1$ //$NON-NLS-2$
             Game.exit();
         }
 
-        switch (propertyFile) {
-            case PROPERTY_FILE_MAIN:
-                return propertiesMain.getProperty(sProperty);
-            case PROPERTY_FILE_GRAPHICS:
-                return propertiesGraphics.getProperty(sProperty);
-            default:
-                return null;
-        }
+        return switch (propertyFile) {
+            case PROPERTY_FILE_MAIN -> propertiesMain.getProperty(sProperty);
+            case PROPERTY_FILE_GRAPHICS -> propertiesGraphics.getProperty(sProperty);
+            default -> null;
+        };
     }
 
     public static Properties getPropertiesGraphics() {

@@ -1344,10 +1344,10 @@ public final class MainPanel {
         Citizen cit;
         LivingEntityManagerItem lemi;
         int iDepth;
-        for (int liv = 0; liv < alLivings.size(); liv++) {
-            le = alLivings.get(liv);
+        for (LivingEntity alLiving : alLivings) {
+            le = alLiving;
 
-            if (le.getPath().size() == 0) {
+            if (le.getPath().isEmpty()) {
                 iDepth = Cell.getDepth(cell.getCoordinates().x, cell.getCoordinates().y, cell.getCoordinates().z);
             } else {
                 Point3DShort p3d = le.getPath().get(0);
@@ -1361,7 +1361,7 @@ public final class MainPanel {
             }
 
             // Si la celda tiene un item grande, miraremos que el iDepth no tenga que ser mayor
-            Item item = (le.getPath().size() == 0) ? cell.getItem() : World.getCell(le.getPath().get(0)).getItem();
+            Item item = (le.getPath().isEmpty()) ? cell.getItem() : World.getCell(le.getPath().get(0)).getItem();
             if (item != null) {
                 int addDepth = (item.getTileHeight() > 2 * Tile.TERRAIN_ICON_HEIGHT) ? (item.getTileHeight() - (2 * Tile.TERRAIN_ICON_HEIGHT)) / Tile.TERRAIN_ICON_HEIGHT : 0;
                 if (addDepth > 0) {
@@ -1890,8 +1890,8 @@ public final class MainPanel {
         // }
         cell = World.getCell(pointTileMouse);
 
-        ArrayList<String> alMessages = new ArrayList<String>();
-        ArrayList<ColorGL> alColor = new ArrayList<ColorGL>();
+        ArrayList<String> alMessages = new ArrayList<>();
+        ArrayList<ColorGL> alColor = new ArrayList<>();
 
         // Terrain / Zones
         String sMessage = null;
@@ -2007,7 +2007,7 @@ public final class MainPanel {
                 if (item != null) {
                     // Buscamos la descripci�n
                     ItemManagerItem imi = ItemManager.getItem(item.getIniHeader());
-                    if (imi.getDescriptions() != null && imi.getDescriptions().size() > 0) {
+                    if (imi.getDescriptions() != null && !imi.getDescriptions().isEmpty()) {
                         for (int d = 0; d < imi.getDescriptions().size(); d++) {
                             alMessages.add(imi.getDescriptions().get(d));
                             alColor.add(ColorGL.GRAY);
@@ -2018,14 +2018,14 @@ public final class MainPanel {
 
                     // Miramos si puede tener texto
                     if (imi.isText()) {
-                        ArrayList<String> alTexts = World.getItemsText().get(Integer.valueOf(item.getID()));
-                        if (alTexts != null && alTexts.size() > 0) {
+                        ArrayList<String> alTexts = World.getItemsText().get(item.getID());
+                        if (alTexts != null && !alTexts.isEmpty()) {
                             if (bNeedABlank) {
                                 alMessages.add(""); //$NON-NLS-1$
                                 alColor.add(ColorGL.GRAY);
                             }
-                            for (int t = 0; t < alTexts.size(); t++) {
-                                alMessages.add(alTexts.get(t));
+                            for (String alText : alTexts) {
+                                alMessages.add(alText);
                                 alColor.add(ColorGL.GRAY);
                             }
                         }
@@ -2039,13 +2039,13 @@ public final class MainPanel {
                     Container container = Game.getWorld().getContainer(cell.getEntity().getID());
                     if (container != null) {
                         ArrayList<String> alContent = container.getContentString();
-                        for (int i = 0; i < alContent.size(); i++) {
+                        for (String s : alContent) {
                             if (bNeedABlank) {
                                 alMessages.add(""); //$NON-NLS-1$
                                 alColor.add(ColorGL.GRAY);
                                 bNeedABlank = false;
                             }
-                            alMessages.add(alContent.get(i));
+                            alMessages.add(s);
                             alColor.add(ColorGL.GRAY);
                         }
                     }
@@ -2059,8 +2059,8 @@ public final class MainPanel {
             if (alLivings != null) {
                 LivingEntity le;
                 LivingEntityManagerItem lemi;
-                for (int i = 0; i < alLivings.size(); i++) {
-                    le = alLivings.get(i);
+                for (LivingEntity alLiving : alLivings) {
+                    le = alLiving;
                     lemi = LivingEntityManager.getItem(le.getIniHeader());
 
                     if (lemi.getType() == LivingEntity.TYPE_CITIZEN) {
@@ -2151,8 +2151,8 @@ public final class MainPanel {
                     }
 
                     // Effects
-                    if (le.getLivingEntityData().getEffects().size() > 0) {
-                        StringBuffer sBuffer = new StringBuffer();
+                    if (!le.getLivingEntityData().getEffects().isEmpty()) {
+                        StringBuilder sBuffer = new StringBuilder();
                         EffectData eData;
                         for (int e = 0; e < le.getLivingEntityData().getEffects().size(); e++) {
                             eData = le.getLivingEntityData().getEffects().get(e);
@@ -2184,7 +2184,7 @@ public final class MainPanel {
 
 
     public static void renderMessages(int x, int y, int renderWidth, int renderHeight, int SEPARADOR, ArrayList<String> alMessages, ArrayList<ColorGL> alColor) {
-        if (alMessages.size() > 0) {
+        if (!alMessages.isEmpty()) {
             int iWidth = UtilFont.getWidth(alMessages.get(0));
             int iMaxLength = iWidth;
             for (int i = 1; i < alMessages.size(); i++) {
@@ -2414,7 +2414,7 @@ public final class MainPanel {
             sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, "Coord: " + cell.getCoordinates(), null, null, null, null, p3d)); //$NON-NLS-1$
         }
 
-        if (sm.getItems().size() > 0) {
+        if (!sm.getItems().isEmpty()) {
             sm.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, Messages.getString("MainPanel.57"), null, CommandPanel.COMMAND_CLOSE_CONTEXT, null)); //$NON-NLS-1$
 
             ContextMenu cm = new ContextMenu();

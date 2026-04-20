@@ -19,7 +19,7 @@ public class CampaignData {
 
     public CampaignData(String sID) {
         setId(sID);
-        setMissions(new ArrayList<MissionData>());
+        setMissions(new ArrayList<>());
     }
 
     public String getId() {

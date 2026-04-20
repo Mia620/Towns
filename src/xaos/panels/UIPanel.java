@@ -465,15 +465,15 @@ public final class UIPanel {
     private static boolean productionPanelActive = false;
     private static boolean productionPanelLocked = false;
     private static SmartMenu productionPanelMenu;
-    private static final ArrayList<Point> productionPanelItemsPosition = new ArrayList<Point>();
+    private static final ArrayList<Point> productionPanelItemsPosition = new ArrayList<>();
     private static Tile tileProductionPanelPlusIcon;
     private static boolean[][] tileProductionPanelPlusIconAlpha;
-    private static final ArrayList<Point> productionPanelItemsPlusRegularPosition = new ArrayList<Point>();
-    private static final ArrayList<Point> productionPanelItemsPlusAutomatedPosition = new ArrayList<Point>();
+    private static final ArrayList<Point> productionPanelItemsPlusRegularPosition = new ArrayList<>();
+    private static final ArrayList<Point> productionPanelItemsPlusAutomatedPosition = new ArrayList<>();
     private static Tile tileProductionPanelMinusIcon;
     private static boolean[][] tileProductionPanelMinusIconAlpha;
-    private static final ArrayList<Point> productionPanelItemsMinusRegularPosition = new ArrayList<Point>();
-    private static final ArrayList<Point> productionPanelItemsMinusAutomatedPosition = new ArrayList<Point>();
+    private static final ArrayList<Point> productionPanelItemsMinusRegularPosition = new ArrayList<>();
+    private static final ArrayList<Point> productionPanelItemsMinusAutomatedPosition = new ArrayList<>();
     // Open/close production
     private static Tile tileOpenProductionPanel;
     private static boolean[][] tileOpenProductionPanelAlpha;
@@ -1356,7 +1356,7 @@ public final class UIPanel {
     }
 
     public static void toggleTutorialPanel(boolean bNewGame) {
-        if (Game.getCurrentMissionData() != null && Game.getCurrentMissionData().getTutorialFlows().size() > 0) {
+        if (Game.getCurrentMissionData() != null && !Game.getCurrentMissionData().getTutorialFlows().isEmpty()) {
             if (imagesPanel == null) {
                 imagesPanel = new ImagesPanel(MainPanel.renderWidth, MainPanel.renderHeight, Game.getCurrentMissionData());
                 if (bNewGame) {
@@ -2213,12 +2213,12 @@ public final class UIPanel {
                 }
             } else if (TypingPanel.TYPING_TYPE == TypingPanel.TYPE_ADD_TEXT_TO_ITEM) {
                 // Miramos si el item existe
-                Integer iItemID = Integer.valueOf(TypingPanel.TYPING_PARAMETER);
+                Integer iItemID = TypingPanel.TYPING_PARAMETER;
                 if (World.getItems().containsKey(iItemID)) {
                     // Existe
                     ArrayList<String> alTexts = World.getItemsText().get(iItemID);
                     if (alTexts == null) {
-                        alTexts = new ArrayList<String>();
+                        alTexts = new ArrayList<>();
                     }
                     alTexts.add(TypingPanel.getNewText());
                     World.getItemsText().put(iItemID, alTexts);
@@ -2296,7 +2296,7 @@ public final class UIPanel {
          * BOTTOM panel
          */
         if (bottomPanelItemsPosition == null) {
-            bottomPanelItemsPosition = new ArrayList<Point>(BOTTOM_PANEL_NUM_ITEMS);
+            bottomPanelItemsPosition = new ArrayList<>(BOTTOM_PANEL_NUM_ITEMS);
         }
 
         // Centramos el panel
@@ -2829,7 +2829,7 @@ public final class UIPanel {
             UtilsGL.drawStringWithBorder("walkSpeedPCT " + ged.getWalkSpeedPCT(), 2, 7 * UtilFont.MAX_HEIGHT, ColorGL.WHITE, ColorGL.BLACK); //$NON-NLS-1$
 
             // Events
-            StringBuffer sbEvents = new StringBuffer("Events: "); //$NON-NLS-1$
+            StringBuilder sbEvents = new StringBuilder("Events: "); //$NON-NLS-1$
             for (int e = 0; e < Game.getWorld().getEvents().size(); e++) {
                 sbEvents.append(Game.getWorld().getEvents().get(e).getEventID());
                 sbEvents.append(" ("); //$NON-NLS-1$
@@ -4172,7 +4172,7 @@ public final class UIPanel {
                 drawTile(tileLivingsNoGroupON, livingsGroupPanelFirstIconPoint);
             } else {
                 // Miramos si el grupo tiene miembros
-                if (Game.getWorld().getSoldierGroups().getSoldiersWithoutGroup().size() > 0) {
+                if (!Game.getWorld().getSoldierGroups().getSoldiersWithoutGroup().isEmpty()) {
                     iCurrentTexture = UtilsGL.setTexture(tileLivingsNoGroupGreen, iCurrentTexture);
                     drawTile(tileLivingsNoGroupGreen, livingsGroupPanelFirstIconPoint);
                 } else {
@@ -4188,7 +4188,7 @@ public final class UIPanel {
                     drawTile(tileLivingsGroupON, livingsGroupPanelFirstIconPoint.x, livingsGroupPanelFirstIconPoint.y + (i + 1) * livingsGroupPanelIconsSeparation, false);
                 } else {
                     // Miramos si el grupo tiene miembros
-                    if (Game.getWorld().getSoldierGroups().getGroup(i).getLivingIDs().size() > 0) {
+                    if (!Game.getWorld().getSoldierGroups().getGroup(i).getLivingIDs().isEmpty()) {
                         iCurrentTexture = UtilsGL.setTexture(tileLivingsGroupGreen, iCurrentTexture);
                         drawTile(tileLivingsGroupGreen, livingsGroupPanelFirstIconPoint.x, livingsGroupPanelFirstIconPoint.y + (i + 1) * livingsGroupPanelIconsSeparation, false);
                     } else {
@@ -4286,7 +4286,7 @@ public final class UIPanel {
                 drawTile(tileLivingsNoJobGroupON, livingsGroupPanelFirstIconPoint);
             } else {
                 // Miramos si el grupo tiene miembros
-                if (Game.getWorld().getCitizenGroups().getCitizensWithoutGroup().size() > 0) {
+                if (!Game.getWorld().getCitizenGroups().getCitizensWithoutGroup().isEmpty()) {
                     iCurrentTexture = UtilsGL.setTexture(tileLivingsNoJobGroupGreen, iCurrentTexture);
                     drawTile(tileLivingsNoJobGroupGreen, livingsGroupPanelFirstIconPoint);
                 } else {
@@ -4302,7 +4302,7 @@ public final class UIPanel {
                     drawTile(tileLivingsJobGroupON, livingsGroupPanelFirstIconPoint.x, livingsGroupPanelFirstIconPoint.y + (i + 1) * livingsGroupPanelIconsSeparation, false);
                 } else {
                     // Miramos si el grupo tiene miembros
-                    if (Game.getWorld().getCitizenGroups().getGroup(i).getLivingIDs().size() > 0) {
+                    if (!Game.getWorld().getCitizenGroups().getGroup(i).getLivingIDs().isEmpty()) {
                         iCurrentTexture = UtilsGL.setTexture(tileLivingsJobGroupGreen, iCurrentTexture);
                         drawTile(tileLivingsJobGroupGreen, livingsGroupPanelFirstIconPoint.x, livingsGroupPanelFirstIconPoint.y + (i + 1) * livingsGroupPanelIconsSeparation, false);
                     } else {
@@ -4962,7 +4962,7 @@ public final class UIPanel {
      * @param mousePanel
      */
     private void renderTutorialButton(int mousePanel, boolean bCheckBlink) {
-        if (Game.getCurrentMissionData() == null || Game.getCurrentMissionData().getTutorialFlows().size() == 0) {
+        if (Game.getCurrentMissionData() == null || Game.getCurrentMissionData().getTutorialFlows().isEmpty()) {
             return;
         }
 
@@ -5062,7 +5062,7 @@ public final class UIPanel {
                     int iItem = isMouseOnBottomSubItems(x, y);
                     if (iItem != -1) {
                         SmartMenu item = bottomSubPanelMenu.getItems().get(iItem);
-                        if (item.getPrerequisites() != null && item.getPrerequisites().size() > 0) {
+                        if (item.getPrerequisites() != null && !item.getPrerequisites().isEmpty()) {
                             MainPanel.renderMessages(x, bottomSubPanelPoint.y - (item.getPrerequisites().size() * (UtilFont.MAX_HEIGHT + 5)), renderWidth, renderHeight, Tile.TERRAIN_ICON_WIDTH / 2, item.getPrerequisites(), item.getPrerequisitesColor());
                         } else {
                             tooltip = item.getName();
@@ -5081,7 +5081,7 @@ public final class UIPanel {
                     int iItem = isMouseOnMenuItems(x, y);
                     if (iItem != -1) {
                         SmartMenu item = menuPanelMenu.getItems().get(iItem);
-                        if (item.getPrerequisites() != null && item.getPrerequisites().size() > 0) {
+                        if (item.getPrerequisites() != null && !item.getPrerequisites().isEmpty()) {
                             MainPanel.renderMessages(menuPanelPoint.x, y, renderWidth, renderHeight, Tile.TERRAIN_ICON_WIDTH / 2, item.getPrerequisites(), item.getPrerequisitesColor());
                         } else {
                             tooltip = item.getName();
@@ -5101,7 +5101,7 @@ public final class UIPanel {
                     if (p != null) {
                         if (p.x == MOUSE_PRODUCTION_PANEL_ITEMS) {
                             SmartMenu item = productionPanelMenu.getItems().get(p.y);
-                            if (item.getPrerequisites() != null && item.getPrerequisites().size() > 0) {
+                            if (item.getPrerequisites() != null && !item.getPrerequisites().isEmpty()) {
                                 if ((productionPanelPoint.x + PRODUCTION_PANEL_WIDTH) > renderWidth) {
                                     MainPanel.renderMessages(renderWidth, y, renderWidth, renderHeight, 0, item.getPrerequisites(), item.getPrerequisitesColor());
                                 } else {
@@ -5431,8 +5431,8 @@ public final class UIPanel {
                                 if (getLivingsPanelActive() == LIVINGS_PANEL_TYPE_CITIZENS || getLivingsPanelActive() == LIVINGS_PANEL_TYPE_SOLDIERS) {
                                     Citizen citizen = (Citizen) le;
                                     int iNumEffects = le.getLivingEntityData().getEffects().size();
-                                    ArrayList<String> alMessages = new ArrayList<String>(6 + iNumEffects);
-                                    ArrayList<ColorGL> alColors = new ArrayList<ColorGL>(6 + iNumEffects);
+                                    ArrayList<String> alMessages = new ArrayList<>(6 + iNumEffects);
+                                    ArrayList<ColorGL> alColors = new ArrayList<>(6 + iNumEffects);
 
                                     alMessages.add(citizen.getCitizenData().getFullName());
                                     alColors.add(ColorGL.YELLOW);
@@ -5469,8 +5469,8 @@ public final class UIPanel {
                                 } else if (getLivingsPanelActive() == LIVINGS_PANEL_TYPE_HEROES) {
                                     Hero hero = (Hero) le;
                                     int iNumEffects = le.getLivingEntityData().getEffects().size();
-                                    ArrayList<String> alMessages = new ArrayList<String>(3 + iNumEffects);
-                                    ArrayList<ColorGL> alColors = new ArrayList<ColorGL>(3 + iNumEffects);
+                                    ArrayList<String> alMessages = new ArrayList<>(3 + iNumEffects);
+                                    ArrayList<ColorGL> alColors = new ArrayList<>(3 + iNumEffects);
 
                                     alMessages.add(hero.getCitizenData().getFullName());
                                     alMessages.add(hero.getLivingEntityData().toString());
@@ -5701,8 +5701,8 @@ public final class UIPanel {
                     tooltipX = x + 32;
                     tooltipY = y;
                 } else if (mousePanel == MOUSE_MESSAGES_ICON_ANNOUNCEMENT) {
-                    ArrayList<String> alMessages = new ArrayList<String>(4);
-                    ArrayList<ColorGL> alColors = new ArrayList<ColorGL>(4);
+                    ArrayList<String> alMessages = new ArrayList<>(4);
+                    ArrayList<ColorGL> alColors = new ArrayList<>(4);
                     alMessages.add(Messages.getString("UIPanel.26")); //$NON-NLS-1$
                     alColors.add(ColorGL.WHITE);
 
@@ -5727,8 +5727,8 @@ public final class UIPanel {
                     MainPanel.renderMessages(tooltipX, tooltipY, MainPanel.renderWidth, MainPanel.renderHeight, 2, alMessages, alColors);
                     return;
                 } else if (mousePanel == MOUSE_MESSAGES_ICON_COMBAT) {
-                    ArrayList<String> alMessages = new ArrayList<String>(4);
-                    ArrayList<ColorGL> alColors = new ArrayList<ColorGL>(4);
+                    ArrayList<String> alMessages = new ArrayList<>(4);
+                    ArrayList<ColorGL> alColors = new ArrayList<>(4);
                     alMessages.add(Messages.getString("UIPanel.27")); //$NON-NLS-1$
                     alColors.add(ColorGL.WHITE);
 
@@ -5753,8 +5753,8 @@ public final class UIPanel {
                     MainPanel.renderMessages(tooltipX, tooltipY, MainPanel.renderWidth, MainPanel.renderHeight, 2, alMessages, alColors);
                     return;
                 } else if (mousePanel == MOUSE_MESSAGES_ICON_HEROES) {
-                    ArrayList<String> alMessages = new ArrayList<String>(4);
-                    ArrayList<ColorGL> alColors = new ArrayList<ColorGL>(4);
+                    ArrayList<String> alMessages = new ArrayList<>(4);
+                    ArrayList<ColorGL> alColors = new ArrayList<>(4);
                     alMessages.add(Messages.getString("UIPanel.28")); //$NON-NLS-1$
                     alColors.add(ColorGL.WHITE);
 
@@ -5779,8 +5779,8 @@ public final class UIPanel {
                     MainPanel.renderMessages(tooltipX, tooltipY, MainPanel.renderWidth, MainPanel.renderHeight, 2, alMessages, alColors);
                     return;
                 } else if (mousePanel == MOUSE_MESSAGES_ICON_SYSTEM) {
-                    ArrayList<String> alMessages = new ArrayList<String>(4);
-                    ArrayList<ColorGL> alColors = new ArrayList<ColorGL>(4);
+                    ArrayList<String> alMessages = new ArrayList<>(4);
+                    ArrayList<ColorGL> alColors = new ArrayList<>(4);
                     alMessages.add(Messages.getString("UIPanel.31")); //$NON-NLS-1$
                     alColors.add(ColorGL.WHITE);
 
@@ -5888,7 +5888,7 @@ public final class UIPanel {
                 }
             } else if (mousePanel == MOUSE_EVENTS_ICON) {
                 ArrayList<EventData> alEvents = Game.getWorld().getEvents();
-                if (alEvents.size() == 0) {
+                if (alEvents.isEmpty()) {
                     tooltip = Messages.getString("UIPanel.83"); //$NON-NLS-1$
                     UtilsGL.drawTooltip(tooltip, iconEventsPoint.x + GlobalEventData.getIcon().getTileWidth() / 2 - UtilFont.getWidth(tooltip) / 2, iconEventsPoint.y + GlobalEventData.getIcon().getTileHeight(), renderWidth, renderHeight);
                 } else {
@@ -5900,8 +5900,8 @@ public final class UIPanel {
                     EventData ed;
                     EventManagerItem emi;
                     int iAux;
-                    for (int i = 0; i < alEvents.size(); i++) {
-                        ed = alEvents.get(i);
+                    for (EventData eventData : alEvents) {
+                        ed = eventData;
                         emi = EventManager.getItem(ed.getEventID());
                         if (emi != null) {
                             // Alto
@@ -5937,8 +5937,8 @@ public final class UIPanel {
 
                     // Iconos
                     int iCurrentHeight = tooltipY + UtilFont.MAX_HEIGHT + 2;
-                    for (int i = 0; i < alEvents.size(); i++) {
-                        ed = alEvents.get(i);
+                    for (EventData event : alEvents) {
+                        ed = event;
                         emi = EventManager.getItem(ed.getEventID());
                         if (emi != null) {
                             // Alto
@@ -5960,8 +5960,8 @@ public final class UIPanel {
                     UtilsGL.drawString(tooltip, tooltipX, iCurrentHeight);
                     iCurrentHeight += UtilFont.MAX_HEIGHT + 2;
 
-                    for (int i = 0; i < alEvents.size(); i++) {
-                        ed = alEvents.get(i);
+                    for (EventData alEvent : alEvents) {
+                        ed = alEvent;
                         emi = EventManager.getItem(ed.getEventID());
                         if (emi != null) {
                             // Alto
@@ -6540,7 +6540,7 @@ public final class UIPanel {
         if (isMouseOnAnIcon(x, y, iconIncreaseSpeedPoint, tileIconIncreaseSpeed, tileIconIncreaseSpeedAlpha)) {
             return MOUSE_ICON_INCREASE_SPEED;
         }
-        if (Game.getCurrentMissionData() != null && Game.getCurrentMissionData().getTutorialFlows().size() > 0) {
+        if (Game.getCurrentMissionData() != null && !Game.getCurrentMissionData().getTutorialFlows().isEmpty()) {
             if (isMouseOnAnIcon(x, y, iconTutorialPoint, tileBottomItem, tileBottomItemAlpha)) {
                 return MOUSE_TUTORIAL_ICON;
             }
@@ -8306,8 +8306,8 @@ public final class UIPanel {
                 if (livingsPanelSoldiersGroupActive != -1) {
                     ArrayList<Integer> alSoldiers = Game.getWorld().getSoldierGroups().getGroup(livingsPanelSoldiersGroupActive).getLivingIDs();
                     LivingEntity le;
-                    for (int s = 0; s < alSoldiers.size(); s++) {
-                        le = World.getLivingEntityByID(alSoldiers.get(s));
+                    for (Integer alSoldier : alSoldiers) {
+                        le = World.getLivingEntityByID(alSoldier);
                         if (le != null) {
                             CommandPanel.executeCommand(CommandPanel.COMMAND_AUTOEQUIP, Integer.toString(le.getID()), null, null, null, SmartMenu.ICON_TYPE_ITEM);
                         }
@@ -8323,8 +8323,8 @@ public final class UIPanel {
                     alCitizens = Game.getWorld().getCitizenGroups().getCitizensWithoutGroup();
                 }
                 LivingEntity le;
-                for (int s = 0; s < alCitizens.size(); s++) {
-                    le = World.getLivingEntityByID(alCitizens.get(s));
+                for (Integer alCitizen : alCitizens) {
+                    le = World.getLivingEntityByID(alCitizen);
                     if (le != null) {
                         CommandPanel.executeCommand(CommandPanel.COMMAND_AUTOEQUIP, Integer.toString(le.getID()), null, null, null, SmartMenu.ICON_TYPE_ITEM);
                     }
@@ -8830,7 +8830,7 @@ public final class UIPanel {
                 if (iItem != -1) {
                     iItem = iItem + bottomPanelItemIndex;
                     SmartMenu smItem = currentMenu.getItems().get(iItem);
-                    if (smItem.getType() == SmartMenu.TYPE_MENU && smItem.getItems() != null && smItem.getItems().size() > 0) {
+                    if (smItem.getType() == SmartMenu.TYPE_MENU && smItem.getItems() != null && !smItem.getItems().isEmpty()) {
                         // Activamos el subpanel de abajo
                         bottomSubPanelMenu = smItem;
                         createBottomSubPanel(smItem);
@@ -8929,7 +8929,7 @@ public final class UIPanel {
             int iItem = isMouseOnBottomSubItems(x, y);
             if (iItem != -1) {
                 SmartMenu smItem = bottomSubPanelMenu.getItems().get(iItem);
-                if (smItem.getType() == SmartMenu.TYPE_MENU && smItem.getItems() != null && smItem.getItems().size() > 0) {
+                if (smItem.getType() == SmartMenu.TYPE_MENU && smItem.getItems() != null && !smItem.getItems().isEmpty()) {
                     // Activamos el subpanel de abajo
                     bottomSubPanelMenu = smItem;
                     createBottomSubPanel(smItem);
@@ -9180,14 +9180,14 @@ public final class UIPanel {
     private void createMilitaryContextMenu(SmartMenu smToAdd, int iLocation, LivingEntity le, int mouseX, int mouseY) {
         // Equipar, miramos si hay objetos militares en el mundo, de paso ya hacemos una lista para poner en el men�
         Integer[] aItems = World.getItems().keySet().toArray(new Integer[0]);
-        ArrayList<MilitaryItem> alMilitaryItems = new ArrayList<MilitaryItem>();
+        ArrayList<MilitaryItem> alMilitaryItems = new ArrayList<>();
 
         int iASZID = World.getCell(le.getCoordinates()).getAstarZoneID();
 
         ItemManagerItem imi;
         Item mi;
-        for (int i = 0; i < aItems.length; i++) {
-            mi = World.getItems().get(aItems[i]);
+        for (Integer aItem : aItems) {
+            mi = World.getItems().get(aItem);
             if (mi != null && mi instanceof MilitaryItem) {
                 if (World.getCell(mi.getCoordinates()).getAstarZoneID() == iASZID) {
                     imi = ItemManager.getItem(mi.getIniHeader());
@@ -9218,10 +9218,10 @@ public final class UIPanel {
         ArrayList<Container> alContainers = Game.getWorld().getContainers();
         ArrayList<Item> alContainerItems;
         nextContainer:
-        for (int i = 0; i < alContainers.size(); i++) {
-            alContainerItems = alContainers.get(i).getItemsInside();
-            for (int j = 0; j < alContainerItems.size(); j++) {
-                mi = alContainerItems.get(j);
+        for (Container alContainer : alContainers) {
+            alContainerItems = alContainer.getItemsInside();
+            for (Item alContainerItem : alContainerItems) {
+                mi = alContainerItem;
                 if (World.getCell(mi.getCoordinates()).getAstarZoneID() != iASZID) {
                     continue nextContainer;
                 }
@@ -9257,19 +9257,19 @@ public final class UIPanel {
         ContextMenu menuMilitary = new ContextMenu();
         SmartMenu smMilitary = new SmartMenu();
 
-        if (alMilitaryItems.size() > 0 || smToAdd != null) {
+        if (!alMilitaryItems.isEmpty() || smToAdd != null) {
             // Tenemos la lista con items que el aldeano puede equipar, creamos el men�
             if (smToAdd != null) {
                 smMilitary.addItem(smToAdd);
-                if (alMilitaryItems.size() > 0) {
+                if (!alMilitaryItems.isEmpty()) {
                     smMilitary.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, null, null, null, null));
                 }
             }
 
             // Ordenamos el men� por item level
             MilitaryItem militaryItem;
-            for (int i = 0; i < alMilitaryItems.size(); i++) {
-                militaryItem = alMilitaryItems.get(i);
+            for (MilitaryItem alMilitaryItem : alMilitaryItems) {
+                militaryItem = alMilitaryItem;
                 if (militaryItem.getZ() > Game.getWorld().getRestrictHaulEquippingLevel()) {
                     smMilitary.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, Messages.getString("UIPanel.79") + militaryItem.getExtendedTilename(), null, CommandPanel.COMMAND_WEAR, Integer.toString(le.getID()), Integer.toString(militaryItem.getID()), militaryItem.getCoordinates().toPoint3D(), militaryItem.getItemTextColor())); //$NON-NLS-1$
                 } else {
@@ -9305,7 +9305,7 @@ public final class UIPanel {
         BOTTOM_SUBPANEL_HEIGHT = BOTTOM_SUBPANEL_NUM_ITEMS_Y * (BOTTOM_SUBITEM_HEIGHT + PIXELS_TO_BORDER) + PIXELS_TO_BORDER;
 
         bottomSubPanelPoint.setLocation(bottomPanelX, bottomPanelY - PIXELS_TO_BORDER - BOTTOM_SUBPANEL_HEIGHT);
-        bottomSubPanelItemsPosition = new ArrayList<Point>();
+        bottomSubPanelItemsPosition = new ArrayList<>();
         bucle1:
         for (int y1 = 0; y1 < BOTTOM_SUBPANEL_NUM_ITEMS_Y; y1++) {
             for (int x1 = 0; x1 < BOTTOM_SUBPANEL_NUM_ITEMS_X; x1++) {
@@ -9343,7 +9343,7 @@ public final class UIPanel {
         menuPanelPoint.setLocation(renderWidth - MENU_PANEL_WIDTH - tileOpenRightMenu.getTileWidth(), minimapPanelY + MINIMAP_PANEL_HEIGHT + 2 * PIXELS_TO_BORDER);
 
         // Positions
-        menuPanelItemsPosition = new ArrayList<Point>();
+        menuPanelItemsPosition = new ArrayList<>();
         for (int y = 0; y < MENU_PANEL_NUM_ITEMS_Y; y++) {
             for (int x = 0; x < MENU_PANEL_NUM_ITEMS_X; x++) {
                 menuPanelItemsPosition.add(new Point(menuPanelPoint.x + PIXELS_TO_BORDER + (x * (MENU_ITEM_WIDTH + PIXELS_TO_BORDER)), menuPanelPoint.y + PIXELS_TO_BORDER + (y * (MENU_ITEM_HEIGHT + PIXELS_TO_BORDER))));
@@ -9379,7 +9379,7 @@ public final class UIPanel {
         if (messageTiles == null) {
             messageTiles = new Tile[MessagesPanel.MAX_TYPES];
             messageTilesON = new Tile[MessagesPanel.MAX_TYPES];
-            messageTilesAlpha = new ArrayList<boolean[][]>(MessagesPanel.MAX_TYPES);
+            messageTilesAlpha = new ArrayList<>(MessagesPanel.MAX_TYPES);
 
             for (int i = 0; i < MessagesPanel.MAX_TYPES; i++) {
                 messageTiles[i] = new Tile("icon_messages" + i); //$NON-NLS-1$
@@ -9398,7 +9398,7 @@ public final class UIPanel {
         if (messagePanelTiles == null) {
             messagePanelTiles = new Tile[MessagesPanel.MAX_TYPES];
             messagePanelTilesON = new Tile[MessagesPanel.MAX_TYPES];
-            messagePanelTilesAlpha = new ArrayList<boolean[][]>(MessagesPanel.MAX_TYPES);
+            messagePanelTilesAlpha = new ArrayList<>(MessagesPanel.MAX_TYPES);
 
             for (int i = 0; i < MessagesPanel.MAX_TYPES; i++) {
                 messagePanelTiles[i] = new Tile("icon_big_messages" + i); //$NON-NLS-1$
@@ -9557,9 +9557,9 @@ public final class UIPanel {
         prioritiesPanelPoint.setLocation(renderWidth / 2 - PRIORITIES_PANEL_WIDTH / 2, renderHeight / 2 - PRIORITIES_PANEL_HEIGHT / 2);
 
         // Positions
-        prioritiesPanelItemsPosition = new ArrayList<Point>();
-        prioritiesPanelItemsUpPosition = new ArrayList<Point>();
-        prioritiesPanelItemsDownPosition = new ArrayList<Point>();
+        prioritiesPanelItemsPosition = new ArrayList<>();
+        prioritiesPanelItemsUpPosition = new ArrayList<>();
+        prioritiesPanelItemsDownPosition = new ArrayList<>();
         Point p;
         int iColumnCounter = 0, iColumnIndex = 0;
         for (int i = 0; i < PRIORITIES_PANEL_NUM_ITEMS; i++) {

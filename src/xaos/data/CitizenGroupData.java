@@ -31,7 +31,7 @@ public class CitizenGroupData implements Externalizable {
     public CitizenGroupData(int id) {
         setId(id);
         setName(null);
-        livingIDs = new ArrayList<Integer>();
+        livingIDs = new ArrayList<>();
     }
 
     public int getId() {
@@ -47,7 +47,7 @@ public class CitizenGroupData implements Externalizable {
     }
 
     public void setName(String name) {
-        if (name == null || name.trim().length() == 0) {
+        if (name == null || name.trim().isEmpty()) {
             this.name = Messages.getString("CitizenGroupData.0") + (id + 1); //$NON-NLS-1$
         } else {
             this.name = name;
@@ -75,7 +75,7 @@ public class CitizenGroupData implements Externalizable {
             return false;
         }
 
-        Integer iObj = Integer.valueOf(iJob);
+        Integer iObj = iJob;
         return jobsDenied.contains(iObj);
     }
 
@@ -86,8 +86,8 @@ public class CitizenGroupData implements Externalizable {
     public void addAllDeniedJobs() {
         ArrayList<String> alPriorities = ActionPriorityManager.getPrioritiesList();
         if (alPriorities != null) {
-            for (int i = 0; i < alPriorities.size(); i++) {
-                addDeniedJob(alPriorities.get(i));
+            for (String alPriority : alPriorities) {
+                addDeniedJob(alPriority);
             }
         }
     }
@@ -98,10 +98,10 @@ public class CitizenGroupData implements Externalizable {
 
     public void addDeniedJob(int iJob) {
         if (jobsDenied == null) {
-            jobsDenied = new ArrayList<Integer>(1);
-            jobsDenied.add(Integer.valueOf(iJob));
+            jobsDenied = new ArrayList<>(1);
+            jobsDenied.add(iJob);
         } else {
-            Integer iObj = Integer.valueOf(iJob);
+            Integer iObj = iJob;
             if (!jobsDenied.contains(iObj)) {
                 jobsDenied.add(iObj);
             }
@@ -117,10 +117,10 @@ public class CitizenGroupData implements Externalizable {
             return;
         }
 
-        Integer iObj = Integer.valueOf(iJob);
+        Integer iObj = iJob;
         jobsDenied.remove(iObj);
 
-        if (jobsDenied.size() == 0) {
+        if (jobsDenied.isEmpty()) {
             jobsDenied = null;
         }
     }
@@ -132,7 +132,7 @@ public class CitizenGroupData implements Externalizable {
         if (getLivingIDs() != null) {
             LivingEntity le;
             for (int i = 0; i < getLivingIDs().size(); i++) {
-                le = World.getLivingEntityByID(getLivingIDs().get(i).intValue());
+                le = World.getLivingEntityByID(getLivingIDs().get(i));
                 if (le != null) {
                     LivingEntityManagerItem lemi = LivingEntityManager.getItem(le.getIniHeader());
                     if (lemi != null && lemi.getType() == LivingEntity.TYPE_CITIZEN) {
@@ -152,12 +152,12 @@ public class CitizenGroupData implements Externalizable {
             livingIDs = (ArrayList<Integer>) in.readObject();
 
             ArrayList<String> alStrings = (ArrayList<String>) in.readObject();
-            if (alStrings == null || alStrings.size() == 0) {
+            if (alStrings == null || alStrings.isEmpty()) {
                 jobsDenied = null;
             } else {
-                jobsDenied = new ArrayList<Integer>(alStrings.size());
-                for (int i = 0; i < alStrings.size(); i++) {
-                    jobsDenied.add(Integer.valueOf(UtilsIniHeaders.getIntIniHeader(alStrings.get(i))));
+                jobsDenied = new ArrayList<>(alStrings.size());
+                for (String alString : alStrings) {
+                    jobsDenied.add(Integer.valueOf(UtilsIniHeaders.getIntIniHeader(alString)));
                 }
             }
         }

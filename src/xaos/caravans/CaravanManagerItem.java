@@ -28,11 +28,11 @@ public class CaravanManagerItem {
         CaravanData caravanData = new CaravanData();
 
         // Items
-        ArrayList<CaravanItemDataInstance> alItems = new ArrayList<CaravanItemDataInstance>();
+        ArrayList<CaravanItemDataInstance> alItems = new ArrayList<>();
         CaravanItemData cid;
         int iQtty;
-        for (int i = 0; i < itemList.size(); i++) {
-            cid = itemList.get(i);
+        for (CaravanItemData caravanItemData : itemList) {
+            cid = caravanItemData;
             if (Utils.getRandomBetween(1, 100) <= cid.getPCT()) {
                 // Hit, miramos la cantidad
                 iQtty = Utils.launchDice(cid.getQuantity());
@@ -63,10 +63,10 @@ public class CaravanManagerItem {
                     boolean bFound = false;
                     if (!(item instanceof MilitaryItem)) {
                         // Iten NO militar
-                        for (int current = 0; current < alItems.size(); current++) {
-                            if (iPrice == alItems.get(current).getPrice() && alItems.get(current).getItem().getIniHeader().equals(itemID)) {
+                        for (CaravanItemDataInstance alItem : alItems) {
+                            if (iPrice == alItem.getPrice() && alItem.getItem().getIniHeader().equals(itemID)) {
                                 // Bingo!
-                                alItems.get(current).setQuantity(alItems.get(current).getQuantity() + 1);
+                                alItem.setQuantity(alItem.getQuantity() + 1);
                                 bFound = true;
                                 break;
                             }
@@ -114,7 +114,7 @@ public class CaravanManagerItem {
     }
 
     public void setZone(String zone) throws Exception {
-        if (zone == null || zone.length() == 0) {
+        if (zone == null || zone.isEmpty()) {
             throw new Exception(Messages.getString("CaravanManagerItem.1")); //$NON-NLS-1$
         }
 
@@ -170,7 +170,7 @@ public class CaravanManagerItem {
     }
 
     public void setComePCT(String sComePCT) throws Exception {
-        if (sComePCT == null || sComePCT.trim().length() == 0) {
+        if (sComePCT == null || sComePCT.trim().isEmpty()) {
             setComePCT(100);
         } else {
             boolean bError = false;

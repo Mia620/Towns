@@ -65,7 +65,7 @@ public class ItemGenerator extends Generator {
         }
 
         // Todo cargado, procedemos
-        if (entity == null || entity.length() == 0) {
+        if (entity == null || entity.isEmpty()) {
             Log.log(Log.LEVEL_ERROR, Messages.getString("ItemGenerator.4"), "ItemGenerator"); //$NON-NLS-1$ //$NON-NLS-2$
             return;
         }

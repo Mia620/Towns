@@ -10,6 +10,7 @@ import xaos.utils.Messages;
 import xaos.utils.UtilsXML;
 
 import java.io.File;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -18,7 +19,7 @@ public class BuildingManager {
     private static HashMap<String, BuildingManagerItem> itemList;
 
     public static void loadItems() {
-        itemList = new HashMap<String, BuildingManagerItem>();
+        itemList = new HashMap<>();
 
         // Cargar de fichero
         loadXMLBuildings(Towns.getPropertiesString("DATA_FOLDER") + "buildings.xml", true); //$NON-NLS-1$ //$NON-NLS-2$
@@ -30,9 +31,9 @@ public class BuildingManager {
         }
 
         ArrayList<String> alMods = Game.getModsLoaded();
-        if (alMods != null && alMods.size() > 0) {
-            for (int i = 0; i < alMods.size(); i++) {
-                String sModActionsPath = fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator") + alMods.get(i) + System.getProperty("file.separator") + Towns.getPropertiesString("DATA_FOLDER") + "buildings.xml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+        if (!alMods.isEmpty()) {
+            for (String alMod : alMods) {
+                String sModActionsPath = fUserFolder.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.MODS_FOLDER1 + FileSystems.getDefault().getSeparator() + alMod + FileSystems.getDefault().getSeparator() + Towns.getPropertiesString("DATA_FOLDER") + "buildings.xml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
                 File fIni = new File(sModActionsPath);
                 if (fIni.exists()) {
                     loadXMLBuildings(sModActionsPath, false);
@@ -108,7 +109,7 @@ public class BuildingManager {
                     // Descriptions
                     if (bModChangingValues) {
                         ArrayList<String> alAux = UtilsXML.getChildValues(node.getChildNodes(), "description"); //$NON-NLS-1$
-                        if (alAux != null && alAux.size() > 0) {
+                        if (alAux != null && !alAux.isEmpty()) {
                             item.setDescriptions(alAux);
                         }
                     } else {
@@ -148,7 +149,7 @@ public class BuildingManager {
                     // mustBeBuiltOver
                     if (bModChangingValues) {
                         ArrayList<String> alAux = UtilsXML.getChildValues(node.getChildNodes(), "mustBeBuiltOver"); //$NON-NLS-1$
-                        if (alAux != null && alAux.size() > 0) {
+                        if (alAux != null && !alAux.isEmpty()) {
                             item.setMustBeBuiltOver(alAux);
                         }
                     } else {
@@ -168,11 +169,11 @@ public class BuildingManager {
                     // Obtenemos los prerequisitos
                     if (bModChangingValues) {
                         ArrayList<String> alAux = UtilsXML.getChildValues(node.getChildNodes(), "prerequisite"); //$NON-NLS-1$
-                        if (alAux != null && alAux.size() > 0) {
+                        if (alAux != null && !alAux.isEmpty()) {
                             item.setPrerequisites(alAux);
                         }
                         ArrayList<String> alAux2 = UtilsXML.getChildValues(node.getChildNodes(), "prerequisiteFriendly"); //$NON-NLS-1$
-                        if (alAux2 != null && alAux2.size() > 0) {
+                        if (alAux2 != null && !alAux2.isEmpty()) {
                             item.setPrerequisites(alAux2);
                         }
                     } else {

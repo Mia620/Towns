@@ -146,7 +146,7 @@ public class EffectData implements Externalizable {
     }
 
     public boolean isGraphicChange() {
-        return graphicChange != null && graphicChange.length() > 0;
+        return graphicChange != null && !graphicChange.isEmpty();
     }
 
     public void setGraphicChange(String graphicChange) {

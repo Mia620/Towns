@@ -11,6 +11,7 @@ import xaos.utils.Utils;
 import xaos.utils.UtilsXML;
 
 import java.io.File;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 
 
@@ -25,7 +26,7 @@ public class CampaignManager {
 
 
     private static void loadCampaigns() {
-        alCampaigns = new ArrayList<CampaignData>();
+        alCampaigns = new ArrayList<>();
 
         // Cargar de fichero
         loadCampaignXML(Towns.getPropertiesString("DATA_FOLDER") + "campaigns.xml", true); //$NON-NLS-1$ //$NON-NLS-2$
@@ -37,9 +38,9 @@ public class CampaignManager {
         }
 
         ArrayList<String> alMods = Game.getModsLoaded();
-        if (alMods != null && alMods.size() > 0) {
-            for (int i = 0; i < alMods.size(); i++) {
-                String sModActionsPath = fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator") + alMods.get(i) + System.getProperty("file.separator") + Towns.getPropertiesString("DATA_FOLDER") + "campaigns.xml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+        if (!alMods.isEmpty()) {
+            for (String alMod : alMods) {
+                String sModActionsPath = fUserFolder.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.MODS_FOLDER1 + FileSystems.getDefault().getSeparator() + alMod + FileSystems.getDefault().getSeparator() + Towns.getPropertiesString("DATA_FOLDER") + "campaigns.xml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
                 File fIni = new File(sModActionsPath);
                 if (fIni.exists()) {
                     loadCampaignXML(sModActionsPath, false);
@@ -118,7 +119,7 @@ public class CampaignManager {
             // Cargamos la mision main
             alMissions = campaignData.getMissions();
         } else {
-            alMissions = new ArrayList<MissionData>();
+            alMissions = new ArrayList<>();
         }
 
         Node node;
@@ -204,7 +205,7 @@ public class CampaignManager {
 
 
     private static ArrayList<TutorialFlow> loadTutorialFlows(NodeList nodeList) throws Exception {
-        ArrayList<TutorialFlow> alFlows = new ArrayList<TutorialFlow>();
+        ArrayList<TutorialFlow> alFlows = new ArrayList<>();
 
         Node node, nodeFlow;
         for (int i = 0; i < nodeList.getLength(); i++) {
@@ -304,7 +305,7 @@ public class CampaignManager {
 
 
     private static ArrayList<TutorialTrigger> loadTutorialTriggers(NodeList nodeList) throws Exception {
-        ArrayList<TutorialTrigger> alTriggers = new ArrayList<TutorialTrigger>();
+        ArrayList<TutorialTrigger> alTriggers = new ArrayList<>();
 
         Node node, nodeTrigger;
         for (int i = 0; i < nodeList.getLength(); i++) {
@@ -355,8 +356,8 @@ public class CampaignManager {
 
         CampaignData campaignData;
         MissionData missionData;
-        for (int i = 0; i < alCampaigns.size(); i++) {
-            campaignData = alCampaigns.get(i);
+        for (CampaignData alCampaign : alCampaigns) {
+            campaignData = alCampaign;
             if (!campaignData.getId().equals(campaignID)) {
                 continue;
             }

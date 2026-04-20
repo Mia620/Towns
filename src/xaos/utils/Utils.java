@@ -21,6 +21,7 @@ import xaos.tiles.entities.living.LivingEntityManager;
 
 import java.awt.*;
 import java.io.*;
+import java.nio.file.FileSystems;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -137,7 +138,7 @@ public final class Utils {
             return null;
         }
 
-        ArrayList<Point3DShort> alReturn = new ArrayList<Point3DShort>();
+        ArrayList<Point3DShort> alReturn = new ArrayList<>();
         boolean steep = Math.abs(y1 - y0) > Math.abs(x1 - x0);
         if (steep) {
             int iAux = x0;
@@ -727,7 +728,7 @@ public final class Utils {
      * @return
      */
     public static int getInteger(String sNumber, int defaultNumber) {
-        if (sNumber == null || sNumber.trim().length() == 0) {
+        if (sNumber == null || sNumber.trim().isEmpty()) {
             return defaultNumber;
         }
 
@@ -857,7 +858,7 @@ public final class Utils {
      * @return
      */
     public static int launchDice(String str) {
-        if (str == null || str.trim().length() == 0) {
+        if (str == null || str.trim().isEmpty()) {
             return 0;
         }
 
@@ -924,7 +925,7 @@ public final class Utils {
      * @return the minimum and maximum values of a dice String
      */
     public static Point getDiceMinMax(String str) {
-        if (str == null || str.trim().length() == 0) {
+        if (str == null || str.trim().isEmpty()) {
             return new Point(0, 0);
         }
 
@@ -1003,63 +1004,78 @@ public final class Utils {
      * or empty
      */
     public static ColorGL getColorFromString(String sColor) {
-        if (sColor == null || sColor.length() == 0) {
+        if (sColor == null || sColor.isEmpty()) {
             return new ColorGL(null);
         }
 
         sColor = sColor.toUpperCase();
-        if (sColor.equals("GREEN")) { //$NON-NLS-1$
-            return new ColorGL(Color.GREEN);
-        } else if (sColor.equals("DARK_GREEN")) { //$NON-NLS-1$
-            return new ColorGL(Color.GREEN.darker());
-        } else if (sColor.equals("BLACK")) { //$NON-NLS-1$
-            return new ColorGL(Color.BLACK);
-        } else if (sColor.equals("BLUE")) { //$NON-NLS-1$
-            return new ColorGL(Color.BLUE);
-        } else if (sColor.equals("WHITE")) { //$NON-NLS-1$
-            return new ColorGL(Color.WHITE);
-        } else if (sColor.equals("ORANGE")) { //$NON-NLS-1$
-            return new ColorGL(Color.ORANGE);
-        } else if (sColor.equals("PINK")) { //$NON-NLS-1$
-            return new ColorGL(Color.PINK);
-        } else if (sColor.equals("YELLOW")) { //$NON-NLS-1$
-            return new ColorGL(Color.YELLOW);
-        } else if (sColor.equals("GRAY")) { //$NON-NLS-1$
-            return new ColorGL(Color.GRAY);
-        } else if (sColor.equals("LIGHT_GRAY")) { //$NON-NLS-1$
-            return new ColorGL(Color.LIGHT_GRAY);
-        } else if (sColor.equals("DARK_GRAY")) { //$NON-NLS-1$
-            return new ColorGL(Color.DARK_GRAY);
-        } else if (sColor.equals("RED")) { //$NON-NLS-1$
-            return new ColorGL(Color.RED);
-        } else if (sColor.equals("BROWN")) { //$NON-NLS-1$
-            return new ColorGL(new Color(0.5f, 0.25f, 0f));
-        } else {
-            // Sacamos los 3 colores
-            int r = 0, g = 0, b = 0;
-            boolean coloresOK = false;
-            try {
-                StringTokenizer tokenizer = new StringTokenizer(sColor, ","); //$NON-NLS-1$
-                if (tokenizer.hasMoreTokens()) {
-                    r = Integer.parseInt(tokenizer.nextToken());
+        switch (sColor) {
+            case "GREEN" -> {
+                return new ColorGL(Color.GREEN);  //$NON-NLS-1$
+            }
+            case "DARK_GREEN" -> {
+                return new ColorGL(Color.GREEN.darker());  //$NON-NLS-1$
+            }
+            case "BLACK" -> {
+                return new ColorGL(Color.BLACK);  //$NON-NLS-1$
+            }
+            case "BLUE" -> {
+                return new ColorGL(Color.BLUE);  //$NON-NLS-1$
+            }
+            case "WHITE" -> {
+                return new ColorGL(Color.WHITE);  //$NON-NLS-1$
+            }
+            case "ORANGE" -> {
+                return new ColorGL(Color.ORANGE);  //$NON-NLS-1$
+            }
+            case "PINK" -> {
+                return new ColorGL(Color.PINK);  //$NON-NLS-1$
+            }
+            case "YELLOW" -> {
+                return new ColorGL(Color.YELLOW);  //$NON-NLS-1$
+            }
+            case "GRAY" -> {
+                return new ColorGL(Color.GRAY);  //$NON-NLS-1$
+            }
+            case "LIGHT_GRAY" -> {
+                return new ColorGL(Color.LIGHT_GRAY);  //$NON-NLS-1$
+            }
+            case "DARK_GRAY" -> {
+                return new ColorGL(Color.DARK_GRAY);  //$NON-NLS-1$
+            }
+            case "RED" -> {
+                return new ColorGL(Color.RED);  //$NON-NLS-1$
+            }
+            case "BROWN" -> {
+                return new ColorGL(new Color(0.5f, 0.25f, 0f));  //$NON-NLS-1$
+            }
+            default -> {
+                // Sacamos los 3 colores
+                int r = 0, g = 0, b = 0;
+                boolean coloresOK = false;
+                try {
+                    StringTokenizer tokenizer = new StringTokenizer(sColor, ","); //$NON-NLS-1$
                     if (tokenizer.hasMoreTokens()) {
-                        g = Integer.parseInt(tokenizer.nextToken());
+                        r = Integer.parseInt(tokenizer.nextToken());
                         if (tokenizer.hasMoreTokens()) {
-                            b = Integer.parseInt(tokenizer.nextToken());
-                            coloresOK = true;
+                            g = Integer.parseInt(tokenizer.nextToken());
+                            if (tokenizer.hasMoreTokens()) {
+                                b = Integer.parseInt(tokenizer.nextToken());
+                                coloresOK = true;
+                            }
                         }
                     }
-                }
 
-                if (coloresOK) {
-                    return new ColorGL(new Color(r, g, b));
-                } else {
-                    Log.log(Log.LEVEL_ERROR, Messages.getString("Utils.6") + sColor + "]", "Utils"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                    if (coloresOK) {
+                        return new ColorGL(new Color(r, g, b));
+                    } else {
+                        Log.log(Log.LEVEL_ERROR, Messages.getString("Utils.6") + sColor + "]", "Utils"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                        return new ColorGL(null);
+                    }
+                } catch (Exception e) {
+                    Log.log(Log.LEVEL_ERROR, Messages.getString("Utils.6") + sColor + "] [" + e + "]", "Utils"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                     return new ColorGL(null);
                 }
-            } catch (Exception e) {
-                Log.log(Log.LEVEL_ERROR, Messages.getString("Utils.6") + sColor + "] [" + e + "]", "Utils"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-                return new ColorGL(null);
             }
         }
     }
@@ -1337,9 +1353,9 @@ public final class Utils {
                         // Livings
                         alLivings = World.getCell(x, y, z).getLivings();
                         if (alLivings != null) {
-                            for (int i = 0; i < alLivings.size(); i++) {
-                                if (LivingEntityManager.getItem(alLivings.get(i).getIniHeader()) == null) {
-                                    throw new Exception(Messages.getString("LivingEntity.10") + " [" + alLivings.get(i).getIniHeader() + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                            for (LivingEntity alLiving : alLivings) {
+                                if (LivingEntityManager.getItem(alLiving.getIniHeader()) == null) {
+                                    throw new Exception(Messages.getString("LivingEntity.10") + " [" + alLiving.getIniHeader() + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                                 }
                             }
                         }
@@ -1351,8 +1367,8 @@ public final class Utils {
             ArrayList<Container> alContainers = Game.getWorld().getContainers();
             ArrayList<Item> alContainerItems;
             Container container;
-            for (int i = 0; i < alContainers.size(); i++) {
-                container = alContainers.get(i);
+            for (Container alContainer : alContainers) {
+                container = alContainer;
 
                 int t = container.getType().getElements().size() - 1;
                 while (t >= 0) {
@@ -1364,8 +1380,8 @@ public final class Utils {
                 }
 
                 alContainerItems = container.getItemsInside();
-                for (int j = 0; j < alContainerItems.size(); j++) {
-                    item = alContainerItems.get(j);
+                for (Item alContainerItem : alContainerItems) {
+                    item = alContainerItem;
                     if (item != null) {
                         if (ItemManager.getItem(item.getIniHeader()) == null) {
                             throw new Exception(Messages.getString("Utils.21") + " [" + item.getIniHeader() + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -1376,8 +1392,8 @@ public final class Utils {
 
             ArrayList<Stockpile> alPiles = Game.getWorld().getStockpiles();
             Stockpile pile;
-            for (int i = 0; i < alPiles.size(); i++) {
-                pile = alPiles.get(i);
+            for (Stockpile alPile : alPiles) {
+                pile = alPile;
 
                 int t = pile.getType().getElements().size() - 1;
                 while (t >= 0) {
@@ -1530,7 +1546,7 @@ public final class Utils {
     }
 
     public static String removeExtension(String sFilename) {
-        if (sFilename == null || sFilename.length() == 0) {
+        if (sFilename == null || sFilename.isEmpty()) {
             return sFilename;
         }
 
@@ -1565,15 +1581,15 @@ public final class Utils {
             return null;
         }
 
-        ArrayList<File> alFiles = new ArrayList<File>(aFiles.length);
-        for (int i = 0; i < aFiles.length; i++) {
-            if (aFiles[i] != null && aFiles[i].getName() != null && aFiles[i].isFile() && aFiles[i].getName().endsWith(".zip")) { //$NON-NLS-1$
+        ArrayList<File> alFiles = new ArrayList<>(aFiles.length);
+        for (File aFile : aFiles) {
+            if (aFile != null && aFile.getName() != null && aFile.isFile() && aFile.getName().endsWith(".zip")) { //$NON-NLS-1$
                 // Bingo
-                alFiles.add(aFiles[i]);
+                alFiles.add(aFile);
             }
         }
 
-        if (alFiles.size() == 0) {
+        if (alFiles.isEmpty()) {
             return null;
         }
 
@@ -1614,15 +1630,15 @@ public final class Utils {
             return null;
         }
 
-        ArrayList<File> alFiles = new ArrayList<File>(aFiles.length);
-        for (int i = 0; i < aFiles.length; i++) {
-            if (aFiles[i] != null && aFiles[i].getName() != null && aFiles[i].isDirectory()) {
+        ArrayList<File> alFiles = new ArrayList<>(aFiles.length);
+        for (File aFile : aFiles) {
+            if (aFile != null && aFile.getName() != null && aFile.isDirectory()) {
                 // Bingo
-                alFiles.add(aFiles[i]);
+                alFiles.add(aFile);
             }
         }
 
-        if (alFiles.size() == 0) {
+        if (alFiles.isEmpty()) {
             return null;
         }
 
@@ -1653,9 +1669,9 @@ public final class Utils {
      * misi�n o no
      */
     public static ArrayList<String> getPathToFile(String sOriginalFile, String sCampaignID, String sMissionID) {
-        ArrayList<String> alReturn = new ArrayList<String>();
+        ArrayList<String> alReturn = new ArrayList<>();
 
-        if (sMissionID == null || sMissionID.trim().length() == 0) {
+        if (sMissionID == null || sMissionID.trim().isEmpty()) {
             // Sin misi�n, lo pillamos de la carpeta data
             String sPath = Towns.getPropertiesString("DATA_FOLDER") + sOriginalFile; //$NON-NLS-1$
             File f = new File(sPath);
@@ -1711,36 +1727,36 @@ public final class Utils {
 
         // Mods
         ArrayList<String> alMods = Game.getModsLoaded();
-        if (alMods == null || alMods.size() == 0) {
+        if (alMods.isEmpty()) {
             return;
         }
 
         String sModName;
-        for (int i = 0; i < alMods.size(); i++) {
-            sModName = alMods.get(i);
+        for (String alMod : alMods) {
+            sModName = alMod;
 
-            if (sMissionID == null || sMissionID.trim().length() == 0) {
+            if (sMissionID == null || sMissionID.trim().isEmpty()) {
                 // Sin misi�n, lo pillamos de la carpeta data
-                String sModActionsPath = fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator") + sModName + System.getProperty("file.separator") + Towns.getPropertiesString("DATA_FOLDER") + sOriginalFile; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                String sModActionsPath = fUserFolder.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.MODS_FOLDER1 + FileSystems.getDefault().getSeparator() + sModName + FileSystems.getDefault().getSeparator() + Towns.getPropertiesString("DATA_FOLDER") + sOriginalFile; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                 File f = new File(sModActionsPath);
                 if (f.exists()) {
                     alList.add(sModActionsPath);
                 }
             } else {
                 // Primero miramos la carpeta del mod
-                String sPath = fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator") + sModName + System.getProperty("file.separator") + Towns.getPropertiesString("DATA_FOLDER") + sOriginalFile; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                String sPath = fUserFolder.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.MODS_FOLDER1 + FileSystems.getDefault().getSeparator() + sModName + FileSystems.getDefault().getSeparator() + Towns.getPropertiesString("DATA_FOLDER") + sOriginalFile; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                 if (new File(sPath).exists()) {
                     alList.add(sPath);
                 }
 
                 // Ahora miramos la carpeta de la campa�a
-                sPath = fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator") + sModName + System.getProperty("file.separator") + Towns.getPropertiesString("CAMPAIGNS_FOLDER") + sCampaignID + File.separator + sOriginalFile; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                sPath = fUserFolder.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.MODS_FOLDER1 + FileSystems.getDefault().getSeparator() + sModName + FileSystems.getDefault().getSeparator() + Towns.getPropertiesString("CAMPAIGNS_FOLDER") + sCampaignID + File.separator + sOriginalFile; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                 if (new File(sPath).exists()) {
                     alList.add(sPath);
                 }
 
                 // Ahora la carpeta de campa+a+misi�n
-                sPath = fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator") + sModName + System.getProperty("file.separator") + Towns.getPropertiesString("CAMPAIGNS_FOLDER") + sCampaignID + File.separator + sMissionID + File.separator + sOriginalFile; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                sPath = fUserFolder.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.MODS_FOLDER1 + FileSystems.getDefault().getSeparator() + sModName + FileSystems.getDefault().getSeparator() + Towns.getPropertiesString("CAMPAIGNS_FOLDER") + sCampaignID + File.separator + sMissionID + File.separator + sOriginalFile; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                 if (new File(sPath).exists()) {
                     alList.add(sPath);
                 }
@@ -1797,7 +1813,7 @@ public final class Utils {
             return null;
         }
 
-        File fFolderTowns = new File(fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + ".towns"); //$NON-NLS-1$ //$NON-NLS-2$
+        File fFolderTowns = new File(fUserFolder.getAbsolutePath() + FileSystems.getDefault().getSeparator() + ".towns"); //$NON-NLS-1$ //$NON-NLS-2$
         if (!fFolderTowns.exists()) {
             fFolderTowns.mkdir();
         }
@@ -1807,7 +1823,7 @@ public final class Utils {
             return null;
         }
 
-        File fFolderSave = new File(fFolderTowns.getAbsolutePath() + System.getProperty("file.separator") + Game.SAVE_FOLDER1); //$NON-NLS-1$
+        File fFolderSave = new File(fFolderTowns.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.SAVE_FOLDER1); //$NON-NLS-1$
         if (!fFolderSave.exists()) {
             fFolderSave.mkdir();
         }
@@ -1817,7 +1833,7 @@ public final class Utils {
             return null;
         }
 
-        File fFolderMods = new File(fFolderTowns.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator")); //$NON-NLS-1$ //$NON-NLS-2$
+        File fFolderMods = new File(fFolderTowns.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.MODS_FOLDER1 + FileSystems.getDefault().getSeparator()); //$NON-NLS-1$ //$NON-NLS-2$
         if (!fFolderMods.exists()) {
             fFolderMods.mkdir();
         }
@@ -1827,7 +1843,7 @@ public final class Utils {
             return null;
         }
 
-        File fFolderBury = new File(fFolderTowns.getAbsolutePath() + System.getProperty("file.separator") + Game.BURY_FOLDER1 + System.getProperty("file.separator")); //$NON-NLS-1$ //$NON-NLS-2$
+        File fFolderBury = new File(fFolderTowns.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.BURY_FOLDER1 + FileSystems.getDefault().getSeparator()); //$NON-NLS-1$ //$NON-NLS-2$
         if (!fFolderBury.exists()) {
             fFolderBury.mkdir();
         }
@@ -1837,7 +1853,7 @@ public final class Utils {
             return null;
         }
 
-        File fFolderScreenshots = new File(fFolderTowns.getAbsolutePath() + System.getProperty("file.separator") + Game.SCREENSHOTS_FOLDER1 + System.getProperty("file.separator")); //$NON-NLS-1$ //$NON-NLS-2$
+        File fFolderScreenshots = new File(fFolderTowns.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.SCREENSHOTS_FOLDER1 + FileSystems.getDefault().getSeparator()); //$NON-NLS-1$ //$NON-NLS-2$
         if (!fFolderScreenshots.exists()) {
             fFolderScreenshots.mkdir();
         }
@@ -2030,8 +2046,8 @@ public final class Utils {
      * por comas ",". Null en caso de error/cadena vac�a
      */
     public static ArrayList<String> getArray(String sChain) {
-        if (sChain != null && sChain.trim().length() > 0) {
-            ArrayList<String> alReturn = new ArrayList<String>();
+        if (sChain != null && !sChain.trim().isEmpty()) {
+            ArrayList<String> alReturn = new ArrayList<>();
             StringTokenizer tokenizer = new StringTokenizer(sChain.trim(), ","); //$NON-NLS-1$
             while (tokenizer.hasMoreElements()) {
                 alReturn.add(tokenizer.nextToken());
@@ -2052,8 +2068,8 @@ public final class Utils {
      * separados por comas ",". Null en caso de error/cadena vac�a
      */
     public static ArrayList<Integer> getArrayIntegers(String sChain) throws Exception {
-        if (sChain != null && sChain.trim().length() > 0) {
-            ArrayList<Integer> alReturn = new ArrayList<Integer>();
+        if (sChain != null && !sChain.trim().isEmpty()) {
+            ArrayList<Integer> alReturn = new ArrayList<>();
             StringTokenizer tokenizer = new StringTokenizer(sChain.trim(), ","); //$NON-NLS-1$
             while (tokenizer.hasMoreElements()) {
                 String sToken = tokenizer.nextToken();
@@ -2078,15 +2094,15 @@ public final class Utils {
      * ....)
      */
     public static ArrayList<LanguageData> getLanguages() {
-        ArrayList<LanguageData> alReturn = new ArrayList<LanguageData>();
+        ArrayList<LanguageData> alReturn = new ArrayList<>();
 
         // Vanilla
         File fLanguagesFolder = new File("data/languages/"); //$NON-NLS-1$
         if (fLanguagesFolder.exists()) {
             String[] asFiles = fLanguagesFolder.list();
-            for (int i = 0; i < asFiles.length; i++) {
-                if (asFiles[i] != null && asFiles[i].startsWith("messages") && asFiles[i].endsWith(".properties")) { //$NON-NLS-1$ //$NON-NLS-2$
-                    String sID = asFiles[i].substring("messages".length()); //$NON-NLS-1$
+            for (String asFile : asFiles) {
+                if (asFile != null && asFile.startsWith("messages") && asFile.endsWith(".properties")) { //$NON-NLS-1$ //$NON-NLS-2$
+                    String sID = asFile.substring("messages".length()); //$NON-NLS-1$
                     sID = sID.substring(0, sID.length() - ".properties".length()); //$NON-NLS-1$
                     if (sID.startsWith("_")) { //$NON-NLS-1$
                         sID = sID.substring(1);
@@ -2097,13 +2113,13 @@ public final class Utils {
                     // Name
                     Properties prop = new Properties();
                     try {
-                        prop.load(new FileInputStream(fLanguagesFolder.getAbsolutePath() + File.separator + asFiles[i]));
+                        prop.load(new FileInputStream(fLanguagesFolder.getAbsolutePath() + File.separator + asFile));
                         ld.name = prop.getProperty("LANGUAGE_NAME"); //$NON-NLS-1$
                     } catch (Exception e) {
                         ld.name = null;
                     }
 
-                    if (ld.name == null || ld.name.trim().length() == 0) {
+                    if (ld.name == null || ld.name.trim().isEmpty()) {
                         ld.name = Messages.getString("Utils.34"); //$NON-NLS-1$
                     }
 
@@ -2147,21 +2163,21 @@ public final class Utils {
         }
 
         ArrayList<String> alModsLoaded = Game.getModsLoaded();
-        if (alModsLoaded == null || alModsLoaded.size() == 0) {
+        if (alModsLoaded == null || alModsLoaded.isEmpty()) {
             return alReturn;
         }
 
         String sModName;
-        for (int m = 0; m < alModsLoaded.size(); m++) {
-            sModName = alModsLoaded.get(m);
+        for (String s : alModsLoaded) {
+            sModName = s;
 
-            String sModLanguagesPath = fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator") + sModName + System.getProperty("file.separator") + Towns.getPropertiesString("DATA_FOLDER") + "/languages/"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+            String sModLanguagesPath = fUserFolder.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.MODS_FOLDER1 + FileSystems.getDefault().getSeparator() + sModName + FileSystems.getDefault().getSeparator() + Towns.getPropertiesString("DATA_FOLDER") + "/languages/"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
             File f = new File(sModLanguagesPath);
             if (f.exists()) {
                 String[] asFiles = f.list();
-                for (int i = 0; i < asFiles.length; i++) {
-                    if (asFiles[i] != null && asFiles[i].startsWith("messages") && asFiles[i].endsWith(".properties")) { //$NON-NLS-1$ //$NON-NLS-2$
-                        String sID = asFiles[i].substring("messages".length()); //$NON-NLS-1$
+                for (String asFile : asFiles) {
+                    if (asFile != null && asFile.startsWith("messages") && asFile.endsWith(".properties")) { //$NON-NLS-1$ //$NON-NLS-2$
+                        String sID = asFile.substring("messages".length()); //$NON-NLS-1$
                         sID = sID.substring(0, sID.length() - ".properties".length()); //$NON-NLS-1$
 
                         if (sID.startsWith("_")) { //$NON-NLS-1$
@@ -2173,13 +2189,13 @@ public final class Utils {
                         // Name
                         Properties prop = new Properties();
                         try {
-                            prop.load(new FileInputStream(sModLanguagesPath + asFiles[i]));
+                            prop.load(new FileInputStream(sModLanguagesPath + asFile));
                             ld.name = prop.getProperty("LANGUAGE_NAME"); //$NON-NLS-1$
                         } catch (Exception e) {
                             ld.name = null;
                         }
 
-                        if (ld.name == null || ld.name.trim().length() == 0) {
+                        if (ld.name == null || ld.name.trim().isEmpty()) {
                             ld.name = Messages.getString("Utils.34"); //$NON-NLS-1$
                         }
 

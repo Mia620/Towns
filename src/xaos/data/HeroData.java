@@ -65,23 +65,23 @@ public class HeroData implements Externalizable {
         setExploringCounter(0);
         setLevel(0);
         setXp(0);
-        setSkills(new ArrayList<SkillData>());
-        setFriendships(new ArrayList<Integer>());
+        setSkills(new ArrayList<>());
+        setFriendships(new ArrayList<>());
     }
 
     public static String getFriendshipString(Hero hero) {
-        if (hero.getHeroData().getFriendships().size() > 0) {
-            StringBuffer sBuffer = new StringBuffer(Messages.getString("HeroData.1") + ": "); //$NON-NLS-1$ //$NON-NLS-2$
+        if (!hero.getHeroData().getFriendships().isEmpty()) {
+            StringBuilder sBuffer = new StringBuilder(Messages.getString("HeroData.1") + ": "); //$NON-NLS-1$ //$NON-NLS-2$
             ArrayList<Integer> alFriends = hero.getHeroData().getFriendships();
             LivingEntity heroFriend;
             for (int h = 0; h < (alFriends.size() - 1); h++) {
-                heroFriend = World.getLivingEntityByID(alFriends.get(h).intValue());
+                heroFriend = World.getLivingEntityByID(alFriends.get(h));
                 if (heroFriend != null) {
                     sBuffer.append(heroFriend.getLivingEntityData().getName());
                     sBuffer.append(", "); //$NON-NLS-1$
                 }
             }
-            heroFriend = World.getLivingEntityByID(alFriends.get(alFriends.size() - 1).intValue());
+            heroFriend = World.getLivingEntityByID(alFriends.get(alFriends.size() - 1));
             if (heroFriend != null) {
                 sBuffer.append(heroFriend.getLivingEntityData().getName());
             }
@@ -235,16 +235,16 @@ public class HeroData implements Externalizable {
                 if (hSkills != null) {
                     ArrayList<String> newSkills = hSkills.getSkillsWhenReachLevel(getLevel());
                     if (newSkills != null) {
-                        for (int i = 0; i < newSkills.size(); i++) {
-                            SkillManagerItem smi = SkillManager.getItem(newSkills.get(i));
+                        for (String newSkill : newSkills) {
+                            SkillManagerItem smi = SkillManager.getItem(newSkill);
                             SkillData sd = new SkillData();
-                            sd.setSkillID(newSkills.get(i));
+                            sd.setSkillID(newSkill);
                             sd.setCoolDown(Utils.launchDice(smi.getCoolDown()));
                             sd.setUse(smi.getUse());
                             getSkills().add(sd);
 
                             if (verboseSkills) {
-                                MessagesPanel.addMessage(MessagesPanel.TYPE_HEROES, hero.getCitizenData().getFullName() + Messages.getString("HeroData.0") + SkillManager.getItem(newSkills.get(i)).getName() + "]", ColorGL.GREEN, hero.getCoordinates(), hero.getID()); //$NON-NLS-1$ //$NON-NLS-2$
+                                MessagesPanel.addMessage(MessagesPanel.TYPE_HEROES, hero.getCitizenData().getFullName() + Messages.getString("HeroData.0") + SkillManager.getItem(newSkill).getName() + "]", ColorGL.GREEN, hero.getCoordinates(), hero.getID()); //$NON-NLS-1$ //$NON-NLS-2$
                             }
                         }
                     }
@@ -289,7 +289,7 @@ public class HeroData implements Externalizable {
         if (Game.SAVEGAME_LOADING_VERSION >= Game.SAVEGAME_V13) {
             friendships = (ArrayList<Integer>) in.readObject();
         } else {
-            friendships = new ArrayList<Integer>();
+            friendships = new ArrayList<>();
         }
     }
 

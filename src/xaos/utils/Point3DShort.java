@@ -12,7 +12,7 @@ public class Point3DShort implements Externalizable {
     // Pool
     public static final int MAX_POOL = 1024 * 8;
     private static final long serialVersionUID = -2424329152748416157L;
-    public static ArrayList<Point3DShort> alPool = new ArrayList<Point3DShort>();
+    public static ArrayList<Point3DShort> alPool = new ArrayList<>();
 
     public short x;
     public short y;
@@ -37,7 +37,7 @@ public class Point3DShort implements Externalizable {
 
     public static Point3DShort getPoolInstance(short x, short y, short z) {
         synchronized (alPool) {
-            if (alPool.size() > 0) {
+            if (!alPool.isEmpty()) {
                 Point3DShort nodo = alPool.remove(alPool.size() - 1);
                 nodo.setPoint(x, y, z);
                 return nodo;
@@ -50,7 +50,7 @@ public class Point3DShort implements Externalizable {
     public static void returnToPool(ArrayList<Point3DShort> list) {
         if (list != null) {
             synchronized (alPool) {
-                while (list.size() > 0 && alPool.size() < MAX_POOL) {
+                while (!list.isEmpty() && alPool.size() < MAX_POOL) {
                     alPool.add(list.remove(list.size() - 1));
                 }
             }

@@ -65,8 +65,8 @@ public class Enemy extends LivingEntity implements Externalizable {
         ArrayList<LivingEntity> alLivings = cell.getLivings();
 
         if (alLivings != null) {
-            for (int liv = 0; liv < alLivings.size(); liv++) {
-                le = alLivings.get(liv);
+            for (LivingEntity alLiving : alLivings) {
+                le = alLiving;
                 lemi = LivingEntityManager.getItem(le.getIniHeader());
                 if (lemi.getType() == TYPE_ENEMY) {
                     enemy = (Enemy) le;
@@ -182,7 +182,7 @@ public class Enemy extends LivingEntity implements Externalizable {
             // En caso de siege y con aldeanos en el mundo le metemos un focus a alguien en el ASZI (el citizen m�s cercano)
             int iASZI = World.getCell(getCoordinates()).getAstarZoneID();
             Citizen citizen;
-            ArrayList<Integer> alCitsInArea = new ArrayList<Integer>();
+            ArrayList<Integer> alCitsInArea = new ArrayList<>();
             for (int i = 0; i < World.getCitizenIDs().size(); i++) {
                 citizen = (Citizen) World.getLivingEntityByID(World.getCitizenIDs().get(i));
                 if (World.getCell(citizen.getCoordinates()).getAstarZoneID() == iASZI) {
@@ -196,7 +196,7 @@ public class Enemy extends LivingEntity implements Externalizable {
                 }
             }
 
-            if (alCitsInArea.size() > 0) {
+            if (!alCitsInArea.isEmpty()) {
                 getFocusData().setEntityID(alCitsInArea.get(Utils.getRandomBetween(0, (alCitsInArea.size() - 1))));
                 getFocusData().setEntityType(TYPE_CITIZEN);
                 setFighting(true);
@@ -278,14 +278,14 @@ public class Enemy extends LivingEntity implements Externalizable {
         }
 
         // Si llega aqu� es que no hay items to steal, buscamos containers
-        if (Game.getWorld().getContainers().size() > 0) {
+        if (!Game.getWorld().getContainers().isEmpty()) {
             int iASZI = World.getCell(getCoordinates()).getAstarZoneID();
             ArrayList<Container> alContainers = Game.getWorld().getContainers();
-            ArrayList<Integer> alContainersInArea = new ArrayList<Integer>();
+            ArrayList<Integer> alContainersInArea = new ArrayList<>();
             Container container;
             Item itemContainer;
-            for (int i = 0; i < alContainers.size(); i++) {
-                container = alContainers.get(i);
+            for (Container alContainer : alContainers) {
+                container = alContainer;
                 if (container != null) {
                     itemContainer = Item.getItemByID(container.getItemID());
                     if (itemContainer != null && World.getCell(itemContainer.getCoordinates()).getAstarZoneID() == iASZI) {
@@ -294,7 +294,7 @@ public class Enemy extends LivingEntity implements Externalizable {
                 }
             }
 
-            if (alContainersInArea.size() > 0) {
+            if (!alContainersInArea.isEmpty()) {
                 // Hay containers en el �rea, pillamos uno a random y vamos a por �l
                 int iItemID = alContainersInArea.get(Utils.getRandomBetween(0, alContainersInArea.size() - 1));
                 itemContainer = Item.getItemByID(iItemID); // No puede dar null, lo tenemos controlado arriba

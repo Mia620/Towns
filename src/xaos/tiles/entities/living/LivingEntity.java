@@ -77,13 +77,13 @@ public abstract class LivingEntity extends Entity implements Externalizable {
     /**
      * N�mero de livings por tipo (discovered)
      */
-    private static HashMap<String, Integer> mapLivingsDiscovered = new HashMap<String, Integer>();
+    private static HashMap<String, Integer> mapLivingsDiscovered = new HashMap<>();
     /**
      * N�mero de livings por tipo (UNdiscovered)
      */
-    private static HashMap<String, Integer> mapLivingsUndiscovered = new HashMap<String, Integer>();
+    private static HashMap<String, Integer> mapLivingsUndiscovered = new HashMap<>();
     // Lista de puntos hasta destino (nunca ser� nulo)
-    private ArrayList<Point3DShort> path = new ArrayList<Point3DShort>();
+    private ArrayList<Point3DShort> path = new ArrayList<>();
     private byte flags;
 
     private transient int offset_carry_x;
@@ -186,7 +186,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
     public static String getAltGraphics(String sIniHeader) {
         LivingEntityManagerItem lemi = LivingEntityManager.getItem(sIniHeader);
 
-        if (lemi.getAltGraphics() != null && lemi.getAltGraphics().size() > 0) {
+        if (lemi.getAltGraphics() != null && !lemi.getAltGraphics().isEmpty()) {
             int iRandom = Utils.getRandomBetween(0, lemi.getAltGraphics().size());
             // Si el random == altGraphics.size() usamos el gr�fico original (por lo tanto no hacemos nada)
             if (iRandom < lemi.getAltGraphics().size()) {
@@ -209,11 +209,11 @@ public abstract class LivingEntity extends Entity implements Externalizable {
                 for (short z = 0; z < World.MAP_DEPTH; z++) {
                     alLivings = World.getCell(x, y, z).getLivings();
                     if (alLivings != null) {
-                        if (alLivings.size() == 0) {
+                        if (alLivings.isEmpty()) {
                             World.getCell(x, y, z).freeLivingsMem();
                         } else {
-                            for (int i = 0; i < alLivings.size(); i++) {
-                                alLivings.get(i).init(x, y, z);
+                            for (LivingEntity alLiving : alLivings) {
+                                alLiving.init(x, y, z);
                             }
                         }
                     }
@@ -273,7 +273,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
             return 0;
         }
 
-        return iNumber.intValue();
+        return iNumber;
     }
 
     /**
@@ -367,11 +367,11 @@ public abstract class LivingEntity extends Entity implements Externalizable {
         }
 
         // Reducimos si tiene effects con speedPCT != 100
-        if (living.getLivingEntityData().getEffects().size() > 0) {
+        if (!living.getLivingEntityData().getEffects().isEmpty()) {
             ArrayList<EffectData> alEffects = living.getLivingEntityData().getEffects();
             EffectData effectData;
-            for (int i = 0; i < alEffects.size(); i++) {
-                effectData = alEffects.get(i);
+            for (EffectData alEffect : alEffects) {
+                effectData = alEffect;
                 if (effectData.getSpeedPCT() != 100) {
                     iCurrent = (iCurrent * effectData.getSpeedPCT()) / 100;
                 }
@@ -615,8 +615,8 @@ public abstract class LivingEntity extends Entity implements Externalizable {
             ArrayList<EffectData> effects = attacker.getLivingEntityData().getEffects();
             EffectData effectData;
             EffectManagerItem emi;
-            for (int i = 0; i < effects.size(); i++) {
-                effectData = effects.get(i);
+            for (EffectData effect : effects) {
+                effectData = effect;
                 if (rangedWeapon == null) {
                     // Melee
                     if (effectData.getOnHitPCT() > 0 && Utils.getRandomBetween(1, 100) <= effectData.getOnHitPCT()) {
@@ -835,7 +835,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
      * @return una lista de en uso por aldeanos que no es el pasado, o nulo si no hay ninguno
      */
     public static ArrayList<Integer> searchLivingsInUse(int iCitID) {
-        ArrayList<Integer> alItemsInUse = new ArrayList<Integer>();
+        ArrayList<Integer> alItemsInUse = new ArrayList<>();
         Citizen citizen;
         for (int i = 0; i < World.getCitizenIDs().size(); i++) {
             citizen = (Citizen) World.getLivingEntityByID(World.getCitizenIDs().get(i));
@@ -881,9 +881,9 @@ public abstract class LivingEntity extends Entity implements Externalizable {
 
         ArrayList<LivingEntity> alLivings = World.getCell(p3d).getLivings();
         if (alLivings != null) {
-            for (int i = 0; i < alLivings.size(); i++) {
-                if (alLivings.get(i).getIniHeader().equals(sIniHeader)) {
-                    return alLivings.get(i);
+            for (LivingEntity alLiving : alLivings) {
+                if (alLiving.getIniHeader().equals(sIniHeader)) {
+                    return alLiving;
                 }
             }
         }
@@ -905,8 +905,8 @@ public abstract class LivingEntity extends Entity implements Externalizable {
 
         // Primero miramos si hay livings de esos
         int iNum = 0;
-        for (int f = 0; f < alHeaders.length; f++) {
-            iNum += getNumLivings(UtilsIniHeaders.getStringIniHeader(alHeaders[f]), true);
+        for (int alHeader : alHeaders) {
+            iNum += getNumLivings(UtilsIniHeaders.getStringIniHeader(alHeader), true);
         }
 
         if (iNum == 0) {
@@ -926,7 +926,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
 
             if (World.getCell(le.getCoordinates()).getAstarZoneID() == iASZID) {
                 if (UtilsIniHeaders.contains(alHeaders, le.getNumericIniHeader())) {
-                    if (alLivingsToAvoid == null || !alLivingsToAvoid.contains(Integer.valueOf(le.getID()))) {
+                    if (alLivingsToAvoid == null || !alLivingsToAvoid.contains(le.getID())) {
                         if (!near) {
                             return le;
                         } else {
@@ -970,8 +970,8 @@ public abstract class LivingEntity extends Entity implements Externalizable {
 
         // Primero miramos si hay livings de esos
         int iNum = 0;
-        for (int f = 0; f < alHeaders.length; f++) {
-            iNum += getNumLivings(UtilsIniHeaders.getStringIniHeader(alHeaders[f]), true);
+        for (int alHeader : alHeaders) {
+            iNum += getNumLivings(UtilsIniHeaders.getStringIniHeader(alHeader), true);
         }
 
         if (iNum == 0) {
@@ -990,7 +990,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
 
             if (World.getCell(le.getCoordinates()).getAstarZoneID() == iASZID) {
                 if (UtilsIniHeaders.contains(alHeaders, le.getNumericIniHeader())) {
-                    if (alLivingsToAvoid == null || !alLivingsToAvoid.contains(Integer.valueOf(le.getID()))) {
+                    if (alLivingsToAvoid == null || !alLivingsToAvoid.contains(le.getID())) {
                         if (!near) {
                             return le;
                         } else {
@@ -1178,8 +1178,8 @@ public abstract class LivingEntity extends Entity implements Externalizable {
         if (alLivings != null) {
             LivingEntity le;
             LivingEntityManagerItem lemi;
-            for (int liv = 0; liv < alLivings.size(); liv++) {
-                le = alLivings.get(liv);
+            for (LivingEntity alLiving : alLivings) {
+                le = alLiving;
                 lemi = LivingEntityManager.getItem(le.getIniHeader());
                 if (TownsProperties.DEBUG_MODE) {
                     sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, "ID: " + le.getID() + " (" + le.getIniHeader() + ")", null, null, null)); //$NON-NLS-1$  //$NON-NLS-2$  //$NON-NLS-3$
@@ -1210,8 +1210,8 @@ public abstract class LivingEntity extends Entity implements Externalizable {
                 }
 
                 // Effects
-                if (le.getLivingEntityData().getEffects().size() > 0) {
-                    StringBuffer sBuffer = new StringBuffer();
+                if (!le.getLivingEntityData().getEffects().isEmpty()) {
+                    StringBuilder sBuffer = new StringBuilder();
                     EffectData eData;
                     for (int e = 0; e < le.getLivingEntityData().getEffects().size(); e++) {
                         eData = le.getLivingEntityData().getEffects().get(e);
@@ -1277,8 +1277,8 @@ public abstract class LivingEntity extends Entity implements Externalizable {
                 HateData hateData = LivingEntityManager.getHateData(sIniHeader);
 
                 LivingEntity le;
-                for (int i = 0; i < alLivings.size(); i++) {
-                    le = alLivings.get(i);
+                for (LivingEntity alLiving : alLivings) {
+                    le = alLiving;
                     if (hateData.isHate(le)) {
                         return le;
                     }
@@ -1288,8 +1288,8 @@ public abstract class LivingEntity extends Entity implements Externalizable {
                 int iSourceType = LivingEntityManager.getItem(sIniHeader).getType();
 
                 LivingEntity le;
-                for (int i = 0; i < alLivings.size(); i++) {
-                    le = alLivings.get(i);
+                for (LivingEntity alLiving : alLivings) {
+                    le = alLiving;
                     if (LivingEntityManager.getItem(le.getIniHeader()).getType() == iSourceType) {
                         return le;
                     }
@@ -1301,8 +1301,8 @@ public abstract class LivingEntity extends Entity implements Externalizable {
     }
 
     public static void clear() {
-        mapLivingsDiscovered = new HashMap<String, Integer>();
-        mapLivingsUndiscovered = new HashMap<String, Integer>();
+        mapLivingsDiscovered = new HashMap<>();
+        mapLivingsUndiscovered = new HashMap<>();
     }
 
     public void init(int x, int y, int z) {
@@ -1316,7 +1316,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
         addLiving(this, bDiscovered);
 
         // Lo metemos en la lista de livings que toque
-        World.getLivings(bDiscovered).put(Integer.valueOf(getID()), this);
+        World.getLivings(bDiscovered).put(getID(), this);
 
         // Caso aldeanos o heros, se mete en la lista pertinente y se suma 1 al num cits/soldiers (si es el caso)
         LivingEntityManagerItem lemi = LivingEntityManager.getItem(getIniHeader());
@@ -1400,7 +1400,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
      * @return
      */
     private int getOffsetValue(String sValue, boolean firstValue) {
-        if (sValue == null || sValue.length() == 0) {
+        if (sValue == null || sValue.isEmpty()) {
             return 0;
         }
 
@@ -1470,7 +1470,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
 
     public ArrayList<Point3DShort> getPath() {
         if (path == null) {
-            path = new ArrayList<Point3DShort>();
+            path = new ArrayList<>();
         }
 
         return path;
@@ -1522,7 +1522,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
         pTMP.x = 0;
         pTMP.y = 0;
 
-        if (getPath().size() == 0) {
+        if (getPath().isEmpty()) {
             // Constants offset
             Point2D.Float pTMP2 = getPositionOffsetConstants();
             pTMP2.x = 0;
@@ -1557,11 +1557,11 @@ public abstract class LivingEntity extends Entity implements Externalizable {
             }
 
             // Reducimos si tiene effects con speedPCT != 100
-            if (getLivingEntityData().getEffects().size() > 0) {
+            if (!getLivingEntityData().getEffects().isEmpty()) {
                 ArrayList<EffectData> alEffects = getLivingEntityData().getEffects();
                 EffectData effectData;
-                for (int i = 0; i < alEffects.size(); i++) {
-                    effectData = alEffects.get(i);
+                for (EffectData alEffect : alEffects) {
+                    effectData = alEffect;
                     if (effectData.getSpeedPCT() != 100) {
                         speed = (speed * effectData.getSpeedPCT()) / 100;
                     }
@@ -2003,7 +2003,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
 
         // Miramos las casillas posibles a las que puede ir
         // Hay que mirar que no haya un hated ah�
-        ArrayList<Point3DShort> alPoints = new ArrayList<Point3DShort>();
+        ArrayList<Point3DShort> alPoints = new ArrayList<>();
         for (int i = -1; i <= 1; i++) {
             nextcell:
             for (int j = -1; j <= 1; j++) {
@@ -2017,8 +2017,8 @@ public abstract class LivingEntity extends Entity implements Externalizable {
 
                             if (alLivings != null) {
                                 LivingEntity le;
-                                for (int h = 0; h < alLivings.size(); h++) {
-                                    le = alLivings.get(h);
+                                for (LivingEntity alLiving : alLivings) {
+                                    le = alLiving;
                                     if (hateData.isHate(le)) {
                                         continue nextcell; // Hay hate, la celda no est� disponible para el move
                                     }
@@ -2057,8 +2057,8 @@ public abstract class LivingEntity extends Entity implements Externalizable {
 
                                 if (alLivings != null) {
                                     LivingEntity le;
-                                    for (int h = 0; h < alLivings.size(); h++) {
-                                        le = alLivings.get(h);
+                                    for (LivingEntity alLiving : alLivings) {
+                                        le = alLiving;
                                         if (hateData.isHate(le)) {
                                             continue nextcell; // Hay hate, la celda no est� disponible para el move
                                         }
@@ -2089,8 +2089,8 @@ public abstract class LivingEntity extends Entity implements Externalizable {
 
                                 if (alLivings != null) {
                                     LivingEntity le;
-                                    for (int h = 0; h < alLivings.size(); h++) {
-                                        le = alLivings.get(h);
+                                    for (LivingEntity alLiving : alLivings) {
+                                        le = alLiving;
                                         if (hateData.isHate(le)) {
                                             continue nextcell; // Hay hate, la celda no est� disponible para el move
                                         }
@@ -2105,23 +2105,23 @@ public abstract class LivingEntity extends Entity implements Externalizable {
             }
         }
 
-        if (alPoints.size() > 0) {
+        if (!alPoints.isEmpty()) {
             // Calculamos los A*ZID
-            ArrayList<Integer> alASZIDS = new ArrayList<Integer>();
-            for (int i = 0; i < alPoints.size(); i++) {
-                alASZIDS.add(Integer.valueOf(World.getCell(alPoints.get(i)).getAstarZoneID()));
+            ArrayList<Integer> alASZIDS = new ArrayList<>();
+            for (Point3DShort alPoint : alPoints) {
+                alASZIDS.add(Integer.valueOf(World.getCell(alPoint).getAstarZoneID()));
             }
 
             // Creamos una lista con los A*ZID de los otros aldeanos
             Citizen citizen;
             Cell cell;
-            ArrayList<Integer> alASZIDSOtros = new ArrayList<Integer>();
+            ArrayList<Integer> alASZIDSOtros = new ArrayList<>();
             for (int i = 0; i < World.getCitizenIDs().size(); i++) {
                 citizen = (Citizen) World.getLivingEntityByID(World.getCitizenIDs().get(i));
                 if (citizen.getID() != getID()) {
                     cell = World.getCell(citizen.getCoordinates());
                     if (cell.getAstarZoneID() != -1) {
-                        alASZIDSOtros.add(Integer.valueOf(cell.getAstarZoneID()));
+                        alASZIDSOtros.add(cell.getAstarZoneID());
                     }
                 }
             }
@@ -2130,21 +2130,21 @@ public abstract class LivingEntity extends Entity implements Externalizable {
                 if (citizen.getID() != getID()) {
                     cell = World.getCell(citizen.getCoordinates());
                     if (cell.getAstarZoneID() != -1) {
-                        alASZIDSOtros.add(Integer.valueOf(cell.getAstarZoneID()));
+                        alASZIDSOtros.add(cell.getAstarZoneID());
                     }
                 }
             }
 
             // Creamos una lista de puntos buenos mirando la lista de A*ZID de los otros aldeanos
-            if (alASZIDSOtros.size() > 0) {
-                ArrayList<Point3DShort> alPointsOK = new ArrayList<Point3DShort>();
+            if (!alASZIDSOtros.isEmpty()) {
+                ArrayList<Point3DShort> alPointsOK = new ArrayList<>();
                 for (int i = 0; i < alASZIDS.size(); i++) {
                     if (alASZIDSOtros.contains(alASZIDS.get(i))) {
                         alPointsOK.add(alPoints.get(i));
                     }
                 }
 
-                if (alPointsOK.size() > 0) {
+                if (!alPointsOK.isEmpty()) {
                     // Tenemos la lista buena, hazamos random y pacasa
                     setCoordinates(alPointsOK.get(Utils.getRandomBetween(0, alPointsOK.size() - 1)));
                 } else {
@@ -2213,10 +2213,10 @@ public abstract class LivingEntity extends Entity implements Externalizable {
                 // Miramos si el item tiene tags
                 ItemManagerItem imi = ItemManager.getItem(item.getIniHeader());
                 boolean bTagsOK = true;
-                if (imi.getTags() != null && imi.getTags().size() > 0) {
+                if (imi.getTags() != null && !imi.getTags().isEmpty()) {
                     // El item tiene tags
 
-                    if (lemi.getEquipAllowed() != null && lemi.getEquipAllowed().size() > 0) {
+                    if (lemi.getEquipAllowed() != null && !lemi.getEquipAllowed().isEmpty()) {
                         // El personaje tiene tags
 
                         for (int i = 0; i < imi.getTags().size(); i++) {
@@ -2406,7 +2406,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
     }
 
     public ArrayList<LivingEntity> getAllLivingsInRadius(int iRadius, boolean hated) {
-        ArrayList<LivingEntity> alLivings = new ArrayList<LivingEntity>();
+        ArrayList<LivingEntity> alLivings = new ArrayList<>();
         short iTmp;
         short x = getX();
         short y = getY();
@@ -2646,7 +2646,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
         removeLiving(this, bDiscovered); // Restamos 1 al n�mero de livings de ese tipo
 
         // Lo sacamos de la lista de Livings
-        World.getLivings(bDiscovered).remove(Integer.valueOf(getID()));
+        World.getLivings(bDiscovered).remove(getID());
 
         LivingEntityManagerItem lemi = LivingEntityManager.getItem(getIniHeader());
 
@@ -2670,25 +2670,25 @@ public abstract class LivingEntity extends Entity implements Externalizable {
         if (dead) {
             // Miramos si tiene drop
             ArrayList<DropData> alDrops = lemi.getDropData();
-            if (alDrops != null && alDrops.size() > 0) {
+            if (alDrops != null && !alDrops.isEmpty()) {
                 // Tiene!! Lanzamos los PCT a ver si sacamos algo
-                for (int i = 0; i < alDrops.size(); i++) {
-                    if (Utils.getRandomBetween(1, 100) <= Utils.launchDice(alDrops.get(i).getPCT())) {
+                for (DropData alDrop : alDrops) {
+                    if (Utils.getRandomBetween(1, 100) <= Utils.launchDice(alDrop.getPCT())) {
                         // Ta-d� !!!
                         // Miramos si es item random
                         String sItemID = null;
-                        if (alDrops.get(i).getItem() != null && !alDrops.get(i).getItem().equalsIgnoreCase(DropData.ITEM_RANDOM)) {
+                        if (alDrop.getItem() != null && !alDrop.getItem().equalsIgnoreCase(DropData.ITEM_RANDOM)) {
                             // Item fijo
-                            sItemID = alDrops.get(i).getItem();
+                            sItemID = alDrop.getItem();
                         } else {
                             // Item by level (random)
-                            ItemManagerItem imi = ItemManager.getRandomItemByLevel(alDrops.get(i).getLevelMin(), alDrops.get(i).getLevelMax());
+                            ItemManagerItem imi = ItemManager.getRandomItemByLevel(alDrop.getLevelMin(), alDrop.getLevelMax());
                             if (imi != null) {
                                 sItemID = imi.getIniHeader();
                             }
                         }
 
-                        if (sItemID != null && sItemID.length() > 0) {
+                        if (sItemID != null && !sItemID.isEmpty()) {
                             ItemManagerItem imi = ItemManager.getItem(sItemID);
                             Point3DShort p3dDrop = searchDropCell(imi, getX(), getY(), getZ());
 
@@ -2719,7 +2719,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
             // Drop de equipment
             if (lemi.getType() == TYPE_CITIZEN || lemi.getType() == TYPE_HERO) {
                 EquippedData equippedData = getEquippedData();
-                ArrayList<MilitaryItem> alItems = new ArrayList<MilitaryItem>();
+                ArrayList<MilitaryItem> alItems = new ArrayList<>();
                 if (equippedData.getHead() != null) {
                     alItems.add(equippedData.getHead());
                 }
@@ -2736,7 +2736,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
                     alItems.add(equippedData.getWeapon());
                 }
 
-                if (alItems.size() > 0) {
+                if (!alItems.isEmpty()) {
                     // Hay cosas para dropear
                     // S�lo soltaremos el 60% de las cosas
                     int iIndex = alItems.size() - 1;
@@ -2747,17 +2747,17 @@ public abstract class LivingEntity extends Entity implements Externalizable {
                         iIndex--;
                     }
 
-                    if (alItems.size() > 0) {
+                    if (!alItems.isEmpty()) {
                         // A�n hay cosas para soltar, miramos si cabe en las casillas vecinas
                         ItemManagerItem imi;
-                        for (int i = 0; i < alItems.size(); i++) {
-                            imi = ItemManager.getItem(alItems.get(i).getIniHeader());
+                        for (MilitaryItem alItem : alItems) {
+                            imi = ItemManager.getItem(alItem.getIniHeader());
                             Point3DShort p3dDrop = searchDropCell(imi, getX(), getY(), getZ());
                             if (p3dDrop != null) {
-                                alItems.get(i).init(p3dDrop.x, p3dDrop.y, p3dDrop.z);
-                                alItems.get(i).setOperative(imi.isAlwaysOperative());
-                                alItems.get(i).setLocked(false);
-                                World.getCell(p3dDrop).setEntity(alItems.get(i));
+                                alItem.init(p3dDrop.x, p3dDrop.y, p3dDrop.z);
+                                alItem.setOperative(imi.isAlwaysOperative());
+                                alItem.setLocked(false);
+                                World.getCell(p3dDrop).setEntity(alItem);
                             }
                         }
                     }
@@ -2819,7 +2819,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
             }
 
             // FX
-            if (lemi.getFxDead() != null && lemi.getFxDead().length() > 0) {
+            if (lemi.getFxDead() != null && !lemi.getFxDead().isEmpty()) {
                 UtilsAL.play(lemi.getFxDead(), getZ());
             } else {
                 UtilsAL.play(UtilsAL.SOURCE_FX_DEAD, getZ());
@@ -2937,9 +2937,9 @@ public abstract class LivingEntity extends Entity implements Externalizable {
 
             ArrayList<Integer> alHeros = World.getHeroIDs();
             Hero heroAux;
-            for (int h = 0; h < alHeros.size(); h++) {
+            for (Integer alHero : alHeros) {
                 // Si est� en la lista de amigos de otros, lo borramos
-                heroAux = (Hero) World.getLivingEntityByID(alHeros.get(h));
+                heroAux = (Hero) World.getLivingEntityByID(alHero);
                 if (heroAux != null) {
                     while (heroAux.getHeroData().getFriendships().remove(Integer.valueOf(getID()))) {
                         // Vamos borrando (aunque no deber�a haber m�s de 1)
@@ -2977,7 +2977,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
             if (mi != null) {
                 // UNWear effects
                 ItemManagerItem imi = ItemManager.getItem(mi.getIniHeader());
-                if (imi.getWearEffects() != null && imi.getWearEffects().size() > 0) {
+                if (imi.getWearEffects() != null && !imi.getWearEffects().isEmpty()) {
                     // A quitar efectos
                     for (int i = 0, n = imi.getWearEffects().size(); i < n; i++) {
                         removeEffect(imi.getWearEffects().get(i), iLivingType, false);
@@ -3117,7 +3117,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
     private void castEffects(EffectManagerItem emi, EffectData effectData) {
         // Miramos en un radio de LOS * 2 si hay livings
         int radio = getLivingEntityData().getLOSCurrent() * 2;
-        ArrayList<LivingEntity> alLivings = new ArrayList<LivingEntity>();
+        ArrayList<LivingEntity> alLivings = new ArrayList<>();
 
         int minX = getX() - radio;
         if (minX < 0) {
@@ -3144,9 +3144,9 @@ public abstract class LivingEntity extends Entity implements Externalizable {
                 if (cell.isDiscovered()) {
                     ArrayList<LivingEntity> alLivingsCell = cell.getLivings();
                     LivingEntity le;
-                    if (alLivingsCell != null && alLivingsCell.size() > 0) {
-                        for (int l = 0; l < alLivingsCell.size(); l++) {
-                            le = alLivingsCell.get(l);
+                    if (alLivingsCell != null && !alLivingsCell.isEmpty()) {
+                        for (LivingEntity livingEntity : alLivingsCell) {
+                            le = livingEntity;
                             if (effectData.getCastTargets().isHate(le)) {
                                 alLivings.add(le);
                             }
@@ -3157,9 +3157,9 @@ public abstract class LivingEntity extends Entity implements Externalizable {
         }
 
         // Tenemos las livings targets, les aplicamos los efectos
-        for (int i = 0; i < alLivings.size(); i++) {
+        for (LivingEntity alLiving : alLivings) {
             for (int e = 0; e < emi.getCastEffects().size(); e++) {
-                alLivings.get(i).addEffect(EffectManager.getItem(emi.getCastEffects().get(e)), true);
+                alLiving.addEffect(EffectManager.getItem(emi.getCastEffects().get(e)), true);
             }
         }
     }
@@ -3249,14 +3249,14 @@ public abstract class LivingEntity extends Entity implements Externalizable {
                     ArrayList<HeroPrerequisite> alPrerequisites = HeroManager.getComePrerequisites(getIniHeader());
                     if (alPrerequisites != null) {
                         HeroPrerequisite hp;
-                        for (int p = 0; p < alPrerequisites.size(); p++) {
-                            hp = alPrerequisites.get(p);
+                        for (HeroPrerequisite alPrerequisite : alPrerequisites) {
+                            hp = alPrerequisite;
                             if (hp.getId() == HeroPrerequisite.ID_ZONE) {
                                 // Bingo
                                 String sZone = hp.getValueString();
                                 if (sZone != null) {
                                     // Buscamos una zona de estas y mandamos al heroe
-                                    ArrayList<Point3DShort> alPoints = new ArrayList<Point3DShort>();
+                                    ArrayList<Point3DShort> alPoints = new ArrayList<>();
 
                                     Zone zone;
                                     if (Game.getWorld().getZones() != null) {
@@ -3271,7 +3271,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
                                         }
                                     }
 
-                                    if (alPoints.size() > 0) {
+                                    if (!alPoints.isEmpty()) {
                                         effectData.setFlee(false); // Para evitar stucks
                                         getLivingEntityData().getEffects().set(i, effectData);
 
@@ -4279,8 +4279,8 @@ public abstract class LivingEntity extends Entity implements Externalizable {
                 sEffectID = emi.getEffectsPrerequisite().get(i);
 
                 boolean bExiste = false;
-                for (int e = 0; e < alCurrentEffects.size(); e++) {
-                    efData = alCurrentEffects.get(e);
+                for (EffectData alCurrentEffect : alCurrentEffects) {
+                    efData = alCurrentEffect;
                     if (efData.getEffectID().equals(sEffectID)) {
                         bExiste = true;
                         break;
@@ -4333,7 +4333,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
         }
 
         if (iIndexSameEffect == -1 && emi.isMessageWhenGain()) { // Efecto nuevo que muestra mensajes de gain
-            if (verbose && emi.getName() != null && emi.getName().length() > 0) {
+            if (verbose && emi.getName() != null && !emi.getName().isEmpty()) {
                 int iLivingType = LivingEntityManager.getItem(getIniHeader()).getType();
                 if (iLivingType == TYPE_HERO) {
                     MessagesPanel.addMessage(MessagesPanel.TYPE_HEROES, getLivingEntityData().getName() + Messages.getString("Hero.9") + emi.getName() + "]", ColorGL.WHITE, getCoordinates(), getID()); //$NON-NLS-1$ //$NON-NLS-2$
@@ -4367,7 +4367,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
                 }
 
                 // Miramos si tiene afterEffects para meter
-                if (emi.getAfterEffects() != null && emi.getAfterEffects().size() > 0) {
+                if (emi.getAfterEffects() != null && !emi.getAfterEffects().isEmpty()) {
                     for (int e = 0; e < emi.getAfterEffects().size(); e++) {
                         addEffect(EffectManager.getItem(emi.getAfterEffects().get(e)), true);
                     }

@@ -47,7 +47,7 @@ public class SoldierData implements Externalizable {
     }
 
     public SoldierData(int livingID) {
-        setPatrolPoints(new ArrayList<Point3DShort>(COUNTER_MAX_PATROL_POINTS));
+        setPatrolPoints(new ArrayList<>(COUNTER_MAX_PATROL_POINTS));
         resetData(livingID);
         setState(STATE_NOT_A_SOLDIER);
         setGroup(-1, livingID);
@@ -61,7 +61,7 @@ public class SoldierData implements Externalizable {
         setPatrolPointTarget(0);
         setPatrolWaitTime(WAIT_TURNS_BETWEEN_PATROLS);
 
-        while (getPatrolPoints().size() > 0) {
+        while (!getPatrolPoints().isEmpty()) {
             removePatrolPoint(getPatrolPoints().get(0));
         }
     }
@@ -156,7 +156,7 @@ public class SoldierData implements Externalizable {
             } else {
                 // Mismo grupo, no hay que hacer nada
                 // Si pasa de aldeano a soldado podr�a ser que sea el mismo grupo (-1), as� que miramos eso y lo a�adimos a la lista de soldados sin grupo
-                if (!Game.getWorld().getSoldierGroups().getSoldiersWithoutGroup().contains(Integer.valueOf(livingID))) {
+                if (!Game.getWorld().getSoldierGroups().getSoldiersWithoutGroup().contains(livingID)) {
                     Game.getWorld().getSoldierGroups().addSoldierToGroup(livingID, this.group);
                 }
             }

@@ -36,7 +36,7 @@ import java.util.HashMap;
 public class EventData implements Externalizable {
 
     private static final long serialVersionUID = 8911321568004507866L;
-    private static final HashMap<String, ArrayList<Point3D>> hmSeedsIDs = new HashMap<String, ArrayList<Point3D>>();
+    private static final HashMap<String, ArrayList<Point3D>> hmSeedsIDs = new HashMap<>();
     private String eventID;
     private int order;
     private int turns;
@@ -183,7 +183,7 @@ public class EventData implements Externalizable {
             }
 
             // Injects
-            if (emi.getInjectActions() != null && emi.getInjectActions().size() > 0) {
+            if (emi.getInjectActions() != null && !emi.getInjectActions().isEmpty()) {
                 for (int i = 0; i < emi.getInjectActions().size(); i++) {
                     Action action = new Action(emi.getInjectActions().get(i));
                     action.setQueue(ActionManager.getItem(emi.getInjectActions().get(i)).getQueue());
@@ -193,7 +193,7 @@ public class EventData implements Externalizable {
             }
 
             // Generators
-            if (emi.getUseFileIDs() != null && emi.getUseFileIDs().size() > 0) {
+            if (emi.getUseFileIDs() != null && !emi.getUseFileIDs().isEmpty()) {
                 //hmSeedsIDs.clear ();
 
                 for (int i = 0; i < emi.getUseFileIDs().size(); i++) {
@@ -246,9 +246,9 @@ public class EventData implements Externalizable {
      *                     no a todos
      */
     public void launchEffects(EventManagerItem emi, ArrayList<String> effectsList, LivingEntity singleLiving) {
-        if (emi.getTargets() != null && emi.getTargets().size() > 0) {
+        if (emi.getTargets() != null && !emi.getTargets().isEmpty()) {
             // Tiene targets, vamos a ver si aplicamos efectos de 1 s�lo uso (<effects>)
-            if (effectsList != null && effectsList.size() > 0) {
+            if (effectsList != null && !effectsList.isEmpty()) {
                 ArrayList<String> alTargets = emi.getTargets();
                 ArrayList<String> alPCTs = emi.getTargetsPCT();
 
@@ -261,13 +261,13 @@ public class EventData implements Externalizable {
                         return;
                     }
 
-                    if (emi.getTargetsRandomCell() == null || emi.getTargetsRandomCell().length() == 0) {
+                    if (emi.getTargetsRandomCell() == null || emi.getTargetsRandomCell().isEmpty()) {
                         // No hay random cell, recorremos effects y targets normalmente
                         // Recorremos todos los efectos y los vamos metiendo
                         EffectManagerItem efmi;
                         foreffects:
-                        for (int ef = 0; ef < effectsList.size(); ef++) {
-                            efmi = EffectManager.getItem(effectsList.get(ef));
+                        for (String s : effectsList) {
+                            efmi = EffectManager.getItem(s);
                             if (efmi != null) {
                                 int iPCT;
                                 int iTargetType;
@@ -294,19 +294,14 @@ public class EventData implements Externalizable {
                                         continue foreffects;
                                     }
 
-                                    if (sTarget.equals(LivingEntityManagerItem.TYPE_HERO)) {
-                                        iTargetType = LivingEntity.TYPE_HERO;
-                                    } else if (sTarget.equals(LivingEntityManagerItem.TYPE_CITIZEN)) {
-                                        iTargetType = LivingEntity.TYPE_CITIZEN;
-                                    } else if (sTarget.equals(LivingEntityManagerItem.TYPE_ALLY)) {
-                                        iTargetType = LivingEntity.TYPE_ALLY;
-                                    } else if (sTarget.equals(LivingEntityManagerItem.TYPE_FRIENDLY)) {
-                                        iTargetType = LivingEntity.TYPE_FRIENDLY;
-                                    } else if (sTarget.equals(LivingEntityManagerItem.TYPE_ENEMY)) {
-                                        iTargetType = LivingEntity.TYPE_ENEMY;
-                                    } else {
-                                        iTargetType = LivingEntity.TYPE_UNKNOWN;
-                                    }
+                                    iTargetType = switch (sTarget) {
+                                        case LivingEntityManagerItem.TYPE_HERO -> LivingEntity.TYPE_HERO;
+                                        case LivingEntityManagerItem.TYPE_CITIZEN -> LivingEntity.TYPE_CITIZEN;
+                                        case LivingEntityManagerItem.TYPE_ALLY -> LivingEntity.TYPE_ALLY;
+                                        case LivingEntityManagerItem.TYPE_FRIENDLY -> LivingEntity.TYPE_FRIENDLY;
+                                        case LivingEntityManagerItem.TYPE_ENEMY -> LivingEntity.TYPE_ENEMY;
+                                        default -> LivingEntity.TYPE_UNKNOWN;
+                                    };
 
                                     if (iTargetType == LivingEntity.TYPE_HERO) {
                                         // H�roes
@@ -348,8 +343,8 @@ public class EventData implements Externalizable {
                                         if (hmLivings != null) {
                                             Integer[] aLivings = hmLivings.keySet().toArray(new Integer[0]);
                                             LivingEntityManagerItem lemi;
-                                            for (int h = 0; h < aLivings.length; h++) {
-                                                le = hmLivings.get(aLivings[h]);
+                                            for (Integer aLiving : aLivings) {
+                                                le = hmLivings.get(aLiving);
                                                 if (le != null && Utils.getRandomBetween(1, 100) <= iPCT) {
                                                     // Miramos el openCell
                                                     if (emi.isTargetsOpenCell() && !World.getCell(le.getCoordinates()).isOpen()) {
@@ -370,8 +365,8 @@ public class EventData implements Externalizable {
                                         if (hmLivings != null) {
                                             Integer[] aLivings = hmLivings.keySet().toArray(new Integer[0]);
                                             LivingEntityManagerItem lemi;
-                                            for (int h = 0; h < aLivings.length; h++) {
-                                                le = hmLivings.get(aLivings[h]);
+                                            for (Integer aLiving : aLivings) {
+                                                le = hmLivings.get(aLiving);
                                                 if (le != null && Utils.getRandomBetween(1, 100) <= iPCT) {
                                                     // Miramos el openCell
                                                     if (emi.isTargetsOpenCell() && !World.getCell(le.getCoordinates()).isOpen()) {
@@ -401,7 +396,7 @@ public class EventData implements Externalizable {
                             int z = Utils.getRandomBetween(0, World.MAP_DEPTH - 1);
 
                             cell = World.getCell(x, y, z);
-                            if (cell.isDiscovered() && cell.getLivings() != null && cell.getLivings().size() > 0) {
+                            if (cell.isDiscovered() && cell.getLivings() != null && !cell.getLivings().isEmpty()) {
                                 // Miramos si la celda tiene que ser open
                                 if (emi.isTargetsOpenCell() && !cell.isOpen()) {
                                     continue;
@@ -449,8 +444,8 @@ public class EventData implements Externalizable {
                                                 if (Utils.getRandomBetween(1, 100) <= Utils.launchDice(alPCTs.get(iTargetIndex))) {
                                                     // BAM, efectos
                                                     EffectManagerItem efmi;
-                                                    for (int ef = 0; ef < effectsList.size(); ef++) {
-                                                        efmi = EffectManager.getItem(effectsList.get(ef));
+                                                    for (String s : effectsList) {
+                                                        efmi = EffectManager.getItem(s);
                                                         if (efmi != null) {
                                                             le.addEffect(efmi, true);
                                                         }
@@ -514,7 +509,7 @@ public class EventData implements Externalizable {
      * @param bRestore Restoring items to the original state
      */
     public void checkAllItemsMaxAgePCTs(EventManagerItem emi, boolean bRestore) {
-        if (emi.getItems() != null && emi.getItemsMaxAgePCT() != null && emi.getItems().size() > 0 && emi.getItems().size() == emi.getItemsMaxAgePCT().size()) {
+        if (emi.getItems() != null && emi.getItemsMaxAgePCT() != null && !emi.getItems().isEmpty() && emi.getItems().size() == emi.getItemsMaxAgePCT().size()) {
             // Obtenemos todos los items y le aplicamos lo que toque
 
             String sIniHeader;
@@ -534,8 +529,8 @@ public class EventData implements Externalizable {
                         ArrayList<Integer> alItems = Item.getMapItemsLocked().get(UtilsIniHeaders.getIntIniHeader(sIniHeader));
                         if (alItems != null) {
                             Item item;
-                            for (int it = 0; it < alItems.size(); it++) {
-                                item = Item.getItemByID(alItems.get(it));
+                            for (Integer alItem : alItems) {
+                                item = Item.getItemByID(alItem);
 
                                 if (item != null) {
                                     // maxAgePCT
@@ -553,8 +548,8 @@ public class EventData implements Externalizable {
                         alItems = Item.getMapItems().get(UtilsIniHeaders.getIntIniHeader(sIniHeader));
                         if (alItems != null) {
                             Item item;
-                            for (int it = 0; it < alItems.size(); it++) {
-                                item = Item.getItemByID(alItems.get(it));
+                            for (Integer alItem : alItems) {
+                                item = Item.getItemByID(alItem);
 
                                 if (item != null) {
                                     // maxAgePCT
@@ -581,7 +576,7 @@ public class EventData implements Externalizable {
      * @param emi
      */
     public void checkAllItemsDeletePCTs(EventManagerItem emi) {
-        if (emi.getItems() != null && emi.getItemsDeletePCT() != null && emi.getItems().size() > 0 && emi.getItems().size() == emi.getItemsDeletePCT().size()) {
+        if (emi.getItems() != null && emi.getItemsDeletePCT() != null && !emi.getItems().isEmpty() && emi.getItems().size() == emi.getItemsDeletePCT().size()) {
             // Obtenemos todos los items
 
             String sIniHeader;
@@ -601,9 +596,9 @@ public class EventData implements Externalizable {
                         ArrayList<Integer> alItems = Item.getMapItemsLocked().get(UtilsIniHeaders.getIntIniHeader(sIniHeader));
                         if (alItems != null) {
                             Item item;
-                            for (int it = 0; it < alItems.size(); it++) {
+                            for (Integer alItem : alItems) {
                                 if (Utils.launchDice(1, 100) < iPCT) {
-                                    item = Item.getItemByID(alItems.get(it));
+                                    item = Item.getItemByID(alItem);
 
                                     if (item != null) {
                                         // deletePCT
@@ -615,9 +610,9 @@ public class EventData implements Externalizable {
                         alItems = Item.getMapItems().get(UtilsIniHeaders.getIntIniHeader(sIniHeader));
                         if (alItems != null) {
                             Item item;
-                            for (int it = 0; it < alItems.size(); it++) {
+                            for (Integer alItem : alItems) {
                                 if (Utils.launchDice(1, 100) < iPCT) {
-                                    item = Item.getItemByID(alItems.get(it));
+                                    item = Item.getItemByID(alItem);
 
                                     if (item != null) {
                                         // deletePCT
@@ -638,7 +633,7 @@ public class EventData implements Externalizable {
      * @param emi
      */
     public void checkAllItemsSpawnLiving(EventManagerItem emi) {
-        if (emi.getItems() != null && emi.getItemsSpawnLiving() != null && emi.getItemsSpawnLivingSize() != null && emi.getItems().size() > 0 && emi.getItems().size() == emi.getItemsSpawnLiving().size() && emi.getItemsSpawnLiving().size() == emi.getItemsSpawnLivingSize().size()) {
+        if (emi.getItems() != null && emi.getItemsSpawnLiving() != null && emi.getItemsSpawnLivingSize() != null && !emi.getItems().isEmpty() && emi.getItems().size() == emi.getItemsSpawnLiving().size() && emi.getItemsSpawnLiving().size() == emi.getItemsSpawnLivingSize().size()) {
             // Obtenemos todos los items
 
             String sIniHeader;
@@ -660,8 +655,8 @@ public class EventData implements Externalizable {
                             ArrayList<Integer> alItems = Item.getMapItemsLocked().get(UtilsIniHeaders.getIntIniHeader(sIniHeader));
                             if (alItems != null) {
                                 Item item;
-                                for (int it = 0; it < alItems.size(); it++) {
-                                    item = Item.getItemByID(alItems.get(it));
+                                for (Integer alItem : alItems) {
+                                    item = Item.getItemByID(alItem);
 
                                     if (item != null) {
                                         // Spawn
@@ -674,8 +669,8 @@ public class EventData implements Externalizable {
                             alItems = Item.getMapItems().get(UtilsIniHeaders.getIntIniHeader(sIniHeader));
                             if (alItems != null) {
                                 Item item;
-                                for (int it = 0; it < alItems.size(); it++) {
-                                    item = Item.getItemByID(alItems.get(it));
+                                for (Integer alItem : alItems) {
+                                    item = Item.getItemByID(alItem);
 
                                     if (item != null) {
                                         // Spawn
@@ -699,7 +694,7 @@ public class EventData implements Externalizable {
      */
     public void addAfterEvents(String sEventID) {
         EventManagerItem emi = EventManager.getItem(sEventID);
-        if (emi != null && emi.getAfterEvents() != null && emi.getAfterEvents().size() > 0) {
+        if (emi != null && emi.getAfterEvents() != null && !emi.getAfterEvents().isEmpty()) {
             EventManagerItem emiAfter;
             for (int i = 0; i < emi.getAfterEvents().size(); i++) {
                 emiAfter = EventManager.getItem(emi.getAfterEvents().get(i));
@@ -716,7 +711,7 @@ public class EventData implements Externalizable {
         }
 
         // Comprobamos que tenemos todos los datos
-        if (bd.type == null || bd.type.trim().length() == 0) {
+        if (bd.type == null || bd.type.trim().isEmpty()) {
             Log.log(Log.LEVEL_ERROR, Messages.getString("MapGenerator.18"), "MapGenerator"); //$NON-NLS-1$ //$NON-NLS-2$
             return;
         }
@@ -899,7 +894,7 @@ public class EventData implements Externalizable {
             return;
         }
 
-        if (sd.type == null || sd.type.trim().length() == 0) {
+        if (sd.type == null || sd.type.trim().isEmpty()) {
             Log.log(Log.LEVEL_ERROR, Messages.getString("MapGenerator.13"), "MapGenerator"); //$NON-NLS-1$ //$NON-NLS-2$
             return;
         }
@@ -914,7 +909,7 @@ public class EventData implements Externalizable {
             bOK = false;
             if (sd.startingPointID != null) {
                 ArrayList<Point3D> alPoints = hmSeedsIDs.get(sd.startingPointID);
-                if (alPoints != null && alPoints.size() > 0) {
+                if (alPoints != null && !alPoints.isEmpty()) {
                     Point3D p3d = alPoints.get(Utils.getRandomBetween(0, alPoints.size() - 1));
                     iX = p3d.x;
                     iY = p3d.y;
@@ -931,12 +926,12 @@ public class EventData implements Externalizable {
                     iLevel = World.MAP_DEPTH - 1;
                 }
 
-                if (sd.pointx == null || sd.pointx.length() == 0) {
+                if (sd.pointx == null || sd.pointx.isEmpty()) {
                     iX = Utils.getRandomBetween(0, World.MAP_WIDTH - 1);
                 } else {
                     iX = Utils.launchDice(sd.pointx);
                 }
-                if (sd.pointy == null || sd.pointy.length() == 0) {
+                if (sd.pointy == null || sd.pointy.isEmpty()) {
                     iY = Utils.getRandomBetween(0, World.MAP_HEIGHT - 1);
                 } else {
                     iY = Utils.launchDice(sd.pointy);
@@ -1053,7 +1048,7 @@ public class EventData implements Externalizable {
 
         // Si la seed tiene ID guardamos los puntos en la hash
         if (sd.id != null) {
-            ArrayList<Point3D> alPoints = new ArrayList<Point3D>();
+            ArrayList<Point3D> alPoints = new ArrayList<>();
             for (int x = 0; x < World.MAP_WIDTH; x++) {
                 for (int y = 0; y < World.MAP_HEIGHT; y++) {
                     for (int z = 0; z < World.MAP_DEPTH; z++) {
@@ -1064,7 +1059,7 @@ public class EventData implements Externalizable {
                 }
             }
 
-            if (alPoints.size() > 0) {
+            if (!alPoints.isEmpty()) {
                 hmSeedsIDs.put(sd.id, alPoints);
             }
         }
@@ -1115,7 +1110,7 @@ public class EventData implements Externalizable {
             bOK = false;
             if (hsd.startingPointID != null) {
                 ArrayList<Point3D> alPoints = hmSeedsIDs.get(hsd.startingPointID);
-                if (alPoints != null && alPoints.size() > 0) {
+                if (alPoints != null && !alPoints.isEmpty()) {
                     Point3D p3d = alPoints.get(Utils.getRandomBetween(0, alPoints.size() - 1));
                     iX = p3d.x;
                     iY = p3d.y;
@@ -1124,12 +1119,12 @@ public class EventData implements Externalizable {
             }
 
             if (!bOK) {
-                if (hsd.pointx == null || hsd.pointx.length() == 0) {
+                if (hsd.pointx == null || hsd.pointx.isEmpty()) {
                     iX = Utils.getRandomBetween(0, World.MAP_WIDTH - 1);
                 } else {
                     iX = Utils.launchDice(hsd.pointx);
                 }
-                if (hsd.pointy == null || hsd.pointy.length() == 0) {
+                if (hsd.pointy == null || hsd.pointy.isEmpty()) {
                     iY = Utils.getRandomBetween(0, World.MAP_HEIGHT - 1);
                 } else {
                     iY = Utils.launchDice(hsd.pointy);
@@ -1285,7 +1280,7 @@ public class EventData implements Externalizable {
             return;
         }
 
-        if (cd.destination == null || cd.destination.length() == 0 || (cd.iHeightMin > cd.iHeightMax && cd.iHeightMax != -1)) {
+        if (cd.destination == null || cd.destination.isEmpty() || (cd.iHeightMin > cd.iHeightMax && cd.iHeightMax != -1)) {
             Log.log(Log.LEVEL_ERROR, Messages.getString("MapGenerator.3"), "MapGenerator"); //$NON-NLS-1$ //$NON-NLS-2$
             return;
         }

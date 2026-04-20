@@ -195,7 +195,7 @@ public class ItemManagerItem {
     public ItemManagerItem(String sIniHeader, String sType) {
         setIniHeader(sIniHeader);
         type = sType;
-        prerequisites = new ArrayList<String>();
+        prerequisites = new ArrayList<>();
     }
 
     public String getIniHeader() {
@@ -261,10 +261,8 @@ public class ItemManagerItem {
 
     public ArrayList<String> getPrerequisites() {
         // Devolvemos una copia, siempre
-        ArrayList<String> alReturn = new ArrayList<String>(prerequisites.size());
-        for (int i = 0; i < prerequisites.size(); i++) {
-            alReturn.add(prerequisites.get(i));
-        }
+        ArrayList<String> alReturn = new ArrayList<>(prerequisites.size());
+        alReturn.addAll(prerequisites);
 
         return alReturn;
     }
@@ -275,7 +273,7 @@ public class ItemManagerItem {
 
     public void addPrerequisite(String prerequisite) {
         if (prerequisites == null) {
-            prerequisites = new ArrayList<String>();
+            prerequisites = new ArrayList<>();
         }
 
         prerequisites.add(prerequisite);
@@ -298,11 +296,11 @@ public class ItemManagerItem {
     }
 
     public void setHabitat(ArrayList<Integer> habitat) {
-        this.habitat = new ArrayList<Integer>();
-        for (int i = 0; i < habitat.size(); i++) {
-            if (!this.habitat.contains(habitat.get(i))) {
+        this.habitat = new ArrayList<>();
+        for (Integer integer : habitat) {
+            if (!this.habitat.contains(integer)) {
                 //getHabitat ().add (new Integer (TerrainManager.getItem (habitat.get (i)).getTerrainID ()));
-                getHabitat().add(habitat.get(i));
+                getHabitat().add(integer);
             }
         }
     }
@@ -320,10 +318,10 @@ public class ItemManagerItem {
             setHabitat(habitats);
         } else {
             if (habitats != null) {
-                for (int i = 0; i < habitats.size(); i++) {
-                    if (!this.habitat.contains(habitats.get(i))) {
+                for (Integer integer : habitats) {
+                    if (!this.habitat.contains(integer)) {
                         //getHabitat ().add (new Integer (TerrainManager.getItem (habitats.get (i)).getTerrainID ()));
-                        getHabitat().add(habitats.get(i));
+                        getHabitat().add(integer);
                     }
                 }
             }
@@ -407,7 +405,7 @@ public class ItemManagerItem {
     }
 
     public void setMaxAgeNeedsWaterRadius(String sMaxAgeNeedsWaterRadius) {
-        if (sMaxAgeNeedsWaterRadius == null || sMaxAgeNeedsWaterRadius.length() == 0) {
+        if (sMaxAgeNeedsWaterRadius == null || sMaxAgeNeedsWaterRadius.isEmpty()) {
             setMaxAgeNeedsWaterRadius(0);
         } else {
             try {
@@ -444,7 +442,7 @@ public class ItemManagerItem {
     }
 
     public void setMaxAgeNeedsItemsRadius(String sMaxAgeNeedsItemsRadius) {
-        if (sMaxAgeNeedsItemsRadius == null || sMaxAgeNeedsItemsRadius.length() == 0) {
+        if (sMaxAgeNeedsItemsRadius == null || sMaxAgeNeedsItemsRadius.isEmpty()) {
             setMaxAgeNeedsItemsRadius(0);
         } else {
             try {
@@ -549,7 +547,7 @@ public class ItemManagerItem {
     }
 
     public void setHappiness(String sHappiness) {
-        if (sHappiness == null || sHappiness.trim().length() == 0) {
+        if (sHappiness == null || sHappiness.trim().isEmpty()) {
             setHappiness(0);
         } else {
             try {
@@ -639,7 +637,7 @@ public class ItemManagerItem {
     }
 
     public void setCanBeUnlocked(String sCanBeUnlocked) {
-        if (sCanBeUnlocked == null || sCanBeUnlocked.trim().length() == 0) {
+        if (sCanBeUnlocked == null || sCanBeUnlocked.trim().isEmpty()) {
             setCanBeUnlocked(true);
         } else {
             setCanBeUnlocked(Boolean.parseBoolean(sCanBeUnlocked));
@@ -706,11 +704,11 @@ public class ItemManagerItem {
     }
 
     public void setLightRadius(String sLightRadius) throws Exception {
-        if (sLightRadius == null || sLightRadius.trim().length() == 0) {
+        if (sLightRadius == null || sLightRadius.trim().isEmpty()) {
             setLightRadius(0);
         } else {
             try {
-                setLightRadius(Integer.valueOf(sLightRadius));
+                setLightRadius(Integer.parseInt(sLightRadius));
                 if (getLightRadius() < 0) {
                     setLightRadius(0);
                 }
@@ -721,7 +719,7 @@ public class ItemManagerItem {
     }
 
     public int getLightIntValue(String sLight) throws Exception {
-        if (sLight == null || sLight.trim().length() == 0) {
+        if (sLight == null || sLight.trim().isEmpty()) {
             return LIGHT_I_NONE;
         } else {
             if (sLight.trim().equalsIgnoreCase(LIGHT_FULL)) {
@@ -805,7 +803,7 @@ public class ItemManagerItem {
     }
 
     public void setValue(String sValue) throws Exception {
-        if (sValue != null && sValue.length() > 0) {
+        if (sValue != null && !sValue.isEmpty()) {
             setValue(Integer.parseInt(sValue));
         } else {
             setValue(0);
@@ -838,7 +836,7 @@ public class ItemManagerItem {
     }
 
     public void setLocation(String location) {
-        if (location == null || location.length() == 0) {
+        if (location == null || location.isEmpty()) {
             this.location = 0;
             return;
         }
@@ -940,7 +938,7 @@ public class ItemManagerItem {
 
     public void setRangedAmmo(String rangedAmmo) throws Exception {
         if (ranged) {
-            if (rangedAmmo == null || rangedAmmo.trim().length() == 0) {
+            if (rangedAmmo == null || rangedAmmo.trim().isEmpty()) {
                 throw new Exception(Messages.getString("ItemManagerItem.2") + getIniHeader() + "]"); //$NON-NLS-1$ //$NON-NLS-2$
             }
         }
@@ -1008,7 +1006,7 @@ public class ItemManagerItem {
     }
 
     public boolean hasActions() {
-        return actions != null && actions.size() > 0;
+        return actions != null && !actions.isEmpty();
     }
 
     public ArrayList<String> getZones() {
@@ -1038,7 +1036,7 @@ public class ItemManagerItem {
     public void setTrapEffects(ArrayList<String> trapEffects) throws Exception {
         this.trapEffects = trapEffects;
 
-        if (isTrap() && (trapEffects == null || trapEffects.size() == 0)) {
+        if (isTrap() && (trapEffects == null || trapEffects.isEmpty())) {
             throw new Exception(Messages.getString("ItemManagerItem.6")); //$NON-NLS-1$
         }
     }
@@ -1073,7 +1071,7 @@ public class ItemManagerItem {
 
     public void setTrapTargets(String sTrapTargets) throws Exception {
         if (isTrap()) {
-            if (sTrapTargets != null && sTrapTargets.length() > 0) {
+            if (sTrapTargets != null && !sTrapTargets.isEmpty()) {
                 setTrapTargets(new HateData(sTrapTargets));
             } else {
                 throw new Exception(Messages.getString("ItemManagerItem.9")); //$NON-NLS-1$
@@ -1165,8 +1163,8 @@ public class ItemManagerItem {
                 if (buryItem.size() != 1) {
                     throw new Exception(Messages.getString("ItemManagerItem.17")); //$NON-NLS-1$
                 } else {
-                    this.buryItemPCT = new ArrayList<Integer>(1);
-                    this.buryItemPCT.add(Integer.valueOf(100));
+                    this.buryItemPCT = new ArrayList<>(1);
+                    this.buryItemPCT.add(100);
                 }
             } else {
                 if (buryItem.size() != buryItemPCT.size()) {
@@ -1267,7 +1265,7 @@ public class ItemManagerItem {
     }
 
     public void setContainerSize(String sContainerSize) {
-        if (sContainerSize == null || sContainerSize.trim().length() == 0) {
+        if (sContainerSize == null || sContainerSize.trim().isEmpty()) {
             if (isContainer()) {
                 setContainerSize(1);
             } else {
@@ -1310,7 +1308,7 @@ public class ItemManagerItem {
     }
 
     public void setStackableSize(String sStackableSize) {
-        if (sStackableSize == null || sStackableSize.trim().length() == 0) {
+        if (sStackableSize == null || sStackableSize.trim().isEmpty()) {
             if (isStackable()) {
                 setStackableSize(1);
             } else {
@@ -1341,7 +1339,7 @@ public class ItemManagerItem {
     }
 
     public void setSpeedUpPCT(String sSpeedUpPCT) {
-        if (sSpeedUpPCT == null || sSpeedUpPCT.trim().length() == 0) {
+        if (sSpeedUpPCT == null || sSpeedUpPCT.trim().isEmpty()) {
             setSpeedUpPCT(100);
         } else {
             try {
@@ -1428,9 +1426,9 @@ public class ItemManagerItem {
     public void setFoodEffects(ArrayList<String> foodEffects) throws Exception {
         if (foodEffects != null) {
             // Comprobamos que existan
-            for (int i = 0; i < foodEffects.size(); i++) {
-                if (EffectManager.getItem(foodEffects.get(i)) == null) {
-                    throw new Exception(Messages.getString("ItemManagerItem.11") + foodEffects.get(i) + "]"); //$NON-NLS-1$ //$NON-NLS-2$
+            for (String foodEffect : foodEffects) {
+                if (EffectManager.getItem(foodEffect) == null) {
+                    throw new Exception(Messages.getString("ItemManagerItem.11") + foodEffect + "]"); //$NON-NLS-1$ //$NON-NLS-2$
                 }
             }
         }
@@ -1451,44 +1449,44 @@ public class ItemManagerItem {
     }
 
     public String getMilitaryString() {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         Point minMax = Utils.getDiceMinMax(getAttackModifier());
         if (minMax.x != minMax.y || minMax.x != 0) {
-            buffer.append(Messages.getString("ItemManagerItem.4") + minMax.x); //$NON-NLS-1$
+            buffer.append(Messages.getString("ItemManagerItem.4")).append(minMax.x); //$NON-NLS-1$
             if (minMax.x != minMax.y) {
-                buffer.append("/" + minMax.y); //$NON-NLS-1$
+                buffer.append("/").append(minMax.y); //$NON-NLS-1$
             }
             buffer.append(" "); //$NON-NLS-1$
         }
         minMax = Utils.getDiceMinMax(getDefenseModifier());
         if (minMax.x != minMax.y || minMax.x != 0) {
-            buffer.append(Messages.getString("ItemManagerItem.7") + minMax.x); //$NON-NLS-1$
+            buffer.append(Messages.getString("ItemManagerItem.7")).append(minMax.x); //$NON-NLS-1$
             if (minMax.x != minMax.y) {
-                buffer.append("/" + minMax.y); //$NON-NLS-1$
+                buffer.append("/").append(minMax.y); //$NON-NLS-1$
             }
             buffer.append(" "); //$NON-NLS-1$
         }
         minMax = Utils.getDiceMinMax(getDamageModifier());
         if (minMax.x != minMax.y || minMax.x != 0) {
-            buffer.append(Messages.getString("ItemManagerItem.10") + minMax.x); //$NON-NLS-1$
+            buffer.append(Messages.getString("ItemManagerItem.10")).append(minMax.x); //$NON-NLS-1$
             if (minMax.x != minMax.y) {
-                buffer.append("/" + minMax.y); //$NON-NLS-1$
+                buffer.append("/").append(minMax.y); //$NON-NLS-1$
             }
             buffer.append(" "); //$NON-NLS-1$
         }
         minMax = Utils.getDiceMinMax(getHealthModifier());
         if (minMax.x != minMax.y || minMax.x != 0) {
-            buffer.append(Messages.getString("ItemManagerItem.13") + minMax.x); //$NON-NLS-1$
+            buffer.append(Messages.getString("ItemManagerItem.13")).append(minMax.x); //$NON-NLS-1$
             if (minMax.x != minMax.y) {
-                buffer.append("/" + minMax.y); //$NON-NLS-1$
+                buffer.append("/").append(minMax.y); //$NON-NLS-1$
             }
             buffer.append(" "); //$NON-NLS-1$
         }
         minMax = Utils.getDiceMinMax(getLOSModifier());
         if (minMax.x != minMax.y || minMax.x != 0) {
-            buffer.append(Messages.getString("ItemManagerItem.16") + minMax.x); //$NON-NLS-1$
+            buffer.append(Messages.getString("ItemManagerItem.16")).append(minMax.x); //$NON-NLS-1$
             if (minMax.x != minMax.y) {
-                buffer.append("/" + minMax.y); //$NON-NLS-1$
+                buffer.append("/").append(minMax.y); //$NON-NLS-1$
             }
             buffer.append(" "); //$NON-NLS-1$
         }

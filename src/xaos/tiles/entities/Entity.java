@@ -49,7 +49,7 @@ public abstract class Entity extends Tile implements Externalizable {
             if (TownsProperties.DEBUG_MODE) {
                 sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, "Coord " + cell.getEntity().getCoordinates(), null, null, null, null, p3d)); //$NON-NLS-1$
                 sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, "Num " + Item.getNumItemsTotal(cell.getEntity().getIniHeader(), World.MAP_DEPTH - 1), null, null, null, null, p3d)); //$NON-NLS-1$
-                sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, "Num over restriction (" + Game.getWorld().getRestrictHaulEquippingLevel() + "): " + +Item.getNumItemsTotal(cell.getEntity().getIniHeader(), Game.getWorld().getRestrictHaulEquippingLevel()), null, null, null, null, p3d)); //$NON-NLS-1$ //$NON-NLS-2$
+                sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, "Num over restriction (" + Game.getWorld().getRestrictHaulEquippingLevel() + "): " + Item.getNumItemsTotal(cell.getEntity().getIniHeader(), Game.getWorld().getRestrictHaulEquippingLevel()), null, null, null, null, p3d)); //$NON-NLS-1$ //$NON-NLS-2$
                 sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, "", null, null, null, null, p3d)); //$NON-NLS-1$
             }
             sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, "", null, null, null)); //$NON-NLS-1$

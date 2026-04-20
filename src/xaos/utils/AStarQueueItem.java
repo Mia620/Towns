@@ -430,7 +430,7 @@ public final class AStarQueueItem {
         }
         // Devolvemos el resultado
         if (bEncontrado) {
-            ArrayList<Point3DShort> alReturn = new ArrayList<Point3DShort>();
+            ArrayList<Point3DShort> alReturn = new ArrayList<>();
             if (nodo != null) {
                 if (isIniToEnd()) {
                     // De inicial a final, hay que girar el resultado
@@ -448,7 +448,7 @@ public final class AStarQueueItem {
                 }
 
                 // Los nodos que queden en la lista abierta se van para el pool
-                while (openList.size() > 0) {
+                while (!openList.isEmpty()) {
                     AStarNodo.returnToPool(openList.remove(0));
                 }
             }

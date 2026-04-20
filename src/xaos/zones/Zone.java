@@ -44,7 +44,7 @@ public class Zone implements Externalizable {
         setID(ID_INDEX);
 
         setIniHeader(sIniHeader);
-        setPoints(new ArrayList<Point3DShort>());
+        setPoints(new ArrayList<>());
         setOperative(true);
     }
 
@@ -82,7 +82,7 @@ public class Zone implements Externalizable {
     }
 
     private static boolean checkZoneNeighbors(ZoneManagerItem zmi, int xIni, int yIni, int xEnd, int yEnd, int z) {
-        if (zmi.getNeighbors().size() > 0) {
+        if (!zmi.getNeighbors().isEmpty()) {
             for (int x = xIni; x <= xEnd; x++) {
                 for (int y = yIni; y <= yEnd; y++) {
                     // Tiene que tocar alguno de los vecinos obligatoriamente
@@ -201,7 +201,7 @@ public class Zone implements Externalizable {
                 return false;
             }
 
-            if (zmi.getNeighbors().size() == 0) {
+            if (zmi.getNeighbors().isEmpty()) {
                 // Si la zone no tiene vecinos asignados, todas las casillas deben ser buenas
                 for (int x = xIni; x <= xEnd; x++) {
                     for (int y = yIni; y <= yEnd; y++) {
@@ -256,8 +256,8 @@ public class Zone implements Externalizable {
         ArrayList<Zone> zones = Game.getWorld().getZones();
         Zone zone;
         int iMaxID = -1;
-        for (int i = 0; i < zones.size(); i++) {
-            zone = zones.get(i);
+        for (Zone value : zones) {
+            zone = value;
             if (zone.getID() > iMaxID) {
                 iMaxID = zone.getID();
             }
@@ -270,8 +270,8 @@ public class Zone implements Externalizable {
         ArrayList<Zone> zones = Game.getWorld().getZones();
         Zone zone;
 
-        for (int i = 0; i < zones.size(); i++) {
-            zone = zones.get(i);
+        for (Zone value : zones) {
+            zone = value;
             if (zone.getID() == iID) {
                 return zone;
             }
@@ -407,8 +407,8 @@ public class Zone implements Externalizable {
             Entity entity;
             ItemManagerItem imi;
 
-            for (int i = 0; i < zones.size(); i++) {
-                zone = zones.get(i);
+            for (Zone value : zones) {
+                zone = value;
                 if (zone.getID() == iZoneID) {
                     // Tenemos la zone, quitamos el punto de la zone y el flag de la celda
                     zone.getPoints().remove(p3d);
@@ -431,7 +431,7 @@ public class Zone implements Externalizable {
                         cell.setEntity(entity);
                     }
 
-                    if (zone.getPoints().size() == 0) {
+                    if (zone.getPoints().isEmpty()) {
                         // Zone sin puntos, la borramos
                         deleteZone(iZoneID);
                     }
@@ -464,12 +464,12 @@ public class Zone implements Externalizable {
      * @return
      */
     public static Point3DShort getFreeSleepItemAtRandom(Zone zone, int iASZI) {
-        if (zone.getPoints().size() == 0) {
+        if (zone.getPoints().isEmpty()) {
             return null;
         }
 
         // Buscamos objetos donde se pueda dormir en la zona (camas, ...)
-        ArrayList<Point3DShort> alSleepItems = new ArrayList<Point3DShort>();
+        ArrayList<Point3DShort> alSleepItems = new ArrayList<>();
         Cell cell;
         Point3DShort p3d;
         ItemManagerItem imi;
@@ -515,7 +515,7 @@ public class Zone implements Externalizable {
             }
         }
 
-        if (alSleepItems.size() > 0) {
+        if (!alSleepItems.isEmpty()) {
             return alSleepItems.get(Utils.getRandomBetween(0, alSleepItems.size() - 1));
         } else {
             return null;
@@ -531,12 +531,12 @@ public class Zone implements Externalizable {
      * @return
      */
     public static Point3DShort getFreeSitItemAtRandom(Zone zone, int iASZI) {
-        if (zone.getPoints().size() == 0) {
+        if (zone.getPoints().isEmpty()) {
             return null;
         }
 
         // Buscamos objetos donde se pueda sentarse en la zona (sillas, ...)
-        ArrayList<Point3DShort> alSitItems = new ArrayList<Point3DShort>();
+        ArrayList<Point3DShort> alSitItems = new ArrayList<>();
         Cell cell;
         Point3DShort p3d;
         ItemManagerItem imi;
@@ -557,7 +557,7 @@ public class Zone implements Externalizable {
             }
         }
 
-        if (alSitItems.size() > 0) {
+        if (!alSitItems.isEmpty()) {
             return alSitItems.get(Utils.getRandomBetween(0, alSitItems.size() - 1));
         } else {
             return null;
@@ -574,7 +574,7 @@ public class Zone implements Externalizable {
      * @return
      */
     public static Point3DShort getFreeCellAtRandom(Zone zone, int iASZI) {
-        if (zone.getPoints().size() == 0) {
+        if (zone.getPoints().isEmpty()) {
             return null;
         }
 

@@ -35,8 +35,8 @@ public class BuildingManagerItem {
         name = sName;
         width = iWidth;
         height = iHeight;
-        prerequisites = new ArrayList<int[]>();
-        prerequisitesFriendly = new ArrayList<int[]>();
+        prerequisites = new ArrayList<>();
+        prerequisitesFriendly = new ArrayList<>();
     }
 
     public String getIniHeader() {
@@ -92,18 +92,16 @@ public class BuildingManagerItem {
     }
 
     public void setGroundData(String groundData) {
-        if (groundData == null || groundData.length() == 0 || groundData.length() != (getWidth() * getHeight()) || groundData.indexOf(Building.GROUND_ENTRANCE) == -1) {
-            if (groundData != null && groundData.length() > 0) {
+        if (groundData == null || groundData.isEmpty() || groundData.length() != (getWidth() * getHeight()) || groundData.indexOf(Building.GROUND_ENTRANCE) == -1) {
+            if (groundData != null && !groundData.isEmpty()) {
                 Log.log(Log.LEVEL_ERROR, Messages.getString("BuildingManagerItem.0") + getIniHeader() + Messages.getString("BuildingManagerItem.1"), getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
             }
 
             // Entrance en la primera casilla
-            StringBuffer sBuffer = new StringBuffer();
+            StringBuilder sBuffer = new StringBuilder();
             sBuffer.append(Building.GROUND_ENTRANCE);
-            for (int i = 1; i < (getHeight() * getWidth()); i++) {
-                // Las dem�s 0 -> No transitable
-                sBuffer.append(Building.GROUND_NON_TRANSITABLE);
-            }
+            // Las dem�s 0 -> No transitable
+            sBuffer.append(String.valueOf(Building.GROUND_NON_TRANSITABLE).repeat(Math.max(0, (getHeight() * getWidth()) - 1)));
 
             this.groundData = sBuffer.toString();
         } else {
@@ -131,7 +129,7 @@ public class BuildingManagerItem {
 
     public void setCanBeBuiltUnderground(String sCanBeBuiltUnderground) {
         // Por defecto es true
-        if (sCanBeBuiltUnderground == null || sCanBeBuiltUnderground.trim().length() == 0) {
+        if (sCanBeBuiltUnderground == null || sCanBeBuiltUnderground.trim().isEmpty()) {
             setCanBeBuiltUnderground(true);
         } else {
             setCanBeBuiltUnderground(Boolean.parseBoolean(sCanBeBuiltUnderground));
@@ -148,9 +146,9 @@ public class BuildingManagerItem {
 
     public void setMustBeBuiltOver(ArrayList<String> mustBeBuiltOver) {
         if (mustBeBuiltOver != null) {
-            ArrayList<Integer> alMustBeBuiltOver = new ArrayList<Integer>(mustBeBuiltOver.size());
-            for (int i = 0; i < mustBeBuiltOver.size(); i++) {
-                alMustBeBuiltOver.add(TerrainManager.getItem(mustBeBuiltOver.get(i)).getTerrainID());
+            ArrayList<Integer> alMustBeBuiltOver = new ArrayList<>(mustBeBuiltOver.size());
+            for (String s : mustBeBuiltOver) {
+                alMustBeBuiltOver.add(TerrainManager.getItem(s).getTerrainID());
             }
 
             this.mustBeBuiltOver = alMustBeBuiltOver;
@@ -175,10 +173,10 @@ public class BuildingManagerItem {
         }
 
         // Devolvemos una copia, siempre
-        ArrayList<int[]> alReturn = new ArrayList<int[]>(prerequisites.size());
-        for (int i = 0; i < prerequisites.size(); i++) {
-            int[] aAux = new int[prerequisites.get(i).length];
-            System.arraycopy(prerequisites.get(i), 0, aAux, 0, aAux.length);
+        ArrayList<int[]> alReturn = new ArrayList<>(prerequisites.size());
+        for (int[] prerequisite : prerequisites) {
+            int[] aAux = new int[prerequisite.length];
+            System.arraycopy(prerequisite, 0, aAux, 0, aAux.length);
             alReturn.add(aAux);
         }
 
@@ -193,13 +191,12 @@ public class BuildingManagerItem {
 
         ItemManagerItem imi;
         String sHeader;
-        this.prerequisites = new ArrayList<int[]>();
-        for (int i = 0; i < prerequisites.size(); i++) {
-            String sList = prerequisites.get(i);
+        this.prerequisites = new ArrayList<>();
+        for (String sList : prerequisites) {
             int[] aInts = UtilsIniHeaders.getIntsArray(sList);
             if (aInts != null) {
-                for (int items = 0; items < aInts.length; items++) {
-                    sHeader = UtilsIniHeaders.getStringIniHeader(aInts[items]);
+                for (int aInt : aInts) {
+                    sHeader = UtilsIniHeaders.getStringIniHeader(aInt);
                     imi = ItemManager.getItem(sHeader);
                     if (imi == null) {
                         throw new Exception(Messages.getString("BuildingManagerItem.2") + sHeader + "]"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -209,7 +206,7 @@ public class BuildingManagerItem {
             }
         }
 
-        if (this.prerequisites.size() == 0) {
+        if (this.prerequisites.isEmpty()) {
             this.prerequisites = null;
         }
     }
@@ -220,10 +217,10 @@ public class BuildingManagerItem {
         }
 
         // Devolvemos una copia, siempre
-        ArrayList<int[]> alReturn = new ArrayList<int[]>(prerequisitesFriendly.size());
-        for (int i = 0; i < prerequisitesFriendly.size(); i++) {
-            int[] aAux = new int[prerequisitesFriendly.get(i).length];
-            System.arraycopy(prerequisitesFriendly.get(i), 0, aAux, 0, aAux.length);
+        ArrayList<int[]> alReturn = new ArrayList<>(prerequisitesFriendly.size());
+        for (int[] ints : prerequisitesFriendly) {
+            int[] aAux = new int[ints.length];
+            System.arraycopy(ints, 0, aAux, 0, aAux.length);
             alReturn.add(aAux);
         }
 
@@ -238,13 +235,12 @@ public class BuildingManagerItem {
 
         LivingEntityManagerItem lemi;
         String sHeader;
-        this.prerequisitesFriendly = new ArrayList<int[]>();
-        for (int i = 0; i < prerequisitesFriendly.size(); i++) {
-            String sList = prerequisitesFriendly.get(i);
+        this.prerequisitesFriendly = new ArrayList<>();
+        for (String sList : prerequisitesFriendly) {
             int[] aInts = UtilsIniHeaders.getIntsArray(sList);
             if (aInts != null) {
-                for (int items = 0; items < aInts.length; items++) {
-                    sHeader = UtilsIniHeaders.getStringIniHeader(aInts[items]);
+                for (int aInt : aInts) {
+                    sHeader = UtilsIniHeaders.getStringIniHeader(aInt);
                     lemi = LivingEntityManager.getItem(sHeader);
                     if (lemi == null) {
                         throw new Exception(Messages.getString("BuildingManagerItem.4") + sHeader + "]"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -254,7 +250,7 @@ public class BuildingManagerItem {
             }
         }
 
-        if (this.prerequisitesFriendly.size() == 0) {
+        if (this.prerequisitesFriendly.isEmpty()) {
             this.prerequisitesFriendly = null;
         }
     }

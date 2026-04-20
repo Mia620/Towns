@@ -21,8 +21,8 @@ public final class AStarQueue implements Runnable {
     public AStarQueue() {
         exitOK = true;
         pauseOK = false;
-        requests = new ArrayList<AStarQueueItem>();
-        finishedRequests = new ArrayList<AStarQueueItem>();
+        requests = new ArrayList<>();
+        finishedRequests = new ArrayList<>();
     }
 
     /**
@@ -107,7 +107,7 @@ public final class AStarQueue implements Runnable {
                             // Eliminamos celdas del path si es requerido
                             int iCellsToRemove = asqi.getNumCellsToRemove();
                             while (iCellsToRemove > 0) {
-                                if (path.size() > 0) {
+                                if (!path.isEmpty()) {
                                     path.remove(path.size() - 1);
                                 } else {
                                     iCellsToRemove = 0;

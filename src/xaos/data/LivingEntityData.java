@@ -50,7 +50,7 @@ public class LivingEntityData implements Externalizable {
     private transient int walkSpeedCurrent;
 
     public LivingEntityData() {
-        setEffects(new ArrayList<EffectData>());
+        setEffects(new ArrayList<>());
     }
 
     public void refreshTransients(LivingEntityManagerItem lemi) {
@@ -266,27 +266,16 @@ public class LivingEntityData implements Externalizable {
             return Messages.getString("LivingEntityData.8"); //$NON-NLS-1$
         }
 
-        switch (iStatus) {
-            case 0:
-            case 1:
-                return Messages.getString("LivingEntityData.0"); //$NON-NLS-1$
-            case 2:
-                return Messages.getString("LivingEntityData.1"); //$NON-NLS-1$
-            case 3:
-                return Messages.getString("LivingEntityData.2"); //$NON-NLS-1$
-            case 4:
-                return Messages.getString("LivingEntityData.3"); //$NON-NLS-1$
-            case 5:
-            case 6:
-                return Messages.getString("LivingEntityData.4"); //$NON-NLS-1$
-            case 7:
-                return Messages.getString("LivingEntityData.5"); //$NON-NLS-1$
-            case 8:
-                return Messages.getString("LivingEntityData.6"); //$NON-NLS-1$
-            case 9:
-            default:
-                return Messages.getString("LivingEntityData.7"); //$NON-NLS-1$
-        }
+        return switch (iStatus) {
+            case 0, 1 -> Messages.getString("LivingEntityData.0"); //$NON-NLS-1$
+            case 2 -> Messages.getString("LivingEntityData.1"); //$NON-NLS-1$
+            case 3 -> Messages.getString("LivingEntityData.2"); //$NON-NLS-1$
+            case 4 -> Messages.getString("LivingEntityData.3"); //$NON-NLS-1$
+            case 5, 6 -> Messages.getString("LivingEntityData.4"); //$NON-NLS-1$
+            case 7 -> Messages.getString("LivingEntityData.5"); //$NON-NLS-1$
+            case 8 -> Messages.getString("LivingEntityData.6"); //$NON-NLS-1$
+            default -> Messages.getString("LivingEntityData.7"); //$NON-NLS-1$
+        };
     }
 
     /**
@@ -335,8 +324,8 @@ public class LivingEntityData implements Externalizable {
         // Efectos
         ArrayList<EffectData> effects = le.getLivingEntityData().getEffects();
         EffectData effect;
-        for (int i = 0; i < effects.size(); i++) {
-            effect = effects.get(i);
+        for (EffectData effectData : effects) {
+            effect = effectData;
             if (effect.getAttackPCT() != 100) {
                 setAttackCurrent((getAttackCurrent() * effect.getAttackPCT()) / 100);
             }
@@ -379,7 +368,7 @@ public class LivingEntityData implements Externalizable {
 
             // Wear effects
             ItemManagerItem imi = ItemManager.getItem(mi.getIniHeader());
-            if (imi.getWearEffects() != null && imi.getWearEffects().size() > 0) {
+            if (imi.getWearEffects() != null && !imi.getWearEffects().isEmpty()) {
                 // A meter efectos
                 EffectManagerItem emi;
                 for (int i = 0, n = imi.getWearEffects().size(); i < n; i++) {

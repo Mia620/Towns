@@ -83,7 +83,7 @@ public class LivingEntityGenerator extends Generator {
         }
 
         // Todo cargado, procedemos
-        if (entity == null || entity.length() == 0) {
+        if (entity == null || entity.isEmpty()) {
             Log.log(Log.LEVEL_ERROR, Messages.getString("LivingEntityGenerator.4"), "LivingEntityGenerator"); //$NON-NLS-1$ //$NON-NLS-2$
             return;
         }
@@ -122,7 +122,7 @@ public class LivingEntityGenerator extends Generator {
                 cell = cells[x][y][z];
             }
 
-            if (bOK && (LivingEntity.isCellAllowed(x, y, z) || cells[x][y][z].isCave()) && checkHabitatHeight(lemi, x, y, z) && (lemi.getHabitat() == null || z == (World.MAP_DEPTH - 1) || lemi.getHabitat().size() == 0 || lemi.getHabitat().contains(cells[x][y][z + 1].getTerrain().getTerrainID()))) {
+            if (bOK && (LivingEntity.isCellAllowed(x, y, z) || cells[x][y][z].isCave()) && checkHabitatHeight(lemi, x, y, z) && (lemi.getHabitat() == null || z == (World.MAP_DEPTH - 1) || lemi.getHabitat().isEmpty() || lemi.getHabitat().contains(cells[x][y][z + 1].getTerrain().getTerrainID()))) {
                 World.addNewLiving(lemi.getIniHeader(), lemi.getType(), cells[x][y][z].isDiscovered(), x, y, z);
 
                 tryes = 200;

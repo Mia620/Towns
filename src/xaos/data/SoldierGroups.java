@@ -10,8 +10,8 @@ public class SoldierGroups implements Externalizable {
 
     public final static int MAX_GROUPS = 10;
     private static final long serialVersionUID = 775074143636086575L;
-    private ArrayList<Integer> soldiersWithoutGroup = new ArrayList<Integer>();
-    private ArrayList<SoldierGroupData> groups = new ArrayList<SoldierGroupData>(MAX_GROUPS);
+    private ArrayList<Integer> soldiersWithoutGroup = new ArrayList<>();
+    private ArrayList<SoldierGroupData> groups = new ArrayList<>(MAX_GROUPS);
 
     public SoldierGroups() {
         clear();
@@ -43,9 +43,9 @@ public class SoldierGroups implements Externalizable {
 
     public void addSoldierToGroup(int iSoldierID, int iDestinationGroup) {
         if (iDestinationGroup == -1) {
-            getSoldiersWithoutGroup().add(Integer.valueOf(iSoldierID));
+            getSoldiersWithoutGroup().add(iSoldierID);
         } else {
-            getGroup(iDestinationGroup).getLivingIDs().add(Integer.valueOf(iSoldierID));
+            getGroup(iDestinationGroup).getLivingIDs().add(iSoldierID);
         }
     }
 
@@ -58,8 +58,8 @@ public class SoldierGroups implements Externalizable {
     }
 
     public void clear() {
-        soldiersWithoutGroup = new ArrayList<Integer>();
-        groups = new ArrayList<SoldierGroupData>(MAX_GROUPS);
+        soldiersWithoutGroup = new ArrayList<>();
+        groups = new ArrayList<>(MAX_GROUPS);
         for (int i = 0; i < MAX_GROUPS; i++) {
             SoldierGroupData sgd = new SoldierGroupData(i);
             groups.add(sgd);

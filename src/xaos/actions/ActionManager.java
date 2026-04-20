@@ -10,6 +10,7 @@ import xaos.utils.Messages;
 import xaos.utils.UtilsXML;
 
 import java.io.File;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -19,7 +20,7 @@ public class ActionManager {
     private static HashMap<String, ActionManagerItem> itemList;
 
     public static void loadItems() {
-        itemList = new HashMap<String, ActionManagerItem>();
+        itemList = new HashMap<>();
 
         // Cargar de fichero
         loadXMLActions(Towns.getPropertiesString("DATA_FOLDER") + "actions.xml", true);
@@ -31,9 +32,9 @@ public class ActionManager {
         }
 
         ArrayList<String> alMods = Game.getModsLoaded();
-        if (alMods != null && alMods.size() > 0) {
-            for (int i = 0; i < alMods.size(); i++) {
-                String sModActionsPath = fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator") + alMods.get(i) + System.getProperty("file.separator") + Towns.getPropertiesString("DATA_FOLDER") + "actions.xml";
+        if (!alMods.isEmpty()) {
+            for (String alMod : alMods) {
+                String sModActionsPath = fUserFolder.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.MODS_FOLDER1 + FileSystems.getDefault().getSeparator() + alMod + FileSystems.getDefault().getSeparator() + Towns.getPropertiesString("DATA_FOLDER") + "actions.xml";
                 File fIni = new File(sModActionsPath);
                 if (fIni.exists()) {
                     loadXMLActions(sModActionsPath, false);
@@ -85,7 +86,7 @@ public class ActionManager {
                 node = nodeList.item(i);
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
                     String sName = node.getNodeName();
-                    if (sName != null && sName.equalsIgnoreCase("DELETE")) {
+                    if (sName.equalsIgnoreCase("DELETE")) {
                         // Miramos que ID quiere borrar
                         if (node.getAttributes() != null && node.getAttributes().getNamedItem("id") != null) {
                             String sIDToDelete = node.getAttributes().getNamedItem("id").getNodeValue();
@@ -174,12 +175,12 @@ public class ActionManager {
                     // Generated item
                     if (bModChangingValues) {
                         String sAux = UtilsXML.getChildValue(node.getChildNodes(), "generatedItem"); //$NON-NLS-1$
-                        if (sAux != null && sAux.length() > 0) {
+                        if (sAux != null && !sAux.isEmpty()) {
                             item.setGeneratedItem(sAux);
                         }
                     } else {
                         String sGeneratedItem = UtilsXML.getChildValue(node.getChildNodes(), "generatedItem"); //$NON-NLS-1$
-                        if (sGeneratedItem != null && sGeneratedItem.length() > 0) {
+                        if (sGeneratedItem != null && !sGeneratedItem.isEmpty()) {
                             item.setGeneratedItem(sGeneratedItem);
                         }
                     }
@@ -187,7 +188,7 @@ public class ActionManager {
                     // Queue
                     if (bModChangingValues) {
                         ArrayList<QueueItem> auxQueue = readQueue(node.getChildNodes());
-                        if (auxQueue != null && auxQueue.size() > 0) {
+                        if (auxQueue != null && !auxQueue.isEmpty()) {
                             item.setQueue(auxQueue);
                         }
                     } else {
@@ -218,7 +219,7 @@ public class ActionManager {
                 node = list.item(i);
                 if (node.getNodeType() == Node.ELEMENT_NODE && node.getNodeName().equals("queue") && node.getChildNodes().item(0) != null) { //$NON-NLS-1$
                     // Tenemos el tag "queue", lo recorremos entero y vamos creando la queue
-                    returnQueue = new ArrayList<QueueItem>();
+                    returnQueue = new ArrayList<>();
                     NodeList nl = node.getChildNodes();
                     for (int j = 0; j < nl.getLength(); j++) {
                         node = nl.item(j);

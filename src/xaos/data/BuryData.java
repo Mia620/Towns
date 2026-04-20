@@ -43,8 +43,8 @@ public class BuryData implements Externalizable {
     public static BuryData generate(String sName) {
         BuryData bd = new BuryData();
 
-        HashMap<Point3DShort, Integer> oHash = new HashMap<Point3DShort, Integer>();
-        HashMap<Point3DShort, ArrayList<String>> oHashTexts = new HashMap<Point3DShort, ArrayList<String>>();
+        HashMap<Point3DShort, Integer> oHash = new HashMap<>();
+        HashMap<Point3DShort, ArrayList<String>> oHashTexts = new HashMap<>();
 
         Cell[][][] cells = World.getCells();
 
@@ -65,8 +65,8 @@ public class BuryData implements Externalizable {
 
                             if (imi.isText()) {
                                 // Si tiene texto lo buscamos y lo metemos
-                                ArrayList<String> alTexts = World.getItemsText().get(Integer.valueOf(item.getID()));
-                                if (alTexts != null && alTexts.size() > 0) {
+                                ArrayList<String> alTexts = World.getItemsText().get(item.getID());
+                                if (alTexts != null && !alTexts.isEmpty()) {
                                     oHashTexts.put(Point3DShort.getPoolInstance(x, y, z), alTexts);
                                 }
                             }
@@ -179,7 +179,7 @@ public class BuryData implements Externalizable {
 
             // Hash
             int iNumPoints = in.readInt();
-            hash = new HashMap<Point3DShort, Integer>();
+            hash = new HashMap<>();
             Point3DShort p3ds;
             String sItem;
             for (int i = 0; i < iNumPoints; i++) {
@@ -200,7 +200,7 @@ public class BuryData implements Externalizable {
             if (version >= BURY_VERSION_V13) {
                 hashTexts = (HashMap<Point3DShort, ArrayList<String>>) in.readObject();
             } else {
-                hashTexts = new HashMap<Point3DShort, ArrayList<String>>();
+                hashTexts = new HashMap<>();
             }
         }
     }
@@ -220,7 +220,7 @@ public class BuryData implements Externalizable {
                 iIniHeader = hash.get(p3ds);
                 if (iIniHeader != null) {
                     out.writeObject(p3ds);
-                    out.writeObject(UtilsIniHeaders.getStringIniHeader(iIniHeader.intValue()));
+                    out.writeObject(UtilsIniHeaders.getStringIniHeader(iIniHeader));
                 } else {
                     throw new IOException(Messages.getString("BuryData.3")); //$NON-NLS-1$
                 }

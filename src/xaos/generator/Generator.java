@@ -17,7 +17,7 @@ public class Generator {
     public static Generator read(String sFile, Generator generator, boolean bFirst) {
         ArrayList<GeneratorItem> lista = generator.getList();
         if (lista == null) {
-            lista = new ArrayList<GeneratorItem>();
+            lista = new ArrayList<>();
         }
 
         // Leemos el gen_map.xml
@@ -61,7 +61,7 @@ public class Generator {
 
                     // Miramos si el ID ya existe
                     int iIndexExists = -1;
-                    if (sID != null && sID.trim().length() > 0) {
+                    if (sID != null && !sID.trim().isEmpty()) {
                         for (int index = 0; index < list.size(); index++) {
                             GeneratorItem gi = list.get(index);
                             if (gi.getId() != null && gi.getId().equals(sID)) {
@@ -107,11 +107,11 @@ public class Generator {
      * @return
      */
     private static ArrayList<GeneratorNode> getNodes(Node node) {
-        ArrayList<GeneratorNode> alReturn = new ArrayList<GeneratorNode>();
+        ArrayList<GeneratorNode> alReturn = new ArrayList<>();
         Node child;
         for (int i = 0, n = node.getChildNodes().getLength(); i < n; i++) {
             child = node.getChildNodes().item(i);
-            if (child.getNodeType() == Node.ELEMENT_NODE && child.getFirstChild().getNodeValue() != null && child.getFirstChild().getNodeValue().trim().length() > 0) {
+            if (child.getNodeType() == Node.ELEMENT_NODE && child.getFirstChild().getNodeValue() != null && !child.getFirstChild().getNodeValue().trim().isEmpty()) {
                 alReturn.add(new GeneratorNode(child.getNodeName(), child.getChildNodes().item(0).getNodeValue()));
             }
         }

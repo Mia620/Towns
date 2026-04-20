@@ -52,23 +52,14 @@ public class MilitaryItem extends Item implements Externalizable {
     public static boolean isBetterItem(LivingEntity le, MilitaryItem item) {
         MilitaryItem itemWeared = null;
         ItemManagerItem imi = ItemManager.getItem(item.getIniHeader());
-        switch (imi.getLocation()) {
-            case LOCATION_HEAD:
-                itemWeared = le.getEquippedData().getHead();
-                break;
-            case LOCATION_BODY:
-                itemWeared = le.getEquippedData().getBody();
-                break;
-            case LOCATION_LEGS:
-                itemWeared = le.getEquippedData().getLegs();
-                break;
-            case LOCATION_FEET:
-                itemWeared = le.getEquippedData().getFeet();
-                break;
-            case LOCATION_WEAPON:
-                itemWeared = le.getEquippedData().getWeapon();
-                break;
-        }
+        itemWeared = switch (imi.getLocation()) {
+            case LOCATION_HEAD -> le.getEquippedData().getHead();
+            case LOCATION_BODY -> le.getEquippedData().getBody();
+            case LOCATION_LEGS -> le.getEquippedData().getLegs();
+            case LOCATION_FEET -> le.getEquippedData().getFeet();
+            case LOCATION_WEAPON -> le.getEquippedData().getWeapon();
+            default -> itemWeared;
+        };
 
         if (itemWeared != null) {
             // Lleva algo, los comparamos
@@ -83,7 +74,7 @@ public class MilitaryItem extends Item implements Externalizable {
         if (prefix == null && suffix == null) {
             return super.getTileName();
         } else {
-            StringBuffer sBuffer = new StringBuffer();
+            StringBuilder sBuffer = new StringBuilder();
 
             if (prefix != null) {
                 sBuffer.append("["); //$NON-NLS-1$
@@ -241,7 +232,7 @@ public class MilitaryItem extends Item implements Externalizable {
 
     public String getExtendedTilename() {
         ItemManagerItem imi = ItemManager.getItem(getIniHeader());
-        StringBuffer sb = new StringBuffer(getTileName());
+        StringBuilder sb = new StringBuilder(getTileName());
 
         if (imi != null && imi.getLevel() > 0) {
             sb.append(Messages.getString("MilitaryItem.1")); //$NON-NLS-1$
@@ -249,19 +240,19 @@ public class MilitaryItem extends Item implements Externalizable {
             sb.append(")"); //$NON-NLS-1$
         }
         if (getAttackModifier() != 0) {
-            sb.append(Messages.getString("MilitaryItem.0") + getAttackModifier() + "]"); //$NON-NLS-1$ //$NON-NLS-2$
+            sb.append(Messages.getString("MilitaryItem.0")).append(getAttackModifier()).append("]"); //$NON-NLS-1$ //$NON-NLS-2$
         }
         if (getDefenseModifier() != 0) {
-            sb.append(Messages.getString("MilitaryItem.2") + getDefenseModifier() + "]"); //$NON-NLS-1$ //$NON-NLS-2$
+            sb.append(Messages.getString("MilitaryItem.2")).append(getDefenseModifier()).append("]"); //$NON-NLS-1$ //$NON-NLS-2$
         }
         if (getHealthModifier() != 0) {
-            sb.append(Messages.getString("MilitaryItem.4") + getHealthModifier() + "]"); //$NON-NLS-1$ //$NON-NLS-2$
+            sb.append(Messages.getString("MilitaryItem.4")).append(getHealthModifier()).append("]"); //$NON-NLS-1$ //$NON-NLS-2$
         }
         if (getDamageModifier() != 0) {
-            sb.append(Messages.getString("MilitaryItem.6") + getDamageModifier() + "]"); //$NON-NLS-1$ //$NON-NLS-2$
+            sb.append(Messages.getString("MilitaryItem.6")).append(getDamageModifier()).append("]"); //$NON-NLS-1$ //$NON-NLS-2$
         }
         if (getLOSModifier() != 0) {
-            sb.append(Messages.getString("MilitaryItem.7") + getLOSModifier() + "]"); //$NON-NLS-1$ //$NON-NLS-2$
+            sb.append(Messages.getString("MilitaryItem.7")).append(getLOSModifier()).append("]"); //$NON-NLS-1$ //$NON-NLS-2$
         }
 
         return sb.toString();

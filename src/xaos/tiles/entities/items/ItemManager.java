@@ -16,6 +16,7 @@ import xaos.utils.Utils;
 import xaos.utils.UtilsXML;
 
 import java.io.File;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,7 +28,7 @@ public class ItemManager {
 
     public static void loadItems() {
         if (itemList == null) {
-            itemList = new HashMap<String, ItemManagerItem>();
+            itemList = new HashMap<>();
 
             // Cargar de fichero
             loadXMLItems(Towns.getPropertiesString("DATA_FOLDER") + "items.xml", true); //$NON-NLS-1$ //$NON-NLS-2$
@@ -39,9 +40,9 @@ public class ItemManager {
             }
 
             ArrayList<String> alMods = Game.getModsLoaded();
-            if (alMods != null && alMods.size() > 0) {
-                for (int i = 0; i < alMods.size(); i++) {
-                    String sModActionsPath = fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator") + alMods.get(i) + System.getProperty("file.separator") + Towns.getPropertiesString("DATA_FOLDER") + "items.xml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+            if (!alMods.isEmpty()) {
+                for (String alMod : alMods) {
+                    String sModActionsPath = fUserFolder.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.MODS_FOLDER1 + FileSystems.getDefault().getSeparator() + alMod + FileSystems.getDefault().getSeparator() + Towns.getPropertiesString("DATA_FOLDER") + "items.xml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
                     File fIni = new File(sModActionsPath);
                     if (fIni.exists()) {
                         loadXMLItems(sModActionsPath, false);
@@ -55,13 +56,13 @@ public class ItemManager {
             // Y DE PASO los buryItem
             // Y DE PASO a�adimos los types
             // Y DE PASO a�adimos los maxAgeTerrain
-            miniItemList = new HashMap<String, Tile>();
+            miniItemList = new HashMap<>();
             Iterator<ItemManagerItem> itItems = itemList.values().iterator();
             ItemManagerItem imi;
             while (itItems.hasNext()) {
                 imi = itItems.next();
                 // maxAgeItem
-                if (imi.getMaxAgeItem() != null && imi.getMaxAgeItem().length() > 0) {
+                if (imi.getMaxAgeItem() != null && !imi.getMaxAgeItem().isEmpty()) {
                     if (itemList.get(imi.getMaxAgeItem()) == null) {
                         Log.log(Log.LEVEL_ERROR, Messages.getString("ItemManager.1") + imi.getMaxAgeItem() + "]", "ItemManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                         Game.exit();
@@ -69,7 +70,7 @@ public class ItemManager {
                 }
 
                 // buryItem
-                if (imi.getBuryItem() != null && imi.getBuryItem().size() > 0) {
+                if (imi.getBuryItem() != null && !imi.getBuryItem().isEmpty()) {
                     for (int i = 0; i < imi.getBuryItem().size(); i++) {
                         if (itemList.get(imi.getBuryItem().get(i)) == null) {
                             Log.log(Log.LEVEL_ERROR, Messages.getString("ItemManager.3") + " [" + imi.getBuryItem().get(i) + "]", "ItemManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -86,7 +87,7 @@ public class ItemManager {
                 }
 
                 // Habitats
-                ArrayList<Integer> habitat = new ArrayList<Integer>();
+                ArrayList<Integer> habitat = new ArrayList<>();
                 if (imi.getHabitatAsString() != null) {
                     for (int i = 0; i < imi.getHabitatAsString().size(); i++) {
                         if (!habitat.contains(imi.getHabitatAsString().get(i))) {
@@ -156,7 +157,7 @@ public class ItemManager {
             loadItems();
         }
 
-        ArrayList<ItemManagerItem> alReturn = new ArrayList<ItemManagerItem>();
+        ArrayList<ItemManagerItem> alReturn = new ArrayList<>();
 
         // Recorremos todos los items buscando el que tenga building = "par�metro pasado"
         Iterator<String> it = itemList.keySet().iterator();
@@ -183,7 +184,7 @@ public class ItemManager {
             loadItems();
         }
 
-        ArrayList<String> alReturn = new ArrayList<String>();
+        ArrayList<String> alReturn = new ArrayList<>();
 
         Iterator<String> it = itemList.keySet().iterator();
         ItemManagerItem imi;
@@ -257,7 +258,7 @@ public class ItemManager {
             return null;
         }
 
-        ArrayList<ItemManagerItem> alItems = new ArrayList<ItemManagerItem>();
+        ArrayList<ItemManagerItem> alItems = new ArrayList<>();
 
         // Recorremos todos los items buscando los de nivel adecuado
         Iterator<String> it = itemList.keySet().iterator();
@@ -269,7 +270,7 @@ public class ItemManager {
             }
         }
 
-        if (alItems.size() == 0) {
+        if (alItems.isEmpty()) {
             return null;
         } else {
             return alItems.get(Utils.getRandomBetween(0, alItems.size() - 1));
@@ -291,7 +292,7 @@ public class ItemManager {
             return null;
         }
 
-        ArrayList<ItemManagerItem> alItems = new ArrayList<ItemManagerItem>();
+        ArrayList<ItemManagerItem> alItems = new ArrayList<>();
 
         // Recorremos todos los items buscando los del type adecuado
         Iterator<String> it = itemList.keySet().iterator();
@@ -303,7 +304,7 @@ public class ItemManager {
             }
         }
 
-        if (alItems.size() == 0) {
+        if (alItems.isEmpty()) {
             return null;
         } else {
             return alItems.get(Utils.getRandomBetween(0, alItems.size() - 1));
@@ -374,7 +375,7 @@ public class ItemManager {
                             item.setName(sAux);
                         }
                         ArrayList<String> alAux = UtilsXML.getChildValues(node.getChildNodes(), "description"); //$NON-NLS-1$
-                        if (alAux != null && alAux.size() > 0) {
+                        if (!alAux.isEmpty()) {
                             item.setDescriptions(alAux);
                         }
                     } else {
@@ -395,7 +396,7 @@ public class ItemManager {
                     // Obtenemos los prerequisitos
                     if (bModChangingValues) {
                         ArrayList<String> alAux = UtilsXML.getChildValues(node.getChildNodes(), "prerequisite"); //$NON-NLS-1$
-                        if (alAux != null && alAux.size() > 0) {
+                        if (!alAux.isEmpty()) {
                             item.setPrerequisites(alAux);
                         }
                     } else {
@@ -425,7 +426,7 @@ public class ItemManager {
                     // Habitat
                     if (bModChangingValues) {
                         ArrayList<String> alAux = UtilsXML.getChildValues(node.getChildNodes(), "habitat"); //$NON-NLS-1$
-                        if (alAux != null && alAux.size() > 0) {
+                        if (!alAux.isEmpty()) {
                             item.setHabitatAsString(alAux);
                         }
                         String sAux = UtilsXML.getChildValue(node.getChildNodes(), "habitatGroup"); //$NON-NLS-1$
@@ -876,7 +877,7 @@ public class ItemManager {
                     // Custom actions
                     if (bModChangingValues) {
                         ArrayList<String> alAux = UtilsXML.getChildValues(node.getChildNodes(), "action"); //$NON-NLS-1$
-                        if (alAux != null && alAux.size() > 0) {
+                        if (!alAux.isEmpty()) {
                             item.setActions(alAux);
                         }
                     } else {
@@ -886,7 +887,7 @@ public class ItemManager {
                     // Zones
                     if (bModChangingValues) {
                         ArrayList<String> alAux = UtilsXML.getChildValues(node.getChildNodes(), "zone"); //$NON-NLS-1$
-                        if (alAux != null && alAux.size() > 0) {
+                        if (!alAux.isEmpty()) {
                             item.setZones(alAux);
                         }
                     } else {

@@ -57,8 +57,8 @@ public class CaravanData implements Externalizable {
             menuTownToSell.refreshTransients();
         }
         if (alItems != null) {
-            for (int i = 0; i < alItems.size(); i++) {
-                alItems.get(i).getItem().refreshTransients();
+            for (CaravanItemDataInstance alItem : alItems) {
+                alItem.getItem().refreshTransients();
             }
         }
     }
@@ -137,7 +137,7 @@ public class CaravanData implements Externalizable {
                 if (le != null) {
                     LivingEntityManagerItem lemi = LivingEntityManager.getItem(le.getIniHeader());
                     if (lemi != null && lemi.getCaravan() != null) {
-                        if (le.getPath().size() == 0) {
+                        if (le.getPath().isEmpty()) {
                             int iZoneID = World.getCell(le.getCoordinates()).getZoneID();
                             if (iZoneID != 0) {
                                 Zone zone = Zone.getZone(iZoneID);
@@ -158,13 +158,13 @@ public class CaravanData implements Externalizable {
                                         if (zone.getIniHeader().equals(cmi.getZone())) {
                                             // La tenemos
                                             if (alDestinations == null) {
-                                                alDestinations = new ArrayList<Point3DShort>();
+                                                alDestinations = new ArrayList<>();
                                             }
                                             alDestinations.add(zone.getPoints().get(Utils.getRandomBetween(0, zone.getPoints().size() - 1)));
                                         }
                                     }
 
-                                    if (alDestinations == null || alDestinations.size() == 0) {
+                                    if (alDestinations == null || alDestinations.isEmpty()) {
                                         // Ni una zona, pacasa
                                         setStatus(STATUS_LEAVING);
                                     } else {
@@ -172,7 +172,7 @@ public class CaravanData implements Externalizable {
                                         // Vamos recorriendo la lista de zones a random
                                         Point3DShort p3dDestination = null;
                                         int iCurrentASZID = World.getCell(le.getCoordinates()).getAstarZoneID();
-                                        while (alDestinations.size() > 0) {
+                                        while (!alDestinations.isEmpty()) {
                                             p3dDestination = alDestinations.remove(Utils.getRandomBetween(0, alDestinations.size() - 1));
                                             if (World.getCell(p3dDestination).getAstarZoneID() == iCurrentASZID) {
                                                 // Bingo
@@ -213,7 +213,7 @@ public class CaravanData implements Externalizable {
                         return true;
                     }
 
-                    if ((le.getFocusData() != null || le.getFocusData().getEntityID() == -1) && le.getPath().size() == 0) {
+                    if ((le.getFocusData() != null || le.getFocusData().getEntityID() == -1) && le.getPath().isEmpty()) {
                         // Lista para irse
                         if (World.getCell(le.getCoordinates()).getAstarZoneID() == World.getCell(getStartingPoint()).getAstarZoneID()) {
                             // Via libre
@@ -264,7 +264,7 @@ public class CaravanData implements Externalizable {
                 task.setParameter(smItem.getParameter()); // Item iniheader
                 task.setPointIni(new Point3D(getLivingId(), smItem.getDirectCoordinates().z, -1)); // Caravan ID y itemID (caso militares)
                 task.setPointEnd(leCaravan.getCoordinates());
-                ArrayList<HotPoint> alHotPoint = new ArrayList<HotPoint>(1);
+                ArrayList<HotPoint> alHotPoint = new ArrayList<>(1);
                 alHotPoint.add(new HotPoint(leCaravan.getCoordinates(), leCaravan.getCoordinates()));
                 task.setHotPoints(alHotPoint);
                 task.setMaxCitizens(1);
@@ -278,7 +278,7 @@ public class CaravanData implements Externalizable {
         }
 
         // Miramos si ya se ha acabado el trade
-        if (getMenuCaravanToBuy().getItems().size() == 0 && getMenuTownToSell().getItems().size() == 0) {
+        if (getMenuCaravanToBuy().getItems().isEmpty() && getMenuTownToSell().getItems().isEmpty()) {
             setStatus(STATUS_LEAVING);
         }
 
@@ -453,7 +453,7 @@ public class CaravanData implements Externalizable {
             checkItemToDrop();
 
             // Miramos si ya se ha acabado el trade
-            if (getMenuCaravanToBuy().getItems().size() == 0 && getMenuTownToSell().getItems().size() == 0) {
+            if (getMenuCaravanToBuy().getItems().isEmpty() && getMenuTownToSell().getItems().isEmpty()) {
                 setStatus(STATUS_LEAVING);
             } else {
                 // Si no se ha acabado el trade reseteamos el leaving

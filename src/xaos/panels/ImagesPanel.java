@@ -46,7 +46,7 @@ public class ImagesPanel {
     private static Tile tileNextMission;
 
     // Images
-    private static final HashMap<String, TextureData> hashImageTextureData = new HashMap<String, TextureData>();
+    private static final HashMap<String, TextureData> hashImageTextureData = new HashMap<>();
 
     // Flow indexes
     private static int currentFlowIndex = 0;
@@ -57,7 +57,7 @@ public class ImagesPanel {
     private static Tile currentTile = null;
 
     // Texts
-    private static final ArrayList<String> alTexts = new ArrayList<String>();
+    private static final ArrayList<String> alTexts = new ArrayList<>();
 
 
     public ImagesPanel(int renderWidth, int renderHeight, MissionData missionData) {
@@ -103,17 +103,17 @@ public class ImagesPanel {
             }
 
             // Text
-            if (tutorialFlow.getTexts().size() > 0) {
-                if (alTexts.size() == 0) {
+            if (!tutorialFlow.getTexts().isEmpty()) {
+                if (alTexts.isEmpty()) {
                     parseTutorialTexts(tutorialFlow.getTexts());
                 }
 
-                if (alTexts.size() > 0) {
+                if (!alTexts.isEmpty()) {
                     iY += UtilFont.MAX_HEIGHT * 2;
-                    for (int i = 0; i < alTexts.size(); i++) {
+                    for (String alText : alTexts) {
                         iY += UtilFont.MAX_HEIGHT;
                         //UtilsGL.drawStringWithBorder (alTexts.get (i), TEXT_X, iY, ColorGL.WHITE, ColorGL.BLACK);
-                        UtilsGL.drawString(alTexts.get(i), TEXT_X, iY, ColorGL.BLACK);
+                        UtilsGL.drawString(alText, TEXT_X, iY, ColorGL.BLACK);
                     }
                 }
             }
@@ -294,20 +294,18 @@ public class ImagesPanel {
 
 
     private static void clearImages() {
-        if (hashImageTextureData.size() > 0) {
+        if (!hashImageTextureData.isEmpty()) {
             // Just in case an image is duplicated we will create a non-duplicate list
-            ArrayList<TextureData> alNonDuplicatesList = new ArrayList<TextureData>();
+            ArrayList<TextureData> alNonDuplicatesList = new ArrayList<>();
 
-            Iterator<String> iterator = hashImageTextureData.keySet().iterator();
-            while (iterator.hasNext()) {
-                String sAux = iterator.next();
+            for (String sAux : hashImageTextureData.keySet()) {
                 if (!duplicatedTexture(alNonDuplicatesList, hashImageTextureData.get(sAux))) {
                     alNonDuplicatesList.add(hashImageTextureData.get(sAux));
                 }
             }
 
-            for (int i = 0; i < alNonDuplicatesList.size(); i++) {
-                UtilsGL.deleteTexture(alNonDuplicatesList.get(i));
+            for (TextureData textureData : alNonDuplicatesList) {
+                UtilsGL.deleteTexture(textureData);
             }
 
             hashImageTextureData.clear();
@@ -316,8 +314,8 @@ public class ImagesPanel {
 
 
     private static boolean duplicatedTexture(ArrayList<TextureData> alTextures, TextureData texture) {
-        for (int i = 0; i < alTextures.size(); i++) {
-            if (texture.getTextureID() == alTextures.get(i).getTextureID()) {
+        for (TextureData alTexture : alTextures) {
+            if (texture.getTextureID() == alTexture.getTextureID()) {
                 return true;
             }
         }

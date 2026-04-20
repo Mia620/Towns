@@ -45,7 +45,7 @@ public class DungeonData {
     }
 
     public void setType(String type) {
-        if (type == null || type.trim().length() == 0 || type.equalsIgnoreCase(TYPE_RANDOM)) {
+        if (type == null || type.trim().isEmpty() || type.equalsIgnoreCase(TYPE_RANDOM)) {
             if (Utils.getRandomBetween(1, 2) == 1) {
                 type = TYPE_CAVE;
             } else {
@@ -59,7 +59,7 @@ public class DungeonData {
 
     public ArrayList<MonsterData> getMonsters() {
         if (monsters == null) {
-            monsters = new ArrayList<MonsterData>();
+            monsters = new ArrayList<>();
         }
 
         return monsters;

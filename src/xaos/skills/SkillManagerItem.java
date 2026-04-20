@@ -65,7 +65,7 @@ public class SkillManagerItem {
     }
 
     public void setUse(String sUse) throws Exception {
-        if (sUse == null || sUse.length() == 0) {
+        if (sUse == null || sUse.isEmpty()) {
             throw new Exception(Messages.getString("SkillManagerItem.3")); //$NON-NLS-1$
         }
 

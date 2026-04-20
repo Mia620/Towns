@@ -520,8 +520,8 @@ public final class CommandPanel {
                     ArrayList<Stockpile> alStockpiles = Game.getWorld().getStockpiles();
                     Stockpile pileDest;
                     boolean bSomethingRemoved = false;
-                    for (int i = 0; i < alStockpiles.size(); i++) {
-                        pileDest = alStockpiles.get(i);
+                    for (Stockpile alStockpile : alStockpiles) {
+                        pileDest = alStockpile;
                         if (pileDest.getID() != pileSource.getID()) {
                             if (pileDest.getType().getID().equals(typeSource.getID()) && !pileDest.isLockedToCopy()) {
                                 // Bingo!
@@ -583,8 +583,8 @@ public final class CommandPanel {
                     Container containerDest;
 
                     boolean bSomethingRemoved = false;
-                    for (int i = 0; i < alContainers.size(); i++) {
-                        containerDest = alContainers.get(i);
+                    for (Container alContainer : alContainers) {
+                        containerDest = alContainer;
                         if (containerDest.getItemID() != containerSource.getItemID()) {
                             if (containerDest.getType().getID().equals(typeSource.getID()) && !containerDest.isLockedToCopy()) {
                                 // Bingo!
@@ -915,7 +915,7 @@ public final class CommandPanel {
                 }
             } else if (sCommand.equals(COMMAND_ITEM_TEXT_ADD)) {
                 if (UIPanel.typingPanel == null) {
-                    UIPanel.typingPanel = new TypingPanel(UIPanel.renderWidth, UIPanel.renderHeight, Messages.getString("CommandPanel.14"), "", TypingPanel.TYPE_ADD_TEXT_TO_ITEM, Integer.valueOf(sParameter)); //$NON-NLS-1$ //$NON-NLS-2$
+                    UIPanel.typingPanel = new TypingPanel(UIPanel.renderWidth, UIPanel.renderHeight, Messages.getString("CommandPanel.14"), "", TypingPanel.TYPE_ADD_TEXT_TO_ITEM, Integer.parseInt(sParameter)); //$NON-NLS-1$ //$NON-NLS-2$
                 }
             } else if (sCommand.equals(COMMAND_ITEM_TEXT_DELETE)) {
                 World.getItemsText().remove(Integer.valueOf(sParameter));
@@ -1009,7 +1009,7 @@ public final class CommandPanel {
             } else if (sCommand.equals(COMMAND_MM_NEWGAME)) {
                 // If the campaign/mission folder contains a "save.zip", then we will just load that one and set the missionData on campaigns.xml
                 ArrayList<String> alPaths = Utils.getPathToFile("save.zip", sParameter, sParameter2); //$NON-NLS-1$
-                if (alPaths.size() > 0) {
+                if (!alPaths.isEmpty()) {
                     executeCommand(COMMAND_MM_CONTINUEGAME, "save.zip", sParameter + "," + sParameter2 + "," + alPaths.get(0), null, null, 0); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 } else {
                     MainMenuPanel.loadingGame = true;
@@ -1150,86 +1150,95 @@ public final class CommandPanel {
                 }
             } else {
                 if (TownsProperties.TEST_COMMANDS) {
-                    if (sCommand.equals(COMMAND_TEST)) {
-                        // New citizen
-                        World.addNewLiving(null, LivingEntity.TYPE_CITIZEN, true, 0, 0, 0, true);
-//						World.addNewLiving ("sips", LivingEntity.TYPE_HERO, true, 0, 0, 0, true);
-                    } else if (sCommand.equals(COMMAND_TEST2)) {
-                        // Fulfill them
-                        for (int i = 0; i < World.getCitizenIDs().size(); i++) {
-                            ((Citizen) World.getLivingEntityByID(World.getCitizenIDs().get(i))).getCitizenData().setHungry(5000);
-                        }
-                        for (int i = 0; i < World.getSoldierIDs().size(); i++) {
-                            ((Citizen) World.getLivingEntityByID(World.getSoldierIDs().get(i))).getCitizenData().setHungry(5000);
-                        }
-                        for (int i = 0; i < World.getHeroIDs().size(); i++) {
-                            ((Hero) World.getLivingEntityByID(World.getHeroIDs().get(i))).getCitizenData().setHungry(5000);
-                        }
+                    switch (sCommand) {
+                        case COMMAND_TEST ->
+                            // New citizen
+                                World.addNewLiving(null, LivingEntity.TYPE_CITIZEN, true, 0, 0, 0, true);
 
-                        // Delete messages
-                        MessagesPanel.clear();
-                        MessagesPanel.addMessage(MessagesPanel.TYPE_SYSTEM, TownsProperties.GAME_NAME + " " + TownsProperties.GAME_VERSION_FULL); //$NON-NLS-1$
-                    } else if (sCommand.equals(COMMAND_TEST3)) {
-                        // Siege!!
-                        Game.getWorld().spawnSiege();
-                    } else if (sCommand.equals(COMMAND_TEST4)) {
-                        // Sleep time
-                        for (int i = 0; i < World.getCitizenIDs().size(); i++) {
-                            ((Citizen) World.getLivingEntityByID(World.getCitizenIDs().get(i))).getCitizenData().setSleep(0);
+//						World.addNewLiving ("sips", LivingEntity.TYPE_HERO, true, 0, 0, 0, true);
+                        case COMMAND_TEST2 -> {
+                            // Fulfill them
+                            for (int i = 0; i < World.getCitizenIDs().size(); i++) {
+                                ((Citizen) World.getLivingEntityByID(World.getCitizenIDs().get(i))).getCitizenData().setHungry(5000);
+                            }
+                            for (int i = 0; i < World.getSoldierIDs().size(); i++) {
+                                ((Citizen) World.getLivingEntityByID(World.getSoldierIDs().get(i))).getCitizenData().setHungry(5000);
+                            }
+                            for (int i = 0; i < World.getHeroIDs().size(); i++) {
+                                ((Hero) World.getLivingEntityByID(World.getHeroIDs().get(i))).getCitizenData().setHungry(5000);
+                            }
+
+                            // Delete messages
+                            MessagesPanel.clear();
+                            MessagesPanel.addMessage(MessagesPanel.TYPE_SYSTEM, TownsProperties.GAME_NAME + " " + TownsProperties.GAME_VERSION_FULL); //$NON-NLS-1$
                         }
-                        for (int i = 0; i < World.getSoldierIDs().size(); i++) {
-                            ((Citizen) World.getLivingEntityByID(World.getSoldierIDs().get(i))).getCitizenData().setSleep(0);
-                        }
-                        for (int i = 0; i < World.getHeroIDs().size(); i++) {
-                            ((Hero) World.getLivingEntityByID(World.getHeroIDs().get(i))).getCitizenData().setSleep(0);
-                        }
-                    } else if (sCommand.equals(COMMAND_TEST5)) {
-                        // Caravan
-                        Game.getWorld().checkCaravansCome();
-                    } else if (sCommand.equals(COMMAND_TEST6)) {
-                        // Reveal all map
-                        for (int x = 0; x < World.MAP_WIDTH; x++) {
-                            for (int y = 0; y < World.MAP_HEIGHT; y++) {
-                                for (int z = 0; z < World.MAP_DEPTH; z++) {
-                                    World.getCell(x, y, z).setDiscovered(true);
-                                }
+                        case COMMAND_TEST3 ->
+                            // Siege!!
+                                Game.getWorld().spawnSiege();
+                        case COMMAND_TEST4 -> {
+                            // Sleep time
+                            for (int i = 0; i < World.getCitizenIDs().size(); i++) {
+                                ((Citizen) World.getLivingEntityByID(World.getCitizenIDs().get(i))).getCitizenData().setSleep(0);
+                            }
+                            for (int i = 0; i < World.getSoldierIDs().size(); i++) {
+                                ((Citizen) World.getLivingEntityByID(World.getSoldierIDs().get(i))).getCitizenData().setSleep(0);
+                            }
+                            for (int i = 0; i < World.getHeroIDs().size(); i++) {
+                                ((Hero) World.getLivingEntityByID(World.getHeroIDs().get(i))).getCitizenData().setSleep(0);
                             }
                         }
-                        Game.getWorld().setNumFloorsDiscovered(World.MAP_DEPTH);
-                    } else if (sCommand.equals(COMMAND_TEST7)) {
-                        Game.getWorld().checkHeroesCome();
-                    } else if (sCommand.equals(COMMAND_ADD_ITEM)) {
-                        if (!World.getCell(p3dDirect).hasItem()) {
-                            ItemManagerItem imi = ItemManager.getItem(sParameter);
-                            Item item = Item.createItem(imi);
-                            item.init(p3dDirect.x, p3dDirect.y, p3dDirect.z);
-                            item.setOperative(true);
-                            item.setLocked(imi.isLocked());
-                            World.getCell(p3dDirect).setEntity(item);
+                        case COMMAND_TEST5 ->
+                            // Caravan
+                                Game.getWorld().checkCaravansCome();
+                        case COMMAND_TEST6 -> {
+                            // Reveal all map
+                            for (int x = 0; x < World.MAP_WIDTH; x++) {
+                                for (int y = 0; y < World.MAP_HEIGHT; y++) {
+                                    for (int z = 0; z < World.MAP_DEPTH; z++) {
+                                        World.getCell(x, y, z).setDiscovered(true);
+                                    }
+                                }
+                            }
+                            Game.getWorld().setNumFloorsDiscovered(World.MAP_DEPTH);
                         }
-                    } else if (sCommand.equals(COMMAND_ADD_LIVING)) {
-                        Cell cell = World.getCell(p3dDirect);
-                        LivingEntityManagerItem lemi = LivingEntityManager.getItem(sParameter);
-                        World.addNewLiving(sParameter, lemi.getType(), cell.isDiscovered(), p3dDirect.x, p3dDirect.y, p3dDirect.z, true);
-                    } else if (sCommand.equals(COMMAND_ADD_EVENT)) {
-                        EventManagerItem emi = EventManager.getItem(sParameter);
-                        Game.getWorld().addEvent(emi);
-                    } else if (sCommand.equals(COMMAND_GOD_STATUS_LOWER_5)) {
+                        case COMMAND_TEST7 -> Game.getWorld().checkHeroesCome();
+                        case COMMAND_ADD_ITEM -> {
+                            if (!World.getCell(p3dDirect).hasItem()) {
+                                ItemManagerItem imi = ItemManager.getItem(sParameter);
+                                Item item = Item.createItem(imi);
+                                item.init(p3dDirect.x, p3dDirect.y, p3dDirect.z);
+                                item.setOperative(true);
+                                item.setLocked(imi.isLocked());
+                                World.getCell(p3dDirect).setEntity(item);
+                            }
+                        }
+                        case COMMAND_ADD_LIVING -> {
+                            Cell cell = World.getCell(p3dDirect);
+                            LivingEntityManagerItem lemi = LivingEntityManager.getItem(sParameter);
+                            World.addNewLiving(sParameter, lemi.getType(), cell.isDiscovered(), p3dDirect.x, p3dDirect.y, p3dDirect.z, true);
+                        }
+                        case COMMAND_ADD_EVENT -> {
+                            EventManagerItem emi = EventManager.getItem(sParameter);
+                            Game.getWorld().addEvent(emi);
+                        }
+                        case COMMAND_GOD_STATUS_LOWER_5 -> {
 //						for (int i = 0; i < Game.getWorld ().getGods ().size (); i++) {
 //							if (Game.getWorld ().getGods ().get (i).getGodID ().equals (sParameter)) {
 //								Game.getWorld ().getGods ().get (i).setStatus (Game.getWorld ().getGods ().get (i).getStatus () - 5);
 //								break;
 //							}
 //						}
-                    } else if (sCommand.equals(COMMAND_GOD_STATUS_RAISE_5)) {
+                        }
+                        case COMMAND_GOD_STATUS_RAISE_5 -> {
 //						for (int i = 0; i < Game.getWorld ().getGods ().size (); i++) {
 //							if (Game.getWorld ().getGods ().get (i).getGodID ().equals (sParameter)) {
 //								Game.getWorld ().getGods ().get (i).setStatus (Game.getWorld ().getGods ().get (i).getStatus () + 5);
 //								break;
 //							}
 //						}
-                    } else {
-                        Log.log(Log.LEVEL_ERROR, Messages.getString("CommandPanel.6") + sCommand + "] [" + sParameter + "]", "CommandPannel"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                        }
+                        default ->
+                                Log.log(Log.LEVEL_ERROR, Messages.getString("CommandPanel.6") + sCommand + "] [" + sParameter + "]", "CommandPannel"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                     }
                 } else {
                     Log.log(Log.LEVEL_ERROR, Messages.getString("CommandPanel.6") + sCommand + "] [" + sParameter + "]", "CommandPannel"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$

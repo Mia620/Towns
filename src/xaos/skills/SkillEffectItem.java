@@ -33,7 +33,7 @@ public class SkillEffectItem {
     }
 
     public void setTarget(String sTarget) throws Exception {
-        if (sTarget == null || sTarget.length() == 0) {
+        if (sTarget == null || sTarget.isEmpty()) {
             setTarget(TARGET_INT_NONE);
         } else {
             if (sTarget.equalsIgnoreCase(TARGET_SELF)) {

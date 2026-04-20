@@ -11,6 +11,7 @@ import xaos.utils.Messages;
 import xaos.utils.UtilsXML;
 
 import java.io.File;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -28,10 +29,10 @@ public class HeroManager {
      * Carga los livingEntities en la hash. Usa los .xml
      */
     private static void loadHerosData() {
-        hmComePrerequisites = new HashMap<String, ArrayList<HeroPrerequisite>>();
-        hmStayPrerequisites = new HashMap<String, ArrayList<HeroPrerequisite>>();
-        hmBehaviours = new HashMap<String, HeroBehaviour>();
-        hmSkills = new HashMap<String, HeroSkills>();
+        hmComePrerequisites = new HashMap<>();
+        hmStayPrerequisites = new HashMap<>();
+        hmBehaviours = new HashMap<>();
+        hmSkills = new HashMap<>();
 
         // Cargar de fichero
         loadXML(Towns.getPropertiesString("DATA_FOLDER") + "heroes.xml"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -43,9 +44,9 @@ public class HeroManager {
         }
 
         ArrayList<String> alMods = Game.getModsLoaded();
-        if (alMods != null && alMods.size() > 0) {
-            for (int i = 0; i < alMods.size(); i++) {
-                String sModActionsPath = fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator") + alMods.get(i) + System.getProperty("file.separator") + Towns.getPropertiesString("DATA_FOLDER") + "heroes.xml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+        if (!alMods.isEmpty()) {
+            for (String alMod : alMods) {
+                String sModActionsPath = fUserFolder.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.MODS_FOLDER1 + FileSystems.getDefault().getSeparator() + alMod + FileSystems.getDefault().getSeparator() + Towns.getPropertiesString("DATA_FOLDER") + "heroes.xml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
                 File fIni = new File(sModActionsPath);
                 if (fIni.exists()) {
                     loadXML(sModActionsPath);
@@ -97,18 +98,18 @@ public class HeroManager {
             for (int i = 0; i < nodeList.getLength(); i++) {
                 node = nodeList.item(i);
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    int iType = 0;
-                    if (node.getNodeName().equals("comePrerequisites")) { //$NON-NLS-1$
-                        iType = 1;
-                    } else if (node.getNodeName().equals("stayPrerequisites")) { //$NON-NLS-1$
-                        iType = 2;
-                    } else if (node.getNodeName().equals("behaviours")) { //$NON-NLS-1$
-                        iType = 3;
-                    } else if (node.getNodeName().equals("skills")) { //$NON-NLS-1$
-                        iType = 4;
-                    } else {
-                        throw new Exception(Messages.getString("HeroManager.3") + node.getNodeName() + "]"); //$NON-NLS-1$ //$NON-NLS-2$
-                    }
+                    int iType = switch (node.getNodeName()) {
+                        case "comePrerequisites" ->  //$NON-NLS-1$
+                                1;
+                        case "stayPrerequisites" ->  //$NON-NLS-1$
+                                2;
+                        case "behaviours" ->  //$NON-NLS-1$
+                                3;
+                        case "skills" ->  //$NON-NLS-1$
+                                4;
+                        default ->
+                                throw new Exception(Messages.getString("HeroManager.3") + node.getNodeName() + "]"); //$NON-NLS-1$ //$NON-NLS-2$
+                    };
 
                     // Tenemos el nodo de prerequisitos
                     NodeList nodesPrerequisites = node.getChildNodes();
@@ -118,7 +119,7 @@ public class HeroManager {
                         if (nodePrerequisite.getNodeType() == Node.ELEMENT_NODE) {
                             sID = nodePrerequisite.getNodeName();
 
-                            ArrayList<HeroPrerequisite> alPrerequisites = new ArrayList<HeroPrerequisite>();
+                            ArrayList<HeroPrerequisite> alPrerequisites = new ArrayList<>();
                             HeroBehaviour behaviour = new HeroBehaviour();
                             String sHeroSkills = null;
                             String sHeroSkillLevels = null;

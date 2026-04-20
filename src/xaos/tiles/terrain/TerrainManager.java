@@ -12,6 +12,7 @@ import xaos.utils.Messages;
 import xaos.utils.UtilsXML;
 
 import java.io.File;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -28,7 +29,7 @@ public class TerrainManager {
     private static HashMap<Integer, TerrainManagerItem> terrainListByID;
 
     private static void loadItems() {
-        terrainList = new HashMap<String, TerrainManagerItem>();
+        terrainList = new HashMap<>();
 
         // Cargar de fichero
         TerrainManagerItem.CURRENT_TERRAIN_ID = 0;
@@ -41,9 +42,9 @@ public class TerrainManager {
         }
 
         ArrayList<String> alMods = Game.getModsLoaded();
-        if (alMods != null && alMods.size() > 0) {
-            for (int i = 0; i < alMods.size(); i++) {
-                String sModActionsPath = fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator") + alMods.get(i) + System.getProperty("file.separator") + Towns.getPropertiesString("DATA_FOLDER") + "terrain.xml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+        if (!alMods.isEmpty()) {
+            for (String alMod : alMods) {
+                String sModActionsPath = fUserFolder.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.MODS_FOLDER1 + FileSystems.getDefault().getSeparator() + alMod + FileSystems.getDefault().getSeparator() + Towns.getPropertiesString("DATA_FOLDER") + "terrain.xml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
                 File fIni = new File(sModActionsPath);
                 if (fIni.exists()) {
                     loadXMLTerrain(sModActionsPath, false);
@@ -52,8 +53,8 @@ public class TerrainManager {
         }
 
         // Generamos los groups + terrains por ID
-        terrainGroups = new HashMap<String, ArrayList<Integer>>();
-        terrainListByID = new HashMap<Integer, TerrainManagerItem>();
+        terrainGroups = new HashMap<>();
+        terrainListByID = new HashMap<>();
 
         Iterator<String> iterator = terrainList.keySet().iterator();
         String key;
@@ -68,7 +69,7 @@ public class TerrainManager {
             if (group != null) {
                 alTerrains = terrainGroups.get(group);
                 if (alTerrains == null) {
-                    alTerrains = new ArrayList<Integer>();
+                    alTerrains = new ArrayList<>();
                 }
                 alTerrains.add(terrainList.get(key).getTerrainID());
 
@@ -77,20 +78,20 @@ public class TerrainManager {
 
             // ID
             terrainID = terrainList.get(key).getTerrainID();
-            terrainListByID.put(Integer.valueOf(terrainID), terrainList.get(key));
+            terrainListByID.put(terrainID, terrainList.get(key));
         }
 
         // Tiles + check ladders + blocks
-        terrainTiles = new ArrayList<Tile>(terrainListByID.size() * SLOPES_INIHEADER.length);
-        blockTiles = new ArrayList<Tile>(terrainListByID.size());
+        terrainTiles = new ArrayList<>(terrainListByID.size() * SLOPES_INIHEADER.length);
+        blockTiles = new ArrayList<>(terrainListByID.size());
         TerrainManagerItem tmi;
         for (int i = 0; i < terrainListByID.size(); i++) {
             tmi = terrainListByID.get(i);
             String sHeader = tmi.getIniHeader();
             // Tiles
-            for (int iSlope = 0; iSlope < SLOPES_INIHEADER.length; iSlope++) {
+            for (String s : SLOPES_INIHEADER) {
                 Tile tile = new Tile(sHeader);
-                tile.changeGraphic(sHeader + SLOPES_INIHEADER[iSlope]);
+                tile.changeGraphic(sHeader + s);
                 terrainTiles.add(tile);
             }
 
@@ -131,7 +132,7 @@ public class TerrainManager {
             loadItems();
         }
 
-        return terrainListByID.get(Integer.valueOf(iID));
+        return terrainListByID.get(iID);
     }
 
     public static Tile getTileByTileID(int iID) {
@@ -176,7 +177,7 @@ public class TerrainManager {
             // Primero de todo creamos el terrain AIR
             if (!terrainList.containsKey("_AIR")) {
                 TerrainManagerItem tmiAir = new TerrainManagerItem(TerrainManagerItem.TERRAIN_AIR_INIHEADER, Messages.getString("TerrainManager.2")); //$NON-NLS-1$
-                tmiAir.setActions(new ArrayList<String>());
+                tmiAir.setActions(new ArrayList<>());
                 tmiAir.setBlocky(false);
                 terrainList.put("_AIR", tmiAir); //$NON-NLS-1$
             }
@@ -226,7 +227,7 @@ public class TerrainManager {
                             item.setLadderItem(sAux);
                         }
                         ArrayList<String> alActions = UtilsXML.getChildValues(node.getChildNodes(), "action"); //$NON-NLS-1$
-                        if (alActions != null && alActions.size() > 0) {
+                        if (alActions != null && !alActions.isEmpty()) {
                             item.setActions(alActions);
                         }
                         sAux = UtilsXML.getChildValue(node.getChildNodes(), "canBeFilled"); //$NON-NLS-1$

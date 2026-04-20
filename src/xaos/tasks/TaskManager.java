@@ -68,17 +68,17 @@ public final class TaskManager implements Externalizable {
     private int automatedQueueTurns;
     private ArrayList<String> alProductionToRemove;
 
-    private final HashMap<String, ArrayList<Integer>> hmNonAvailableActions = new HashMap<String, ArrayList<Integer>>();
+    private final HashMap<String, ArrayList<Integer>> hmNonAvailableActions = new HashMap<>();
 
     public TaskManager() {
-        taskItems = new ArrayList<TaskManagerItem>();
-        taskItemsTemp = new ArrayList<TaskManagerItem>();
-        customActions = new ArrayList<Action>();
-        customActionsTemp = new ArrayList<Action>();
-        customActionsWait = new ArrayList<Action>();
-        hmItemsOnRegularQueue = new HashMap<String, Integer>();
-        hmItemsOnAutomatedQueue = new HashMap<String, Integer>();
-        alProductionToRemove = new ArrayList<String>();
+        taskItems = new ArrayList<>();
+        taskItemsTemp = new ArrayList<>();
+        customActions = new ArrayList<>();
+        customActionsTemp = new ArrayList<>();
+        customActionsWait = new ArrayList<>();
+        hmItemsOnRegularQueue = new HashMap<>();
+        hmItemsOnAutomatedQueue = new HashMap<>();
+        alProductionToRemove = new ArrayList<>();
         automatedQueueTurns = 0;
         haulIndex = 0;
         containerIndex = 0;
@@ -167,14 +167,9 @@ public final class TaskManager implements Externalizable {
             if (putOnProdPanel) {
                 // PRODUCTION PANEL INFO
                 if (hmItemsOnRegularQueue.containsKey(ami.getId())) {
-                    Integer iValue = hmItemsOnRegularQueue.get(ami.getId());
-                    if (iValue != null) {
-                        hmItemsOnRegularQueue.put(ami.getId(), Integer.valueOf(iValue.intValue() + 1));
-                    } else {
-                        hmItemsOnRegularQueue.put(ami.getId(), Integer.valueOf(1));
-                    }
+                    hmItemsOnRegularQueue.merge(ami.getId(), 1, Integer::sum);
                 } else {
-                    hmItemsOnRegularQueue.put(ami.getId(), Integer.valueOf(1));
+                    hmItemsOnRegularQueue.put(ami.getId(), 1);
                 }
             }
         }
@@ -189,20 +184,20 @@ public final class TaskManager implements Externalizable {
     public boolean isDuplicateAction(Action newAction) {
         Action action;
         // Acciones en cola
-        for (int i = 0; i < customActions.size(); i++) {
-            action = customActions.get(i);
+        for (Action customAction : customActions) {
+            action = customAction;
             if (isDuplicateAction(newAction, action)) {
                 return true;
             }
         }
-        for (int i = 0; i < customActionsTemp.size(); i++) {
-            action = customActionsTemp.get(i);
+        for (Action value : customActionsTemp) {
+            action = value;
             if (isDuplicateAction(newAction, action)) {
                 return true;
             }
         }
-        for (int i = 0; i < customActionsWait.size(); i++) {
-            action = customActionsWait.get(i);
+        for (Action value : customActionsWait) {
+            action = value;
             if (isDuplicateAction(newAction, action)) {
                 return true;
             }
@@ -211,8 +206,8 @@ public final class TaskManager implements Externalizable {
         // Acciones de aldeanos
         ArrayList<Integer> citizens = World.getCitizenIDs();
         Citizen citizen;
-        for (int i = 0; i < citizens.size(); i++) {
-            citizen = (Citizen) World.getLivingEntityByID(citizens.get(i));
+        for (Integer integer : citizens) {
+            citizen = (Citizen) World.getLivingEntityByID(integer);
             action = citizen.getCurrentCustomAction();
             if (action != null && isDuplicateAction(newAction, action)) {
                 return true;
@@ -220,8 +215,8 @@ public final class TaskManager implements Externalizable {
         }
         // Y de soldiers (hace falta?)
         citizens = World.getSoldierIDs();
-        for (int i = 0; i < citizens.size(); i++) {
-            citizen = (Citizen) World.getLivingEntityByID(citizens.get(i));
+        for (Integer integer : citizens) {
+            citizen = (Citizen) World.getLivingEntityByID(integer);
             action = citizen.getCurrentCustomAction();
             if (action != null && isDuplicateAction(newAction, action)) {
                 return true;
@@ -243,20 +238,20 @@ public final class TaskManager implements Externalizable {
 
         Action action;
         // Acciones en cola
-        for (int i = 0; i < customActions.size(); i++) {
-            action = customActions.get(i);
+        for (Action customAction : customActions) {
+            action = customAction;
             if (isDuplicateActionAutomated(newAction, action)) {
                 iNum++;
             }
         }
-        for (int i = 0; i < customActionsTemp.size(); i++) {
-            action = customActionsTemp.get(i);
+        for (Action value : customActionsTemp) {
+            action = value;
             if (isDuplicateActionAutomated(newAction, action)) {
                 iNum++;
             }
         }
-        for (int i = 0; i < customActionsWait.size(); i++) {
-            action = customActionsWait.get(i);
+        for (Action value : customActionsWait) {
+            action = value;
             if (isDuplicateActionAutomated(newAction, action)) {
                 iNum++;
             }
@@ -264,8 +259,8 @@ public final class TaskManager implements Externalizable {
         // Acciones de aldeanos
         ArrayList<Integer> citizens = World.getCitizenIDs();
         Citizen citizen;
-        for (int i = 0; i < citizens.size(); i++) {
-            citizen = (Citizen) World.getLivingEntityByID(citizens.get(i));
+        for (Integer integer : citizens) {
+            citizen = (Citizen) World.getLivingEntityByID(integer);
             action = citizen.getCurrentCustomAction();
             if (action != null && isDuplicateActionAutomated(newAction, action)) {
                 iNum++;
@@ -273,8 +268,8 @@ public final class TaskManager implements Externalizable {
         }
         // Y de soldiers (hace falta?)
         citizens = World.getSoldierIDs();
-        for (int i = 0; i < citizens.size(); i++) {
-            citizen = (Citizen) World.getLivingEntityByID(citizens.get(i));
+        for (Integer integer : citizens) {
+            citizen = (Citizen) World.getLivingEntityByID(integer);
             action = citizen.getCurrentCustomAction();
             if (action != null && isDuplicateActionAutomated(newAction, action)) {
                 iNum++;
@@ -315,8 +310,8 @@ public final class TaskManager implements Externalizable {
      */
     public Task getTask(int citizenID) {
         TaskManagerItem item;
-        for (int i = 0; i < taskItems.size(); i++) {
-            item = taskItems.get(i);
+        for (TaskManagerItem taskItem : taskItems) {
+            item = taskItem;
             if (item.containsCitizen(citizenID)) {
                 return item.getTask();
             }
@@ -334,8 +329,8 @@ public final class TaskManager implements Externalizable {
         citizen.resetTaskIndexes(); // Importante
 
         TaskManagerItem item;
-        for (int i = 0; i < taskItems.size(); i++) {
-            item = taskItems.get(i);
+        for (TaskManagerItem taskItem : taskItems) {
+            item = taskItem;
             if (item.containsCitizen(citizen.getID())) {
                 item.removeCitizen(citizen.getID());
                 return;
@@ -352,8 +347,8 @@ public final class TaskManager implements Externalizable {
     public void removeCitizen(int citizenID) {
         ArrayList<Integer> citizens = World.getCitizenIDs();
         Citizen citizen;
-        for (int j = 0; j < citizens.size(); j++) {
-            citizen = (Citizen) World.getLivingEntityByID(citizens.get(j));
+        for (Integer value : citizens) {
+            citizen = (Citizen) World.getLivingEntityByID(value);
             if (citizen.getID() == citizenID) {
                 removeCitizen(citizen);
                 return;
@@ -362,8 +357,8 @@ public final class TaskManager implements Externalizable {
 
         // soldiers?
         citizens = World.getSoldierIDs();
-        for (int j = 0; j < citizens.size(); j++) {
-            citizen = (Citizen) World.getLivingEntityByID(citizens.get(j));
+        for (Integer integer : citizens) {
+            citizen = (Citizen) World.getLivingEntityByID(integer);
             if (citizen.getID() == citizenID) {
                 removeCitizen(citizen);
                 return;
@@ -407,15 +402,15 @@ public final class TaskManager implements Externalizable {
                     // Acti�n de tipo QUEUE
                     ArrayList<QueueItem> actionQueue = ami.getQueueNoCopy();
                     ArrayList<String> alList;
-                    for (int i = 0; i < actionQueue.size(); i++) {
-                        qi = actionQueue.get(i);
+                    for (QueueItem queueItem : actionQueue) {
+                        qi = queueItem;
                         if (qi.getType() == QueueItem.TYPE_MOVE) {
                             alList = Utils.getArray(qi.getValue());
-                            if (alList != null && alList.size() > 0) {
+                            if (alList != null && !alList.isEmpty()) {
                                 boolean bAnyItem = false;
                                 int iTmp = 0;
-                                for (int t = 0; t < alList.size(); t++) {
-                                    iTmp += Item.getNumItems(UtilsIniHeaders.getIntIniHeader(alList.get(t)), true, Game.getWorld().getRestrictHaulEquippingLevel());
+                                for (String s : alList) {
+                                    iTmp += Item.getNumItems(UtilsIniHeaders.getIntIniHeader(s), true, Game.getWorld().getRestrictHaulEquippingLevel());
                                 }
                                 if (iTmp > 0) {
                                     bAnyItem = true;
@@ -432,11 +427,11 @@ public final class TaskManager implements Externalizable {
                             }
                         } else if (qi.getType() == QueueItem.TYPE_PICK) {
                             alList = Utils.getArray(qi.getValue());
-                            if (alList != null && alList.size() > 0) {
+                            if (alList != null && !alList.isEmpty()) {
                                 boolean bAnyItem = false;
                                 int iTmp = 0;
-                                for (int t = 0; t < alList.size(); t++) {
-                                    iTmp += Item.getNumItems(UtilsIniHeaders.getIntIniHeader(alList.get(t)), false, Game.getWorld().getRestrictHaulEquippingLevel());
+                                for (String s : alList) {
+                                    iTmp += Item.getNumItems(UtilsIniHeaders.getIntIniHeader(s), false, Game.getWorld().getRestrictHaulEquippingLevel());
                                 }
                                 if (iTmp > 0) {
                                     bAnyItem = true;
@@ -453,11 +448,11 @@ public final class TaskManager implements Externalizable {
                             }
                         } else if (qi.getType() == QueueItem.TYPE_PICK_FRIENDLY) {
                             alList = Utils.getArray(qi.getValue());
-                            if (alList != null && alList.size() > 0) {
+                            if (alList != null && !alList.isEmpty()) {
                                 boolean bAnyLiving = false;
                                 int iTmp = 0;
-                                for (int t = 0; t < alList.size(); t++) {
-                                    iTmp += LivingEntity.getNumLivings(alList.get(t), true);
+                                for (String s : alList) {
+                                    iTmp += LivingEntity.getNumLivings(s, true);
                                 }
                                 if (iTmp > 0) {
                                     bAnyLiving = true;
@@ -487,15 +482,15 @@ public final class TaskManager implements Externalizable {
                     // Acti�n de tipo QUEUE
                     ArrayList<QueueItem> actionQueue = ami.getQueueNoCopy();
                     ArrayList<String> alList;
-                    for (int i = 0; i < actionQueue.size(); i++) {
-                        qi = actionQueue.get(i);
+                    for (QueueItem queueItem : actionQueue) {
+                        qi = queueItem;
                         if (qi.getType() == QueueItem.TYPE_MOVE) {
                             alList = Utils.getArray(qi.getValue());
-                            if (alList != null && alList.size() > 0) {
+                            if (alList != null && !alList.isEmpty()) {
                                 boolean bAnyItem = false;
                                 int iTmp = 0;
-                                for (int t = 0; t < alList.size(); t++) {
-                                    iTmp += Item.getNumItems(UtilsIniHeaders.getIntIniHeader(alList.get(t)), true, Game.getWorld().getRestrictHaulEquippingLevel());
+                                for (String s : alList) {
+                                    iTmp += Item.getNumItems(UtilsIniHeaders.getIntIniHeader(s), true, Game.getWorld().getRestrictHaulEquippingLevel());
                                 }
                                 if (iTmp > 0) {
                                     bAnyItem = true;
@@ -513,11 +508,11 @@ public final class TaskManager implements Externalizable {
                             }
                         } else if (qi.getType() == QueueItem.TYPE_PICK) {
                             alList = Utils.getArray(qi.getValue());
-                            if (alList != null && alList.size() > 0) {
+                            if (alList != null && !alList.isEmpty()) {
                                 boolean bAnyItem = false;
                                 int iTmp = 0;
-                                for (int t = 0; t < alList.size(); t++) {
-                                    iTmp += Item.getNumItems(UtilsIniHeaders.getIntIniHeader(alList.get(t)), false, Game.getWorld().getRestrictHaulEquippingLevel());
+                                for (String s : alList) {
+                                    iTmp += Item.getNumItems(UtilsIniHeaders.getIntIniHeader(s), false, Game.getWorld().getRestrictHaulEquippingLevel());
                                 }
                                 if (iTmp > 0) {
                                     bAnyItem = true;
@@ -535,11 +530,11 @@ public final class TaskManager implements Externalizable {
                             }
                         } else if (qi.getType() == QueueItem.TYPE_PICK_FRIENDLY) {
                             alList = Utils.getArray(qi.getValue());
-                            if (alList != null && alList.size() > 0) {
+                            if (alList != null && !alList.isEmpty()) {
                                 boolean bAnyLiving = false;
                                 int iTmp = 0;
-                                for (int t = 0; t < alList.size(); t++) {
-                                    iTmp += LivingEntity.getNumLivings(alList.get(t), true);
+                                for (String s : alList) {
+                                    iTmp += LivingEntity.getNumLivings(s, true);
                                 }
                                 if (iTmp > 0) {
                                     bAnyLiving = true;
@@ -583,11 +578,10 @@ public final class TaskManager implements Externalizable {
                 Integer iValue;
                 ActionManagerItem ami;
                 int iMaxAccionesAMeter;
-                Iterator<String> it = hmItemsOnAutomatedQueue.keySet().iterator();
-                while (it.hasNext()) {
-                    sQueue = it.next();
+                for (String s : hmItemsOnAutomatedQueue.keySet()) {
+                    sQueue = s;
                     iValue = hmItemsOnAutomatedQueue.get(sQueue);
-                    if (iValue.intValue() > 0) {
+                    if (iValue > 0) {
                         ami = ActionManager.getItem(sQueue);
                         iMaxAccionesAMeter = checkQueueAction(ami, iValue);
 
@@ -635,7 +629,7 @@ public final class TaskManager implements Externalizable {
 
                 // Primero metemos 4 de las wait (esto es para performance, si hay 2000 acciones no las chequear� todas cada vez)
                 for (int i = 0; i < 4; i++) {
-                    if (customActionsWait.size() > 0) {
+                    if (!customActionsWait.isEmpty()) {
                         customActionsTemp.add(customActionsWait.remove(0));
                     }
                 }
@@ -719,25 +713,23 @@ public final class TaskManager implements Externalizable {
         TaskManagerItem item;
         Point3DShort hPoint3D;
         Cell cell;
-        for (int i = 0; i < taskItems.size(); i++) {
-            item = taskItems.get(i);
+        for (TaskManagerItem taskItem : taskItems) {
+            item = taskItem;
             int iTaskType = item.getTask().getTask();
             if (!item.getTask().isFinished() && (iTaskType == Task.TASK_MINE || iTaskType == Task.TASK_MINE_LADDER)) {
                 ArrayList<HotPoint> alHotpoints = item.getTask().getHotPoints();
-                if (alHotpoints != null && alHotpoints.size() > 0) {
-                    for (int h = 0; h < alHotpoints.size(); h++) {
-                        hPoint3D = alHotpoints.get(h).getHotPoint();
+                if (alHotpoints != null && !alHotpoints.isEmpty()) {
+                    for (HotPoint alHotpoint : alHotpoints) {
+                        hPoint3D = alHotpoint.getHotPoint();
                         cell = World.getCell(hPoint3D);
 
-                        if (iTaskType == Task.TASK_MINE || iTaskType == Task.TASK_MINE_LADDER) {
-                            if (!(!cell.getTerrain().hasFluids() && (!cell.isMined()) || !cell.isDiscovered())) {
-                                // if (terrain.isMined ()) {
-                                cell.setFlagOrders(false);
-                                alHotpoints.get(h).setFinished(true);
-                            }
+                        if (!(!cell.getTerrain().hasFluids() && (!cell.isMined()) || !cell.isDiscovered())) {
+                            // if (terrain.isMined ()) {
+                            cell.setFlagOrders(false);
+                            alHotpoint.setFinished(true);
                         }
-                        if (!alHotpoints.get(h).isFinished()) {
-                            alHotpoints.get(h).setPlaces(Task.getAccesingPoints(hPoint3D.x, hPoint3D.y, hPoint3D.z, iTaskType), true);
+                        if (!alHotpoint.isFinished()) {
+                            alHotpoint.setPlaces(Task.getAccesingPoints(hPoint3D.x, hPoint3D.y, hPoint3D.z, iTaskType), true);
                         }
                     }
                 }
@@ -755,25 +747,16 @@ public final class TaskManager implements Externalizable {
 
     public int getNumItemsOnAutomatedQueue(String sID) {
         synchronized (hmItemsOnAutomatedQueue) {
-            if (hmItemsOnAutomatedQueue.containsKey(sID)) {
-                return hmItemsOnAutomatedQueue.get(sID).intValue();
-            } else {
-                return 0;
-            }
+            return hmItemsOnAutomatedQueue.getOrDefault(sID, 0);
         }
     }
 
     public void addItemOnAutomatedQueue(String sID) {
         synchronized (hmItemsOnAutomatedQueue) {
             if (hmItemsOnAutomatedQueue.containsKey(sID)) {
-                Integer iValue = hmItemsOnAutomatedQueue.get(sID);
-                if (iValue != null) {
-                    hmItemsOnAutomatedQueue.put(sID, Integer.valueOf(iValue.intValue() + 1));
-                } else {
-                    hmItemsOnAutomatedQueue.put(sID, Integer.valueOf(1));
-                }
+                hmItemsOnAutomatedQueue.merge(sID, 1, Integer::sum);
             } else {
-                hmItemsOnAutomatedQueue.put(sID, Integer.valueOf(1));
+                hmItemsOnAutomatedQueue.put(sID, 1);
             }
         }
     }
@@ -783,14 +766,14 @@ public final class TaskManager implements Externalizable {
             if (hmItemsOnAutomatedQueue.containsKey(sID)) {
                 Integer iValue = hmItemsOnAutomatedQueue.get(sID);
                 if (iValue != null) {
-                    int intValue = iValue.intValue();
+                    int intValue = iValue;
                     if (intValue > 1) {
-                        hmItemsOnAutomatedQueue.put(sID, Integer.valueOf(intValue - 1));
+                        hmItemsOnAutomatedQueue.put(sID, intValue - 1);
                     } else {
-                        hmItemsOnAutomatedQueue.put(sID, Integer.valueOf(0));
+                        hmItemsOnAutomatedQueue.put(sID, 0);
                     }
                 } else {
-                    hmItemsOnAutomatedQueue.put(sID, Integer.valueOf(0));
+                    hmItemsOnAutomatedQueue.put(sID, 0);
                 }
             }
         }
@@ -813,8 +796,8 @@ public final class TaskManager implements Externalizable {
 
                     // Marcamos como finished si hay tarea de build de este edificio
                     TaskManagerItem itemAux;
-                    for (int j = 0; j < taskItems.size(); j++) {
-                        itemAux = taskItems.get(j);
+                    for (TaskManagerItem taskItem : taskItems) {
+                        itemAux = taskItem;
                         if (itemAux.getTask().getTask() == Task.TASK_BUILD) {
                             if (itemAux.getTask().getHotPoint(0).getHotPoint().equals(item.getTask().getPointIni())) {
                                 itemAux.getTask().setFinished(true);
@@ -1351,12 +1334,12 @@ public final class TaskManager implements Externalizable {
         // Fight tasks lo primero
         // assignFightTasks ();
         // Obtenemos aldeanos inactivos (y que no est�n cargando nada) y los metemos en una hash, la key ser� el n�mero de zona A*
-        HashMap<Integer, ArrayList<Citizen>> hmCitizensSinTarea = new HashMap<Integer, ArrayList<Citizen>>();
+        HashMap<Integer, ArrayList<Citizen>> hmCitizensSinTarea = new HashMap<>();
         ArrayList<Integer> citizens = World.getCitizenIDs();
         Citizen citizen;
 
-        for (int i = 0; i < citizens.size(); i++) {
-            citizen = (Citizen) World.getLivingEntityByID(citizens.get(i));
+        for (Integer integer : citizens) {
+            citizen = (Citizen) World.getLivingEntityByID(integer);
             if (!citizen.isWaitingForPath() && citizen.isIdle() && citizen.getCarrying() == null && citizen.getCarryingLiving() == null && citizen.getCitizenData().getSleep() > 0) {
                 // Tenemos aldeano sin tarea, miramos la zona A* y lo metemos en la hash
                 Integer iZID = World.getCells()[citizen.getX()][citizen.getY()][citizen.getZ()].getAstarZoneID();
@@ -1366,7 +1349,7 @@ public final class TaskManager implements Externalizable {
                     alCitizensSinTarea = hmCitizensSinTarea.get(iZID);
                 } else {
                     // Creamos un array vacio
-                    alCitizensSinTarea = new ArrayList<Citizen>();
+                    alCitizensSinTarea = new ArrayList<>();
                 }
                 // Metemos al citizen en el array
                 alCitizensSinTarea.add(citizen);
@@ -1387,7 +1370,7 @@ public final class TaskManager implements Externalizable {
         assignWearWearOffTasks(hmCitizensSinTarea);
 
         // Si no hay aldeanos sin tarea salimos
-        if (hmCitizensSinTarea.size() == 0) {
+        if (hmCitizensSinTarea.isEmpty()) {
             return;
         }
 
@@ -1538,11 +1521,11 @@ public final class TaskManager implements Externalizable {
         int iCurrentCaravanTasks = 0;
         hmNonAvailableActions.clear();
         fortasks:
-        for (int i = 0; i < taskItems.size(); i++) {
-            if (hmCitizensSinTarea.size() == 0) {
+        for (TaskManagerItem taskItem : taskItems) {
+            if (hmCitizensSinTarea.isEmpty()) {
                 return;
             }
-            item = taskItems.get(i);
+            item = taskItem;
 
             // Las tareas de equiparse ya est�n tratadas
             if (item.getTask().getTask() == Task.TASK_WEAR || item.getTask().getTask() == Task.TASK_WEAR_OFF || item.getTask().getTask() == Task.TASK_AUTOEQUIP) {
@@ -1592,7 +1575,7 @@ public final class TaskManager implements Externalizable {
 
                 // Tenemos los prerequisitos
                 boolean bItemPrerequisitesDone = false;
-                if (alPrerequisites == null || alPrerequisites.size() == 0) {
+                if (alPrerequisites == null || alPrerequisites.isEmpty()) {
                     bItemPrerequisitesDone = true;
                 } else {
                     int iNumItems = 0;
@@ -1608,8 +1591,8 @@ public final class TaskManager implements Externalizable {
                     } else {
                         // Si hay materiales miramos que nos vayan bien como prerequisito y que est�n en el mismo A*ZoneID que el edificio
                         boolean bMatsEnZona = false;
-                        for (int it = 0; it < alPrerequisites.size(); it++) {
-                            bMatsEnZona = (Item.searchItem(true, building.getCoordinates(), alPrerequisites.get(it), false, Item.SEARCH_FALSE, Item.SEARCH_DOESNTMATTER, null, Game.getWorld().getRestrictHaulEquippingLevel()) != null);
+                        for (int[] alPrerequisite : alPrerequisites) {
+                            bMatsEnZona = (Item.searchItem(true, building.getCoordinates(), alPrerequisite, false, Item.SEARCH_FALSE, Item.SEARCH_DOESNTMATTER, null, Game.getWorld().getRestrictHaulEquippingLevel()) != null);
                             if (bMatsEnZona) {
                                 break;
                             }
@@ -1623,11 +1606,11 @@ public final class TaskManager implements Externalizable {
                 if (bItemPrerequisitesDone) {
                     // Prerequisitos acabados (o inexistentes), miramos prerequisitos Living
                     alPrerequisites = building.getPrerequisitesLiving();
-                    if (alPrerequisites != null && alPrerequisites.size() > 0) {
+                    if (alPrerequisites != null && !alPrerequisites.isEmpty()) {
                         // Hay prerequisitos living, antes de asignar la tarea miramos que exista alguno de esos livings en la zona del edificio
                         boolean bLivingEnZona = false;
-                        for (int li = 0; li < alPrerequisites.size(); li++) {
-                            bLivingEnZona = (LivingEntity.searchLiving(building.getCoordinates(), alPrerequisites.get(li), false, null) != null);
+                        for (int[] alPrerequisite : alPrerequisites) {
+                            bLivingEnZona = (LivingEntity.searchLiving(building.getCoordinates(), alPrerequisite, false, null) != null);
                             if (bLivingEnZona) {
                                 break;
                             }
@@ -1741,7 +1724,7 @@ public final class TaskManager implements Externalizable {
             Citizen citizen;
             boolean bTaskEnded = false;
             while (iCitizens < iMaxCitizens && !bTaskEnded) {
-                if (hmCitizensSinTarea.size() == 0) {
+                if (hmCitizensSinTarea.isEmpty()) {
                     return;
                 }
                 // Tarea le falta aldeano, buscamos el que est� m�s cerca
@@ -1767,7 +1750,7 @@ public final class TaskManager implements Externalizable {
                             if (iASZID != -1) {
                                 ArrayList<Citizen> alCitTmp = hmCitizensSinTarea.get(iASZID);
 
-                                if (alCitTmp != null && alCitTmp.size() > 0 && Citizen.isCellAllowed(hPoint3D.x, hPoint3D.y, hPoint3D.z)) {
+                                if (alCitTmp != null && !alCitTmp.isEmpty() && Citizen.isCellAllowed(hPoint3D.x, hPoint3D.y, hPoint3D.z)) {
                                     iPlacesAccesibles++;
                                 }
                             }
@@ -1777,8 +1760,8 @@ public final class TaskManager implements Externalizable {
                         if (bHotpointLibre) {
                             Game.iError = 66732;
                             // Miramos si alg�n aldeano lo est� haciendo
-                            for (int n = 0; n < citizens.size(); n++) {
-                                citizen = (Citizen) World.getLivingEntityByID(citizens.get(n));
+                            for (Integer integer : citizens) {
+                                citizen = (Citizen) World.getLivingEntityByID(integer);
                                 if (citizen.getHotPointIndex() == iHPIndex) {
                                     if (citizen.getCurrentTask() != null && citizen.getCurrentTask().getID() == item.getTask().getID()) {
                                         // Aldeano con la misma tarea
@@ -1806,22 +1789,22 @@ public final class TaskManager implements Externalizable {
 
                         // Obtenemos el arraylist de aldeanos con zoneID igual las places... blablabla
                         // Si hay places con distintos zoneIDs uniremos los 2 (o N) arrays de aldeanos en uno
-                        ArrayList<Citizen> alCitizensSinTarea = new ArrayList<Citizen>();
+                        ArrayList<Citizen> alCitizensSinTarea = new ArrayList<>();
                         Point3DShort p3dPlaces;
                         for (int c = 0; c < hotPoint.getPlaces().size(); c++) {
                             p3dPlaces = hotPoint.getPlaces().get(c);
                             ArrayList<Citizen> alCits = hmCitizensSinTarea.get(World.getCells()[p3dPlaces.x][p3dPlaces.y][p3dPlaces.z].getAstarZoneID());
                             if (alCits != null) { // Podr�a ser que no haya aldeanos en esa zona
-                                for (int v = 0; v < alCits.size(); v++) {
-                                    if (!alCitizensSinTarea.contains(alCits.get(v))) {
-                                        alCitizensSinTarea.add(alCits.get(v));
+                                for (Citizen alCit : alCits) {
+                                    if (!alCitizensSinTarea.contains(alCit)) {
+                                        alCitizensSinTarea.add(alCit);
                                     }
                                 }
                             }
                         }
 
                         // Ya tenemos el array con todos los aldeanos que comparten A*ZoneID con las places
-                        if (alCitizensSinTarea.size() == 0) {
+                        if (alCitizensSinTarea.isEmpty()) {
                             Game.iError = 6675;
                             // Si no hay aldeanos, pacasa
                             bTaskEnded = true;
@@ -1895,9 +1878,9 @@ public final class TaskManager implements Externalizable {
         if (hmItemsOnRegularQueue.containsKey(sID)) {
             Integer iItem = hmItemsOnRegularQueue.get(sID);
             if (iItem != null) {
-                int intValue = iItem.intValue();
+                int intValue = iItem;
                 if (intValue > 1) {
-                    hmItemsOnRegularQueue.put(sID, Integer.valueOf(iItem.intValue() - 1));
+                    hmItemsOnRegularQueue.put(sID, iItem.intValue() - 1);
                 } else {
                     hmItemsOnRegularQueue.remove(sID);
                 }
@@ -1922,9 +1905,9 @@ public final class TaskManager implements Externalizable {
             if (hmNonAvailableActions.containsKey(action.getId())) {
                 alASZID = hmNonAvailableActions.get(action.getId());
             } else {
-                alASZID = new ArrayList<Integer>();
+                alASZID = new ArrayList<>();
             }
-            alASZID.add(Integer.valueOf(ASZID));
+            alASZID.add(ASZID);
             hmNonAvailableActions.put(action.getId(), alASZID);
         }
     }
@@ -1936,7 +1919,7 @@ public final class TaskManager implements Externalizable {
                 int ASZID = World.getCell(p3dsDestination).getAstarZoneID();
 
                 ArrayList<Integer> alASZID = hmNonAvailableActions.get(action.getId());
-                return (alASZID.contains(Integer.valueOf(ASZID)));
+                return (alASZID.contains(ASZID));
             }
         }
 
@@ -2014,7 +1997,7 @@ public final class TaskManager implements Externalizable {
                         } else if (queueItem.getType() == QueueItem.TYPE_CREATE_ITEM_BY_TYPE) {
                             // Tenemos el item, miramos si cabe
                             ArrayList<String> alItems = ItemManager.getItemsByType(queueItem.getValue());
-                            if (alItems == null || alItems.size() == 0) {
+                            if (alItems == null || alItems.isEmpty()) {
                                 Log.log(Log.LEVEL_ERROR, Messages.getString("TaskManager.11") + " [" + queueItem.getValue() + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                                 removeAction(iIndex, false, null);
                                 bBadAction = true;
@@ -2040,7 +2023,7 @@ public final class TaskManager implements Externalizable {
 
                 // Me aseguro que el primer "pick/pickLiving" y TODOS los "move" est�n disponibles para el aldeano (de momento s�lo pillo valores, m�s adelante lo miro)
                 String sPickItemLiving = null;
-                ArrayList<String> alMoveITem = new ArrayList<String>();
+                ArrayList<String> alMoveITem = new ArrayList<>();
                 int iFirstPickItemOrLiving = 0; // 1 - lo primero es un pick item, 2 - lo primero es un pick_living, 0 - no hay picks
                 Point3DShort p3dForcedPick = null;
                 boolean bDeleteTaskNoPicks = false;
@@ -2108,15 +2091,15 @@ public final class TaskManager implements Externalizable {
                 Point3DShort p3dPick = null;
                 String sMoveMissing = null;
                 // Obtenemos los A*ZID distintos a mirar
-                ArrayList<Integer> alASZIDAMirar = new ArrayList<Integer>();
-                ArrayList<Point3DShort> alASZIDAMirarCoordinates = new ArrayList<Point3DShort>();
+                ArrayList<Integer> alASZIDAMirar = new ArrayList<>();
+                ArrayList<Point3DShort> alASZIDAMirarCoordinates = new ArrayList<>();
                 ArrayList<Integer> citizens = World.getCitizenIDs();
                 int iCitASZID;
-                for (int i = 0; i < citizens.size(); i++) {
-                    iCitASZID = World.getCell(World.getLivingEntityByID(citizens.get(i)).getCoordinates()).getAstarZoneID();
+                for (Integer integer : citizens) {
+                    iCitASZID = World.getCell(World.getLivingEntityByID(integer).getCoordinates()).getAstarZoneID();
                     if (!alASZIDAMirar.contains(Integer.valueOf(iCitASZID))) {
                         alASZIDAMirar.add(Integer.valueOf(iCitASZID));
-                        alASZIDAMirarCoordinates.add(World.getLivingEntityByID(citizens.get(i)).getCoordinates());
+                        alASZIDAMirarCoordinates.add(World.getLivingEntityByID(integer).getCoordinates());
                     }
                 }
 
@@ -2138,16 +2121,16 @@ public final class TaskManager implements Externalizable {
                     }
                 }
 
-                if (alMoveITem.size() > 0) {
+                if (!alMoveITem.isEmpty()) {
                     // Miraremos seg�n los aldeanos (NO miramos los libres, que quiz� no hay ninguno, miramos TODOS)
                     int iMovesEncontrados = 0;
                     Point3DShort p3d;
-                    while (iMovesEncontrados < alMoveITem.size() && alASZIDAMirarCoordinates.size() > 0) {
+                    while (iMovesEncontrados < alMoveITem.size() && !alASZIDAMirarCoordinates.isEmpty()) {
                         iMovesEncontrados = 0;
                         sMoveMissing = null;
                         p3d = alASZIDAMirarCoordinates.remove(0);
-                        for (int i = 0; i < alMoveITem.size(); i++) {
-                            ArrayList<String> itemToSearch = Utils.getArray(alMoveITem.get(i));
+                        for (String s : alMoveITem) {
+                            ArrayList<String> itemToSearch = Utils.getArray(s);
 
                             // Point3D puntoMoveItem = Item.searchItem (p3d, itemToSearch, false, Item.SEARCH_TRUE, Item.SEARCH_TRUE, null, true); // Buscamos ordenadamente (el �ltimo true)
                             Point3DShort puntoMoveItem = Item.searchItem(false, p3d, UtilsIniHeaders.getIntsArray(itemToSearch), false, Item.SEARCH_DOESNTMATTER, Item.SEARCH_TRUE, null, true, false, Game.getWorld().getRestrictHaulEquippingLevel()); // Buscamos ordenadamente, evitamos containers
@@ -2158,7 +2141,7 @@ public final class TaskManager implements Externalizable {
                                 }
                             } else {
                                 if (sMoveMissing == null) {
-                                    sMoveMissing = alMoveITem.get(i);
+                                    sMoveMissing = s;
                                 }
                             }
                         }
@@ -2166,7 +2149,7 @@ public final class TaskManager implements Externalizable {
                     if (sMoveMissing != null) {
                         if (!action.isSilent()) {
                             ArrayList<String> moveItems = Utils.getArray(sMoveMissing);
-                            if (moveItems.size() > 0) {
+                            if (!moveItems.isEmpty()) {
                                 String sName = ItemManager.getItem(moveItems.get(0)).getName();
                                 for (int i = 1; i < moveItems.size(); i++) {
                                     sName += Messages.getString("TaskManager.9"); //$NON-NLS-1$
@@ -2184,7 +2167,7 @@ public final class TaskManager implements Externalizable {
                 }
 
                 // Si llega aqu� es que los moves est�n OK, miramos que el primero de la lista no est� en uso, en ese caso saltamos la tarea por el momento
-                if (alMoveITem.size() > 0) {
+                if (!alMoveITem.isEmpty()) {
                     // Miraremos seg�n los aldeanos libres
                     ArrayList<String> itemsToSearch = Utils.getArray(alMoveITem.get(0));
 
@@ -2195,7 +2178,7 @@ public final class TaskManager implements Externalizable {
                     boolean bPrimerMoveOK = false;
                     while (itAldeanos.hasNext()) {
                         alCits = hmCitizensSinTarea.get(itAldeanos.next());
-                        if (alCits != null && alCits.size() > 0) {
+                        if (alCits != null && !alCits.isEmpty()) {
                             // if (Item.searchItem (alCits.get (0).getCoordinates (), itemsToSearch, false, Item.SEARCH_TRUE, Item.SEARCH_TRUE, alItemsInUse) != null) {
                             if (Item.searchItem(true, alCits.get(0).getCoordinates(), UtilsIniHeaders.getIntsArray(itemsToSearch), false, Item.SEARCH_DOESNTMATTER, Item.SEARCH_TRUE, alItemsInUse, Game.getWorld().getRestrictHaulEquippingLevel()) != null) {
                                 bPrimerMoveOK = true;
@@ -2220,8 +2203,8 @@ public final class TaskManager implements Externalizable {
                     // Perfomance improvement
                     if (iFirstPickItemOrLiving == 1) { // Items
                         boolean bExisteAlguno = false;
-                        for (int i = 0; i < aiPicks.length; i++) {
-                            if (Item.getNumItems(aiPicks[i], false, Game.getWorld().getRestrictHaulEquippingLevel()) > 0) {
+                        for (int aiPick : aiPicks) {
+                            if (Item.getNumItems(aiPick, false, Game.getWorld().getRestrictHaulEquippingLevel()) > 0) {
                                 bExisteAlguno = true;
                                 break;
                             }
@@ -2249,7 +2232,7 @@ public final class TaskManager implements Externalizable {
                     }
 
                     // Si hay moves hay que mirar que est�n en la misma A*ZID
-                    if (alMoveITem.size() > 0) {
+                    if (!alMoveITem.isEmpty()) {
                         // Tenemos move, el pick tiene que estar en la misma A*ZID
                         Point3DShort puntoPickItemLiving = null;
                         if (iFirstPickItemOrLiving == 1) {
@@ -2282,7 +2265,7 @@ public final class TaskManager implements Externalizable {
                                     // No se puede acceder
                                 }
                             }
-                            if (alCits != null && alCits.size() > 0) {
+                            if (alCits != null && !alCits.isEmpty()) {
                                 Point3DShort puntoPickItem = null;
                                 if (iFirstPickItemOrLiving == 1) {
                                     puntoPickItem = Item.searchItem(false, alCits.get(0).getCoordinates(), aiPicks, false, Item.SEARCH_FALSE, Item.SEARCH_DOESNTMATTER, null, Game.getWorld().getRestrictHaulEquippingLevel());
@@ -2303,7 +2286,7 @@ public final class TaskManager implements Externalizable {
                             Iterator<Integer> itAldeanos = hmCitizensSinTarea.keySet().iterator();
                             while (!bPickEncontrado && itAldeanos.hasNext()) {
                                 alCits = hmCitizensSinTarea.get(itAldeanos.next());
-                                if (alCits != null && alCits.size() > 0) {
+                                if (alCits != null && !alCits.isEmpty()) {
                                     Point3DShort puntoPickItem = null;
                                     if (iFirstPickItemOrLiving == 1) {
                                         puntoPickItem = Item.searchItem(false, alCits.get(0).getCoordinates(), aiPicks, false, Item.SEARCH_FALSE, Item.SEARCH_DOESNTMATTER, null, Game.getWorld().getRestrictHaulEquippingLevel());
@@ -2334,18 +2317,18 @@ public final class TaskManager implements Externalizable {
                 p3dDestination = null;
                 if (p3dMoveTerrain != null) {
                     p3dDestination = p3dMoveTerrain;
-                    alCits = hmCitizensSinTarea.get(Integer.valueOf(World.getCell(p3dDestination).getAstarZoneID()));
+                    alCits = hmCitizensSinTarea.get(World.getCell(p3dDestination).getAstarZoneID());
                 } else if (p3dMove != null) {
                     p3dDestination = p3dMove;
-                    alCits = hmCitizensSinTarea.get(Integer.valueOf(World.getCell(p3dDestination).getAstarZoneID()));
+                    alCits = hmCitizensSinTarea.get(World.getCell(p3dDestination).getAstarZoneID());
                 } else if (p3dPick != null) {
                     p3dDestination = p3dPick;
-                    alCits = hmCitizensSinTarea.get(Integer.valueOf(World.getCell(p3dDestination).getAstarZoneID()));
+                    alCits = hmCitizensSinTarea.get(World.getCell(p3dDestination).getAstarZoneID());
                 } else {
                     // Ni move ni pick..... cualquier aldeano nos vale (que est� en el mismo A*ZID del destination !)
                     if (action.getDestinationPoint() != null && World.getCell(action.getDestinationPoint()).getAstarZoneID() != -1) {
-                        alCits = hmCitizensSinTarea.get(Integer.valueOf(World.getCell(action.getDestinationPoint()).getAstarZoneID()));
-                        if (alCits != null && alCits.size() > 0) {
+                        alCits = hmCitizensSinTarea.get(World.getCell(action.getDestinationPoint()).getAstarZoneID());
+                        if (alCits != null && !alCits.isEmpty()) {
                             p3dDestination = alCits.get(0).getCoordinates();
                         }
 
@@ -2363,7 +2346,7 @@ public final class TaskManager implements Externalizable {
 
                                             if (iASZIDNeighbour != -1) {
                                                 alCits = hmCitizensSinTarea.get(iASZIDNeighbour);
-                                                if (alCits != null && alCits.size() > 0) {
+                                                if (alCits != null && !alCits.isEmpty()) {
                                                     p3dDestination = alCits.get(0).getCoordinates();
                                                     break bucleNeighbours;
                                                 }
@@ -2380,7 +2363,7 @@ public final class TaskManager implements Externalizable {
                         boolean bPickEncontrado = false;
                         while (!bPickEncontrado && itAldeanos.hasNext()) {
                             alCits = hmCitizensSinTarea.get(itAldeanos.next());
-                            if (alCits != null && alCits.size() > 0) {
+                            if (alCits != null && !alCits.isEmpty()) {
                                 p3dDestination = alCits.get(0).getCoordinates();
                                 break;
                             }
@@ -2392,7 +2375,7 @@ public final class TaskManager implements Externalizable {
                     alCits = null;
                 }
 
-                if (alCits != null && alCits.size() > 0) {
+                if (alCits != null && !alCits.isEmpty()) {
                     // Aldeanos encontrados, le metemos la custom action
                     int iIndexCit = getClosestCitizen(p3dDestination, alCits, ami.getPriorityID());
                     if (iIndexCit != -1) {
@@ -2403,7 +2386,7 @@ public final class TaskManager implements Externalizable {
                         citizen.setCurrentTask(task);
                         citizen.setCurrentCustomAction(removeAction(iIndex, false, false, null));
                         iLibres--;
-                        hmCitizensSinTarea.put(Integer.valueOf(World.getCell(citizen.getCoordinates()).getAstarZoneID()), alCits);
+                        hmCitizensSinTarea.put(World.getCell(citizen.getCoordinates()).getAstarZoneID(), alCits);
 
                         if (iLibres <= 0) {
                             // No m�s aldeanos libres
@@ -2449,13 +2432,13 @@ public final class TaskManager implements Externalizable {
                 int iBuildinigZoneID = World.getCells()[p3dEntrance.x][p3dEntrance.y][p3dEntrance.z].getAstarZoneID();
                 alCits = hmCitizensSinTarea.get(iBuildinigZoneID);
 
-                if (alCits == null || alCits.size() == 0) {
+                if (alCits == null || alCits.isEmpty()) {
                     // No hay aldeanos en la zona, siguiente edificio
                     continue breakBuildings;
                 }
 
-                for (int c = 0; c < citizens.size(); c++) {
-                    citizen = (Citizen) World.getLivingEntityByID(citizens.get(c));
+                for (Integer integer : citizens) {
+                    citizen = (Citizen) World.getLivingEntityByID(integer);
                     if (citizen.getCurrentTask() != null && (citizen.getCurrentTask().getTask() == Task.TASK_CREATE_AND_PLACE)) {
                         // Citizen con tarea de create, miramos si es en este edificio
                         if (p3dEntrance.equals(citizen.getCurrentTask().getPointIni())) {
@@ -2468,7 +2451,7 @@ public final class TaskManager implements Externalizable {
                 // Si llega aqu� es que el edificio no tiene aldeano operando
                 // Miramos si hay materiales en el mundo
                 ArrayList<String> alprerequisites = building.getItemQueue().get(0).getPrerequisites();
-                if (alprerequisites != null && alprerequisites.size() > 0) {
+                if (alprerequisites != null && !alprerequisites.isEmpty()) {
                     if (Item.searchItem(true, p3dEntrance, UtilsIniHeaders.getIntsArray(alprerequisites), false, Item.SEARCH_FALSE, Item.SEARCH_DOESNTMATTER, null, Game.getWorld().getRestrictHaulEquippingLevel()) == null) {
                         continue breakBuildings;
                     }
@@ -2510,8 +2493,8 @@ public final class TaskManager implements Externalizable {
         // Recorremos todas las tareas buscando tareas de equip
 
         Task task;
-        for (int i = 0; i < taskItems.size(); i++) {
-            task = taskItems.get(i).getTask();
+        for (TaskManagerItem taskItem : taskItems) {
+            task = taskItem.getTask();
             if (task.getTask() == Task.TASK_WEAR) {
                 Game.iError = Task.TASK_WEAR;
                 // Tarea de equiparse, buscamos al aldeano, nos da igual si est� ocupado o no
@@ -2658,13 +2641,13 @@ public final class TaskManager implements Externalizable {
                 // Container con cosas malas dentro, miramos si hay aldeanos en la zona
                 Item itemContainer = World.getItems().get(container.getItemID());
                 if (itemContainer != null) {
-                    int iZoneContainer = Integer.valueOf(World.getCell(itemContainer.getCoordinates()).getAstarZoneID());
+                    int iZoneContainer = World.getCell(itemContainer.getCoordinates()).getAstarZoneID();
                     ArrayList<Citizen> alCits = hmCitizensSinTarea.get(iZoneContainer);
-                    if (alCits != null && alCits.size() > 0) {
+                    if (alCits != null && !alCits.isEmpty()) {
                         // Hay aldeanos en la zona, le metemos la tarea si no hay otro con la misma tarea
                         boolean bCitizenConMismaTarea = false;
-                        for (int c = 0; c < citizens.size(); c++) {
-                            citizen = (Citizen) World.getLivingEntityByID(citizens.get(c));
+                        for (Integer integer : citizens) {
+                            citizen = (Citizen) World.getLivingEntityByID(integer);
                             if (citizen.getCurrentTask() != null && citizen.getCurrentTask().getTask() == Task.TASK_REMOVE_FROM_CONTAINER) {
                                 // Aldeano con tarea similar, miramos si es la misma
                                 if (Integer.parseInt(citizen.getCurrentTask().getParameter()) == container.getItemID()) {
@@ -2687,7 +2670,7 @@ public final class TaskManager implements Externalizable {
                                 citizen = alCits.remove(iIndexCit);
                                 citizen.setCurrentTask(task);
                                 iLibres--;
-                                hmCitizensSinTarea.put(Integer.valueOf(iZoneContainer), alCits);
+                                hmCitizensSinTarea.put(iZoneContainer, alCits);
                                 if (iLibres <= 0) {
                                     // No m�s aldeanos libres
                                     return iLibres;
@@ -2732,7 +2715,7 @@ public final class TaskManager implements Externalizable {
         ArrayList<Container> containers = Game.getWorld().getContainers();
 
         Game.iError = 6702;
-        if (stockpiles.size() > 0 || containers.size() > 0) {
+        if (!stockpiles.isEmpty() || !containers.isEmpty()) {
             ArrayList<Integer> citizens = World.getCitizenIDs();
             Citizen citizen;
             Stockpile stockpile;
@@ -2749,7 +2732,7 @@ public final class TaskManager implements Externalizable {
             ArrayList<Citizen> alCits;
             FocusData fd;
             ArrayList<Integer> aItems = Game.getWorld().getItemsToBeHauled();
-            ArrayList<Integer> aItemsToDelete = new ArrayList<Integer>();
+            ArrayList<Integer> aItemsToDelete = new ArrayList<>();
             int iMax = Math.min(MAX_HAUL_PER_TURN, iHaulers);
             int MAX_INDEX = haulIndex + iMax;
             if (MAX_INDEX > aItems.size()) {
@@ -2801,7 +2784,7 @@ public final class TaskManager implements Externalizable {
                 // Miramos si hay aldeanos inactivos en el ID del item
                 int iMatZoneID = cell.getAstarZoneID();
                 alCits = hmCitizensSinTarea.get(iMatZoneID);
-                if (alCits != null && alCits.size() > 0) {
+                if (alCits != null && !alCits.isEmpty()) {
                     // Hay aldeanos inactivos en esa zona, buscamos una stockpile/barril con puntos libres/espacio en esa zona
 
                     // Primero miramos que no haya enemigo cerca
@@ -2813,8 +2796,8 @@ public final class TaskManager implements Externalizable {
 
                     // Despu�s miramos que no haya un aldeano con tarea de HAUL de este item
                     boolean bCitizenConMismoHaul = false;
-                    for (int c = 0; c < citizens.size(); c++) {
-                        citizen = (Citizen) World.getLivingEntityByID(citizens.get(c));
+                    for (Integer element : citizens) {
+                        citizen = (Citizen) World.getLivingEntityByID(element);
                         if (citizen.getCurrentTask() != null && (citizen.getCurrentTask().getTask() == Task.TASK_HAUL || citizen.getCurrentTask().getTask() == Task.TASK_PUT_IN_CONTAINER)) {
                             // Citizen con tarea de haul/putInContainer, miramos si es la misma
                             if (item.getCoordinates().equals(citizen.getCurrentTask().getPointIni()) /* && item.getIniHeader ().equals (citizen.getCurrentTask ().getParameter ()) */) {
@@ -2834,9 +2817,9 @@ public final class TaskManager implements Externalizable {
 
                     if (imi.isStackable() && !imi.isContainer()) {
                         // Recorremos los containers
-                        for (int j = 0; j < containers.size(); j++) {
+                        for (Container value : containers) {
                             // breakcontainers: for (int j = 0; j < containers.size (); j++) {
-                            container = containers.get(j);
+                            container = value;
                             // Miramos si el item puede ir en ese container
                             if (container.itemAllowed(item)) {
                                 // Container bueno, miramos si est� en el mismo zone ID que el item
@@ -2847,8 +2830,8 @@ public final class TaskManager implements Externalizable {
 
                                         // Hay que mirar que no haya un aldeano MOVIENDO algo a ese container
                                         boolean bCitizenHauling = false;
-                                        for (int c = 0; c < citizens.size(); c++) {
-                                            citizen = (Citizen) World.getLivingEntityByID(citizens.get(c));
+                                        for (Integer integer : citizens) {
+                                            citizen = (Citizen) World.getLivingEntityByID(integer);
                                             if (citizen.getCurrentTask() != null && (citizen.getCurrentTask().getTask() == Task.TASK_HAUL || citizen.getCurrentTask().getTask() == Task.TASK_PUT_IN_CONTAINER)) {
                                                 // Citizen con tarea de mover en container, miramos si est� llevando algo a esa casilla
                                                 if (itemContainer.getCoordinates().equals(citizen.getCurrentTask().getPointEnd())) {
@@ -2894,13 +2877,13 @@ public final class TaskManager implements Externalizable {
                     if (!bContainerEncontrado) {
                         // Recorremos las stockpiles
                         // breakstockpiles: for (int j = 0; j < stockpiles.size (); j++) {
-                        for (int j = 0; j < stockpiles.size(); j++) {
-                            stockpile = stockpiles.get(j);
+                        for (Stockpile value : stockpiles) {
+                            stockpile = value;
                             // Miramos si el item puede ir en �sta stockpile
                             if (!stockpile.isFull() && stockpile.itemAllowed(item.getIniHeader())) {
                                 points = stockpile.getPoints();
-                                for (int n = 0; n < points.size(); n++) {
-                                    point = points.get(n);
+                                for (Point3DShort point3DShort : points) {
+                                    point = point3DShort;
                                     cell = World.getCell(point);
                                     if (!cell.hasEntity() && cell.getAstarZoneID() == iMatZoneID) {
                                         // Tenemos casilla libre en la stockpile en la misma zona que hay aldeanos inactivos, tarea que te vi al aldeano
@@ -2908,8 +2891,8 @@ public final class TaskManager implements Externalizable {
 
                                         // Hay que mirar que no haya un aldeano MOVIENDO algo a esa casilla del stockpile
                                         boolean bCitizenHauling = false;
-                                        for (int c = 0; c < citizens.size(); c++) {
-                                            citizen = (Citizen) World.getLivingEntityByID(citizens.get(c));
+                                        for (Integer integer : citizens) {
+                                            citizen = (Citizen) World.getLivingEntityByID(integer);
                                             if (citizen.getCurrentTask() != null && (citizen.getCurrentTask().getTask() == Task.TASK_HAUL || citizen.getCurrentTask().getTask() == Task.TASK_PUT_IN_CONTAINER)) {
                                                 // Citizen con tarea de haul, miramos si est� llevando algo a esa casilla
                                                 if (point.equals(citizen.getCurrentTask().getPointEnd())) {
@@ -3008,8 +2991,8 @@ public final class TaskManager implements Externalizable {
                             LivingEntity le;
                             Cell cellCit;
                             forcits:
-                            for (int c = 0; c < citIDs.size(); c++) {
-                                le = World.getLivingEntityByID(citIDs.get(c));
+                            for (Integer citID : citIDs) {
+                                le = World.getLivingEntityByID(citID);
                                 if (le.getCoordinates().z != iNivelMalo) {
                                     cellCit = World.getCell(le.getCoordinates());
                                     if (cellCit.getAstarZoneID() == iMatZoneID) {
@@ -3114,8 +3097,8 @@ public final class TaskManager implements Externalizable {
             if (alCits != null) {
                 // Contamos los que puedan hacer haul
                 Citizen cit;
-                for (int i = 0; i < alCits.size(); i++) {
-                    cit = alCits.get(i);
+                for (Citizen alCit : alCits) {
+                    cit = alCit;
                     if (cit != null && cit.getCitizenData() != null && !cit.getCitizenData().containsDeniedJob(iHaulID)) {
                         iLibres++;
                     }
@@ -3151,7 +3134,7 @@ public final class TaskManager implements Externalizable {
      * pasado, -1 en caso de no encontrarse
      */
     private int getClosestCitizen(Point3DShort p3d, ArrayList<Citizen> alCits, String sPriorityID) {
-        if (alCits == null || alCits.size() == 0) {
+        if (alCits == null || alCits.isEmpty()) {
             return -1;
         }
 
@@ -3225,9 +3208,9 @@ public final class TaskManager implements Externalizable {
     public void updateTaskIndexID() {
         int iMaxID = 0;
 
-        for (int i = 0; i < taskItems.size(); i++) {
-            if (taskItems.get(i).getTask().getID() > iMaxID) {
-                iMaxID = taskItems.get(i).getTask().getID();
+        for (TaskManagerItem taskItem : taskItems) {
+            if (taskItem.getTask().getID() > iMaxID) {
+                iMaxID = taskItem.getTask().getID();
             }
         }
 
@@ -3263,7 +3246,7 @@ public final class TaskManager implements Externalizable {
 
     public String toString() {
         TaskManagerItem tmi;
-        StringBuffer buffer = new StringBuffer("TaskManager\n"); //$NON-NLS-1$
+        StringBuilder buffer = new StringBuilder("TaskManager\n"); //$NON-NLS-1$
         buffer.append("Tasks\n"); //$NON-NLS-1$
         for (int i = 0; i < getTaskItems().size(); i++) {
             tmi = getTaskItems().get(i);

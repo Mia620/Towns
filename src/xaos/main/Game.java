@@ -53,6 +53,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.ByteBuffer;
+import java.nio.file.FileSystems;
 import java.util.*;
 
 
@@ -126,9 +127,9 @@ public final class Game {
     private static int volumeMusic = 10;
     private static int volumeFX = 10;
     private static int pathfindingCPULevel;
-    private static final ArrayList<String> alModsLoaded = new ArrayList<String>();
-    private static final ArrayList<String> alServers = new ArrayList<String>();
-    private static final ArrayList<String> alServerNames = new ArrayList<String>();
+    private static final ArrayList<String> alModsLoaded = new ArrayList<>();
+    private static final ArrayList<String> alServers = new ArrayList<>();
+    private static final ArrayList<String> alServerNames = new ArrayList<>();
     private static int serverToUse;
 
     private static String savegameName;
@@ -142,7 +143,7 @@ public final class Game {
         String sUserFolder = Towns.getPropertiesString("USER_FOLDER"); //$NON-NLS-1$
         Towns.propertiesMain = null;
         File fUserFolder;
-        if (sUserFolder != null && sUserFolder.length() > 0) {
+        if (sUserFolder != null && !sUserFolder.isEmpty()) {
             fUserFolder = Utils.createUserFolder(sUserFolder);
         } else {
             fUserFolder = Utils.createUserFolder(System.getProperty("user.home")); //$NON-NLS-1$
@@ -203,7 +204,7 @@ public final class Game {
 
         // OpenGL 1.3 or better
         String sVersion = GL11.glGetString(GL11.GL_VERSION);
-        if (sVersion == null || sVersion.length() == 0) {
+        if (sVersion == null || sVersion.isEmpty()) {
             Log.log(Log.LEVEL_ERROR, "OpenGL version not available", "Game"); //$NON-NLS-1$ //$NON-NLS-2$
         } else {
             StringTokenizer tokenizer = new StringTokenizer(sVersion, "."); //$NON-NLS-1$
@@ -261,10 +262,10 @@ public final class Game {
         if (properties != null) {
             Enumeration<String> enumNames = (Enumeration<String>) properties.propertyNames();
             String sName;
-            ArrayList<String> alNames = new ArrayList<String>();
+            ArrayList<String> alNames = new ArrayList<>();
             while (enumNames.hasMoreElements()) {
                 sName = enumNames.nextElement();
-                if (sName.indexOf("TEXTURE_FILE") != -1) { //$NON-NLS-1$
+                if (sName.contains("TEXTURE_FILE")) { //$NON-NLS-1$
                     sName = properties.getProperty(sName);
                     if (!alNames.contains(sName)) {
                         alNames.add(sName);
@@ -274,8 +275,8 @@ public final class Game {
 
             // UtilsGL.clearAllCached ();
             // Tenemos la lista de texturas, las cargamos
-            for (int i = 0; i < alNames.size(); i++) {
-                UtilsGL.loadTexture(alNames.get(i), GL11.GL_MODULATE);
+            for (String alName : alNames) {
+                UtilsGL.loadTexture(alName, GL11.GL_MODULATE);
             }
         }
     }
@@ -287,9 +288,9 @@ public final class Game {
 
 
     public static String getFileSeparator() {
-        if (fileSeparator == null || fileSeparator.trim().length() == 0) {
-            fileSeparator = System.getProperty("file.separator"); //$NON-NLS-1$
-            if (fileSeparator == null || fileSeparator.trim().length() == 0) {
+        if (fileSeparator == null || fileSeparator.trim().isEmpty()) {
+            fileSeparator = FileSystems.getDefault().getSeparator(); //$NON-NLS-1$
+            if (fileSeparator == null || fileSeparator.trim().isEmpty()) {
                 fileSeparator = "/"; //$NON-NLS-1$
             }
         }
@@ -480,22 +481,22 @@ public final class Game {
 
         // Evaporation
         Point3DShort p3ds;
-        while (World.fluidEvaporation.size() > 0) {
+        while (!World.fluidEvaporation.isEmpty()) {
             p3ds = World.fluidEvaporation.remove(World.fluidEvaporation.size() - 1);
             Point3DShort.returnToPool(p3ds);
         }
-        for (int x = 0; x < cells.length; x++) {
+        for (Cell[][] cell : cells) {
             for (int y = 0; y < cells[0].length; y++) {
                 for (int z = 0; z < cells[0][0].length; z++) {
-                    World.checkNewEvaporation(cells[x][y][z]);
+                    World.checkNewEvaporation(cell[y][z]);
                 }
             }
         }
 
         // Falling items
         Integer[] aItems = World.getItems().keySet().toArray(new Integer[0]);
-        for (int i = 0; i < aItems.length; i++) {
-            World.addFallItem(aItems[i]);
+        for (Integer aItem : aItems) {
+            World.addFallItem(aItem);
         }
 
         // Shadows
@@ -599,14 +600,14 @@ public final class Game {
 
         // Initializing view
         if (bNewGame) {
-            if (World.getCitizenIDs().size() > 0) {
+            if (!World.getCitizenIDs().isEmpty()) {
                 LivingEntity le = World.getLivingEntityByID(World.getCitizenIDs().get(0));
                 if (le != null) {
                     Game.getWorld().setView(Point3DShort.getPoolInstance(le.getCoordinates()));
                 } else {
                     Game.getWorld().setView(Point3DShort.getPoolInstance(World.MAP_WIDTH / 2, World.MAP_HEIGHT / 2, World.MAP_NUM_LEVELS_OUTSIDE - 1));
                 }
-            } else if (World.getSoldierIDs().size() > 0) {
+            } else if (!World.getSoldierIDs().isEmpty()) {
                 LivingEntity le = World.getLivingEntityByID(World.getSoldierIDs().get(0));
                 if (le != null) {
                     Game.getWorld().setView(Point3DShort.getPoolInstance(le.getCoordinates()));
@@ -629,7 +630,7 @@ public final class Game {
         UtilsGL.initGLModes();
 
         // Tutorial?
-        if (missionData != null && missionData.getTutorialFlows().size() > 0) {
+        if (missionData != null && !missionData.getTutorialFlows().isEmpty()) {
             UIPanel.toggleTutorialPanel(bNewGame || bForzedZip);
         }
     }
@@ -658,13 +659,12 @@ public final class Game {
                 int iMinZ = -1;
                 int iMaxZ = -1;
                 BuryData newBuryData = new BuryData();
-                ArrayList<Point3DShort> alPoints = new ArrayList<Point3DShort>();
-                ArrayList<Integer> alHeaderIDs = new ArrayList<Integer>();
-                ArrayList<ArrayList<String>> alHeaderTexts = new ArrayList<ArrayList<String>>();
+                ArrayList<Point3DShort> alPoints = new ArrayList<>();
+                ArrayList<Integer> alHeaderIDs = new ArrayList<>();
+                ArrayList<ArrayList<String>> alHeaderTexts = new ArrayList<>();
 
-                Iterator<Point3DShort> it = bd.getHash().keySet().iterator();
-                while (it.hasNext()) {
-                    p3ds = it.next();
+                for (Point3DShort point3DShort : bd.getHash().keySet()) {
+                    p3ds = point3DShort;
                     int iZ = p3ds.z - iHeightMin + iBuryStartingZ;
                     if (iZ < (World.MAP_DEPTH - 1)) {
                         alPoints.add(Point3DShort.getPoolInstance(p3ds.x, p3ds.y, iZ));
@@ -672,7 +672,7 @@ public final class Game {
                         if (bd.getHashTexts().get(p3ds) != null) {
                             alHeaderTexts.add(bd.getHashTexts().get(p3ds));
                         } else {
-                            alHeaderTexts.add(new ArrayList<String>());
+                            alHeaderTexts.add(new ArrayList<>());
                         }
 
                         if (iMaxZ == -1) {
@@ -733,14 +733,14 @@ public final class Game {
                         iYMove = 0;
                     }
 
-                    HashMap<Point3DShort, Integer> hashPoints = new HashMap<Point3DShort, Integer>();
-                    HashMap<Point3DShort, ArrayList<String>> hashPointsText = new HashMap<Point3DShort, ArrayList<String>>();
+                    HashMap<Point3DShort, Integer> hashPoints = new HashMap<>();
+                    HashMap<Point3DShort, ArrayList<String>> hashPointsText = new HashMap<>();
 
                     // Movemos el pueblo
                     Point3DShort p3dsAux;
                     Integer iHeader;
                     ArrayList<String> alTexts;
-                    while (alPoints.size() > 0) {
+                    while (!alPoints.isEmpty()) {
                         p3dsAux = alPoints.remove(0);
                         iHeader = alHeaderIDs.remove(0);
                         alTexts = alHeaderTexts.remove(0);
@@ -754,7 +754,7 @@ public final class Game {
                             }
                             cells[p3dsAux.x][p3dsAux.y][p3dsAux.z].setBury(true);
                             hashPoints.put(p3dsAux, iHeader);
-                            if (alTexts != null && alTexts.size() > 0) {
+                            if (alTexts != null && !alTexts.isEmpty()) {
                                 hashPointsText.put(p3dsAux, alTexts);
                             }
                         }
@@ -1030,7 +1030,7 @@ public final class Game {
     public static void updateTutorialFlow(int iTutorialType, int iParam, Point3D p3d, String sParam, boolean bAdvanceIfOk) {
         if (missionData != null && missionData.getTutorialFlowIndex() < missionData.getTutorialFlows().size() && missionData.getTutorialFlowIndex() == ImagesPanel.getCurrentFlowIndex()) {
             TutorialFlow flow = missionData.getTutorialFlows().get(missionData.getTutorialFlowIndex());
-            if (flow.getTriggers() != null && flow.getTriggers().size() > 0) {
+            if (flow.getTriggers() != null && !flow.getTriggers().isEmpty()) {
                 int iMax = (flow.isOrderedTriggers()) ? 1 : flow.getTriggers().size();
                 for (int i = 0; i < iMax; i++) {
                     TutorialTrigger trigger = flow.getTriggers().get(i);
@@ -1521,7 +1521,7 @@ public final class Game {
     }
 
     public static boolean isModLoaded(String sMod) {
-        if (sMod != null && sMod.length() > 0) {
+        if (sMod != null && !sMod.isEmpty()) {
             return alModsLoaded.contains(sMod);
         }
 
@@ -1534,11 +1534,11 @@ public final class Game {
 
     public static void setModsLoaded(String sMods) {
         alModsLoaded.clear();
-        if (sMods != null && sMods.length() > 0) {
+        if (sMods != null && !sMods.isEmpty()) {
             StringTokenizer tokenizer = new StringTokenizer(sMods, ","); //$NON-NLS-1$
             while (tokenizer.hasMoreTokens()) {
                 String sModName = tokenizer.nextToken();
-                if (sModName.length() > 0) {
+                if (!sModName.isEmpty()) {
                     alModsLoaded.add(sModName);
                 }
             }
@@ -1547,7 +1547,7 @@ public final class Game {
     }
 
     public static String getModsLoadedString() {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
 
         for (int i = 0; i < alModsLoaded.size(); i++) {
             buffer.append(alModsLoaded.get(i));
@@ -1560,7 +1560,7 @@ public final class Game {
     }
 
     public static void toggleMod(String sMod) {
-        if (sMod == null || sMod.trim().length() == 0) {
+        if (sMod == null || sMod.trim().isEmpty()) {
             return;
         }
 
@@ -1596,11 +1596,11 @@ public final class Game {
         alServers.clear();
         alServerNames.clear();
 
-        if (sServers != null && sServers.trim().length() > 0) {
+        if (sServers != null && !sServers.trim().isEmpty()) {
             StringTokenizer tokenizer = new StringTokenizer(sServers, ","); //$NON-NLS-1$
             while (tokenizer.hasMoreTokens()) {
                 String sServerAddress = tokenizer.nextToken();
-                if (sServerAddress.length() > 0) {
+                if (!sServerAddress.isEmpty()) {
                     alServers.add(sServerAddress.trim());
 
                     // Buscamos el nombre
@@ -1635,7 +1635,7 @@ public final class Game {
     }
 
     public static String getServersString() {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
 
         for (int i = 0; i < alServers.size(); i++) {
             buffer.append(alServers.get(i));
@@ -1648,7 +1648,7 @@ public final class Game {
     }
 
     public static void addServer(String sServer) {
-        if (sServer == null || sServer.trim().length() == 0) {
+        if (sServer == null || sServer.trim().isEmpty()) {
             return;
         }
 
@@ -1659,7 +1659,7 @@ public final class Game {
     }
 
     public static void removeServer(String sServer) {
-        if (sServer == null || sServer.trim().length() == 0) {
+        if (sServer == null || sServer.trim().isEmpty()) {
             return;
         }
 
@@ -1677,7 +1677,7 @@ public final class Game {
      * @return el texture ID o 0 si lo que se pasa no tiene texture extra
      */
     public static int getExtraTextureID(String sFilename) {
-        if (sFilename == null || sFilename.trim().length() == 0) {
+        if (sFilename == null || sFilename.trim().isEmpty()) {
             return 0;
         }
 
@@ -1686,7 +1686,7 @@ public final class Game {
             return 0;
         }
 
-        return iTextureID.intValue();
+        return iTextureID;
     }
 
     public static int getServerToUse() {

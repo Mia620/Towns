@@ -10,7 +10,7 @@ public final class AStarNodo extends Point3DShort implements Comparable<AStarNod
     // Pool
     public static final int MAX_POOL = 1024;
     private static final long serialVersionUID = 3814601651795128806L;
-    public static ArrayList<AStarNodo> alPool = new ArrayList<AStarNodo>();
+    public static ArrayList<AStarNodo> alPool = new ArrayList<>();
 
     // Referencia al padre
     private AStarNodo padre;
@@ -28,7 +28,7 @@ public final class AStarNodo extends Point3DShort implements Comparable<AStarNod
 
     public static AStarNodo getPoolInstance(int x, int y, int z, AStarNodo padre, int xDest, int yDest, int zDest) {
         synchronized (alPool) {
-            if (alPool.size() > 0) {
+            if (!alPool.isEmpty()) {
 //				System.out.println ("Pilla  [" + alPool.size () + "]");
                 AStarNodo nodo = alPool.remove(alPool.size() - 1);
                 nodo.generateAll(x, y, z, padre, xDest, yDest, zDest);

@@ -13,6 +13,7 @@ import xaos.utils.Utils;
 import xaos.utils.UtilsXML;
 
 import java.io.File;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 
 public class MatsPanelData {
@@ -30,11 +31,11 @@ public class MatsPanelData {
         }
 
         numGroups = 0;
-        iconGroups = new ArrayList<String>();
-        idGroups = new ArrayList<String>();
-        nameGroups = new ArrayList<String>();
-        indexTileGroups = new ArrayList<Integer>();
-        tileGroups = new ArrayList<ArrayList<Tile>>();
+        iconGroups = new ArrayList<>();
+        idGroups = new ArrayList<>();
+        nameGroups = new ArrayList<>();
+        indexTileGroups = new ArrayList<>();
+        tileGroups = new ArrayList<>();
 
         loadXMLGroups(Towns.getPropertiesString("DATA_FOLDER") + "matspanel.xml", true); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -45,9 +46,9 @@ public class MatsPanelData {
         }
 
         ArrayList<String> alMods = Game.getModsLoaded();
-        if (alMods != null && alMods.size() > 0) {
-            for (int i = 0; i < alMods.size(); i++) {
-                String sModActionsPath = fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator") + alMods.get(i) + System.getProperty("file.separator") + Towns.getPropertiesString("DATA_FOLDER") + "matspanel.xml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+        if (!alMods.isEmpty()) {
+            for (String alMod : alMods) {
+                String sModActionsPath = fUserFolder.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.MODS_FOLDER1 + FileSystems.getDefault().getSeparator() + alMod + FileSystems.getDefault().getSeparator() + Towns.getPropertiesString("DATA_FOLDER") + "matspanel.xml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
                 File fIni = new File(sModActionsPath);
                 if (fIni.exists()) {
                     loadXMLGroups(sModActionsPath, false);
@@ -93,7 +94,7 @@ public class MatsPanelData {
 
                     // ID
                     sAux = UtilsXML.getChildValue(node.getChildNodes(), "id"); //$NON-NLS-1$
-                    if (sAux == null || sAux.trim().length() == 0) {
+                    if (sAux == null || sAux.trim().isEmpty()) {
                         Log.log(Log.LEVEL_ERROR, Messages.getString("MatsPanelData.5"), "MatsPanelData"); //$NON-NLS-1$ //$NON-NLS-2$
                         Game.exit();
                     }
@@ -112,11 +113,11 @@ public class MatsPanelData {
                     // Name
                     sAux = UtilsXML.getChildValue(node.getChildNodes(), "name"); //$NON-NLS-1$
                     if (bModChangingValues) {
-                        if (sAux != null && sAux.trim().length() > 0) {
+                        if (sAux != null && !sAux.trim().isEmpty()) {
                             nameGroups.set(indexExists, sAux);
                         }
                     } else {
-                        if (sAux == null || sAux.trim().length() == 0) {
+                        if (sAux == null || sAux.trim().isEmpty()) {
                             Log.log(Log.LEVEL_ERROR, Messages.getString("MatsPanelData.0"), "MatsPanelData"); //$NON-NLS-1$ //$NON-NLS-2$
                             Game.exit();
                         }
@@ -126,44 +127,44 @@ public class MatsPanelData {
                     // Icon
                     sAux = UtilsXML.getChildValue(node.getChildNodes(), "icon"); //$NON-NLS-1$
                     if (bModChangingValues) {
-                        if (sAux != null && sAux.trim().length() > 0) {
+                        if (sAux != null && !sAux.trim().isEmpty()) {
                             iconGroups.set(indexExists, sAux);
                             // Index
-                            indexTileGroups.set(indexExists, Integer.valueOf(0));
+                            indexTileGroups.set(indexExists, 0);
                         }
                     } else {
-                        if (sAux == null || sAux.trim().length() == 0) {
+                        if (sAux == null || sAux.trim().isEmpty()) {
                             Log.log(Log.LEVEL_ERROR, Messages.getString("MatsPanelData.2"), "MatsPanelData"); //$NON-NLS-1$ //$NON-NLS-2$
                             Game.exit();
                         }
                         iconGroups.add(sAux);
                         // Index
-                        indexTileGroups.add(Integer.valueOf(0));
+                        indexTileGroups.add(0);
                     }
 
                     // Types
                     ArrayList<String> alTypes = Utils.getArray(UtilsXML.getChildValue(node.getChildNodes(), "types")); //$NON-NLS-1$
-                    if (alTypes == null || alTypes.size() == 0) {
+                    if (alTypes == null || alTypes.isEmpty()) {
                         if (!bModChangingValues) {
                             Log.log(Log.LEVEL_ERROR, Messages.getString("MatsPanelData.4"), "MatsPanelData"); //$NON-NLS-1$ //$NON-NLS-2$
                             Game.exit();
                         }
                     }
 
-                    ArrayList<String> alItems = new ArrayList<String>();
-                    ArrayList<String> alItemNames = new ArrayList<String>();
-                    if (alTypes != null && alTypes.size() > 0) {
+                    ArrayList<String> alItems = new ArrayList<>();
+                    ArrayList<String> alItemNames = new ArrayList<>();
+                    if (alTypes != null && !alTypes.isEmpty()) {
                         // Para cada type, buscamos los iconos y creamos un tile
-                        for (int t = 0; t < alTypes.size(); t++) {
-                            alItems.addAll(ItemManager.getItemsByType(alTypes.get(t)));
+                        for (String alType : alTypes) {
+                            alItems.addAll(ItemManager.getItemsByType(alType));
                         }
-                        if (alItems.size() == 0) {
+                        if (alItems.isEmpty()) {
                             Log.log(Log.LEVEL_ERROR, Messages.getString("MatsPanelData.6"), "MatsPanelData"); //$NON-NLS-1$ //$NON-NLS-2$
                             Game.exit();
                         }
                         // Ordenamos alfab�ticamente
-                        for (int t = 0; t < alItems.size(); t++) {
-                            alItemNames.add(ItemManager.getItem(alItems.get(t)).getName());
+                        for (String alItem : alItems) {
+                            alItemNames.add(ItemManager.getItem(alItem).getName());
                         }
                         for (int s1 = 0; s1 < (alItemNames.size() - 1); s1++) {
                             for (int s2 = (s1 + 1); s2 < alItemNames.size(); s2++) {
@@ -181,12 +182,12 @@ public class MatsPanelData {
                     }
 
                     // Creamos los Tiles
-                    ArrayList<Tile> alTiles = new ArrayList<Tile>(alItems.size());
-                    for (int t = 0; t < alItems.size(); t++) {
-                        alTiles.add(new Tile(alItems.get(t)));
+                    ArrayList<Tile> alTiles = new ArrayList<>(alItems.size());
+                    for (String alItem : alItems) {
+                        alTiles.add(new Tile(alItem));
                     }
                     if (bModChangingValues) {
-                        if (alTiles.size() > 0) {
+                        if (!alTiles.isEmpty()) {
                             tileGroups.set(indexExists, alTiles);
                         }
                     } else {

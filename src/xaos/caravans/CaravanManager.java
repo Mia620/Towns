@@ -10,6 +10,7 @@ import xaos.utils.Messages;
 import xaos.utils.UtilsXML;
 
 import java.io.File;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -18,7 +19,7 @@ public class CaravanManager {
     private static HashMap<String, CaravanManagerItem> caravanList;
 
     private static void loadItems() {
-        caravanList = new HashMap<String, CaravanManagerItem>();
+        caravanList = new HashMap<>();
 
         // Cargar de fichero
         loadXMLEffects(Towns.getPropertiesString("DATA_FOLDER") + "caravans.xml", true); //$NON-NLS-1$ //$NON-NLS-2$
@@ -30,9 +31,9 @@ public class CaravanManager {
         }
 
         ArrayList<String> alMods = Game.getModsLoaded();
-        if (alMods != null && alMods.size() > 0) {
-            for (int i = 0; i < alMods.size(); i++) {
-                String sModActionsPath = fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator") + alMods.get(i) + System.getProperty("file.separator") + Towns.getPropertiesString("DATA_FOLDER") + "caravans.xml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+        if (!alMods.isEmpty()) {
+            for (String alMod : alMods) {
+                String sModActionsPath = fUserFolder.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.MODS_FOLDER1 + FileSystems.getDefault().getSeparator() + alMod + FileSystems.getDefault().getSeparator() + Towns.getPropertiesString("DATA_FOLDER") + "caravans.xml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
                 File fIni = new File(sModActionsPath);
                 if (fIni.exists()) {
                     loadXMLEffects(sModActionsPath, false);
@@ -106,7 +107,7 @@ public class CaravanManager {
                         }
 
                         ArrayList<CaravanItemData> alItems = loadCaravanItems(node.getChildNodes());
-                        if (alItems != null && alItems.size() > 0) {
+                        if (alItems != null && !alItems.isEmpty()) {
                             caravanData.setItemList(alItems);
                         }
 
@@ -137,7 +138,7 @@ public class CaravanManager {
     }
 
     private static ArrayList<CaravanItemData> loadCaravanItems(NodeList nodeList) throws Exception {
-        ArrayList<CaravanItemData> alItemData = new ArrayList<CaravanItemData>();
+        ArrayList<CaravanItemData> alItemData = new ArrayList<>();
 
         Node node;
         for (int i = 0; i < nodeList.getLength(); i++) {

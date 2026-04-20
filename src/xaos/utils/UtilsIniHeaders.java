@@ -8,8 +8,8 @@ public class UtilsIniHeaders {
 
     private static final long serialVersionUID = 8132377885335964294L;
 
-    private static final HashMap<String, Integer> hmIniHeaders = new HashMap<String, Integer>();
-    private static final ArrayList<String> alStringIniHeaders = new ArrayList<String>();
+    private static final HashMap<String, Integer> hmIniHeaders = new HashMap<>();
+    private static final ArrayList<String> alStringIniHeaders = new ArrayList<>();
     private static int MAX_INI_HEADER = 0;
 
     public static int getIntIniHeader(String iniHeader) {
@@ -34,8 +34,8 @@ public class UtilsIniHeaders {
             return false;
         }
 
-        for (int i = 0; i < aiInts.length; i++) {
-            if (aiInts[i] == iValue) {
+        for (int aiInt : aiInts) {
+            if (aiInt == iValue) {
                 return true;
             }
         }
@@ -48,8 +48,8 @@ public class UtilsIniHeaders {
             return false;
         }
 
-        for (int i = 0; i < aStrings.length; i++) {
-            if (getIntIniHeader(aStrings[i]) == iValue) {
+        for (String aString : aStrings) {
+            if (getIntIniHeader(aString) == iValue) {
                 return true;
             }
         }
@@ -93,7 +93,7 @@ public class UtilsIniHeaders {
             return null;
         }
 
-        ArrayList<Integer> alInts = new ArrayList<Integer>();
+        ArrayList<Integer> alInts = new ArrayList<>();
         while (tokenizer.hasMoreTokens()) {
             alInts.add(getIntIniHeader(tokenizer.nextToken()));
         }
@@ -110,11 +110,11 @@ public class UtilsIniHeaders {
             return null;
         }
 
-        ArrayList<int[]> alReturn = new ArrayList<int[]>(alArray.size());
-        for (int i = 0; i < alArray.size(); i++) {
-            int[] aints = new int[alArray.get(i).length];
-            for (int j = 0; j < alArray.get(i).length; j++) {
-                aints[j] = getIntIniHeader(alArray.get(i)[j]);
+        ArrayList<int[]> alReturn = new ArrayList<>(alArray.size());
+        for (String[] strings : alArray) {
+            int[] aints = new int[strings.length];
+            for (int j = 0; j < strings.length; j++) {
+                aints[j] = getIntIniHeader(strings[j]);
             }
             alReturn.add(aints);
         }
@@ -127,11 +127,11 @@ public class UtilsIniHeaders {
             return null;
         }
 
-        ArrayList<String[]> alReturn = new ArrayList<String[]>(alArray.size());
-        for (int i = 0; i < alArray.size(); i++) {
-            String[] aints = new String[alArray.get(i).length];
-            for (int j = 0; j < alArray.get(i).length; j++) {
-                aints[j] = getStringIniHeader(alArray.get(i)[j]);
+        ArrayList<String[]> alReturn = new ArrayList<>(alArray.size());
+        for (int[] ints : alArray) {
+            String[] aints = new String[ints.length];
+            for (int j = 0; j < ints.length; j++) {
+                aints[j] = getStringIniHeader(ints[j]);
             }
             alReturn.add(aints);
         }
@@ -144,9 +144,9 @@ public class UtilsIniHeaders {
             return null;
         }
 
-        ArrayList<String> alReturn = new ArrayList<String>(alArray.size());
-        for (int j = 0; j < alArray.size(); j++) {
-            alReturn.add(getStringIniHeader(alArray.get(j)));
+        ArrayList<String> alReturn = new ArrayList<>(alArray.size());
+        for (Integer integer : alArray) {
+            alReturn.add(getStringIniHeader(integer));
         }
 
         return alReturn;
@@ -159,7 +159,7 @@ public class UtilsIniHeaders {
      * @return
      */
     public static int contains(ArrayList<int[]> alList, int iValue) {
-        if (alList == null || alList.size() == 0) {
+        if (alList == null || alList.isEmpty()) {
             return -1;
         }
 

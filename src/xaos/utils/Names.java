@@ -14,11 +14,11 @@ public final class Names {
 
     private static void loadNames(String sCampaignID, String sMissionID) {
         if (namesHash == null) {
-            namesHash = new HashMap<String, ArrayList<String>>();
+            namesHash = new HashMap<>();
 
             ArrayList<String> alPaths = Utils.getPathToFile("names.xml", sCampaignID, sMissionID); //$NON-NLS-1$
-            for (int i = 0; i < alPaths.size(); i++) {
-                loadXMLNames(alPaths.get(i));
+            for (String alPath : alPaths) {
+                loadXMLNames(alPath);
             }
         }
     }
@@ -41,7 +41,7 @@ public final class Names {
                         if (namesHash.containsKey(sPool)) {
                             alNames = namesHash.get(sPool);
                         } else {
-                            alNames = new ArrayList<String>();
+                            alNames = new ArrayList<>();
                         }
                         alNames.add(sValue);
                         namesHash.put(sPool, alNames);
@@ -58,7 +58,7 @@ public final class Names {
         loadNames(sCampaignID, sMissionID);
 
         ArrayList<String> alPool = namesHash.get(sPool);
-        if (alPool != null && alPool.size() > 0) {
+        if (alPool != null && !alPool.isEmpty()) {
             return alPool.get(Utils.getRandomBetween(0, alPool.size() - 1));
         }
 

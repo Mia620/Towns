@@ -7,6 +7,7 @@ import xaos.property.PropertyFile;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -46,9 +47,9 @@ public final class UtilFont {
                 File fUserFolder = new File(Game.getUserFolder());
                 if (fUserFolder.exists() && fUserFolder.isDirectory()) {
                     ArrayList<String> alMods = Game.getModsLoaded();
-                    if (alMods != null && alMods.size() > 0) {
-                        for (int i = 0; i < alMods.size(); i++) {
-                            String sModFontFilePath = fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator") + alMods.get(i) + System.getProperty("file.separator") + Towns.getPropertiesString(PropertyFile.PROPERTY_FILE_GRAPHICS, "FONT_FILE"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                    if (!alMods.isEmpty()) {
+                        for (String alMod : alMods) {
+                            String sModFontFilePath = fUserFolder.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.MODS_FOLDER1 + FileSystems.getDefault().getSeparator() + alMod + FileSystems.getDefault().getSeparator() + Towns.getPropertiesString(PropertyFile.PROPERTY_FILE_GRAPHICS, "FONT_FILE"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                             File fIni = new File(sModFontFilePath);
                             if (fIni.exists()) {
                                 in = new BufferedReader(new FileReader(sModFontFilePath));
@@ -63,7 +64,7 @@ public final class UtilFont {
                 throw new Exception(sFontFilePath);
             }
 
-            List<CharDef> charDefs = new ArrayList<CharDef>(255);
+            List<CharDef> charDefs = new ArrayList<>(255);
             int maxChar = 0;
             boolean done = false;
             while (!done) {
@@ -90,8 +91,7 @@ public final class UtilFont {
 
             int iMinOffset = 100;
             chars = new CharDef[maxChar + 1];
-            for (Iterator<CharDef> iter = charDefs.iterator(); iter.hasNext(); ) {
-                CharDef def = iter.next();
+            for (CharDef def : charDefs) {
                 chars[def.id] = def;
                 if (iMinOffset > def.yoffset) {
                     iMinOffset = def.yoffset;
@@ -101,14 +101,14 @@ public final class UtilFont {
             // Hemos acabado, ahora recorro todos para restar pixels al yoffset (para tener lo m�nimo yoffset=0)
             // Tambi�n seteamos el max_height aqu�
             if (iMinOffset > 0) {
-                for (int i = 0; i < chars.length; i++) {
-                    if (chars[i] != null) {
+                for (CharDef aChar : chars) {
+                    if (aChar != null) {
                         // yoffset
-                        chars[i].yoffset -= iMinOffset;
+                        aChar.yoffset -= iMinOffset;
 
                         // MAX_HEIGHT
-                        if ((chars[i].yoffset + chars[i].height) > MAX_HEIGHT) {
-                            MAX_HEIGHT = (short) (chars[i].yoffset + chars[i].height);
+                        if ((aChar.yoffset + aChar.height) > MAX_HEIGHT) {
+                            MAX_HEIGHT = (short) (aChar.yoffset + aChar.height);
                         }
                     }
 

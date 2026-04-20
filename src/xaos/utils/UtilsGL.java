@@ -32,6 +32,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.nio.file.FileSystems;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -40,9 +41,9 @@ import java.util.HashMap;
 
 public final class UtilsGL {
 
-    private static final Deque<Integer> freeTextureIds = new ArrayDeque<Integer>();
-    private static final HashMap<String, ImageData> cachedImages = new HashMap<String, ImageData>();
-    private static final HashMap<String, boolean[][]> cachedTextureAlphas = new HashMap<String, boolean[][]>();
+    private static final Deque<Integer> freeTextureIds = new ArrayDeque<>();
+    private static final HashMap<String, ImageData> cachedImages = new HashMap<>();
+    private static final HashMap<String, boolean[][]> cachedTextureAlphas = new HashMap<>();
     public static boolean ATI_begin = false;
     public static boolean ATI_drawed = false;
     // Textures
@@ -59,8 +60,8 @@ public final class UtilsGL {
         int freq = 0;
 
         DisplayMode targetDisplayMode = null, current;
-        for (int i = 0; i < modes.length; i++) {
-            current = modes[i];
+        for (DisplayMode mode : modes) {
+            current = mode;
 
             if ((current.getWidth() == iWidth) && (current.getHeight() == iHeight)) {
                 if ((targetDisplayMode == null) || (current.getFrequency() >= freq)) {
@@ -583,9 +584,9 @@ public final class UtilsGL {
             File fUserFolder = new File(Game.getUserFolder());
             if (fUserFolder.exists() && fUserFolder.isDirectory()) {
                 ArrayList<String> alMods = Game.getModsLoaded();
-                if (alMods != null && alMods.size() > 0) {
-                    for (int i = 0; i < alMods.size(); i++) {
-                        String sModTexture = fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator") + alMods.get(i) + System.getProperty("file.separator") + Towns.getPropertiesString("GRAPHICS_FOLDER") + System.getProperty("file.separator") + imageFile;
+                if (!alMods.isEmpty()) {
+                    for (String alMod : alMods) {
+                        String sModTexture = fUserFolder.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.MODS_FOLDER1 + FileSystems.getDefault().getSeparator() + alMod + FileSystems.getDefault().getSeparator() + Towns.getPropertiesString("GRAPHICS_FOLDER") + FileSystems.getDefault().getSeparator() + imageFile;
                         File fTexture = new File(sModTexture);
                         if (fTexture.exists()) {
                             imageData = loadImageData(sModTexture, imageFile);
@@ -595,7 +596,7 @@ public final class UtilsGL {
                 }
             }
             if (imageData == null) {
-                imageData = loadImageData(Towns.getPropertiesString("GRAPHICS_FOLDER") + System.getProperty("file.separator") + imageFile, imageFile);
+                imageData = loadImageData(Towns.getPropertiesString("GRAPHICS_FOLDER") + FileSystems.getDefault().getSeparator() + imageFile, imageFile);
             }
         } catch (IOException e) {
             // e.printStackTrace();
@@ -606,7 +607,7 @@ public final class UtilsGL {
         // try to load the image over java ImageIO instead
         if (imageData == null) {
             try {
-                imageData = loadImageDataImageIO(Towns.getPropertiesString("GRAPHICS_FOLDER") + System.getProperty("file.separator") + imageFile, imageFile);
+                imageData = loadImageDataImageIO(Towns.getPropertiesString("GRAPHICS_FOLDER") + FileSystems.getDefault().getSeparator() + imageFile, imageFile);
             } catch (IOException e) {
                 Log.log(Log.LEVEL_ERROR, "ImageIO decoding of image [" + imageFile + "] failed: " + e, "UtilsGL");
             }
@@ -630,9 +631,7 @@ public final class UtilsGL {
      * @return
      */
     private static ImageData loadImageData(String imageFile, String imageName) throws IOException {
-        InputStream in = null;
-        try {
-            in = new FileInputStream(imageFile);
+        try (InputStream in = new FileInputStream(imageFile)) {
             PNGDecoder decoder = new PNGDecoder(in);
 
             int width = decoder.getWidth();
@@ -644,10 +643,6 @@ public final class UtilsGL {
 
             ImageData image = new ImageData(imageName, width, height, buffer, GL11.GL_RGBA);
             return image;
-        } finally {
-            if (in != null) {
-                in.close();
-            }
         }
     }
 
@@ -851,8 +846,8 @@ public final class UtilsGL {
         ByteBuffer buffer = ByteBuffer.allocateDirect(pixelsARGB.length * 4);
         buffer.rewind();
         int p, r, g, b, a;
-        for (int i = 0; i < pixelsARGB.length; i++) {
-            p = pixelsARGB[i];
+        for (int j : pixelsARGB) {
+            p = j;
             a = (p >> 24) & 0xFF; // get pixel bytes in ARGB order
             r = (p >> 16) & 0xFF;
             g = (p >> 8) & 0xFF;
@@ -950,7 +945,7 @@ public final class UtilsGL {
             int iYIndex = Tile.TERRAIN_ICON_HEIGHT * tile.getTileSetY();
             for (int x = 0; x < tile.getTileWidth(); x++) {
                 if (tile.getTileHeight() >= 0)
-                    System.arraycopy(alphaStored[iXIndex + x], iYIndex + 0, alphaArray[x], 0, tile.getTileHeight());
+                    System.arraycopy(alphaStored[iXIndex + x], iYIndex, alphaArray[x], 0, tile.getTileHeight());
             }
 
         } else {

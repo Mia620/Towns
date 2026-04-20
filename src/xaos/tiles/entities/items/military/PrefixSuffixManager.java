@@ -11,6 +11,7 @@ import xaos.utils.Utils;
 import xaos.utils.UtilsXML;
 
 import java.io.File;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 
 public class PrefixSuffixManager {
@@ -20,8 +21,8 @@ public class PrefixSuffixManager {
 
     private static void loadData() {
         if (alPrefixes == null || alSuffixes == null) {
-            alPrefixes = new ArrayList<PrefixSuffixManagerItem>();
-            alSuffixes = new ArrayList<PrefixSuffixManagerItem>();
+            alPrefixes = new ArrayList<>();
+            alSuffixes = new ArrayList<>();
 
             loadXMLData(Towns.getPropertiesString("DATA_FOLDER") + "prefixsuffix.xml");
 
@@ -32,9 +33,9 @@ public class PrefixSuffixManager {
             }
 
             ArrayList<String> alMods = Game.getModsLoaded();
-            if (alMods != null && alMods.size() > 0) {
-                for (int i = 0; i < alMods.size(); i++) {
-                    String sModActionsPath = fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator") + alMods.get(i) + System.getProperty("file.separator") + Towns.getPropertiesString("DATA_FOLDER") + "prefixsuffix.xml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+            if (!alMods.isEmpty()) {
+                for (String alMod : alMods) {
+                    String sModActionsPath = fUserFolder.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.MODS_FOLDER1 + FileSystems.getDefault().getSeparator() + alMod + FileSystems.getDefault().getSeparator() + Towns.getPropertiesString("DATA_FOLDER") + "prefixsuffix.xml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
                     File fIni = new File(sModActionsPath);
                     if (fIni.exists()) {
                         loadXMLData(sModActionsPath);
@@ -111,7 +112,7 @@ public class PrefixSuffixManager {
 
     public static PrefixSuffixManagerItem getRandomPrefix() {
         loadData();
-        if (alPrefixes.size() == 0) {
+        if (alPrefixes.isEmpty()) {
             return null;
         }
         return alPrefixes.get(Utils.getRandomBetween(0, alPrefixes.size() - 1));
@@ -119,7 +120,7 @@ public class PrefixSuffixManager {
 
     public static PrefixSuffixManagerItem getRandomSuffix() {
         loadData();
-        if (alSuffixes.size() == 0) {
+        if (alSuffixes.isEmpty()) {
             return null;
         }
         return alSuffixes.get(Utils.getRandomBetween(0, alSuffixes.size() - 1));

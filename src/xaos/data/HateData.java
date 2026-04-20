@@ -28,24 +28,24 @@ public class HateData {
     private boolean allCitizens;
 
     public HateData(String sHateData) {
-        friendlies = new ArrayList<String>();
-        allies = new ArrayList<String>();
-        enemies = new ArrayList<String>();
-        heros = new ArrayList<String>();
-        citizens = new ArrayList<String>();
+        friendlies = new ArrayList<>();
+        allies = new ArrayList<>();
+        enemies = new ArrayList<>();
+        heros = new ArrayList<>();
+        citizens = new ArrayList<>();
         allFriendlies = false;
         allEnemies = false;
         allHeros = false;
         allCitizens = false;
 
-        if (sHateData != null && sHateData.trim().length() > 0) {
+        if (sHateData != null && !sHateData.trim().isEmpty()) {
             StringTokenizer tokenizer = new StringTokenizer(sHateData, ","); //$NON-NLS-1$
             String token;
             LivingEntityManagerItem lemi;
             while (tokenizer.hasMoreTokens()) {
                 token = tokenizer.nextToken().trim();
 
-                if (token.length() > 0) {
+                if (!token.isEmpty()) {
                     // Miramos a ver que es
 
                     // Primero los tipos gen�ricos
@@ -180,33 +180,33 @@ public class HateData {
         if (lemi.getType() == LivingEntity.TYPE_CITIZEN) {
             if (isAllCitizens()) {
                 return true;
-            } else if (getCitizens().size() > 0) {
+            } else if (!getCitizens().isEmpty()) {
                 // Odia s�lo a algunos citizens, miramos si el de la celda es odiado
                 return getCitizens().contains(le.getIniHeader());
             }
         } else if (lemi.getType() == LivingEntity.TYPE_FRIENDLY) {
             if (isAllFriendlies()) {
                 return true;
-            } else if (getFriendlies().size() > 0) {
+            } else if (!getFriendlies().isEmpty()) {
                 return getFriendlies().contains(le.getIniHeader());
             }
         } else if (lemi.getType() == LivingEntity.TYPE_ENEMY) {
             if (isAllEnemies()) {
                 return true;
-            } else if (getEnemies().size() > 0) {
+            } else if (!getEnemies().isEmpty()) {
                 return getEnemies().contains(le.getIniHeader());
             }
         } else if (lemi.getType() == LivingEntity.TYPE_HERO) {
             if (isAllHeros()) {
                 return true;
-            } else if (getHeros().size() > 0) {
+            } else if (!getHeros().isEmpty()) {
                 // Odia s�lo a algunos heros, miramos si el de la celda es odiado
                 return getHeros().contains(le.getIniHeader());
             }
         } else if (lemi.getType() == LivingEntity.TYPE_ALLY) {
             if (isAllAllies()) {
                 return true;
-            } else if (getAllies().size() > 0) {
+            } else if (!getAllies().isEmpty()) {
                 // Odia s�lo a algunos allies, miramos si el de la celda es odiado
                 return getAllies().contains(le.getIniHeader());
             }

@@ -16,8 +16,8 @@ public class DungeonGenerator {
         ArrayList<DungeonData> alDungeons = DungeonManager.getDungeons(sCampaignID, sMissionID);
         DungeonData dungeonData;
 
-        for (int i = 0; i < alDungeons.size(); i++) {
-            dungeonData = alDungeons.get(i);
+        for (DungeonData alDungeon : alDungeons) {
+            dungeonData = alDungeon;
             if (dungeonData.getLevel() >= World.MAP_DEPTH) {
                 continue;
             }
@@ -198,10 +198,10 @@ public class DungeonGenerator {
         }
 
         // Ya tenemos el orden, go go go
-        for (int o = 0; o < orden.length; o++) {
+        for (int k : orden) {
             boolean bCabe = true;
 
-            if (orden[o] == 1) {
+            if (k == 1) {
                 // Norte
                 for (int i = 0; i < PASILLO_INTENTOS; i++) {
                     bCabe = true;
@@ -240,7 +240,7 @@ public class DungeonGenerator {
                         }
                     }
                 }
-            } else if (orden[o] == 2) {
+            } else if (k == 2) {
                 // Sur
                 for (int i = 0; i < PASILLO_INTENTOS; i++) {
                     bCabe = true;
@@ -278,7 +278,7 @@ public class DungeonGenerator {
                         }
                     }
                 }
-            } else if (orden[o] == 4) {
+            } else if (k == 4) {
                 // Este
                 for (int i = 0; i < PASILLO_INTENTOS; i++) {
                     bCabe = true;
@@ -316,7 +316,7 @@ public class DungeonGenerator {
                         }
                     }
                 }
-            } else if (orden[o] == 8) {
+            } else if (k == 8) {
                 // Oeste
                 for (int i = 0; i < PASILLO_INTENTOS; i++) {
                     bCabe = true;
@@ -356,7 +356,7 @@ public class DungeonGenerator {
                 }
             } else {
                 // No es posible
-                Log.log(Log.LEVEL_ERROR, Messages.getString("DungeonGenerator.0") + orden[o] + "]", "DungeonGenerator"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                Log.log(Log.LEVEL_ERROR, Messages.getString("DungeonGenerator.0") + k + "]", "DungeonGenerator"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             }
         }
     }

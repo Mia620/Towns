@@ -185,7 +185,7 @@ public class TutorialTrigger implements Externalizable {
     }
 
     public void setParamXYZ(String sParamXYZ) throws Exception {
-        if (sParamXYZ == null || sParamXYZ.trim().length() == 0) {
+        if (sParamXYZ == null || sParamXYZ.trim().isEmpty()) {
             this.paramXYZ = null;
         } else {
             StringTokenizer tokenizer = new StringTokenizer(sParamXYZ, ","); //$NON-NLS-1$

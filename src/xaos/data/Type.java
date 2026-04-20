@@ -10,6 +10,7 @@ import xaos.utils.Messages;
 import xaos.utils.UtilsXML;
 
 import java.io.*;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -52,7 +53,7 @@ public class Type implements Externalizable {
      * @return el tipo principal de un nombre de tipo
      */
     public static String getMainType(String sTypeName) {
-        if (sTypeName == null || sTypeName.length() == 0) {
+        if (sTypeName == null || sTypeName.isEmpty()) {
             return null;
         }
 
@@ -61,7 +62,7 @@ public class Type implements Externalizable {
             return sTypeName;
         } else {
             String sReturn = sTypeName.substring(0, iIndex);
-            if (sReturn.length() > 0) {
+            if (!sReturn.isEmpty()) {
                 return sReturn;
             }
 
@@ -70,7 +71,7 @@ public class Type implements Externalizable {
     }
 
     public static String getTypeName(String sTypeID) {
-        if (sTypeID == null || sTypeID.length() == 0) {
+        if (sTypeID == null || sTypeID.isEmpty()) {
             return null;
         }
 
@@ -86,8 +87,8 @@ public class Type implements Externalizable {
     }
 
     private static void loadTypeNamesAndIcons() {
-        typeNames = new HashMap<String, String>();
-        typeIcons = new HashMap<String, String>();
+        typeNames = new HashMap<>();
+        typeIcons = new HashMap<>();
 
         // Cargar de fichero
         loadXML(Towns.getPropertiesString("DATA_FOLDER") + "types.xml", true); //$NON-NLS-1$ //$NON-NLS-2$
@@ -99,9 +100,9 @@ public class Type implements Externalizable {
         }
 
         ArrayList<String> alMods = Game.getModsLoaded();
-        if (alMods != null && alMods.size() > 0) {
-            for (int i = 0; i < alMods.size(); i++) {
-                String sModActionsPath = fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator") + alMods.get(i) + System.getProperty("file.separator") + Towns.getPropertiesString("DATA_FOLDER") + "types.xml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+        if (!alMods.isEmpty()) {
+            for (String alMod : alMods) {
+                String sModActionsPath = fUserFolder.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.MODS_FOLDER1 + FileSystems.getDefault().getSeparator() + alMod + FileSystems.getDefault().getSeparator() + Towns.getPropertiesString("DATA_FOLDER") + "types.xml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
                 File fIni = new File(sModActionsPath);
                 if (fIni.exists()) {
                     loadXML(sModActionsPath, false);
@@ -166,7 +167,7 @@ public class Type implements Externalizable {
 
     public ArrayList<String> getElements() {
         if (elements == null) {
-            elements = new ArrayList<String>();
+            elements = new ArrayList<>();
         }
 
         return elements;
@@ -178,7 +179,7 @@ public class Type implements Externalizable {
 
     public ArrayList<String> getElementNames() {
         if (elementNames == null) {
-            elementNames = new ArrayList<String>();
+            elementNames = new ArrayList<>();
         }
 
         return elementNames;
@@ -216,7 +217,7 @@ public class Type implements Externalizable {
     }
 
     public void removeElements() {
-        while (getElements().size() > 0) {
+        while (!getElements().isEmpty()) {
             getElements().remove(0);
             getElementNames().remove(0);
         }

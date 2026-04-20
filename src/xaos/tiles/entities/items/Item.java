@@ -59,11 +59,11 @@ public class Item extends Entity implements Externalizable {
     /**
      * N�mero de items de cada tipo NO LOCKEDS. Se guarda key->iniheader_int Value->Lista de item IDs
      */
-    private static HashMap<Integer, ArrayList<Integer>> mapItems = new HashMap<Integer, ArrayList<Integer>>();
+    private static HashMap<Integer, ArrayList<Integer>> mapItems = new HashMap<>();
     /**
      * N�mero de items de cada tipo LOCKEDS. Se guarda key->iniheader_int Value->Lista de item IDs
      */
-    private static HashMap<Integer, ArrayList<Integer>> mapItemsLocked = new HashMap<Integer, ArrayList<Integer>>();
+    private static HashMap<Integer, ArrayList<Integer>> mapItemsLocked = new HashMap<>();
     private byte flags;
     /**
      * Son los prerequisitos para construirse, ir� desapareciendo durante la construcci�n Cuando lleguen a 0 el item pasa a estar operativo
@@ -108,7 +108,7 @@ public class Item extends Entity implements Externalizable {
         if (Game.getWorld() != null && Game.getWorld().getEvents() != null) {
             for (int i = 0; i < Game.getWorld().getEvents().size(); i++) {
                 EventManagerItem emi = EventManager.getItem(Game.getWorld().getEvents().get(i).getEventID());
-                if (emi != null && emi.getItems() != null && emi.getItems().size() > 0 && emi.getItemsMaxAgePCT() != null && emi.getItems().size() == emi.getItemsMaxAgePCT().size()) {
+                if (emi != null && emi.getItems() != null && !emi.getItems().isEmpty() && emi.getItemsMaxAgePCT() != null && emi.getItems().size() == emi.getItemsMaxAgePCT().size()) {
                     // Miramos si tiene items
                     int iIndex = emi.getItems().indexOf(iniHeader);
                     if (iIndex != -1) {
@@ -263,7 +263,7 @@ public class Item extends Entity implements Externalizable {
         // Hay que mirar que sea habitat puro, vamos, que si hay una zona o pila encima ya no vale
         if (checkHabitat && z < (World.MAP_DEPTH - 1)) {
             ArrayList<Integer> alHabitat = imi.getHabitat();
-            if (alHabitat != null && alHabitat.size() > 0) {
+            if (alHabitat != null && !alHabitat.isEmpty()) {
                 Cell cellUnder = World.getCell(x, y, z + 1);
                 if (!alHabitat.contains(cellUnder.getTerrain().getTerrainID())) {
                     return false;
@@ -278,7 +278,7 @@ public class Item extends Entity implements Externalizable {
 
         // Zones
         if (checkZones) {
-            if (imi.getZones() != null && imi.getZones().size() > 0) {
+            if (imi.getZones() != null && !imi.getZones().isEmpty()) {
                 if (!cell.hasZone()) {
                     return false;
                 }
@@ -345,7 +345,7 @@ public class Item extends Entity implements Externalizable {
     }
 
     public static Item getItemByID(int iID) {
-        return World.getItems().get(Integer.valueOf(iID));
+        return World.getItems().get(iID);
     }
 
     public static Point3DShort searchItemByID(int iItemID) {
@@ -358,8 +358,8 @@ public class Item extends Entity implements Externalizable {
         // Item no existe o est� en containers, lo buscamos
         ArrayList<Container> containers = Game.getWorld().getContainers();
         Container container;
-        for (int i = 0; i < containers.size(); i++) {
-            container = containers.get(i);
+        for (Container value : containers) {
+            container = value;
             if (container.containsItem(iItemID)) {
                 Item containerItem = Item.getItemByID(container.getItemID());
                 if (containerItem != null) {
@@ -385,8 +385,8 @@ public class Item extends Entity implements Externalizable {
             // Item no existe o est� en containers, lo buscamos
             ArrayList<Container> containers = Game.getWorld().getContainers();
             Container container;
-            for (int i = 0; i < containers.size(); i++) {
-                container = containers.get(i);
+            for (Container value : containers) {
+                container = value;
                 if (container.containsItem(iItemID)) {
                     for (int c = 0; c < container.getItemsInside().size(); c++) {
                         if (container.getItemsInside().get(c).getID() == iItemID) {
@@ -491,8 +491,8 @@ public class Item extends Entity implements Externalizable {
             // Toca contar
             int iNum = 0;
             Item item;
-            for (int i = 0; i < iIDs.size(); i++) {
-                item = Item.getItemByID(iIDs.get(i), true);
+            for (Integer iID : iIDs) {
+                item = Item.getItemByID(iID, true);
                 if (item != null && item.getCoordinates().z <= iMaxLevelToCheck) {
                     iNum++;
                 }
@@ -512,7 +512,7 @@ public class Item extends Entity implements Externalizable {
         if (locked) {
             ArrayList<Integer> alList = getMapItemsLocked().get(itemIniHeader);
             if (alList == null) {
-                alList = new ArrayList<Integer>();
+                alList = new ArrayList<>();
             }
             alList.add(iID);
             getMapItemsLocked().put(itemIniHeader, alList);
@@ -520,7 +520,7 @@ public class Item extends Entity implements Externalizable {
         } else {
             ArrayList<Integer> alList = getMapItems().get(itemIniHeader);
             if (alList == null) {
-                alList = new ArrayList<Integer>();
+                alList = new ArrayList<>();
             }
             alList.add(iID);
             getMapItems().put(itemIniHeader, alList);
@@ -635,7 +635,7 @@ public class Item extends Entity implements Externalizable {
      * @return una lista de items en uso por aldeanos que no es el pasado, o nulo si no hay ninguno
      */
     public static ArrayList<Integer> searchItemInUse(int iCitID) {
-        ArrayList<Integer> alItemsInUse = new ArrayList<Integer>();
+        ArrayList<Integer> alItemsInUse = new ArrayList<>();
         Citizen citizen;
         for (int i = 0; i < World.getCitizenIDs().size(); i++) {
             citizen = (Citizen) World.getLivingEntityByID(World.getCitizenIDs().get(i));
@@ -653,7 +653,7 @@ public class Item extends Entity implements Externalizable {
             }
         }
 
-        if (alItemsInUse.size() > 0) {
+        if (!alItemsInUse.isEmpty()) {
             return alItemsInUse;
         } else {
             return null;
@@ -700,10 +700,10 @@ public class Item extends Entity implements Externalizable {
             int[] aiItemToSearch = new int[1];
             // ArrayList<String> alItemToSearch = new ArrayList<String> ();
             Point3DShort p3dItem;
-            for (int i = 0; i < aiIniHeaders.length; i++) {
+            for (int aiIniHeader : aiIniHeaders) {
                 // alItemToSearch.clear ();
                 // alItemToSearch.add (aiIniHeaders [i]);
-                aiItemToSearch[0] = aiIniHeaders[i];
+                aiItemToSearch[0] = aiIniHeader;
 
                 p3dItem = searchItem(bJustKnowIfExists, p3dCurrentPoint, aiItemToSearch, near, locked, operative, alItemsToAvoid, false, iMaxLevelToCheck);
 
@@ -718,13 +718,13 @@ public class Item extends Entity implements Externalizable {
         // Items del tipo que toca en el mundo
         boolean bHayAlguno = false;
         int iNum;
-        for (int i = 0; i < aiIniHeaders.length; i++) {
+        for (int iniHeader : aiIniHeaders) {
             if (locked == SEARCH_DOESNTMATTER) {
-                iNum = Item.getNumItemsTotal(UtilsIniHeaders.getStringIniHeader(aiIniHeaders[i]), iMaxLevelToCheck);
+                iNum = Item.getNumItemsTotal(UtilsIniHeaders.getStringIniHeader(iniHeader), iMaxLevelToCheck);
             } else if (locked == SEARCH_TRUE) {
-                iNum = Item.getNumItems(aiIniHeaders[i], true, iMaxLevelToCheck);
+                iNum = Item.getNumItems(iniHeader, true, iMaxLevelToCheck);
             } else {
-                iNum = Item.getNumItems(aiIniHeaders[i], false, iMaxLevelToCheck);
+                iNum = Item.getNumItems(iniHeader, false, iMaxLevelToCheck);
             }
             if (iNum > 0) {
                 bHayAlguno = true;
@@ -737,7 +737,7 @@ public class Item extends Entity implements Externalizable {
         } else {
             if (bJustKnowIfExists) {
                 // Miramos que no est� en uso
-                if (alItemsToAvoid == null || alItemsToAvoid.size() == 0) {
+                if (alItemsToAvoid == null || alItemsToAvoid.isEmpty()) {
                     return Point3DShort.getPoolInstance(0, 0, 0);
                     // } else {
                     // Hay que hacer la b�squeda entera, para saber si los items encontrados estar�n en uso o no
@@ -751,8 +751,8 @@ public class Item extends Entity implements Externalizable {
 
         if (cell.hasEntity()) {
             int iItem = cell.getEntity().getNumericIniHeader();
-            for (int i = 0; i < aiIniHeaders.length; i++) {
-                if (aiIniHeaders[i] == iItem) {
+            for (int aiIniHeader : aiIniHeaders) {
+                if (aiIniHeader == iItem) {
                     if (checkLockedOperativeAndItems(cell.getEntity(), locked, operative, alItemsToAvoid)) {
                         return p3dCurrentPoint;
                     }
@@ -768,8 +768,8 @@ public class Item extends Entity implements Externalizable {
             ArrayList<Container> containers = Game.getWorld().getContainers();
             Container container;
             int distanciaMin = Utils.MAX_DISTANCE;
-            for (int i = 0; i < containers.size(); i++) {
-                container = containers.get(i);
+            for (Container value : containers) {
+                container = value;
                 Item containerItem = Item.getItemByID(container.getItemID());
                 if (containerItem != null && World.getCell(containerItem.getCoordinates()).getAstarZoneID() == iCurrentASZID && containerItem.getCoordinates().z <= iMaxLevelToCheck) {
                     if (container.containsAny(aiIniHeaders)) {
@@ -806,16 +806,16 @@ public class Item extends Entity implements Externalizable {
         for (int i = 0; i < Game.getWorld().getStockpiles().size(); i++) {
             stockPile = Game.getWorld().getStockpiles().get(i);
 
-            if (stockPile.isEmpty() || stockPile.getPoints().size() == 0 || stockPile.getPoints().get(0).z > iMaxLevelToCheck) {
+            if (stockPile.isEmpty() || stockPile.getPoints().isEmpty() || stockPile.getPoints().get(0).z > iMaxLevelToCheck) {
                 continue;
             }
             // Miramos si la stockpile puede contener alguno de los prerequisitos
             bAllowed = false;
             ArrayList<String> alElements = stockPile.getType().getElements();
             stockElements:
-            for (int p = 0; p < aiIniHeaders.length; p++) {
-                for (int h = 0; h < alElements.size(); h++) {
-                    if (UtilsIniHeaders.getIntIniHeader(alElements.get(h)) == aiIniHeaders[p]) {
+            for (int aiIniHeader : aiIniHeaders) {
+                for (String alElement : alElements) {
+                    if (UtilsIniHeaders.getIntIniHeader(alElement) == aiIniHeader) {
                         // Stockpile permite el prerequisito
                         bAllowed = true;
                         break stockElements;
@@ -835,8 +835,8 @@ public class Item extends Entity implements Externalizable {
                     cell = World.getCell(p3d);
                     if (checkLockedOperativeAndItems(cell.getEntity(), locked, operative, alItemsToAvoid)) {
                         boolean bItemInCellOK = false;
-                        for (int m = 0; m < aiIniHeaders.length; m++) {
-                            if (aiIniHeaders[m] == cell.getEntity().getNumericIniHeader()) {
+                        for (int aiIniHeader : aiIniHeaders) {
+                            if (aiIniHeader == cell.getEntity().getNumericIniHeader()) {
                                 bItemInCellOK = true;
                                 break;
                             }
@@ -870,14 +870,12 @@ public class Item extends Entity implements Externalizable {
         }
 
         // Si llega aqu� es que en stockpiles no hay nada, miramos en todos los materiales del mundo
-        for (int searchingItemsIndex = 0; searchingItemsIndex < aiIniHeaders.length; searchingItemsIndex++) {
-            int iHeaderID = aiIniHeaders[searchingItemsIndex];
-
+        for (int iHeaderID : aiIniHeaders) {
             if (locked == SEARCH_TRUE || locked == SEARCH_DOESNTMATTER) {
                 ArrayList<Integer> alItems = Item.getMapItemsLocked().get(iHeaderID);
                 if (alItems != null) {
-                    for (int i = 0; i < alItems.size(); i++) {
-                        itemAux = getItemByID(alItems.get(i));
+                    for (Integer alItem : alItems) {
+                        itemAux = getItemByID(alItem);
 
                         if (itemAux != null && itemAux.getCoordinates().z <= iMaxLevelToCheck) {
                             if (checkLockedOperativeAndItems(World.getCell(itemAux.getCoordinates()).getEntity(), locked, operative, alItemsToAvoid)) {
@@ -907,8 +905,8 @@ public class Item extends Entity implements Externalizable {
             if (locked == SEARCH_FALSE || locked == SEARCH_DOESNTMATTER) {
                 ArrayList<Integer> alItems = Item.getMapItems().get(iHeaderID);
                 if (alItems != null) {
-                    for (int i = 0; i < alItems.size(); i++) {
-                        itemAux = getItemByID(alItems.get(i));
+                    for (Integer alItem : alItems) {
+                        itemAux = getItemByID(alItem);
 
                         if (itemAux != null && itemAux.getCoordinates().z <= iMaxLevelToCheck) {
                             if (checkLockedOperativeAndItems(World.getCell(itemAux.getCoordinates()).getEntity(), locked, operative, alItemsToAvoid)) {
@@ -986,14 +984,14 @@ public class Item extends Entity implements Externalizable {
      * @return la coordenada de un item que cumpla alguno de los prerequisitos o null si no existe el item
      */
     public static Point3DShort searchFood(Point3DShort p3dCurrentPoint, int citID) {
-        if (World.getItems().size() == 0) {
+        if (World.getItems().isEmpty()) {
             // No hay materiales en el mundo
             return null;
         }
 
         int iCurrentPointASZID = World.getCell(p3dCurrentPoint).getAstarZoneID();
 
-        ArrayList<Item> alItemsMaxFood = new ArrayList<Item>();
+        ArrayList<Item> alItemsMaxFood = new ArrayList<>();
         int iMaxFoodValue = 0;
         int distanciaMin = Utils.MAX_DISTANCE;
         int itemIndex = -1;
@@ -1005,11 +1003,11 @@ public class Item extends Entity implements Externalizable {
         ArrayList<Container> alContainers = Game.getWorld().getContainers();
         ArrayList<Item> alContainerItems;
         boolean bContainerChecked = false; // Para ver si el contenedor est� en su sitio
-        for (int i = 0; i < alContainers.size(); i++) {
-            alContainerItems = alContainers.get(i).getItemsInside();
+        for (Container alContainer : alContainers) {
+            alContainerItems = alContainer.getItemsInside();
             bContainerChecked = false;
-            for (int j = 0; j < alContainerItems.size(); j++) {
-                foodItem = alContainerItems.get(j);
+            for (Item alContainerItem : alContainerItems) {
+                foodItem = alContainerItem;
                 if (foodItem != null) {
                     imi = ItemManager.getItem(foodItem.getIniHeader());
                     if (imi.canBeEaten() && imi.getFoodValue() >= iMaxFoodValue) {
@@ -1051,8 +1049,8 @@ public class Item extends Entity implements Externalizable {
         Stockpile pile;
         boolean bCanContainFood;
         Cell cell;
-        for (int i = 0; i < alPiles.size(); i++) {
-            pile = alPiles.get(i);
+        for (Stockpile alPile : alPiles) {
+            pile = alPile;
             if (pile.isEmpty()) {
                 continue;
             }
@@ -1108,8 +1106,8 @@ public class Item extends Entity implements Externalizable {
         // distanciaMin = AStarNodo.MAX_HEURISTIC;
         // iMaxFoodValue = 0;
         Integer[] aItems = World.getItems().keySet().toArray(new Integer[0]);
-        for (int i = 0; i < aItems.length; i++) {
-            foodItem = World.getItems().get(aItems[i]);
+        for (Integer aItem : aItems) {
+            foodItem = World.getItems().get(aItem);
             if (foodItem != null) {
                 imi = ItemManager.getItem(foodItem.getIniHeader());
                 if (imi.canBeEaten() && imi.getFoodValue() >= iMaxFoodValue) {
@@ -1337,8 +1335,8 @@ public class Item extends Entity implements Externalizable {
     }
 
     public static void clear() {
-        mapItems = new HashMap<Integer, ArrayList<Integer>>();
-        mapItemsLocked = new HashMap<Integer, ArrayList<Integer>>();
+        mapItems = new HashMap<>();
+        mapItemsLocked = new HashMap<>();
     }
 
     public void refreshTransients() {
@@ -1347,7 +1345,7 @@ public class Item extends Entity implements Externalizable {
         // Trap (graphic change)
         if (getTrapCooldown() > 0) {
             ItemManagerItem imi = ItemManager.getItem(getIniHeader());
-            if (imi.isTrap() && imi.getTrapOnIcon() != null && imi.getTrapOnIcon().length() > 0) {
+            if (imi.isTrap() && imi.getTrapOnIcon() != null && !imi.getTrapOnIcon().isEmpty()) {
                 changeGraphic(imi.getTrapOnIcon());
             }
         }
@@ -1676,7 +1674,7 @@ public class Item extends Entity implements Externalizable {
         addItem(this);
 
         // Lo metemos en la lista de items
-        World.getItems().put(Integer.valueOf(getID()), this);
+        World.getItems().put(getID(), this);
 
         resetAnimationItem(isFacingEast() || isFacingNorth());
 
@@ -1753,7 +1751,7 @@ public class Item extends Entity implements Externalizable {
         checkDeleteContainer(imi);
 
         // Lo sacamos de la lista de Items
-        Item item = World.getItems().remove(Integer.valueOf(getID()));
+        Item item = World.getItems().remove(getID());
 
         // Miramos si ha muerto de viejo, en ese caso miramos si se convierte en algo (ej: bush -> tree)
         // Edad
@@ -1878,7 +1876,7 @@ public class Item extends Entity implements Externalizable {
                     }
                 } else {
                     // No tiene needsWater, miramos el needsItems
-                    if (imi.getMaxAgeNeedsItems() != null && imi.getMaxAgeNeedsItems().size() > 0) {
+                    if (imi.getMaxAgeNeedsItems() != null && !imi.getMaxAgeNeedsItems().isEmpty()) {
                         // Vamos a ver si tiene items cerca para poder morir, tiene que tenerlos todos
                         int iRadius = imi.getMaxAgeNeedsItemsRadius();
                         String sItem;
@@ -2007,11 +2005,11 @@ public class Item extends Entity implements Externalizable {
                     boolean salta = false;
                     if (alLivings != null) {
                         HateData hateData = imi.getTrapTargets();
-                        for (int i = 0; i < alLivings.size(); i++) {
-                            if (!LivingEntityManager.getItem(alLivings.get(i).getIniHeader()).isEvadeTraps()) {
+                        for (LivingEntity alLiving : alLivings) {
+                            if (!LivingEntityManager.getItem(alLiving.getIniHeader()).isEvadeTraps()) {
                                 for (int e = 0; e < imi.getTrapEffects().size(); e++) {
-                                    if (hateData.isHate(alLivings.get(i))) {
-                                        alLivings.get(i).addEffect(EffectManager.getItem(imi.getTrapEffects().get(e)), true);
+                                    if (hateData.isHate(alLiving)) {
+                                        alLiving.addEffect(EffectManager.getItem(imi.getTrapEffects().get(e)), true);
                                         salta = true;
                                     }
                                 }
@@ -2027,7 +2025,7 @@ public class Item extends Entity implements Externalizable {
                         }
 
                         // Gr�fico "ON"
-                        if (imi.getTrapOnIcon() != null && imi.getTrapOnIcon().length() > 0) {
+                        if (imi.getTrapOnIcon() != null && !imi.getTrapOnIcon().isEmpty()) {
                             changeGraphic(imi.getTrapOnIcon());
                         }
                     }
@@ -2154,7 +2152,7 @@ public class Item extends Entity implements Externalizable {
 
             // Si abajo hay un item, buscamos una celda adyacente, si no hay celda adyacente el item se pierde
             if (itemDown != null) {
-                ArrayList<Cell> alNeighbours = new ArrayList<Cell>();
+                ArrayList<Cell> alNeighbours = new ArrayList<>();
                 Cell cellTmp;
                 for (short i = (getCoordinates().x > 0) ? (short) -1 : (short) 0, iMax = (getCoordinates().x < (World.MAP_WIDTH - 1)) ? (short) 1 : (short) 0; i <= iMax; i++) {
                     for (short j = (getCoordinates().y > 0) ? (short) -1 : (short) 0, jMax = (getCoordinates().y < (World.MAP_HEIGHT - 1)) ? (short) 1 : (short) 0; j <= jMax; j++) {
@@ -2167,7 +2165,7 @@ public class Item extends Entity implements Externalizable {
                     }
                 }
 
-                if (alNeighbours.size() > 0) {
+                if (!alNeighbours.isEmpty()) {
                     int iRand = Utils.getRandomBetween(0, alNeighbours.size() - 1);
                     Cell cellRandom = alNeighbours.get(iRand);
                     init(cellRandom.getCoordinates().x, cellRandom.getCoordinates().y, cellRandom.getCoordinates().z);

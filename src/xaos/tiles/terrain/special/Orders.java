@@ -12,8 +12,8 @@ public class Orders {
     private static final long serialVersionUID = -3349547564930871768L;
 
     public Orders() {
-        for (int i = 0; i < TERRAIN_ORDERS.length; i++) {
-            TERRAIN_ORDERS[i].setTextureID(TERRAIN_ORDERS[i].getIniHeader(), "orders"); //$NON-NLS-1$
+        for (Tile terrainOrder : TERRAIN_ORDERS) {
+            terrainOrder.setTextureID(terrainOrder.getIniHeader(), "orders"); //$NON-NLS-1$
         }
     }
 

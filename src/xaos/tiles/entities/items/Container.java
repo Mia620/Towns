@@ -43,7 +43,7 @@ public class Container implements Externalizable {
 
         setType(Types.getType(imi.getType()));
         itemID = iID;
-        itemsInside = new ArrayList<Item>(imi.getContainerSize());
+        itemsInside = new ArrayList<>(imi.getContainerSize());
         spaceLeft = imi.getContainerSize();
 
         if (Game.isDisabledItemsON()) {
@@ -77,8 +77,8 @@ public class Container implements Externalizable {
         ItemManagerItem imi;
         String sItemType;
         StockpileTempData elementsWithoutSubtype = new StockpileTempData();
-        ArrayList<String> alElementsWithSubtypeName = new ArrayList<String>();
-        ArrayList<StockpileTempData> alElementsWithSubtype = new ArrayList<StockpileTempData>();
+        ArrayList<String> alElementsWithSubtypeName = new ArrayList<>();
+        ArrayList<StockpileTempData> alElementsWithSubtype = new ArrayList<>();
 
         // Parseamos todo
         for (int i = 0; i < fullType.getElements().size(); i++) {
@@ -128,7 +128,7 @@ public class Container implements Externalizable {
                 imi = ItemManager.getItem(alElements.get(j));
                 if (imi != null && !imi.isContainer() && imi.isStackable()) {
                     sItemName = imi.getName();
-                    if (alElementsStatus.get(j).booleanValue()) {
+                    if (alElementsStatus.get(j)) {
                         smAux = new SmartMenu(SmartMenu.TYPE_ITEM, sItemName, null, CommandPanel.COMMAND_CONTAINER_DISABLE_ITEM, Integer.toString(iContainerID), alElements.get(j), null, Color.GREEN);
                         smAux.setIcon(imi.getIniHeader());
                         smSubMenu.addItem(smAux);
@@ -152,7 +152,7 @@ public class Container implements Externalizable {
             imi = ItemManager.getItem(elementsWithoutSubtype.getAlElements().get(j));
             if (imi != null && !imi.isContainer() && imi.isStackable()) {
                 sItemName = imi.getName();
-                if (elementsWithoutSubtype.getAlElementsStatus().get(j).booleanValue()) {
+                if (elementsWithoutSubtype.getAlElementsStatus().get(j)) {
                     smAux = new SmartMenu(SmartMenu.TYPE_ITEM, sItemName, null, CommandPanel.COMMAND_CONTAINER_DISABLE_ITEM, Integer.toString(iContainerID), elementsWithoutSubtype.getAlElements().get(j), null, Color.GREEN);
                     smAux.setIcon(imi.getIniHeader());
                     smContainerMenu.addItem(smAux);
@@ -221,8 +221,8 @@ public class Container implements Externalizable {
         ArrayList<Container> alContainers = Game.getWorld().getContainers();
         Container container;
 
-        for (int i = 0; i < alContainers.size(); i++) {
-            container = alContainers.get(i);
+        for (Container alContainer : alContainers) {
+            container = alContainer;
             container.setLockedToCopy(bLock);
         }
     }
@@ -272,12 +272,12 @@ public class Container implements Externalizable {
         }
 
         ItemManagerItem imiInside;
-        for (int i = 0; i < itemsInside.size(); i++) {
-            itemsInside.get(i).refreshTransients();
-            Item.addItem(itemsInside.get(i)); // Para que sume 1 al n�mero de items, ya que el item no existe realmente
+        for (Item item : itemsInside) {
+            item.refreshTransients();
+            Item.addItem(item); // Para que sume 1 al n�mero de items, ya que el item no existe realmente
 
             // Space left
-            imiInside = ItemManager.getItem(itemsInside.get(i).getIniHeader());
+            imiInside = ItemManager.getItem(item.getIniHeader());
             spaceLeft -= imiInside.getStackableSize();
         }
         if (spaceLeft < 0) {
@@ -571,8 +571,8 @@ public class Container implements Externalizable {
     }
 
     public boolean containsAny(ArrayList<String> alHeaders) {
-        for (int i = 0; i < itemsInside.size(); i++) {
-            if (alHeaders.contains(itemsInside.get(i).getIniHeader())) {
+        for (Item item : itemsInside) {
+            if (alHeaders.contains(item.getIniHeader())) {
                 return true;
             }
         }
@@ -581,9 +581,9 @@ public class Container implements Externalizable {
     }
 
     public boolean containsAny(int[] aiHeaders) {
-        for (int i = 0; i < itemsInside.size(); i++) {
-            for (int h = 0; h < aiHeaders.length; h++) {
-                if (aiHeaders[h] == itemsInside.get(i).getNumericIniHeader()) {
+        for (Item item : itemsInside) {
+            for (int aiHeader : aiHeaders) {
+                if (aiHeader == item.getNumericIniHeader()) {
                     return true;
                 }
             }
@@ -594,8 +594,8 @@ public class Container implements Externalizable {
 
     public boolean containsAnyFood() {
         ItemManagerItem imi;
-        for (int i = 0; i < itemsInside.size(); i++) {
-            imi = ItemManager.getItem(itemsInside.get(i).getIniHeader());
+        for (Item item : itemsInside) {
+            imi = ItemManager.getItem(item.getIniHeader());
             if (imi.canBeEaten()) {
                 return true;
             }
@@ -605,8 +605,8 @@ public class Container implements Externalizable {
     }
 
     public boolean containsItem(int iItemID) {
-        for (int i = 0; i < itemsInside.size(); i++) {
-            if (itemsInside.get(i).getID() == iItemID) {
+        for (Item item : itemsInside) {
+            if (item.getID() == iItemID) {
                 return true;
             }
         }
@@ -615,15 +615,15 @@ public class Container implements Externalizable {
     }
 
     public ArrayList<String> getContentString() {
-        ArrayList<String> alContent = new ArrayList<String>(itemsInside.size());
+        ArrayList<String> alContent = new ArrayList<>(itemsInside.size());
         int[] aiNumber = new int[itemsInside.size()];
         String sName;
         int iIndex;
-        for (int i = 0; i < itemsInside.size(); i++) {
-            if (itemsInside.get(i) instanceof MilitaryItem) {
-                sName = ((MilitaryItem) itemsInside.get(i)).getExtendedTilename();
+        for (Item item : itemsInside) {
+            if (item instanceof MilitaryItem) {
+                sName = ((MilitaryItem) item).getExtendedTilename();
             } else {
-                sName = itemsInside.get(i).getTileName();
+                sName = item.getTileName();
             }
             iIndex = alContent.indexOf(sName);
 
@@ -659,7 +659,7 @@ public class Container implements Externalizable {
      * Habilita todos los elementos del container. Si se le pasa un subtipo habilita s�lo esos
      */
     public void enableAll(String sSubType) {
-        if (sSubType == null || sSubType.length() == 0) {
+        if (sSubType == null || sSubType.isEmpty()) {
             enableAll();
         } else {
             Type globalType = Types.getType(getType().getID());
@@ -704,7 +704,7 @@ public class Container implements Externalizable {
      * Inhabilita todos los elementos del container. Si se le pasa un subtipo elimina s�lo esos
      */
     public void disableAll(String sSubType) {
-        if (sSubType == null || sSubType.length() == 0) {
+        if (sSubType == null || sSubType.isEmpty()) {
             disableAll();
         } else {
             Type globalType = Types.getType(getType().getID());
@@ -727,7 +727,7 @@ public class Container implements Externalizable {
         getType().removeElements();
 
         // Marcamos el flag de wrongItemsInside si tiene alg�n item
-        if (getItemsInside().size() > 0) {
+        if (!getItemsInside().isEmpty()) {
             setWrongItemsInside(true);
         }
     }

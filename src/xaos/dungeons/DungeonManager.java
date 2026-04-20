@@ -22,13 +22,13 @@ public class DungeonManager {
     private static ArrayList<DungeonData> alDungeons;
 
     private static void loadDungeons(String sCampaignID, String sMissionID) {
-        alDungeons = new ArrayList<DungeonData>();
+        alDungeons = new ArrayList<>();
 
         try {
             Document doc = null;
             ArrayList<String> alPathToFiles = Utils.getPathToFile("gen_dungeons.xml", sCampaignID, sMissionID); //$NON-NLS-1$
-            for (int p = 0; p < alPathToFiles.size(); p++) {
-                doc = UtilsXML.loadXMLFile(alPathToFiles.get(p));
+            for (String alPathToFile : alPathToFiles) {
+                doc = UtilsXML.loadXMLFile(alPathToFile);
 
                 if (doc != null) {
                     // Tenemos el documento XML parseado
@@ -50,7 +50,7 @@ public class DungeonManager {
 
                             // Miramos si el ID ya existe
                             int iIndexExists = -1;
-                            if (sID != null && sID.trim().length() > 0) {
+                            if (sID != null && !sID.trim().isEmpty()) {
                                 for (int index = 0; index < alDungeons.size(); index++) {
                                     DungeonData dd = alDungeons.get(index);
                                     if (dd.getId() != null && dd.getId().equals(sID)) {
@@ -104,7 +104,7 @@ public class DungeonManager {
     }
 
     private static ArrayList<MonsterData> loadMonsters(NodeList nodeList) throws Exception {
-        ArrayList<MonsterData> alMonsters = new ArrayList<MonsterData>();
+        ArrayList<MonsterData> alMonsters = new ArrayList<>();
 
         Node node;
         for (int i = 0; i < nodeList.getLength(); i++) {

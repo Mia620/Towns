@@ -46,7 +46,7 @@ public class Stockpile implements Externalizable {
         ID_INDEX++;
         setID(ID_INDEX);
         setType(Types.getType(sType));
-        setPoints(new ArrayList<Point3DShort>());
+        setPoints(new ArrayList<>());
         setLockedToCopy(false);
     }
 
@@ -84,15 +84,15 @@ public class Stockpile implements Externalizable {
      * @param sSubType
      */
     public static void enableAll(int iID, String sSubType) {
-        if (sSubType == null || sSubType.length() == 0) {
+        if (sSubType == null || sSubType.isEmpty()) {
             enableAll(iID);
         } else {
             Type type;
             ArrayList<Stockpile> stockpiles = Game.getWorld().getStockpiles();
             Stockpile stockpile;
 
-            for (int i = 0; i < stockpiles.size(); i++) {
-                stockpile = stockpiles.get(i);
+            for (Stockpile value : stockpiles) {
+                stockpile = value;
                 if (stockpile.getID() == iID) {
                     type = Types.getType(stockpile.getType().getID());
                     ItemManagerItem imi;
@@ -120,8 +120,8 @@ public class Stockpile implements Externalizable {
         ArrayList<Stockpile> stockpiles = Game.getWorld().getStockpiles();
         Stockpile stockpile;
 
-        for (int i = 0; i < stockpiles.size(); i++) {
-            stockpile = stockpiles.get(i);
+        for (Stockpile value : stockpiles) {
+            stockpile = value;
             if (stockpile.getID() == iID) {
                 stockpile.getType().removeElements();
 
@@ -140,15 +140,15 @@ public class Stockpile implements Externalizable {
      * @param iID
      */
     public static void disableAll(int iID, String sSubType) {
-        if (sSubType == null || sSubType.length() == 0) {
+        if (sSubType == null || sSubType.isEmpty()) {
             disableAll(iID);
         } else {
             Type type;
             ArrayList<Stockpile> stockpiles = Game.getWorld().getStockpiles();
             Stockpile stockpile;
 
-            for (int i = 0; i < stockpiles.size(); i++) {
-                stockpile = stockpiles.get(i);
+            for (Stockpile value : stockpiles) {
+                stockpile = value;
                 if (stockpile.getID() == iID) {
                     type = Types.getType(stockpile.getType().getID());
                     ItemManagerItem imi;
@@ -179,8 +179,8 @@ public class Stockpile implements Externalizable {
         ArrayList<Stockpile> stockpiles = Game.getWorld().getStockpiles();
         Stockpile stockpile;
 
-        for (int i = 0; i < stockpiles.size(); i++) {
-            stockpile = stockpiles.get(i);
+        for (Stockpile value : stockpiles) {
+            stockpile = value;
             if (stockpile.getID() == iID) {
                 stockpile.disableAll();
                 break;
@@ -195,8 +195,8 @@ public class Stockpile implements Externalizable {
         ArrayList<Stockpile> stockpiles = Game.getWorld().getStockpiles();
         Stockpile stockpile;
 
-        for (int i = 0; i < stockpiles.size(); i++) {
-            stockpile = stockpiles.get(i);
+        for (Stockpile value : stockpiles) {
+            stockpile = value;
             stockpile.setLockedToCopy(bLock);
         }
     }
@@ -216,8 +216,8 @@ public class Stockpile implements Externalizable {
             ArrayList<Stockpile> stockpiles = Game.getWorld().getStockpiles();
             Stockpile stockpile;
 
-            for (int i = 0; i < stockpiles.size(); i++) {
-                stockpile = stockpiles.get(i);
+            for (Stockpile value : stockpiles) {
+                stockpile = value;
                 if (stockpile.getID() == iPileID) {
                     // Tenemos la stockpile, quitamos el punto del a pila y el flag de la celda
                     stockpile.getPoints().remove(p3d);
@@ -226,7 +226,7 @@ public class Stockpile implements Externalizable {
                     if (!cell.isEmpty()) {
                         stockpile.setFilledPoints(stockpile.getFilledPoints() - 1);
                     }
-                    if (stockpile.getPoints().size() == 0) {
+                    if (stockpile.getPoints().isEmpty()) {
                         // Stockpile sin puntos, la borramos
                         deleteStockpile(iPileID);
                     }
@@ -319,11 +319,11 @@ public class Stockpile implements Externalizable {
     public static Stockpile getStockpile(Point3DShort p3d) {
         ArrayList<Stockpile> alStockpiles = Game.getWorld().getStockpiles();
         ArrayList<Point3DShort> alPoints;
-        for (int i = 0; i < alStockpiles.size(); i++) {
-            alPoints = alStockpiles.get(i).getPoints();
+        for (Stockpile alStockpile : alStockpiles) {
+            alPoints = alStockpile.getPoints();
             if (alPoints.contains(p3d)) {
                 // Tenemos la stockpile
-                return alStockpiles.get(i);
+                return alStockpile;
             }
         }
 
@@ -348,9 +348,9 @@ public class Stockpile implements Externalizable {
      */
     public static Stockpile getStockpile(int iPileID) {
         ArrayList<Stockpile> alStockpiles = Game.getWorld().getStockpiles();
-        for (int i = 0; i < alStockpiles.size(); i++) {
-            if (alStockpiles.get(i).getID() == iPileID) {
-                return alStockpiles.get(i);
+        for (Stockpile alStockpile : alStockpiles) {
+            if (alStockpile.getID() == iPileID) {
+                return alStockpile;
             }
         }
 
@@ -376,8 +376,8 @@ public class Stockpile implements Externalizable {
         ArrayList<Stockpile> stockpiles = Game.getWorld().getStockpiles();
         Stockpile pile;
         int iMaxID = -1;
-        for (int i = 0; i < stockpiles.size(); i++) {
-            pile = stockpiles.get(i);
+        for (Stockpile stockpile : stockpiles) {
+            pile = stockpile;
             if (pile.getID() > iMaxID) {
                 iMaxID = pile.getID();
             }
@@ -432,8 +432,8 @@ public class Stockpile implements Externalizable {
         // Obtenemos la pile
         ArrayList<Stockpile> stockpiles = Game.getWorld().getStockpiles();
 
-        for (int i = 0; i < stockpiles.size(); i++) {
-            stockpile = stockpiles.get(i);
+        for (Stockpile value : stockpiles) {
+            stockpile = value;
             if (stockpile.getID() == iStockpileID) {
                 // La tenemos
                 break;
@@ -479,8 +479,8 @@ public class Stockpile implements Externalizable {
         // Obtenemos la pile
         ArrayList<Stockpile> stockpiles = Game.getWorld().getStockpiles();
 
-        for (int i = 0; i < stockpiles.size(); i++) {
-            stockpile = stockpiles.get(i);
+        for (Stockpile value : stockpiles) {
+            stockpile = value;
             if (stockpile.getID() == iStockpileID) {
                 // La tenemos
                 break;
@@ -492,7 +492,7 @@ public class Stockpile implements Externalizable {
         }
 
         Point3DShort p3d = null;
-        if (stockpile.getPoints() != null && stockpile.getPoints().size() > 0) {
+        if (stockpile.getPoints() != null && !stockpile.getPoints().isEmpty()) {
             p3d = stockpile.getPoints().get(0);
         }
 
@@ -518,8 +518,8 @@ public class Stockpile implements Externalizable {
         Type type = Types.getType(stockpileType.getID());
         String sItemType;
         StockpileTempData elementsWithoutSubtype = new StockpileTempData();
-        ArrayList<String> alElementsWithSubtypeName = new ArrayList<String>();
-        ArrayList<StockpileTempData> alElementsWithSubtype = new ArrayList<StockpileTempData>();
+        ArrayList<String> alElementsWithSubtypeName = new ArrayList<>();
+        ArrayList<StockpileTempData> alElementsWithSubtype = new ArrayList<>();
 
         // Parseamos todo
         for (int i = 0; i < type.getElements().size(); i++) {
@@ -570,7 +570,7 @@ public class Stockpile implements Externalizable {
                 imi = ItemManager.getItem(alElements.get(j));
                 if (imi != null) {
                     sItemName = imi.getName();
-                    if (alElementsStatus.get(j).booleanValue()) {
+                    if (alElementsStatus.get(j)) {
                         smAux = new SmartMenu(SmartMenu.TYPE_ITEM, sItemName, null, CommandPanel.COMMAND_STOCKPILE_DISABLE_ITEM, alElements.get(j), null, p3d.toPoint3D(), Color.GREEN);
                         smAux.setIcon(imi.getIniHeader());
                         smSubMenu.addItem(smAux);
@@ -594,7 +594,7 @@ public class Stockpile implements Externalizable {
             imi = ItemManager.getItem(elementsWithoutSubtype.getAlElements().get(j));
             if (imi != null) {
                 sItemName = imi.getName();
-                if (elementsWithoutSubtype.getAlElementsStatus().get(j).booleanValue()) {
+                if (elementsWithoutSubtype.getAlElementsStatus().get(j)) {
                     smAux = new SmartMenu(SmartMenu.TYPE_ITEM, sItemName, null, CommandPanel.COMMAND_STOCKPILE_DISABLE_ITEM, elementsWithoutSubtype.getAlElements().get(j), null, p3d.toPoint3D(), Color.GREEN);
                     smAux.setIcon(imi.getIniHeader());
                     smReturn.addItem(smAux);
@@ -632,17 +632,17 @@ public class Stockpile implements Externalizable {
     private void setPoints(ArrayList<Point3DShort> points) {
         this.points = points;
 
-        if (points.size() > 0) {
+        if (!points.isEmpty()) {
             // Minimap reload
             MiniMapPanel.setMinimapReload(points.get(0).z);
         }
 
-        for (int i = 0; i < points.size(); i++) {
-            if (World.getCell(points.get(i)).getEntity() != null) {
+        for (Point3DShort point : points) {
+            if (World.getCell(point).getEntity() != null) {
                 setFilledPoints(getFilledPoints() + 1);
             }
 
-            Game.getWorld().addItemToBeHauled(World.getCell(points.get(i)).getItem());
+            Game.getWorld().addItemToBeHauled(World.getCell(point).getItem());
         }
     }
 

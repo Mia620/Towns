@@ -129,7 +129,7 @@ public class EventManagerItem {
     }
 
     public void setMinPopulation(String sMinPopulation) throws Exception {
-        if (sMinPopulation == null || sMinPopulation.trim().length() == 0) {
+        if (sMinPopulation == null || sMinPopulation.trim().isEmpty()) {
             setMinPopulation(0);
         } else {
             try {
@@ -149,7 +149,7 @@ public class EventManagerItem {
     }
 
     public void setSpawnAtRandom(String sSpawnAtRandom) {
-        if (sSpawnAtRandom == null || sSpawnAtRandom.trim().length() == 0) {
+        if (sSpawnAtRandom == null || sSpawnAtRandom.trim().isEmpty()) {
             setSpawnAtRandom(true);
         } else {
             //$NON-NLS-1$
@@ -214,7 +214,7 @@ public class EventManagerItem {
     }
 
     public void setRed(String red) throws Exception {
-        if (red == null || red.length() == 0) {
+        if (red == null || red.isEmpty()) {
             setRed(0);
         } else {
             try {
@@ -234,7 +234,7 @@ public class EventManagerItem {
     }
 
     public void setGreen(String green) throws Exception {
-        if (green == null || green.length() == 0) {
+        if (green == null || green.isEmpty()) {
             setGreen(0);
         } else {
             try {
@@ -254,7 +254,7 @@ public class EventManagerItem {
     }
 
     public void setBlue(String blue) throws Exception {
-        if (blue == null || blue.length() == 0) {
+        if (blue == null || blue.isEmpty()) {
             setBlue(0);
         } else {
             try {
@@ -286,7 +286,7 @@ public class EventManagerItem {
     }
 
     public void setWaitPCT(String waitPCT) {
-        if (waitPCT == null || waitPCT.trim().length() == 0) {
+        if (waitPCT == null || waitPCT.trim().isEmpty()) {
             this.waitPCT = "100"; //$NON-NLS-1$
         } else {
             this.waitPCT = waitPCT;
@@ -298,7 +298,7 @@ public class EventManagerItem {
     }
 
     public void setWalkSpeedPCT(String walkSpeedPCT) {
-        if (walkSpeedPCT == null || walkSpeedPCT.trim().length() == 0) {
+        if (walkSpeedPCT == null || walkSpeedPCT.trim().isEmpty()) {
             this.walkSpeedPCT = "100"; //$NON-NLS-1$
         } else {
             this.walkSpeedPCT = walkSpeedPCT;
@@ -353,17 +353,17 @@ public class EventManagerItem {
         this.siegeSize = siegeSize;
 
         if (siegeSize == null) {
-            if (siegeLivings != null && siegeLivings.size() > 0) {
+            if (siegeLivings != null && !siegeLivings.isEmpty()) {
                 throw new Exception(Messages.getString("EventManagerItem.0")); //$NON-NLS-1$
             }
         } else {
-            if (siegeSize.size() > 0) {
+            if (!siegeSize.isEmpty()) {
                 // Tiene que tener el mismo n�mero de elementos que siegeLivings
                 if (siegeLivings == null || siegeLivings.size() != siegeSize.size()) {
                     throw new Exception(Messages.getString("EventManagerItem.0")); //$NON-NLS-1$
                 }
             } else {
-                if (siegeLivings != null && siegeLivings.size() > 0) {
+                if (siegeLivings != null && !siegeLivings.isEmpty()) {
                     throw new Exception(Messages.getString("EventManagerItem.0")); //$NON-NLS-1$
                 }
             }
@@ -377,7 +377,7 @@ public class EventManagerItem {
     public void setTargets(String targets) {
         this.targets = Utils.getArray(targets);
 
-        if (this.targets != null && this.targets.size() > 0) {
+        if (this.targets != null && !this.targets.isEmpty()) {
             this.targetsHateData = new HateData(targets);
         } else {
             this.targetsHateData = null;
@@ -400,17 +400,17 @@ public class EventManagerItem {
         this.targetsPCT = targetsPCT;
 
         if (targetsPCT == null) {
-            if (targets != null && targets.size() > 0) {
+            if (targets != null && !targets.isEmpty()) {
                 throw new Exception(Messages.getString("EventManagerItem.9")); //$NON-NLS-1$
             }
         } else {
-            if (targetsPCT.size() > 0) {
+            if (!targetsPCT.isEmpty()) {
                 // Tiene que tener el mismo n�mero de elementos que siegeLivings
                 if (targets == null || targets.size() != targetsPCT.size()) {
                     throw new Exception(Messages.getString("EventManagerItem.9")); //$NON-NLS-1$
                 }
             } else {
-                if (targets != null && targets.size() > 0) {
+                if (targets != null && !targets.isEmpty()) {
                     throw new Exception(Messages.getString("EventManagerItem.9")); //$NON-NLS-1$
                 }
             }
@@ -476,7 +476,7 @@ public class EventManagerItem {
     public void setItemsMaxAgePCT(ArrayList<String> itemsMaxAgePCT) throws Exception {
         this.itemsMaxAgePCT = itemsMaxAgePCT;
 
-        if (itemsMaxAgePCT != null && itemsMaxAgePCT.size() > 0) {
+        if (itemsMaxAgePCT != null && !itemsMaxAgePCT.isEmpty()) {
             // Tiene que tener el mismo n�mero de elementos que items
             if (items == null || items.size() != itemsMaxAgePCT.size()) {
                 throw new Exception(Messages.getString("EventManagerItem.1")); //$NON-NLS-1$
@@ -491,7 +491,7 @@ public class EventManagerItem {
     public void setItemsDeletePCT(ArrayList<String> itemsDeletePCT) throws Exception {
         this.itemsDeletePCT = itemsDeletePCT;
 
-        if (itemsDeletePCT != null && itemsDeletePCT.size() > 0) {
+        if (itemsDeletePCT != null && !itemsDeletePCT.isEmpty()) {
             // Tiene que tener el mismo n�mero de elementos que items
             if (items == null || items.size() != itemsDeletePCT.size()) {
                 throw new Exception(Messages.getString("EventManagerItem.2")); //$NON-NLS-1$
@@ -506,7 +506,7 @@ public class EventManagerItem {
     public void setItemsSpawnLiving(ArrayList<String> itemsSpawnLiving) throws Exception {
         this.itemsSpawnLiving = itemsSpawnLiving;
 
-        if (itemsSpawnLiving != null && itemsSpawnLiving.size() > 0) {
+        if (itemsSpawnLiving != null && !itemsSpawnLiving.isEmpty()) {
             // Tiene que tener el mismo n�mero de elementos que items
             if (items == null || items.size() != itemsSpawnLiving.size()) {
                 throw new Exception(Messages.getString("EventManagerItem.4")); //$NON-NLS-1$
@@ -521,7 +521,7 @@ public class EventManagerItem {
     public void setItemsSpawnLivingSize(ArrayList<String> itemsSpawnLivingSize) throws Exception {
         this.itemsSpawnLivingSize = itemsSpawnLivingSize;
 
-        if (itemsSpawnLivingSize != null && itemsSpawnLivingSize.size() > 0) {
+        if (itemsSpawnLivingSize != null && !itemsSpawnLivingSize.isEmpty()) {
             // Tiene que tener el mismo n�mero de elementos que items
             if (items == null || items.size() != itemsSpawnLivingSize.size()) {
                 throw new Exception(Messages.getString("EventManagerItem.5")); //$NON-NLS-1$
@@ -562,7 +562,7 @@ public class EventManagerItem {
     }
 
     public void setFxRunningTurns(String sFxRunningTurns) throws Exception {
-        if (sFxRunningTurns == null || sFxRunningTurns.trim().length() == 0) {
+        if (sFxRunningTurns == null || sFxRunningTurns.trim().isEmpty()) {
             setFxRunningTurns(0);
         } else {
             try {
@@ -604,7 +604,7 @@ public class EventManagerItem {
      *                 carpeta
      */
     public void loadUseFile(String sXMLName) throws Exception {
-        if (this.useFile != null && this.useFile.length() > 0 && this.useFileIDs != null && this.useFileIDs.size() > 0) {
+        if (this.useFile != null && !this.useFile.isEmpty() && this.useFileIDs != null && !this.useFileIDs.isEmpty()) {
             File fEvents = new File(sXMLName);
             File fEventsParent = fEvents.getParentFile();
             if (fEventsParent == null) {
@@ -620,7 +620,7 @@ public class EventManagerItem {
             }
 
             // Todo ok, cargamos
-            hmFile = new HashMap<String, ParentMapData>();
+            hmFile = new HashMap<>();
             Generator generator = new Generator();
             Generator.read(fGenEvents.getAbsolutePath(), generator, true);
 
@@ -649,12 +649,12 @@ public class EventManagerItem {
     public void setUseFileIDs(ArrayList<String> useFileIDs) throws Exception {
         this.useFileIDs = useFileIDs;
 
-        if (this.useFileIDs == null || this.useFileIDs.size() == 0) {
-            if (this.useFile != null && this.useFile.length() > 0) {
+        if (this.useFileIDs == null || this.useFileIDs.isEmpty()) {
+            if (this.useFile != null && !this.useFile.isEmpty()) {
                 throw new Exception(Messages.getString("EventManagerItem.12")); //$NON-NLS-1$
             }
         } else {
-            if (this.useFile == null || this.useFile.length() == 0) {
+            if (this.useFile == null || this.useFile.isEmpty()) {
                 throw new Exception(Messages.getString("EventManagerItem.6")); //$NON-NLS-1$
             }
         }

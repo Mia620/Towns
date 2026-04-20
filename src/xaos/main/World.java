@@ -82,16 +82,16 @@ public final class World implements Externalizable {
     public static short MAP_NUM_LEVELS_OUTSIDE;
     public static short MAP_NUM_LEVELS_UNDERGROUND;
     public static Cell[][][] cells;
-    public static ArrayList<Point3DShort> fluidEvaporation = new ArrayList<Point3DShort>(); // Fluidos con fuerza 1 que van a evaporarse cada X tiempo
-    private static ArrayList<Integer> citizenIDs = new ArrayList<Integer>();
-    private static ArrayList<Integer> soldierIDs = new ArrayList<Integer>();
-    private static ArrayList<Integer> heroIDs = new ArrayList<Integer>(2);
+    public static ArrayList<Point3DShort> fluidEvaporation = new ArrayList<>(); // Fluidos con fuerza 1 que van a evaporarse cada X tiempo
+    private static ArrayList<Integer> citizenIDs = new ArrayList<>();
+    private static ArrayList<Integer> soldierIDs = new ArrayList<>();
+    private static ArrayList<Integer> heroIDs = new ArrayList<>(2);
     private static ArrayList<Building> buildings;
     private static HashMap<Integer, Item> items;
     private static HashMap<Integer, ArrayList<String>> itemsText;
-    private static final ArrayList<Integer> fallItemList = new ArrayList<Integer>();
-    private static HashMap<Integer, LivingEntity> livingsDiscovered = new HashMap<Integer, LivingEntity>();
-    private static HashMap<Integer, LivingEntity> livingsUndiscovered = new HashMap<Integer, LivingEntity>();
+    private static final ArrayList<Integer> fallItemList = new ArrayList<>();
+    private static HashMap<Integer, LivingEntity> livingsDiscovered = new HashMap<>();
+    private static HashMap<Integer, LivingEntity> livingsUndiscovered = new HashMap<>();
     private static String sCoins;
     private static int townValue;
     private static int happinessAverage;
@@ -118,14 +118,14 @@ public final class World implements Externalizable {
     private static int maxDemoDays;
     private CitizenGroups citizenGroups = new CitizenGroups();
     private SoldierGroups soldierGroups = new SoldierGroups();
-    private ArrayList<Point3DShort> exploringHotPoints = new ArrayList<Point3DShort>();
+    private ArrayList<Point3DShort> exploringHotPoints = new ArrayList<>();
     private int maxHeroXP = 0;
-    private ArrayList<LivingEntity> oldHeroes = new ArrayList<LivingEntity>(2);
-    private ArrayList<String> oldHeroesDied = new ArrayList<String>(2);
+    private ArrayList<LivingEntity> oldHeroes = new ArrayList<>(2);
+    private ArrayList<String> oldHeroesDied = new ArrayList<>(2);
     private CaravanData currentCaravanData;
     private HashMap<String, Integer> enemiesKilled;
     private ArrayList<Projectile> projectiles;
-    private ArrayList<Integer> itemsToBeHauled = new ArrayList<Integer>();
+    private ArrayList<Integer> itemsToBeHauled = new ArrayList<>();
     private ArrayList<Container> containers;
     private ArrayList<Stockpile> stockpiles;
     private ArrayList<BuryData> buryData;
@@ -273,7 +273,7 @@ public final class World implements Externalizable {
 
     public static ArrayList<Building> getBuildings() {
         if (buildings == null) {
-            buildings = new ArrayList<Building>();
+            buildings = new ArrayList<>();
         }
 
         return buildings;
@@ -281,14 +281,14 @@ public final class World implements Externalizable {
 
     public static HashMap<Integer, Item> getItems() {
         if (items == null) {
-            items = new HashMap<Integer, Item>();
+            items = new HashMap<>();
         }
         return items;
     }
 
     public static HashMap<Integer, ArrayList<String>> getItemsText() {
         if (itemsText == null) {
-            itemsText = new HashMap<Integer, ArrayList<String>>();
+            itemsText = new HashMap<>();
         }
         return itemsText;
     }
@@ -344,7 +344,7 @@ public final class World implements Externalizable {
     }
 
     public static void addFallItem(int iID) {
-        fallItemList.add(Integer.valueOf(iID));
+        fallItemList.add(iID);
     }
 
     /**
@@ -372,28 +372,28 @@ public final class World implements Externalizable {
             while (iTries > 0) {
                 iTries--;
 
-                switch (Utils.getRandomBetween(1, 4)) {
-                    case 1:
+                y = switch (Utils.getRandomBetween(1, 4)) {
+                    case 1 -> {
                         // Norte
                         x = Utils.getRandomBetween(0, (MAP_WIDTH - 1));
-                        y = 0;
-                        break;
-                    case 2:
+                        yield 0;
+                    }
+                    case 2 -> {
                         // Sur
                         x = Utils.getRandomBetween(0, (MAP_WIDTH - 1));
-                        y = MAP_HEIGHT - 1;
-                        break;
-                    case 3:
+                        yield MAP_HEIGHT - 1;
+                    }
+                    case 3 -> {
                         // Este
                         x = MAP_WIDTH - 1;
-                        y = Utils.getRandomBetween(0, (MAP_HEIGHT - 1));
-                        break;
-                    default: // 4
+                        yield Utils.getRandomBetween(0, (MAP_HEIGHT - 1));
+                    }
+                    default -> {
                         // Oeste
                         x = 0;
-                        y = Utils.getRandomBetween(0, (MAP_HEIGHT - 1));
-                        break;
-                }
+                        yield Utils.getRandomBetween(0, (MAP_HEIGHT - 1));
+                    }
+                };
 
                 cell = cells[x][y][iIndexLevel];
                 if (cell.isDiscovered() && cell.getAstarZoneID() == iASZI) {
@@ -886,9 +886,9 @@ public final class World implements Externalizable {
             boolean bSiege = false;
             int[] aiSteal = lemi.getSteal();
             if (aiSteal != null && aiSteal.length > 0) {
-                for (int i = 0; i < aiSteal.length; i++) {
+                for (int j : aiSteal) {
                     // Miramos que haya items de estos en el mundo
-                    if (Item.getNumItemsTotal(UtilsIniHeaders.getStringIniHeader(aiSteal[i]), World.MAP_DEPTH - 1) > 0) {
+                    if (Item.getNumItemsTotal(UtilsIniHeaders.getStringIniHeader(j), World.MAP_DEPTH - 1) > 0) {
                         // Bingo, la siege se puede producir
                         bSiege = true;
                         break;
@@ -898,7 +898,7 @@ public final class World implements Externalizable {
 
             if (!bSiege) {
                 // Si a�n no hay siege, miramos que existan containers
-                if (Game.getWorld().getContainers() != null && Game.getWorld().getContainers().size() > 0) {
+                if (Game.getWorld().getContainers() != null && !Game.getWorld().getContainers().isEmpty()) {
                     bSiege = true;
                 }
             }
@@ -907,9 +907,9 @@ public final class World implements Externalizable {
                 // Miramos livings
                 aiSteal = lemi.getStealLivings();
                 if (aiSteal != null && aiSteal.length > 0) {
-                    for (int i = 0; i < aiSteal.length; i++) {
+                    for (int j : aiSteal) {
                         // Miramos que haya livings de estos en el mundo
-                        if (LivingEntity.getNumLivings(UtilsIniHeaders.getStringIniHeader(aiSteal[i]), true) > 0) {
+                        if (LivingEntity.getNumLivings(UtilsIniHeaders.getStringIniHeader(j), true) > 0) {
                             // Bingo, la siege se puede producir
                             bSiege = true;
                             break;
@@ -1111,33 +1111,33 @@ public final class World implements Externalizable {
             Log.log(Log.LEVEL_DEBUG, sLog, getClass().toString());
         }
 
-        projectiles = new ArrayList<Projectile>();
+        projectiles = new ArrayList<>();
         generateLocations();
 
         // Building list
-        buildings = new ArrayList<Building>();
+        buildings = new ArrayList<>();
 
         // Item list
-        items = new HashMap<Integer, Item>();
-        itemsText = new HashMap<Integer, ArrayList<String>>();
-        itemsToBeHauled = new ArrayList<Integer>();
+        items = new HashMap<>();
+        itemsText = new HashMap<>();
+        itemsToBeHauled = new ArrayList<>();
         fallItemList.clear();
 
         // Containers
-        containers = new ArrayList<Container>();
+        containers = new ArrayList<>();
 
         // Stockpiles
-        stockpiles = new ArrayList<Stockpile>();
+        stockpiles = new ArrayList<>();
 
         // Bury Data
-        buryData = new ArrayList<BuryData>();
+        buryData = new ArrayList<>();
 
         // Zones
-        zones = new ArrayList<Zone>();
+        zones = new ArrayList<>();
 
         // Events
         globalEvents = new GlobalEventData();
-        events = new ArrayList<EventData>();
+        events = new ArrayList<>();
 
         // Gods
         // gods = new ArrayList<GodData> ();
@@ -1170,7 +1170,7 @@ public final class World implements Externalizable {
         loadSpecialTiles();
 
         // Exploring hotpoints
-        exploringHotPoints = new ArrayList<Point3DShort>();
+        exploringHotPoints = new ArrayList<>();
         maxHeroXP = 0;
 
         // Restrict
@@ -1182,7 +1182,7 @@ public final class World implements Externalizable {
 
         // Evaporation
         Point3DShort p3ds;
-        while (World.fluidEvaporation.size() > 0) {
+        while (!World.fluidEvaporation.isEmpty()) {
             p3ds = World.fluidEvaporation.remove(World.fluidEvaporation.size() - 1);
             Point3DShort.returnToPool(p3ds);
         }
@@ -1194,7 +1194,7 @@ public final class World implements Externalizable {
         fluidMovedCounter = 0;
         fluidsMoved = false;
         int iCounter = fluidCellsToProcess.size();
-        while (iCounter > 0 && fluidCellsToProcess.size() > 0) {
+        while (iCounter > 0 && !fluidCellsToProcess.isEmpty()) {
             iCounter -= FLUIDS_NOT_MOVED_PER_INVOCATION;
             moveFluids(true);
         }
@@ -1213,8 +1213,8 @@ public final class World implements Externalizable {
         }
 
         // Refresh transients de los proyectiles
-        for (int i = 0; i < projectiles.size(); i++) {
-            projectiles.get(i).refreshTransients();
+        for (Projectile projectile : projectiles) {
+            projectile.refreshTransients();
         }
 
         // Citizens, enemies, friendlies & projectiles
@@ -1245,7 +1245,7 @@ public final class World implements Externalizable {
     }
 
     private ArrayList<Point3DShort> getInitialFluidCheckPoints() {
-        ArrayList<Point3DShort> alPoints = new ArrayList<Point3DShort>();
+        ArrayList<Point3DShort> alPoints = new ArrayList<>();
 
         for (short z = 0; z < MAP_DEPTH; z++) {
             for (short x = 0; x < MAP_WIDTH; x++) {
@@ -1471,7 +1471,7 @@ public final class World implements Externalizable {
 
     public void addBuryData(BuryData bd) {
         if (this.buryData == null) {
-            this.buryData = new ArrayList<BuryData>();
+            this.buryData = new ArrayList<>();
         }
 
         this.buryData.add(bd);
@@ -1547,8 +1547,8 @@ public final class World implements Externalizable {
      */
     public boolean addEvent(EventManagerItem emi) {
         // Miramos que no exista
-        for (int i = 0; i < events.size(); i++) {
-            if (events.get(i).getEventID().equals(emi.getId())) {
+        for (EventData event : events) {
+            if (event.getEventID().equals(emi.getId())) {
                 return false;
             }
         }
@@ -1611,7 +1611,7 @@ public final class World implements Externalizable {
                 EventManagerItem emi = EventManager.getItem(ed.getEventID());
                 if (emi != null) {
                     if (ed.getEventCooldown() <= 0) {
-                        if (emi.getItems() != null && emi.getItems().size() > 0) {
+                        if (emi.getItems() != null && !emi.getItems().isEmpty()) {
                             ed.checkAllItemsMaxAgePCTs(emi, true);
                         }
                     }
@@ -1636,8 +1636,8 @@ public final class World implements Externalizable {
      * @return
      */
     private boolean containsEvent(String sEvent) {
-        for (int i = 0; i < events.size(); i++) {
-            if (events.get(i).getEventID().equals(sEvent)) {
+        for (EventData event : events) {
+            if (event.getEventID().equals(sEvent)) {
                 return true;
             }
         }
@@ -1681,8 +1681,8 @@ public final class World implements Externalizable {
      */
     private boolean containsEventImmunization(String sEvent) {
         EventManagerItem emi;
-        for (int i = 0; i < events.size(); i++) {
-            emi = EventManager.getItem(events.get(i).getEventID());
+        for (EventData event : events) {
+            emi = EventManager.getItem(event.getEventID());
 
             if (emi != null && emi.getEventsImmune() != null && emi.getEventsImmune().contains(sEvent)) {
                 return true;
@@ -1711,7 +1711,7 @@ public final class World implements Externalizable {
 
     public void calculateHappinessAverage() {
         int iHappiness = 0;
-        if (getCitizenIDs().size() > 0) {
+        if (!getCitizenIDs().isEmpty()) {
             for (int i = 0; i < getCitizenIDs().size(); i++) {
                 iHappiness += ((Citizen) getLivingEntityByID(getCitizenIDs().get(i))).getCitizenData().getHappiness();
             }
@@ -1770,8 +1770,8 @@ public final class World implements Externalizable {
         stockpiles.add(pile);
         ArrayList<Point3DShort> alp3d = pile.getPoints();
         Point3DShort p3d;
-        for (int i = 0; i < alp3d.size(); i++) {
-            p3d = alp3d.get(i);
+        for (Point3DShort point3DShort : alp3d) {
+            p3d = point3DShort;
             cells[p3d.x][p3d.y][p3d.z].setStockPileID(pile.getID());
         }
     }
@@ -1788,7 +1788,7 @@ public final class World implements Externalizable {
             container = getContainers().get(i);
             if (container.getItemID() == iItemID) {
                 // Ya existe, quiz� lo ha movido de sitio, por lo que setearemos las coordinates de los items de dentro
-                Item itemContainer = getItems().get(Integer.valueOf(iItemID));
+                Item itemContainer = getItems().get(iItemID);
                 if (itemContainer != null) {
                     for (int j = 0; j < container.getItemsInside().size(); j++) {
                         container.getItemsInside().get(j).setCoordinates(itemContainer.getCoordinates());
@@ -1836,8 +1836,8 @@ public final class World implements Externalizable {
         }
         ArrayList<Point3DShort> alp3d = zone.getPoints();
         Point3DShort p3d;
-        for (int i = 0; i < alp3d.size(); i++) {
-            p3d = alp3d.get(i);
+        for (Point3DShort point3DShort : alp3d) {
+            p3d = point3DShort;
             cells[p3d.x][p3d.y][p3d.z].setZoneID(zone.getID());
 
             if (cells[p3d.x][p3d.y][p3d.z].hasStockPile()) {
@@ -1880,8 +1880,8 @@ public final class World implements Externalizable {
         // Citizens
         byte[][][] locations = new byte[World.MAP_WIDTH][World.MAP_HEIGHT][World.MAP_DEPTH];
         Projectile projectile;
-        for (int i = 0; i < projectiles.size(); i++) {
-            projectile = projectiles.get(i);
+        for (Projectile value : projectiles) {
+            projectile = value;
             locations[projectile.getX()][projectile.getY()][projectile.getZ()]++;
         }
 
@@ -1974,10 +1974,10 @@ public final class World implements Externalizable {
         // enemiesUndiscovered = new HashMap<String, ArrayList<Enemy>> ();
 
         ArrayList<DungeonData> alDungeons = DungeonManager.getDungeons(scampaignID, sMissionID);
-        for (int i = 0; i < alDungeons.size(); i++) {
+        for (DungeonData alDungeon : alDungeons) {
 //			long l = System.currentTimeMillis ();
 //			System.out.print ("Dungeon: " + (i + 1));
-            generateDungeons(alDungeons.get(i));
+            generateDungeons(alDungeon);
 //			System.out.println ((l - System.currentTimeMillis ()) + "ms");
         }
     }
@@ -1993,8 +1993,8 @@ public final class World implements Externalizable {
         MonsterData monsterData;
         LivingEntityManagerItem lemi;
         // Recorremos los monsters
-        for (int i = 0; i < alMonsters.size(); i++) {
-            monsterData = alMonsters.get(i);
+        for (MonsterData alMonster : alMonsters) {
+            monsterData = alMonster;
             int iNumber = monsterData.getNumber();
 
             ArrayList<LivingEntityManagerItem> alMonsterList = null;
@@ -2005,7 +2005,7 @@ public final class World implements Externalizable {
             }
 
             for (int n = 0; n < iNumber; n++) {
-                if (alMonsterList == null || alMonsterList.size() == 0) {
+                if (alMonsterList == null || alMonsterList.isEmpty()) {
                     // Enemigo fijo
                     lemi = LivingEntityManager.getItem(monsterData.getId());
                 } else {
@@ -2256,7 +2256,7 @@ public final class World implements Externalizable {
         }
 
         // Falling items
-        while (fallItemList.size() > 0) {
+        while (!fallItemList.isEmpty()) {
             Item item = Item.getItemByID(fallItemList.remove(0));
             if (item != null) {
                 // Miramos si cae
@@ -2305,14 +2305,14 @@ public final class World implements Externalizable {
      */
     public void updateHappiness(int PCT) {
         Citizen cit;
-        for (int i = 0; i < citizenIDs.size(); i++) {
-            cit = (Citizen) getLivingEntityByID(citizenIDs.get(i));
+        for (Integer citizenID : citizenIDs) {
+            cit = (Citizen) getLivingEntityByID(citizenID);
             if (cit != null) {
                 cit.getCitizenData().setHappiness((cit.getCitizenData().getHappiness() * PCT) / 100);
             }
         }
-        for (int i = 0; i < soldierIDs.size(); i++) {
-            cit = (Citizen) getLivingEntityByID(soldierIDs.get(i));
+        for (Integer soldierID : soldierIDs) {
+            cit = (Citizen) getLivingEntityByID(soldierID);
             if (cit != null) {
                 cit.getCitizenData().setHappiness((cit.getCitizenData().getHappiness() * PCT) / 100);
             }
@@ -2356,7 +2356,7 @@ public final class World implements Externalizable {
 
         // Modificador por LOS (s�lo si el idle y work counters no son 0)
         if (citizen.getCitizenData().getHappinessWorkCounter() != 0 && citizen.getCitizenData().getHappinessIdleCounter() != 0) {
-            ArrayList<Integer> alItemsHappy = new ArrayList<Integer>();
+            ArrayList<Integer> alItemsHappy = new ArrayList<>();
             // Llenamos la lista con los valores de happiness que encontramos en LOS, quitando los que tienen happiness = 0
             for (short x = (short) (citizen.getX() - citizen.getLivingEntityData().getLOSCurrent()); x <= (citizen.getX() + citizen.getLivingEntityData().getLOSCurrent()); x++) {
                 for (short y = (short) (citizen.getY() - citizen.getLivingEntityData().getLOSCurrent()); y <= (citizen.getY() + citizen.getLivingEntityData().getLOSCurrent()); y++) {
@@ -2378,7 +2378,7 @@ public final class World implements Externalizable {
 
             // Si la lista tiene items pillamos uno a random
             if (!alItemsHappy.isEmpty()) {
-                citizen.getCitizenData().setHappiness(citizen.getCitizenData().getHappiness() + alItemsHappy.get(Utils.getRandomBetween(0, alItemsHappy.size() - 1)).intValue());
+                citizen.getCitizenData().setHappiness(citizen.getCitizenData().getHappiness() + alItemsHappy.get(Utils.getRandomBetween(0, alItemsHappy.size() - 1)));
             }
         }
     }
@@ -2403,7 +2403,7 @@ public final class World implements Externalizable {
      */
     private void checkImmigrants() {
         // Inmigrantes?
-        if (getCitizenIDs().size() > 0) {
+        if (!getCitizenIDs().isEmpty()) {
             int iHappiness = getHappinessAverage();
 
             // Miramos que haya happiness suficiente, basada en el n�mero de aldeanos
@@ -2418,9 +2418,9 @@ public final class World implements Externalizable {
                 int iQtty = Utils.launchDice(1, 3, 1);
                 // Miramos si hay Zones personales libres, en otro caso no vendr�n
                 int iASZID;
-                ArrayList<Integer> alASZID = new ArrayList<Integer>();
-                ArrayList<Integer> alZonesID = new ArrayList<Integer>();
-                ArrayList<Point3DShort> alZonesPoint = new ArrayList<Point3DShort>();
+                ArrayList<Integer> alASZID = new ArrayList<>();
+                ArrayList<Integer> alZonesID = new ArrayList<>();
+                ArrayList<Point3DShort> alZonesPoint = new ArrayList<>();
                 for (int i = 0; i < getZones().size(); i++) {
                     if (ZoneManager.getItem(getZones().get(i).getIniHeader()).getType() == ZoneManagerItem.TYPE_PERSONAL && ((ZonePersonal) getZones().get(i)).getOwnerID() == -1) {
                         iASZID = -1;
@@ -2461,7 +2461,7 @@ public final class World implements Externalizable {
                         } else {
                             // Ya tenemos punto de antes, miramos si es la misma zona
                             // �sto se hace para que los aldeanos vengan del mismo sitio y no dispersos
-                            if (getCell(p3dArrival).getAstarZoneID() != alASZID.get(i).intValue()) {
+                            if (getCell(p3dArrival).getAstarZoneID() != alASZID.get(i)) {
                                 // Distinto Zone ID, calculamos nuevo punto
                                 p3dArrival = getRandomBorderPoint(alASZID.get(i));
                             } // Else, mismo zone ID, as� que mantenemos el punto de arrival
@@ -2471,7 +2471,7 @@ public final class World implements Externalizable {
                             Citizen citizen = (Citizen) addNewLiving(null, LivingEntity.TYPE_CITIZEN, true, p3dArrival.x, p3dArrival.y, p3dArrival.z, true);
                             if (citizen != null) {
                                 iImmigrantsOK++;
-                                ZonePersonal.assignZone(citizen, alZonesID.get(i).intValue());
+                                ZonePersonal.assignZone(citizen, alZonesID.get(i));
                                 // Le a�adimos metemos la zona
                                 updateHappiness(80);
 
@@ -2511,7 +2511,7 @@ public final class World implements Externalizable {
         ArrayList<Integer> alLeavingHeroes = null;
         Hero hero;
         for (int i = 0; i < World.getHeroIDs().size(); i++) {
-            iID = World.getHeroIDs().get(i).intValue();
+            iID = World.getHeroIDs().get(i);
             hero = (Hero) World.getLivingEntityByID(iID);
             if (hero.getHeroData().getHeroTask().getTaskID() == HeroTask.TASK_LEAVING) {
                 // Si ya se est� pirando no hacemos nada
@@ -2528,9 +2528,9 @@ public final class World implements Externalizable {
                 // Miramos los prerequisitos
                 ArrayList<HeroPrerequisite> alPrerequisites = HeroManager.getStayPrerequisites(lemi.getHeroStayPrerequisite());
                 HeroPrerequisite prerequisite;
-                for (int p = 0; p < alPrerequisites.size(); p++) {
+                for (HeroPrerequisite alPrerequisite : alPrerequisites) {
                     // Comprobamos cada prerequisito
-                    prerequisite = alPrerequisites.get(p);
+                    prerequisite = alPrerequisite;
 
                     if (prerequisite.getId() == HeroPrerequisite.ID_MIN_CITIZENS) {
                         // Num citizens
@@ -2562,7 +2562,7 @@ public final class World implements Externalizable {
                                 bPrerequisitesOK = false;
                                 break;
                             } else {
-                                if (zone.getPoints().size() > 0 && zone.getPoints().get(0).z < World.MAP_NUM_LEVELS_OUTSIDE) {
+                                if (!zone.getPoints().isEmpty() && zone.getPoints().get(0).z < World.MAP_NUM_LEVELS_OUTSIDE) {
                                     bPrerequisitesOK = false;
                                     break;
                                 }
@@ -2580,7 +2580,7 @@ public final class World implements Externalizable {
                                 bPrerequisitesOK = false;
                                 break;
                             } else {
-                                if (zone.getPoints().size() > 0 && zone.getPoints().get(0).z > (MAP_NUM_LEVELS_OUTSIDE - prerequisite.getValueInt())) {
+                                if (!zone.getPoints().isEmpty() && zone.getPoints().get(0).z > (MAP_NUM_LEVELS_OUTSIDE - prerequisite.getValueInt())) {
                                     bPrerequisitesOK = false;
                                     break;
                                 }
@@ -2611,7 +2611,7 @@ public final class World implements Externalizable {
 
                 if (!bPrerequisitesOK) {
                     if (alLeavingHeroes == null) {
-                        alLeavingHeroes = new ArrayList<Integer>();
+                        alLeavingHeroes = new ArrayList<>();
                         alLeavingHeroes.add(hero.getID());
                     }
                 }
@@ -2624,8 +2624,8 @@ public final class World implements Externalizable {
                 Cell.setAllZoneIDs();
             }
 
-            for (int i = 0; i < alLeavingHeroes.size(); i++) {
-                iID = alLeavingHeroes.get(i);
+            for (Integer alLeavingHero : alLeavingHeroes) {
+                iID = alLeavingHero;
                 hero = (Hero) World.getLivingEntityByID(iID);
                 if (hero != null) {
                     // Un h�roe que se pira
@@ -2654,7 +2654,7 @@ public final class World implements Externalizable {
         }
 
         LivingEntityManagerItem lemi;
-        boolean bOldHeroToCome = getOldHeroes().size() > 0 && Utils.getRandomBetween(1, 20) == 1;
+        boolean bOldHeroToCome = !getOldHeroes().isEmpty() && Utils.getRandomBetween(1, 20) == 1;
         if (bOldHeroToCome) {
             // Miramos si puede llegar un h�roe de los que ya se han ido
             int iIndexHero = Utils.getRandomBetween(0, getOldHeroes().size() - 1);
@@ -2670,12 +2670,12 @@ public final class World implements Externalizable {
 
         if (lemi != null) {
             // Antes de mirar los prerequisitos miramos que no sea un h�roe �nico (con nombre fijo), en ese caso miramos que no lo tengamos ya en el mundo o en la lista de h�roes que se han ido
-            if (lemi.getName() != null && (lemi.getNamePoolTag() == null || lemi.getNamePoolTag().length() == 0)) {
+            if (lemi.getName() != null && (lemi.getNamePoolTag() == null || lemi.getNamePoolTag().isEmpty())) {
                 // H�roe con nombre �nico, miramos que no tengamos uno de estos ya en el mundo (o en los old heros)
                 Hero hero;
                 LivingEntityManagerItem lemiWorld;
                 for (int i = 0; i < World.getHeroIDs().size(); i++) {
-                    hero = (Hero) World.getLivingEntityByID(World.getHeroIDs().get(i).intValue());
+                    hero = (Hero) World.getLivingEntityByID(World.getHeroIDs().get(i));
 
                     if (hero != null) {
                         lemiWorld = LivingEntityManager.getItem(hero.getIniHeader());
@@ -2727,7 +2727,7 @@ public final class World implements Externalizable {
                     for (int z = 0; z < getZones().size(); z++) {
                         if (ZoneManager.getItem(getZones().get(z).getIniHeader()).getType() == ZoneManagerItem.TYPE_HERO_ROOM && ((ZoneHeroRoom) getZones().get(z)).getOwnerID() == -1) {
                             ZoneHeroRoom zoneHero = (ZoneHeroRoom) getZones().get(z);
-                            if (zoneHero.getPoints().size() > 0) {
+                            if (!zoneHero.getPoints().isEmpty()) {
                                 // Miramos si tiene que ser underground
                                 if (prerequisite.getId() == HeroPrerequisite.ID_FREE_ROOM_UNDERGROUND) {
                                     if (zoneHero.getPoints().get(0).z < World.MAP_NUM_LEVELS_OUTSIDE) {
@@ -2768,9 +2768,9 @@ public final class World implements Externalizable {
                     for (int z = 0; z < getZones().size(); z++) {
                         if (ZoneManager.getItem(getZones().get(z).getIniHeader()).getType() == ZoneManagerItem.TYPE_HERO_ROOM && ((ZoneHeroRoom) getZones().get(z)).getOwnerID() == -1) {
                             ZoneHeroRoom zoneHero = (ZoneHeroRoom) getZones().get(z);
-                            if (zoneHero.getPoints().size() > 0) {
+                            if (!zoneHero.getPoints().isEmpty()) {
                                 // Comprobamos la altura m�nima
-                                if (zoneHero.getPoints().size() > 0 && zoneHero.getPoints().get(0).z > (MAP_NUM_LEVELS_OUTSIDE - prerequisite.getValueInt())) {
+                                if (!zoneHero.getPoints().isEmpty() && zoneHero.getPoints().get(0).z > (MAP_NUM_LEVELS_OUTSIDE - prerequisite.getValueInt())) {
                                     continue;
                                 }
 
@@ -2834,12 +2834,12 @@ public final class World implements Externalizable {
 
                 if (p3dDestinationPoint == null) {
                     // No hay punto de room, metemos al h�roe en el mismo ASZID que el primer aldeano
-                    if (getCitizenIDs().size() > 0) {
+                    if (!getCitizenIDs().isEmpty()) {
                         Citizen cit = (Citizen) World.getLivingEntityByID(getCitizenIDs().get(0));
                         if (cit != null) {
                             p3dDestinationPoint = cit.getCoordinates();
                         }
-                    } else if (World.getSoldierIDs().size() > 0) {
+                    } else if (!World.getSoldierIDs().isEmpty()) {
                         Citizen cit = (Citizen) World.getLivingEntityByID(getSoldierIDs().get(0));
                         if (cit != null) {
                             p3dDestinationPoint = cit.getCoordinates();
@@ -2879,15 +2879,14 @@ public final class World implements Externalizable {
     private boolean isFreeRoomItemsOK(ArrayList<HeroPrerequisite> alPrerequisites, ZoneHeroRoom zoneHeroRoom) {
         // Miramos que tenga un freeRoomItems
         String sItems = null;
-        for (int po = 0; po < alPrerequisites.size(); po++) {
-            HeroPrerequisite hPre = alPrerequisites.get(po);
+        for (HeroPrerequisite hPre : alPrerequisites) {
             if (hPre.getId() == HeroPrerequisite.ID_FREE_ROOM_ITEMS) {
                 sItems = hPre.getValueString();
                 break;
             }
         }
 
-        if (sItems == null || sItems.length() == 0) {
+        if (sItems == null || sItems.isEmpty()) {
             return true;
         }
 
@@ -2905,8 +2904,8 @@ public final class World implements Externalizable {
                 ArrayList<Point3DShort> p3ds = zoneHeroRoom.getPoints();
                 Cell cell;
                 Item item;
-                for (int i = 0; i < p3ds.size(); i++) {
-                    cell = getCell(p3ds.get(i));
+                for (Point3DShort p3d : p3ds) {
+                    cell = getCell(p3d);
                     item = cell.getItem();
                     if (item != null && item.getIniHeader().equals(sItem)) {
                         // BINGO, siguiente item
@@ -2932,12 +2931,12 @@ public final class World implements Externalizable {
         int iNumHeroes = World.getHeroIDs().size();
         for (int i = 0; i < (iNumHeroes - 1); i++) {
             for (int h = (i + 1); h < iNumHeroes; h++) {
-                iID = World.getHeroIDs().get(i).intValue();
+                iID = World.getHeroIDs().get(i);
                 hero = (Hero) World.getLivingEntityByID(iID);
 
                 if (hero.getHeroData().getMinTurnsToStay() <= 0) {
-                    iPossibleFriendID = World.getHeroIDs().get(h).intValue();
-                    if (!hero.getHeroData().getFriendships().contains(Integer.valueOf(iPossibleFriendID))) {
+                    iPossibleFriendID = World.getHeroIDs().get(h);
+                    if (!hero.getHeroData().getFriendships().contains(iPossibleFriendID)) {
                         // Si no tiene amigos o si no tiene al posible amigo, comprararemos moral y quiz� se har�n amigos
                         possibleHeroFriend = (Hero) World.getLivingEntityByID(iPossibleFriendID);
 
@@ -2945,11 +2944,11 @@ public final class World implements Externalizable {
                             int iMoraleDifference = Math.abs(hero.getLivingEntityData().getMoral() - possibleHeroFriend.getLivingEntityData().getMoral());
                             if (iMoraleDifference <= 5) {
                                 // Bingo, amigos para siempre !
-                                hero.getHeroData().getFriendships().add(Integer.valueOf(iPossibleFriendID));
+                                hero.getHeroData().getFriendships().add(iPossibleFriendID);
 
                                 // Y viceversa
-                                if (!possibleHeroFriend.getHeroData().getFriendships().contains(Integer.valueOf(iID))) { // �sto deber�a cumplirse siempre
-                                    possibleHeroFriend.getHeroData().getFriendships().add(Integer.valueOf(iID));
+                                if (!possibleHeroFriend.getHeroData().getFriendships().contains(iID)) { // �sto deber�a cumplirse siempre
+                                    possibleHeroFriend.getHeroData().getFriendships().add(iID);
                                 }
                             }
                         }
@@ -2987,7 +2986,7 @@ public final class World implements Externalizable {
             if (zone.getIniHeader().equals(cmi.getZone())) {
                 // La tenemos
                 if (alDestinations == null) {
-                    alDestinations = new ArrayList<Point3DShort>();
+                    alDestinations = new ArrayList<>();
                 }
 
                 // Buscamos un punto libre de la zona
@@ -3018,7 +3017,7 @@ public final class World implements Externalizable {
             }
         }
 
-        if (alDestinations == null || alDestinations.size() == 0) {
+        if (alDestinations == null || alDestinations.isEmpty()) {
             return;
         }
 
@@ -3026,7 +3025,7 @@ public final class World implements Externalizable {
         // Vamos recorriendo la lista de zones a random
         Point3DShort p3dDestination = null;
         Point3DShort p3dCome = null;
-        while (alDestinations.size() > 0) {
+        while (!alDestinations.isEmpty()) {
             p3dDestination = alDestinations.remove(Utils.getRandomBetween(0, alDestinations.size() - 1));
             p3dCome = getRandomBorderPoint(getCell(p3dDestination).getAstarZoneID());
             if (p3dCome != null) {
@@ -3111,8 +3110,8 @@ public final class World implements Externalizable {
             }
         }
 
-        ArrayList<Integer> alNumEnemies = new ArrayList<Integer>();
-        if (emi == null || emi.getSiegeSize() == null || emi.getSiegeSize().size() == 0) {
+        ArrayList<Integer> alNumEnemies = new ArrayList<>();
+        if (emi == null || emi.getSiegeSize() == null || emi.getSiegeSize().isEmpty()) {
             // Calculamos los puntos de siege
             int iSiegePoints = calculateSiegePoints();
 
@@ -3134,7 +3133,7 @@ public final class World implements Externalizable {
             while (iAux > iCurrentLevel) {
                 iNumEnemies = iAux / iCurrentLevel;
                 if (iNumEnemies > 0) {
-                    alNumEnemies.add(Integer.valueOf(iNumEnemies));
+                    alNumEnemies.add(iNumEnemies);
                 }
 
                 iSiegePoints -= iAux;
@@ -3142,7 +3141,7 @@ public final class World implements Externalizable {
                 iAux = iSiegePoints / 2;
             }
 
-            if (alNumEnemies.size() == 0) {
+            if (alNumEnemies.isEmpty()) {
                 return;
             }
         } else {
@@ -3150,7 +3149,7 @@ public final class World implements Externalizable {
             int iNumEnemies = 0;
             for (int i = 0; i < emi.getSiegeSize().size(); i++) {
                 int iAux = Utils.launchDice(emi.getSiegeSize().get(i));
-                alNumEnemies.add(Integer.valueOf(iAux));
+                alNumEnemies.add(iAux);
                 iNumEnemies += iAux;
             }
 
@@ -3168,14 +3167,14 @@ public final class World implements Externalizable {
 
         int iASZID = -1;
         Point3DShort auxCoordinates = null;
-        if (getCitizenIDs().size() > 0) {
+        if (!getCitizenIDs().isEmpty()) {
             LivingEntity le = getLivingEntityByID(getCitizenIDs().get(0));
             if (le != null) {
                 auxCoordinates = le.getCoordinates();
                 iASZID = getCell(le.getCoordinates()).getAstarZoneID();
             }
 
-        } else if (getSoldierIDs().size() > 0) {
+        } else if (!getSoldierIDs().isEmpty()) {
             LivingEntity le = getLivingEntityByID(getSoldierIDs().get(0));
             if (le != null) {
                 auxCoordinates = le.getCoordinates();
@@ -3211,13 +3210,13 @@ public final class World implements Externalizable {
         int iWaitTurns = alNumEnemies.size() * TIME_MODIFIER_HOUR;
         boolean bSiegeOK = false;
         for (int i = 0; i < alNumEnemies.size(); i++) {
-            if (emi == null || emi.getSiegeLivings() == null || emi.getSiegeLivings().size() == 0) {
-                if (addSiegeEnemies(p3dSpawnPoint, alNumEnemies.get(i).intValue(), (i + 1), siegeType, iWaitTurns)) {
+            if (emi == null || emi.getSiegeLivings() == null || emi.getSiegeLivings().isEmpty()) {
+                if (addSiegeEnemies(p3dSpawnPoint, alNumEnemies.get(i), (i + 1), siegeType, iWaitTurns)) {
                     bSiegeOK = true;
                 }
             } else {
                 LivingEntityManagerItem lemi = LivingEntityManager.getItem(emi.getSiegeLivings().get(i));
-                if (lemi != null && addSiegeEnemies(p3dSpawnPoint, alNumEnemies.get(i).intValue(), lemi, siegeType, iWaitTurns)) {
+                if (lemi != null && addSiegeEnemies(p3dSpawnPoint, alNumEnemies.get(i), lemi, siegeType, iWaitTurns)) {
                     bSiegeOK = true;
                 }
             }
@@ -3262,14 +3261,14 @@ public final class World implements Externalizable {
 
         // Siege !!
         // Veamos cuantos bichos vienen de cada nivel
-        ArrayList<Integer> alNumEnemies = new ArrayList<Integer>();
+        ArrayList<Integer> alNumEnemies = new ArrayList<>();
         int iAux = iSiegePoints / 2;
         int iCurrentLevel = 1;
         int iNumEnemies;
         while (iAux >= iCurrentLevel) {
             iNumEnemies = iAux / iCurrentLevel;
             if (iNumEnemies > 0) {
-                alNumEnemies.add(Integer.valueOf(iNumEnemies));
+                alNumEnemies.add(iNumEnemies);
             }
 
             iSiegePoints -= iAux;
@@ -3277,7 +3276,7 @@ public final class World implements Externalizable {
             iAux = iSiegePoints / 2;
         }
 
-        if (alNumEnemies.size() == 0) {
+        if (alNumEnemies.isEmpty()) {
             return;
         }
 
@@ -3289,14 +3288,14 @@ public final class World implements Externalizable {
 
         int iASZID = -1;
         Point3DShort auxCoordinates = null;
-        if (getCitizenIDs().size() > 0) {
+        if (!getCitizenIDs().isEmpty()) {
             LivingEntity le = getLivingEntityByID(getCitizenIDs().get(0));
             if (le != null) {
                 auxCoordinates = le.getCoordinates();
                 iASZID = getCell(le.getCoordinates()).getAstarZoneID();
             }
 
-        } else if (getSoldierIDs().size() > 0) {
+        } else if (!getSoldierIDs().isEmpty()) {
             LivingEntity le = getLivingEntityByID(getSoldierIDs().get(0));
             if (le != null) {
                 auxCoordinates = le.getCoordinates();
@@ -3333,7 +3332,7 @@ public final class World implements Externalizable {
         iWaitTurns = TIME_MODIFIER_HOUR;
         boolean bSiegeOK = false;
         for (int i = 0; i < alNumEnemies.size(); i++) {
-            if (addSiegeEnemies(p3dSpawnPoint, alNumEnemies.get(i).intValue(), (i + 1), siegeType, iWaitTurns)) {
+            if (addSiegeEnemies(p3dSpawnPoint, alNumEnemies.get(i), (i + 1), siegeType, iWaitTurns)) {
                 bSiegeOK = true;
             }
         }
@@ -3357,8 +3356,8 @@ public final class World implements Externalizable {
         if (getNumHeroes() > 0) {
             ArrayList<Integer> alHeroes = getHeroIDs();
             LivingEntity le;
-            for (int i = 0; i < alHeroes.size(); i++) {
-                le = getLivingEntityByID(alHeroes.get(i));
+            for (Integer alHero : alHeroes) {
+                le = getLivingEntityByID(alHero);
                 if (le != null && le instanceof Hero) {
                     iSiegePoints += ((Hero) le).getHeroData().getLevel();
                 }
@@ -3620,7 +3619,7 @@ public final class World implements Externalizable {
             }
         }
 
-        if (fluidCellsToProcess.size() == 0) {
+        if (fluidCellsToProcess.isEmpty()) {
             return;
         }
 
@@ -3628,11 +3627,11 @@ public final class World implements Externalizable {
         // A cada casilla movida destruimos lo que contenga
         Point3DShort p3dSource, p3dDestination, p3dTemp;
         Cell cellSource, cellDestination;
-        ArrayList<Point3DShort> alNewPoints = new ArrayList<Point3DShort>();
+        ArrayList<Point3DShort> alNewPoints = new ArrayList<>();
 
         int iCounterMoved = 0;
         int iCounterNotMoved = 0;
-        while (iCounterMoved < FLUIDS_MOVED_PER_INVOCATION && iCounterNotMoved < FLUIDS_NOT_MOVED_PER_INVOCATION && fluidCellsToProcess.size() > 0) {
+        while (iCounterMoved < FLUIDS_MOVED_PER_INVOCATION && iCounterNotMoved < FLUIDS_NOT_MOVED_PER_INVOCATION && !fluidCellsToProcess.isEmpty()) {
             p3dSource = fluidCellsToProcess.remove(Utils.getRandomBetween(0, (fluidCellsToProcess.size() - 1) / 4)); // Random del primer 25% de tiles
 
             // Miramos si est� dentro del mapa
@@ -3669,11 +3668,11 @@ public final class World implements Externalizable {
         }
 
         // Todo procesado, metemos las nuevas casillas a procesar
-        for (int i = 0; i < alNewPoints.size(); i++) {
-            p3dTemp = alNewPoints.get(i);
+        for (Point3DShort alNewPoint : alNewPoints) {
+            p3dTemp = alNewPoint;
             if (!cells[p3dTemp.x][p3dTemp.y][p3dTemp.z].isFluidCheckList() && cells[p3dTemp.x][p3dTemp.y][p3dTemp.z].getTerrain().hasFluids()) {
                 // if (!fluidCellsToProcess.contains (alNewPoints.get (i))) {
-                fluidCellsToProcess.add(alNewPoints.get(i));
+                fluidCellsToProcess.add(alNewPoint);
                 cells[p3dTemp.x][p3dTemp.y][p3dTemp.z].setFluidCheckList(true);
                 // }
             }
@@ -3686,7 +3685,7 @@ public final class World implements Externalizable {
     private void evaporateFluids() {
         Cell cell;
         Point3DShort p3ds;
-        if (fluidEvaporation.size() > 0) {
+        if (!fluidEvaporation.isEmpty()) {
             int iNumFluidsToEvaporate = (fluidEvaporation.size() / 8) + 1; // 12.5%
             if (iNumFluidsToEvaporate < 2) {
                 iNumFluidsToEvaporate = 2;
@@ -3697,7 +3696,7 @@ public final class World implements Externalizable {
                 iNumFluidsToEvaporate = fluidEvaporation.size();
             }
 
-            while (iNumFluidsToEvaporate > 0 && fluidEvaporation.size() > 0) {
+            while (iNumFluidsToEvaporate > 0 && !fluidEvaporation.isEmpty()) {
                 iNumFluidsToEvaporate--;
 
                 p3ds = fluidEvaporation.remove(0);
@@ -4137,7 +4136,7 @@ public final class World implements Externalizable {
     public void addItemToBeHauled(Item item) {
         if (item != null && !item.isLocked()) {
             String sType = ItemManager.getItem(item.getIniHeader()).getType();
-            if (sType != null && sType.length() > 0) {
+            if (sType != null && !sType.isEmpty()) {
                 if (!itemsToBeHauled.contains(item.getID())) {
                     itemsToBeHauled.add(item.getID());
                 }
@@ -4147,7 +4146,7 @@ public final class World implements Externalizable {
 
     public void removeItemToBeHauledByItemID(int iItemID) {
         for (int i = 0; i < itemsToBeHauled.size(); i++) {
-            if (itemsToBeHauled.get(i).intValue() == iItemID) {
+            if (itemsToBeHauled.get(i) == iItemID) {
                 itemsToBeHauled.remove(i);
                 break;
             }
@@ -4155,7 +4154,7 @@ public final class World implements Externalizable {
     }
 
     public void removeItemToBeHauledByPosition(int iPosition) {
-        if (itemsToBeHauled.size() > 0 && iPosition < itemsToBeHauled.size()) {
+        if (!itemsToBeHauled.isEmpty() && iPosition < itemsToBeHauled.size()) {
             itemsToBeHauled.remove(iPosition);
         }
     }
@@ -4165,22 +4164,22 @@ public final class World implements Externalizable {
      */
     public void clear() {
         cells = null;
-        citizenIDs = new ArrayList<Integer>();
-        soldierIDs = new ArrayList<Integer>();
+        citizenIDs = new ArrayList<>();
+        soldierIDs = new ArrayList<>();
         citizenGroups = new CitizenGroups();
         soldierGroups = new SoldierGroups();
 
-        heroIDs = new ArrayList<Integer>(2);
-        exploringHotPoints = new ArrayList<Point3DShort>();
+        heroIDs = new ArrayList<>(2);
+        exploringHotPoints = new ArrayList<>();
         maxHeroXP = 0;
-        oldHeroes = new ArrayList<LivingEntity>(2);
-        oldHeroesDied = new ArrayList<String>(2);
+        oldHeroes = new ArrayList<>(2);
+        oldHeroesDied = new ArrayList<>(2);
         currentCaravanData = null;
         enemiesKilled = null;
         projectiles = null;
 
-        livingsDiscovered = new HashMap<Integer, LivingEntity>();
-        livingsUndiscovered = new HashMap<Integer, LivingEntity>();
+        livingsDiscovered = new HashMap<>();
+        livingsUndiscovered = new HashMap<>();
         LivingEntity.clear();
 
         buildings = null;
@@ -4211,7 +4210,7 @@ public final class World implements Externalizable {
 
         // Evaporation list
         Point3DShort p3ds;
-        while (World.fluidEvaporation.size() > 0) {
+        while (!World.fluidEvaporation.isEmpty()) {
             p3ds = World.fluidEvaporation.remove(World.fluidEvaporation.size() - 1);
             Point3DShort.returnToPool(p3ds);
         }
@@ -4235,7 +4234,7 @@ public final class World implements Externalizable {
 
     private HashMap<String, Integer> getEnemiesKilled() {
         if (enemiesKilled == null) {
-            enemiesKilled = new HashMap<String, Integer>();
+            enemiesKilled = new HashMap<>();
         }
 
         return enemiesKilled;
@@ -4270,7 +4269,7 @@ public final class World implements Externalizable {
         Point3DShort p3d;
         Cell cell;
         while (iTryes > 0) {
-            if (exploringHotPoints.size() == 0) {
+            if (exploringHotPoints.isEmpty()) {
                 return null;
             }
 
@@ -4359,7 +4358,7 @@ public final class World implements Externalizable {
         if (Game.SAVEGAME_LOADING_VERSION >= Game.SAVEGAME_V12) {
             buryData = (ArrayList<BuryData>) in.readObject();
         } else {
-            buryData = new ArrayList<BuryData>();
+            buryData = new ArrayList<>();
         }
         zones = (ArrayList<Zone>) in.readObject();
         coins = in.readInt();
@@ -4393,7 +4392,7 @@ public final class World implements Externalizable {
         if (Game.SAVEGAME_LOADING_VERSION >= Game.SAVEGAME_V13) {
             itemsText = (HashMap<Integer, ArrayList<String>>) in.readObject();
         } else {
-            itemsText = new HashMap<Integer, ArrayList<String>>();
+            itemsText = new HashMap<>();
         }
 
         if (Game.SAVEGAME_LOADING_VERSION >= Game.SAVEGAME_V14) {
@@ -4401,7 +4400,7 @@ public final class World implements Externalizable {
             globalEvents = (GlobalEventData) in.readObject();
             // gods = (ArrayList<GodData>) in.readObject ();
         } else {
-            events = new ArrayList<EventData>();
+            events = new ArrayList<>();
             globalEvents = new GlobalEventData();
             // gods = new ArrayList<GodData> ();
         }

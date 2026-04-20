@@ -47,7 +47,7 @@ public final class MessagesPanel {
     }
 
     public static void clear() {
-        messagesDataFull = new ArrayList<MessagesPanelData[]>(MAX_TYPES * 2);
+        messagesDataFull = new ArrayList<>(MAX_TYPES * 2);
         for (int i = 0; i < (MAX_TYPES * 2); i++) {
             messagesDataFull.add(new MessagesPanelData[MAX_MESSAGES]);
         }
@@ -308,7 +308,7 @@ public final class MessagesPanel {
      * men� principal)
      */
     public static void initialize() {
-        messagesDataFull = new ArrayList<MessagesPanelData[]>(MAX_TYPES * 2);
+        messagesDataFull = new ArrayList<>(MAX_TYPES * 2);
         for (int i = 0; i < (MAX_TYPES * 2); i++) {
             messagesDataFull.add(new MessagesPanelData[MAX_MESSAGES]);
         }

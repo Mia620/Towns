@@ -17,7 +17,7 @@ public class UtilsServer {
 
         try {
             sXML = getUrlSource(serverURL);
-            if (sXML == null || sXML.trim().length() == 0) {
+            if (sXML == null || sXML.trim().isEmpty()) {
                 Log.log(Log.LEVEL_DEBUG, Messages.getString("UtilsServer.0"), "UtilsServer"); //$NON-NLS-1$ //$NON-NLS-2$
                 return null;
             }
@@ -47,7 +47,7 @@ public class UtilsServer {
                 }
             }
 
-            if (sServerName != null && sServerName.trim().length() > 0) {
+            if (sServerName != null && !sServerName.trim().isEmpty()) {
                 return sServerName;
             }
         } catch (Exception e) {
@@ -63,7 +63,7 @@ public class UtilsServer {
 
         try {
             sXML = getUrlSource(serverURL);
-            if (sXML == null || sXML.trim().length() == 0) {
+            if (sXML == null || sXML.trim().isEmpty()) {
                 Log.log(Log.LEVEL_DEBUG, Messages.getString("UtilsServer.0"), "UtilsServer"); //$NON-NLS-1$ //$NON-NLS-2$
                 return null;
             }
@@ -78,8 +78,8 @@ public class UtilsServer {
             Node node;
 
             String sDownloadURL = null;
-            ArrayList<String> alNames = new ArrayList<String>();
-            ArrayList<String> alIDs = new ArrayList<String>();
+            ArrayList<String> alNames = new ArrayList<>();
+            ArrayList<String> alIDs = new ArrayList<>();
             String sAux;
             for (int i = 0; i < nodeList.getLength(); i++) {
                 node = nodeList.item(i);
@@ -105,7 +105,7 @@ public class UtilsServer {
                                         // Tenemos un fichero, cargamos el nombre y el ID
                                         String sName = UtilsXML.getChildValue(nodeBurieds.getChildNodes(), "fileName"); //$NON-NLS-1$
                                         String sID = UtilsXML.getChildValue(nodeBurieds.getChildNodes(), "fileID"); //$NON-NLS-1$
-                                        if (sName != null && sID != null && sName.trim().length() > 0 && sID.trim().length() > 0) {
+                                        if (sName != null && sID != null && !sName.trim().isEmpty() && !sID.trim().isEmpty()) {
                                             // Miramos que no tenga car�cteres especiales
                                             if (!sName.contains("/") && !sName.contains("\\") && !sName.contains(";") && !sName.contains("&") && !sName.contains("#") && !sName.contains("..")) {
                                                 // Todo ok, aunque primero miramos que el fichero no exista en local
@@ -124,7 +124,7 @@ public class UtilsServer {
                 }
             }
 
-            if (sDownloadURL != null && alNames.size() > 0) {
+            if (sDownloadURL != null && !alNames.isEmpty()) {
                 // Pillamos uno a random
                 int iIndexRandom = Utils.getRandomBetween(0, (alNames.size() - 1));
                 // Reemplazamos los __ID__ de la URL por el fileID

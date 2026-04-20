@@ -62,7 +62,7 @@ public class CitizenData implements Externalizable {
     }
 
     public CitizenData(LivingEntityManagerItem lemi) {
-        StringBuffer sFullName = new StringBuffer();
+        StringBuilder sFullName = new StringBuilder();
         if (lemi.getNamePoolTag() != null) {
             sFullName.append(Names.getName(lemi.getNamePoolTag(), Game.getWorld().getCampaignID(), Game.getWorld().getMissionID()));
 
@@ -311,10 +311,10 @@ public class CitizenData implements Externalizable {
 
     public void addDeniedJob(int iJob) {
         if (jobsDenied == null) {
-            jobsDenied = new ArrayList<Integer>(1);
-            jobsDenied.add(Integer.valueOf(iJob));
+            jobsDenied = new ArrayList<>(1);
+            jobsDenied.add(iJob);
         } else {
-            Integer iObj = Integer.valueOf(iJob);
+            Integer iObj = iJob;
             if (!jobsDenied.contains(iObj)) {
                 jobsDenied.add(iObj);
             }
@@ -325,8 +325,8 @@ public class CitizenData implements Externalizable {
         if (jobsD == null) {
             removeAllDeniedJobs();
         } else {
-            for (int i = 0; i < jobsD.size(); i++) {
-                addDeniedJob(jobsD.get(i).intValue());
+            for (Integer integer : jobsD) {
+                addDeniedJob(integer);
             }
         }
     }
@@ -338,8 +338,8 @@ public class CitizenData implements Externalizable {
     public void addAllDeniedJobs() {
         ArrayList<String> alPriorities = ActionPriorityManager.getPrioritiesList();
         if (alPriorities != null) {
-            for (int i = 0; i < alPriorities.size(); i++) {
-                addDeniedJob(alPriorities.get(i));
+            for (String alPriority : alPriorities) {
+                addDeniedJob(alPriority);
             }
         }
     }
@@ -353,10 +353,10 @@ public class CitizenData implements Externalizable {
             return;
         }
 
-        Integer iObj = Integer.valueOf(iJob);
+        Integer iObj = iJob;
         jobsDenied.remove(iObj);
 
-        if (jobsDenied.size() == 0) {
+        if (jobsDenied.isEmpty()) {
             jobsDenied = null;
         }
     }
@@ -370,7 +370,7 @@ public class CitizenData implements Externalizable {
             return false;
         }
 
-        Integer iObj = Integer.valueOf(iJob);
+        Integer iObj = iJob;
         return jobsDenied.contains(iObj);
     }
 
@@ -425,12 +425,12 @@ public class CitizenData implements Externalizable {
 
         if (Game.SAVEGAME_LOADING_VERSION >= Game.SAVEGAME_V11) {
             ArrayList<String> alStrings = (ArrayList<String>) in.readObject();
-            if (alStrings == null || alStrings.size() == 0) {
+            if (alStrings == null || alStrings.isEmpty()) {
                 jobsDenied = null;
             } else {
-                jobsDenied = new ArrayList<Integer>(alStrings.size());
-                for (int i = 0; i < alStrings.size(); i++) {
-                    jobsDenied.add(Integer.valueOf(UtilsIniHeaders.getIntIniHeader(alStrings.get(i))));
+                jobsDenied = new ArrayList<>(alStrings.size());
+                for (String alString : alStrings) {
+                    jobsDenied.add(Integer.valueOf(UtilsIniHeaders.getIntIniHeader(alString)));
                 }
             }
         }

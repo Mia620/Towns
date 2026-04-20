@@ -117,7 +117,7 @@ public class Building extends Entity implements Externalizable {
                 return false;
             } else {
                 // Over terrain!
-                if (bmi.getMustBeBuiltOver() != null && bmi.getMustBeBuiltOver().size() > 0) {
+                if (bmi.getMustBeBuiltOver() != null && !bmi.getMustBeBuiltOver().isEmpty()) {
                     return bmi.getMustBeBuiltOver().contains(cellUnder.getTerrain().getTerrainID());
                 }
             }
@@ -223,7 +223,7 @@ public class Building extends Entity implements Externalizable {
         if (cell.hasBuilding()) {
             Building building = Building.getBuilding(cell.getBuildingCoordinates());
             if (building != null) {
-                if (!building.isOperative() && (building.getPrerequisites().size() > 0 || building.getPrerequisitesLiving().size() > 0)) {
+                if (!building.isOperative() && (!building.getPrerequisites().isEmpty() || !building.getPrerequisitesLiving().isEmpty())) {
                     // Mostramos los prerequisitos si a�n no se ha construido
                     sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, Messages.getString("Building.0"), null, null, null)); //$NON-NLS-1$
                     if (building.getPrerequisites() != null) {
@@ -290,18 +290,18 @@ public class Building extends Entity implements Externalizable {
                 if (building.isOperative() && !bmi.isAutomatic()) {
                     // Obtenemos todo lo que puede crear
                     ArrayList<ItemManagerItem> alIMI = ItemManager.getItemsByBuilding(building.getIniHeader());
-                    if (alIMI.size() > 0) {
+                    if (!alIMI.isEmpty()) {
                         // A�adir objetos para crear
                         SmartMenu smBuildingAdd = new SmartMenu(SmartMenu.TYPE_MENU, Messages.getString("Building.2"), sm, null, null); //$NON-NLS-1$
 
                         String sName;
-                        for (int i = 0; i < alIMI.size(); i++) {
+                        for (ItemManagerItem itemManagerItem : alIMI) {
                             // Add
-                            sName = alIMI.get(i).getName();
-                            if (sName == null || sName.length() == 0) {
-                                sName = alIMI.get(i).getName();
+                            sName = itemManagerItem.getName();
+                            if (sName == null || sName.isEmpty()) {
+                                sName = itemManagerItem.getName();
                             }
-                            smBuildingAdd.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, Messages.getString("Building.3") + sName, null, CommandPanel.COMMAND_CREATE_IN_A_BUILDING, alIMI.get(i).getIniHeader(), null, cell.getBuildingCoordinates().toPoint3D())); //$NON-NLS-1$
+                            smBuildingAdd.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, Messages.getString("Building.3") + sName, null, CommandPanel.COMMAND_CREATE_IN_A_BUILDING, itemManagerItem.getIniHeader(), null, cell.getBuildingCoordinates().toPoint3D())); //$NON-NLS-1$
                         }
                         smBuildingAdd.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, null, null, null, null));
                         smBuildingAdd.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, Messages.getString("Building.4"), sm, CommandPanel.COMMAND_BACK, null)); //$NON-NLS-1$
@@ -365,7 +365,7 @@ public class Building extends Entity implements Externalizable {
 
     public ArrayList<Item> getItemQueue() {
         if (itemQueue == null) {
-            itemQueue = new ArrayList<Item>();
+            itemQueue = new ArrayList<>();
         }
         return itemQueue;
     }
@@ -380,7 +380,7 @@ public class Building extends Entity implements Externalizable {
     }
 
     public boolean hasItemsInQueue() {
-        return getItemQueue().size() > 0;
+        return !getItemQueue().isEmpty();
     }
 
     public String getLastItem() {
@@ -575,8 +575,8 @@ public class Building extends Entity implements Externalizable {
             prerequisites = UtilsIniHeaders.getArrayIntsArray((ArrayList<String[]>) in.readObject());
             prerequisitesLiving = UtilsIniHeaders.getArrayIntsArray((ArrayList<String[]>) in.readObject());
         } else {
-            prerequisites = new ArrayList<int[]>();
-            prerequisitesLiving = new ArrayList<int[]>();
+            prerequisites = new ArrayList<>();
+            prerequisitesLiving = new ArrayList<>();
         }
     }
 

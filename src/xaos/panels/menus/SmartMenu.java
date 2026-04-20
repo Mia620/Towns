@@ -135,7 +135,7 @@ public class SmartMenu implements Externalizable {
                         // Es un delete, miramos el ID a borrar
                         if (map.getNamedItem("id") != null) { //$NON-NLS-1$
                             String sID = map.getNamedItem("id").getNodeValue(); //$NON-NLS-1$
-                            if (sID != null && sID.length() > 0) {
+                            if (sID != null && !sID.isEmpty()) {
                                 // Buscamos el ID en el current menu, si lo encontramos lo petamos
                                 ArrayList<SmartMenu> alItems = smartMenu.getItems();
                                 if (alItems != null) {
@@ -171,16 +171,16 @@ public class SmartMenu implements Externalizable {
                         if (map.getNamedItem(sLocale) != null) {
                             sName = map.getNamedItem(sLocale).getNodeValue();
                         }
-                        if (sName == null || sName.length() == 0) {
+                        if (sName == null || sName.isEmpty()) {
                             if (map.getNamedItem("name") != null) { //$NON-NLS-1$
                                 sName = map.getNamedItem("name").getNodeValue(); //$NON-NLS-1$
                             }
                         }
-                        if (sName == null || sName.length() == 0) {
+                        if (sName == null || sName.isEmpty()) {
                             // No encuentra name, miramos si es una tarea de CREATE, CREATEANDPLACE, CREATEANDPLACEROW o BUILD para obtener la cadena de la definici�n del item/edificio
                             if (parameter != null
                                     && parameter.getNodeValue() != null
-                                    && parameter.getNodeValue().length() > 0
+                                    && !parameter.getNodeValue().isEmpty()
                                     && code.getNodeValue() != null
                                     && (code.getNodeValue().equalsIgnoreCase(CommandPanel.COMMAND_CREATE) || code.getNodeValue().equalsIgnoreCase(CommandPanel.COMMAND_CREATE_AND_PLACE) || code.getNodeValue().equalsIgnoreCase(CommandPanel.COMMAND_CREATE_AND_PLACE_ROW) || code.getNodeValue().equalsIgnoreCase(CommandPanel.COMMAND_BUILD) || code.getNodeValue().equalsIgnoreCase(CommandPanel.COMMAND_CUSTOM_ACTION) || code.getNodeValue().equalsIgnoreCase(CommandPanel.COMMAND_QUEUE)
                                     || code.getNodeValue().equalsIgnoreCase(CommandPanel.COMMAND_QUEUE_AND_PLACE) || code.getNodeValue().equalsIgnoreCase(CommandPanel.COMMAND_QUEUE_AND_PLACE_ROW) || code.getNodeValue().equalsIgnoreCase(CommandPanel.COMMAND_QUEUE_AND_PLACE_AREA)
@@ -221,7 +221,7 @@ public class SmartMenu implements Externalizable {
                                         }
                                     }
                                 }
-                                if (sName == null || sName.trim().length() == 0) {
+                                if (sName == null || sName.trim().isEmpty()) {
                                     Log.log(Log.LEVEL_ERROR, Messages.getString("SmartMenu.0") + parameter.getNodeValue() + "]", Messages.getString("SmartMenu.5")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                                     Game.exit();
                                 }
@@ -273,7 +273,7 @@ public class SmartMenu implements Externalizable {
                             smartMenu.addItem(item);
                         } else {
                             // Miramos que el �ltimo no sea un back
-                            if (smartMenu.getItems().size() > 0) {
+                            if (!smartMenu.getItems().isEmpty()) {
                                 SmartMenu smLast = smartMenu.getItems().get(smartMenu.getItems().size() - 1);
                                 if (smLast.getCommand() != null && smLast.getCommand().equals(CommandPanel.COMMAND_BACK)) {
                                     // Hay un back, a�adimos el item justo antes
@@ -326,8 +326,8 @@ public class SmartMenu implements Externalizable {
                     if (map.getNamedItem(sLocale) != null) {
                         sName = map.getNamedItem(sLocale).getNodeValue();
                     }
-                    if (sName == null || sName.length() == 0) {
-                        if (map.getNamedItem("name") != null && map.getNamedItem("name").getNodeValue() != null && map.getNamedItem("name").getNodeValue().length() > 0) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                    if (sName == null || sName.isEmpty()) {
+                        if (map.getNamedItem("name") != null && map.getNamedItem("name").getNodeValue() != null && !map.getNamedItem("name").getNodeValue().isEmpty()) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                             sName = map.getNamedItem("name").getNodeValue(); //$NON-NLS-1$
                         }
                     }
@@ -370,232 +370,236 @@ public class SmartMenu implements Externalizable {
             // Miramos si es un c�digo de crear objeto, en ese caso el icono se pilla seg�n el mismo
             ItemManagerItem imi = null;
             LivingEntityManagerItem lemi = null;
-            ArrayList<String> alMessages = new ArrayList<String>();
-            ArrayList<ColorGL> alColor = new ArrayList<ColorGL>();
-            if (sCode.equals(CommandPanel.COMMAND_QUEUE) || sCode.equals(CommandPanel.COMMAND_QUEUE_AND_PLACE) || sCode.equals(CommandPanel.COMMAND_QUEUE_AND_PLACE_ROW) || sCode.equals(CommandPanel.COMMAND_QUEUE_AND_PLACE_AREA)) {
-                ArrayList<String> alMessagesBuilding = new ArrayList<String>();
-                ArrayList<String> alMessagesPrerequisites = new ArrayList<String>();
-                ActionManagerItem ami = ActionManager.getItem(sParameter);
-                if (ami != null && ami.getQueue() != null) {
-                    ArrayList<QueueItem> alQueue = ami.getQueue();
-                    String sName;
-                    for (int i = 0; i < alQueue.size(); i++) {
-                        if (alQueue.get(i).getType() == QueueItem.TYPE_MOVE || alQueue.get(i).getType() == QueueItem.TYPE_PICK) {
-                            ArrayList<String> alList = Utils.getArray(alQueue.get(i).getValue());
-                            ArrayList<String> alListNames = new ArrayList<String>();
-                            sName = null;
-                            if (alList != null) {
-                                for (int ite = 0; ite < alList.size(); ite++) {
-                                    imi = ItemManager.getItem(alList.get(ite));
-                                    if (imi != null && imi.getName() != null) {
-                                        sName = imi.getName();
-
-                                        if (!alListNames.contains(sName)) {
-                                            alListNames.add(sName);
-                                        }
-                                    }
-                                }
-
+            ArrayList<String> alMessages = new ArrayList<>();
+            ArrayList<ColorGL> alColor = new ArrayList<>();
+            switch (sCode) {
+                case CommandPanel.COMMAND_QUEUE, CommandPanel.COMMAND_QUEUE_AND_PLACE,
+                     CommandPanel.COMMAND_QUEUE_AND_PLACE_ROW, CommandPanel.COMMAND_QUEUE_AND_PLACE_AREA -> {
+                    ArrayList<String> alMessagesBuilding = new ArrayList<>();
+                    ArrayList<String> alMessagesPrerequisites = new ArrayList<>();
+                    ActionManagerItem ami = ActionManager.getItem(sParameter);
+                    if (ami != null && ami.getQueue() != null) {
+                        ArrayList<QueueItem> alQueue = ami.getQueue();
+                        String sName;
+                        for (QueueItem queueItem : alQueue) {
+                            if (queueItem.getType() == QueueItem.TYPE_MOVE || queueItem.getType() == QueueItem.TYPE_PICK) {
+                                ArrayList<String> alList = Utils.getArray(queueItem.getValue());
+                                ArrayList<String> alListNames = new ArrayList<String>();
                                 sName = null;
-                                // Creamos el name gordo
-                                for (int ite = 0; ite < alListNames.size(); ite++) {
-                                    if (ite == 0) {
-                                        sName = alListNames.get(ite);
-                                    } else {
-                                        sName += Messages.getString("SmartMenu.3") + alListNames.get(ite); //$NON-NLS-1$
+                                if (alList != null) {
+                                    for (String s : alList) {
+                                        imi = ItemManager.getItem(s);
+                                        if (imi != null && imi.getName() != null) {
+                                            sName = imi.getName();
+
+                                            if (!alListNames.contains(sName)) {
+                                                alListNames.add(sName);
+                                            }
+                                        }
+                                    }
+
+                                    sName = null;
+                                    // Creamos el name gordo
+                                    for (int ite = 0; ite < alListNames.size(); ite++) {
+                                        if (ite == 0) {
+                                            sName = alListNames.get(ite);
+                                        } else {
+                                            sName += Messages.getString("SmartMenu.3") + alListNames.get(ite); //$NON-NLS-1$
+                                        }
+                                    }
+                                    if (sName != null) {
+                                        if (queueItem.getType() == QueueItem.TYPE_MOVE) {
+                                            if (!alMessagesBuilding.contains(sName)) {
+                                                alMessagesBuilding.add(sName);
+                                            }
+                                        } else {
+                                            alMessagesPrerequisites.add(sName);
+                                        }
                                     }
                                 }
-                                if (sName != null) {
-                                    if (alQueue.get(i).getType() == QueueItem.TYPE_MOVE) {
-                                        if (!alMessagesBuilding.contains(sName)) {
-                                            alMessagesBuilding.add(sName);
+                            } else if (queueItem.getType() == QueueItem.TYPE_PICK_FRIENDLY) {
+                                ArrayList<String> alList = Utils.getArray(queueItem.getValue());
+                                ArrayList<String> alListNames = new ArrayList<String>();
+                                sName = null;
+                                if (alList != null) {
+                                    for (String s : alList) {
+                                        lemi = LivingEntityManager.getItem(s);
+                                        if (lemi != null && lemi.getName() != null) {
+                                            sName = lemi.getName();
+
+                                            if (!alListNames.contains(sName)) {
+                                                alListNames.add(sName);
+                                            }
                                         }
-                                    } else {
+                                    }
+
+                                    sName = null;
+                                    // Creamos el name gordo
+                                    for (int ite = 0; ite < alListNames.size(); ite++) {
+                                        if (ite == 0) {
+                                            sName = alListNames.get(ite);
+                                        } else {
+                                            sName += Messages.getString("SmartMenu.3") + alListNames.get(ite); //$NON-NLS-1$
+                                        }
+                                    }
+                                    if (sName != null) {
                                         alMessagesPrerequisites.add(sName);
                                     }
                                 }
-                            }
-                        } else if (alQueue.get(i).getType() == QueueItem.TYPE_PICK_FRIENDLY) {
-                            ArrayList<String> alList = Utils.getArray(alQueue.get(i).getValue());
-                            ArrayList<String> alListNames = new ArrayList<String>();
-                            sName = null;
-                            if (alList != null) {
-                                for (int ite = 0; ite < alList.size(); ite++) {
-                                    lemi = LivingEntityManager.getItem(alList.get(ite));
-                                    if (lemi != null && lemi.getName() != null) {
-                                        sName = lemi.getName();
-
-                                        if (!alListNames.contains(sName)) {
-                                            alListNames.add(sName);
+                            } else if (queueItem.getType() == QueueItem.TYPE_CREATE_ITEM) {
+                                imi = ItemManager.getItem(queueItem.getValue());
+                                if (imi != null) {
+                                    if (imi.isMilitaryItem()) {
+                                        // Item militar, ponemos los min/max de los atributos
+                                        String sMilitaryAttributes = imi.getMilitaryString();
+                                        if (sMilitaryAttributes != null && !sMilitaryAttributes.isEmpty()) {
+                                            alMessages.add(sMilitaryAttributes);
+                                            alColor.add(new ColorGL(null));
+                                        }
+                                    }
+                                    if (imi.canBeEaten()) {
+                                        // Item de comida, ponemos los porcentajes
+                                        String sEatAttributes = imi.getEatString();
+                                        if (sEatAttributes != null && !sEatAttributes.isEmpty()) {
+                                            alMessages.add(sEatAttributes);
+                                            alColor.add(new ColorGL(null));
+                                        }
+                                    }
+                                    if (imi.isBlockFluids()) {
+                                        alMessages.add("(" + Messages.getString("SmartMenu.8") + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                                        alColor.add(COLOR_HABITAT);
+                                    }
+                                    ArrayList<String> alDescs = imi.getDescriptions();
+                                    if (alDescs != null) {
+                                        for (String alDesc : alDescs) {
+                                            alMessages.add(alDesc);
+                                            alColor.add(new ColorGL(null));
                                         }
                                     }
                                 }
-
-                                sName = null;
-                                // Creamos el name gordo
-                                for (int ite = 0; ite < alListNames.size(); ite++) {
-                                    if (ite == 0) {
-                                        sName = alListNames.get(ite);
-                                    } else {
-                                        sName += Messages.getString("SmartMenu.3") + alListNames.get(ite); //$NON-NLS-1$
-                                    }
-                                }
-                                if (sName != null) {
-                                    alMessagesPrerequisites.add(sName);
-                                }
-                            }
-                        } else if (alQueue.get(i).getType() == QueueItem.TYPE_CREATE_ITEM) {
-                            imi = ItemManager.getItem(alQueue.get(i).getValue());
-                            if (imi != null) {
-                                if (imi.isMilitaryItem()) {
-                                    // Item militar, ponemos los min/max de los atributos
-                                    String sMilitaryAttributes = imi.getMilitaryString();
-                                    if (sMilitaryAttributes != null && sMilitaryAttributes.length() > 0) {
-                                        alMessages.add(sMilitaryAttributes);
-                                        alColor.add(new ColorGL(null));
-                                    }
-                                }
-                                if (imi.canBeEaten()) {
-                                    // Item de comida, ponemos los porcentajes
-                                    String sEatAttributes = imi.getEatString();
-                                    if (sEatAttributes != null && sEatAttributes.length() > 0) {
-                                        alMessages.add(sEatAttributes);
-                                        alColor.add(new ColorGL(null));
-                                    }
-                                }
-                                if (imi.isBlockFluids()) {
-                                    alMessages.add("(" + Messages.getString("SmartMenu.8") + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                                    alColor.add(COLOR_HABITAT);
-                                }
-                                ArrayList<String> alDescs = imi.getDescriptions();
-                                if (alDescs != null) {
-                                    for (int d = 0; d < alDescs.size(); d++) {
-                                        alMessages.add(alDescs.get(d));
-                                        alColor.add(new ColorGL(null));
-                                    }
-                                }
                             }
                         }
-                    }
 
-                    if (alMessages.size() > 0) { // Tiene descripciones
-                        if (alMessagesBuilding.size() > 0 || alMessagesPrerequisites.size() > 0) {
-                            // Linea en blanco
-                            alMessages.add("");
-                            alColor.add(new ColorGL(null));
-                        }
-                    }
-
-                    // "Building" (o objetos "move")
-                    for (int i = 0; i < alMessagesBuilding.size(); i++) {
-                        alMessages.add(alMessagesBuilding.get(i));
-                        alColor.add(COLOR_BUILDING);
-                    }
-
-                    if (alMessagesBuilding.size() > 0) {
-                        if (alMessagesPrerequisites.size() > 0) {
-                            // Item en blanco
-                            alMessages.add("");
-                            alColor.add(new ColorGL(null));
-                        }
-                    }
-
-                    // Prerequisites (o objetos "pick")
-                    for (int i = 0; i < alMessagesPrerequisites.size(); i++) {
-                        alMessages.add(alMessagesPrerequisites.get(i));
-                        alColor.add(COLOR_PREREQUISITES);
-                    }
-                }
-            } else if (sCode.equals(CommandPanel.COMMAND_CREATE) || sCode.equals(CommandPanel.COMMAND_CREATE_AND_PLACE) || sCode.equals(CommandPanel.COMMAND_CREATE_AND_PLACE_ROW) || sCode.equals(CommandPanel.COMMAND_CREATE_IN_A_BUILDING)) {
-                imi = ItemManager.getItem(sParameter);
-                if (imi != null) {
-                    if (imi.getDescriptions() != null) {
-                        ArrayList<String> alDescs = imi.getDescriptions();
-                        if (alDescs != null && alDescs.size() > 0) {
-                            for (int d = 0; d < alDescs.size(); d++) {
-                                alMessages.add(alDescs.get(d));
-                                alColor.add(new ColorGL(null));
-                            }
-                        }
-                    }
-
-                    if (imi.getBuilding() != null) {
-                        BuildingManagerItem bmi = BuildingManager.getItem(imi.getBuilding());
-                        if (bmi != null) {
-                            if (imi.getDescriptions() != null && imi.getDescriptions().size() > 0) {
+                        if (!alMessages.isEmpty()) { // Tiene descripciones
+                            if (!alMessagesBuilding.isEmpty() || !alMessagesPrerequisites.isEmpty()) {
                                 // Linea en blanco
                                 alMessages.add("");
                                 alColor.add(new ColorGL(null));
                             }
+                        }
 
-                            alMessages.add(bmi.getName());
+                        // "Building" (o objetos "move")
+                        for (String s : alMessagesBuilding) {
+                            alMessages.add(s);
                             alColor.add(COLOR_BUILDING);
+                        }
 
-                            ArrayList<String> alPrerequisites = imi.getPrerequisites();
-                            for (int i = 0; i < alPrerequisites.size(); i++) {
-                                imi = ItemManager.getItem(alPrerequisites.get(i));
-                                if (imi != null) {
-                                    if (alMessages.size() == 1) {
-                                        // Linea en blanco
-                                        alMessages.add("");
-                                        alColor.add(new ColorGL(null));
+                        if (!alMessagesBuilding.isEmpty()) {
+                            if (!alMessagesPrerequisites.isEmpty()) {
+                                // Item en blanco
+                                alMessages.add("");
+                                alColor.add(new ColorGL(null));
+                            }
+                        }
+
+                        // Prerequisites (o objetos "pick")
+                        for (String alMessagesPrerequisite : alMessagesPrerequisites) {
+                            alMessages.add(alMessagesPrerequisite);
+                            alColor.add(COLOR_PREREQUISITES);
+                        }
+                    }
+                }
+                case CommandPanel.COMMAND_CREATE, CommandPanel.COMMAND_CREATE_AND_PLACE,
+                     CommandPanel.COMMAND_CREATE_AND_PLACE_ROW, CommandPanel.COMMAND_CREATE_IN_A_BUILDING -> {
+                    imi = ItemManager.getItem(sParameter);
+                    if (imi != null) {
+                        if (imi.getDescriptions() != null) {
+                            ArrayList<String> alDescs = imi.getDescriptions();
+                            if (alDescs != null && !alDescs.isEmpty()) {
+                                for (String alDesc : alDescs) {
+                                    alMessages.add(alDesc);
+                                    alColor.add(new ColorGL(null));
+                                }
+                            }
+                        }
+
+                        if (imi.getBuilding() != null) {
+                            BuildingManagerItem bmi = BuildingManager.getItem(imi.getBuilding());
+                            if (bmi != null) {
+                                if (imi.getDescriptions() != null && !imi.getDescriptions().isEmpty()) {
+                                    // Linea en blanco
+                                    alMessages.add("");
+                                    alColor.add(new ColorGL(null));
+                                }
+
+                                alMessages.add(bmi.getName());
+                                alColor.add(COLOR_BUILDING);
+
+                                ArrayList<String> alPrerequisites = imi.getPrerequisites();
+                                for (String alPrerequisite : alPrerequisites) {
+                                    imi = ItemManager.getItem(alPrerequisite);
+                                    if (imi != null) {
+                                        if (alMessages.size() == 1) {
+                                            // Linea en blanco
+                                            alMessages.add("");
+                                            alColor.add(new ColorGL(null));
+                                        }
+                                        alMessages.add(imi.getName());
+                                        alColor.add(COLOR_PREREQUISITES);
                                     }
-                                    alMessages.add(imi.getName());
-                                    alColor.add(COLOR_PREREQUISITES);
                                 }
                             }
                         }
                     }
                 }
-            } else if (sCode.equals(CommandPanel.COMMAND_BUILD)) {
-                BuildingManagerItem bmi = BuildingManager.getItem(sParameter);
-                if (bmi != null) {
-                    // Description
-                    ArrayList<String> alDescs = bmi.getDescriptions();
-                    if (alDescs != null) {
-                        for (int d = 0; d < alDescs.size(); d++) {
-                            alMessages.add(alDescs.get(d));
-                            alColor.add(new ColorGL(null));
-                        }
-                    }
-
-                    // Linea en blanco
-                    alMessages.add("");
-                    alColor.add(new ColorGL(null));
-
-                    ArrayList<int[]> alPrerequisites = bmi.getPrerequisites();
-                    if (alPrerequisites != null) {
-                        for (int i = 0; i < alPrerequisites.size(); i++) {
-                            int[] aItems = alPrerequisites.get(i);
-                            String sName = null;
-                            for (int ite = 0; ite < aItems.length; ite++) {
-                                if (ite == 0) {
-                                    sName = ItemManager.getItem(UtilsIniHeaders.getStringIniHeader(aItems[ite])).getName();
-                                } else {
-                                    sName += Messages.getString("SmartMenu.3") + ItemManager.getItem(UtilsIniHeaders.getStringIniHeader(aItems[ite])).getName(); //$NON-NLS-1$
-                                }
-                            }
-                            if (sName != null) {
-                                alMessages.add(sName);
-                                alColor.add(COLOR_PREREQUISITES);
+                case CommandPanel.COMMAND_BUILD -> {
+                    BuildingManagerItem bmi = BuildingManager.getItem(sParameter);
+                    if (bmi != null) {
+                        // Description
+                        ArrayList<String> alDescs = bmi.getDescriptions();
+                        if (alDescs != null) {
+                            for (String alDesc : alDescs) {
+                                alMessages.add(alDesc);
+                                alColor.add(new ColorGL(null));
                             }
                         }
-                    }
-                    alPrerequisites = bmi.getPrerequisitesFriendly();
-                    if (alPrerequisites != null) {
-                        for (int i = 0; i < alPrerequisites.size(); i++) {
-                            int[] aLivings = alPrerequisites.get(i);
-                            String sName = null;
-                            for (int liv = 0; liv < aLivings.length; liv++) {
-                                if (liv == 0) {
-                                    sName = LivingEntityManager.getItem(UtilsIniHeaders.getStringIniHeader(aLivings[liv])).getName();
-                                } else {
-                                    sName += Messages.getString("SmartMenu.3") + LivingEntityManager.getItem(UtilsIniHeaders.getStringIniHeader(aLivings[liv])).getName(); //$NON-NLS-1$
+
+                        // Linea en blanco
+                        alMessages.add("");
+                        alColor.add(new ColorGL(null));
+
+                        ArrayList<int[]> alPrerequisites = bmi.getPrerequisites();
+                        if (alPrerequisites != null) {
+                            for (int[] aItems : alPrerequisites) {
+                                String sName = null;
+                                for (int ite = 0; ite < aItems.length; ite++) {
+                                    if (ite == 0) {
+                                        sName = ItemManager.getItem(UtilsIniHeaders.getStringIniHeader(aItems[ite])).getName();
+                                    } else {
+                                        sName += Messages.getString("SmartMenu.3") + ItemManager.getItem(UtilsIniHeaders.getStringIniHeader(aItems[ite])).getName(); //$NON-NLS-1$
+                                    }
+                                }
+                                if (sName != null) {
+                                    alMessages.add(sName);
+                                    alColor.add(COLOR_PREREQUISITES);
                                 }
                             }
-                            if (sName != null) {
-                                alMessages.add(sName);
-                                alColor.add(COLOR_PREREQUISITES);
+                        }
+                        alPrerequisites = bmi.getPrerequisitesFriendly();
+                        if (alPrerequisites != null) {
+                            for (int[] aLivings : alPrerequisites) {
+                                String sName = null;
+                                for (int liv = 0; liv < aLivings.length; liv++) {
+                                    if (liv == 0) {
+                                        sName = LivingEntityManager.getItem(UtilsIniHeaders.getStringIniHeader(aLivings[liv])).getName();
+                                    } else {
+                                        sName += Messages.getString("SmartMenu.3") + LivingEntityManager.getItem(UtilsIniHeaders.getStringIniHeader(aLivings[liv])).getName(); //$NON-NLS-1$
+                                    }
+                                }
+                                if (sName != null) {
+                                    alMessages.add(sName);
+                                    alColor.add(COLOR_PREREQUISITES);
+                                }
                             }
                         }
                     }
@@ -603,13 +607,13 @@ public class SmartMenu implements Externalizable {
             }
 
             // Seteamos los prerequisitos
-            if (alMessages.size() > 0) {
+            if (!alMessages.isEmpty()) {
                 alMessages.add(0, item.getName());
                 alColor.add(0, new ColorGL(null));
 
                 // A�adimos zonas
                 boolean bBlankLineAdded = false;
-                if (imi != null && imi.getZones() != null && imi.getZones().size() > 0) {
+                if (imi != null && imi.getZones() != null && !imi.getZones().isEmpty()) {
                     // Linea en blanco
                     bBlankLineAdded = true;
                     alMessages.add("");
@@ -620,7 +624,7 @@ public class SmartMenu implements Externalizable {
                     }
                 }
 
-                if (imi != null && imi.getHabitat() != null && imi.getHabitat().size() > 0) {
+                if (imi != null && imi.getHabitat() != null && !imi.getHabitat().isEmpty()) {
                     // Linea en blanco
                     if (!bBlankLineAdded) {
                         alMessages.add("");
@@ -653,7 +657,7 @@ public class SmartMenu implements Externalizable {
         }
 
         int iPartSize = (menu.getItems().size() / parts) + 1;
-        ArrayList<SmartMenu> alParts = new ArrayList<SmartMenu>();
+        ArrayList<SmartMenu> alParts = new ArrayList<>();
 
         // Creamos los menus
         for (int i = 0; i < parts; i++) {
@@ -738,7 +742,7 @@ public class SmartMenu implements Externalizable {
 
     public ArrayList<SmartMenu> getItems() {
         if (items == null) {
-            items = new ArrayList<SmartMenu>();
+            items = new ArrayList<>();
         }
         return items;
     }
@@ -749,7 +753,7 @@ public class SmartMenu implements Externalizable {
 
     public void addItem(SmartMenu item) {
         if (items == null) {
-            items = new ArrayList<SmartMenu>();
+            items = new ArrayList<>();
         }
 
         items.add(item);
@@ -938,7 +942,7 @@ public class SmartMenu implements Externalizable {
         // Tooltip
         if (itemIndex != -1) {
             SmartMenu menuItem = getItems().get(itemIndex);
-            if (menuItem.getPrerequisites() != null && menuItem.getPrerequisites().size() > 0) {
+            if (menuItem.getPrerequisites() != null && !menuItem.getPrerequisites().isEmpty()) {
                 MainPanel.renderMessages(mouseX, mouseY + Tile.TERRAIN_ICON_HEIGHT / 2, UtilsGL.getWidth(), UtilsGL.getHeight(), Tile.TERRAIN_ICON_WIDTH / 2, menuItem.getPrerequisites(), menuItem.getPrerequisitesColor());
             }
         }

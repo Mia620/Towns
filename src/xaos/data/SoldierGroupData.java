@@ -31,10 +31,10 @@ public class SoldierGroupData implements Externalizable {
     public SoldierGroupData(int id) {
         setId(id);
         setName(null);
-        livingIDs = new ArrayList<Integer>();
+        livingIDs = new ArrayList<>();
         setState(STATE_GUARD);
         setZoneID(0); // No zone
-        patrolPoints = new ArrayList<Point3DShort>();
+        patrolPoints = new ArrayList<>();
     }
 
     public int getId() {
@@ -50,7 +50,7 @@ public class SoldierGroupData implements Externalizable {
     }
 
     public void setName(String name) {
-        if (name == null || name.trim().length() == 0) {
+        if (name == null || name.trim().isEmpty()) {
             this.name = Messages.getString("SoldierGroupData.0") + (id + 1); //$NON-NLS-1$
         } else {
             this.name = name;

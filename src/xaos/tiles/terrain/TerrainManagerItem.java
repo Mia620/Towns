@@ -132,7 +132,7 @@ public class TerrainManagerItem {
     }
 
     public void setBlocky(String sBlocky) {
-        if (sBlocky == null || sBlocky.trim().length() == 0) {
+        if (sBlocky == null || sBlocky.trim().isEmpty()) {
             setBlocky(true);
         } else {
             setBlocky(Boolean.parseBoolean(sBlocky));
@@ -148,6 +148,6 @@ public class TerrainManagerItem {
     }
 
     public boolean hasActions() {
-        return actions != null && actions.size() > 0;
+        return actions != null && !actions.isEmpty();
     }
 }

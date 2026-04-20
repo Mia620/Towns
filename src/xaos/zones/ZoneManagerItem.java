@@ -56,7 +56,7 @@ public class ZoneManagerItem {
     }
 
     public void setType(String sType) throws Exception {
-        if (sType == null || sType.length() == 0) {
+        if (sType == null || sType.isEmpty()) {
             throw new Exception(Messages.getString("ZoneManagerItem.0")); //$NON-NLS-1$
         }
 
@@ -88,7 +88,7 @@ public class ZoneManagerItem {
     }
 
     public void setMinWidth(String sMinWidth) {
-        if (sMinWidth == null || sMinWidth.trim().length() == 0) {
+        if (sMinWidth == null || sMinWidth.trim().isEmpty()) {
             setMinWidth(3);
         } else {
             setMinWidth(Integer.parseInt(sMinWidth));
@@ -104,7 +104,7 @@ public class ZoneManagerItem {
     }
 
     public void setMinHeight(String sMinHeight) {
-        if (sMinHeight == null || sMinHeight.trim().length() == 0) {
+        if (sMinHeight == null || sMinHeight.trim().isEmpty()) {
             setMinHeight(3);
         } else {
             setMinHeight(Integer.parseInt(sMinHeight));

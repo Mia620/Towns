@@ -162,18 +162,18 @@ public class Citizen extends LivingEntity implements Externalizable {
         if (cell.containsSpecificLiving(TYPE_CITIZEN) != null) {
             // Equipar, miramos si hay objetos militares en el mundo, de paso ya hacemos una lista para poner en el men�
             Integer[] aItems = World.getItems().keySet().toArray(new Integer[0]);
-            ArrayList<MilitaryItem> alHead = new ArrayList<MilitaryItem>(); // Head
-            ArrayList<MilitaryItem> alBody = new ArrayList<MilitaryItem>(); // Body
-            ArrayList<MilitaryItem> alLegs = new ArrayList<MilitaryItem>(); // Legs
-            ArrayList<MilitaryItem> alFeet = new ArrayList<MilitaryItem>(); // Feet
-            ArrayList<MilitaryItem> alWeapon = new ArrayList<MilitaryItem>(); // Weapon
+            ArrayList<MilitaryItem> alHead = new ArrayList<>(); // Head
+            ArrayList<MilitaryItem> alBody = new ArrayList<>(); // Body
+            ArrayList<MilitaryItem> alLegs = new ArrayList<>(); // Legs
+            ArrayList<MilitaryItem> alFeet = new ArrayList<>(); // Feet
+            ArrayList<MilitaryItem> alWeapon = new ArrayList<>(); // Weapon
 
             int iASZID = cell.getAstarZoneID();
 
             Item mi;
             boolean bMilitaryItems = false;
-            for (int i = 0; i < aItems.length; i++) {
-                mi = World.getItems().get(aItems[i]);
+            for (Integer aItem : aItems) {
+                mi = World.getItems().get(aItem);
                 if (mi != null && mi instanceof MilitaryItem) {
                     if (World.getCell(mi.getCoordinates()).getAstarZoneID() == iASZID) {
                         int location = ItemManager.getItem(mi.getIniHeader()).getLocation();
@@ -197,10 +197,10 @@ public class Citizen extends LivingEntity implements Externalizable {
             ArrayList<Container> alContainers = Game.getWorld().getContainers();
             ArrayList<Item> alContainerItems;
             nextContainer:
-            for (int i = 0; i < alContainers.size(); i++) {
-                alContainerItems = alContainers.get(i).getItemsInside();
-                for (int j = 0; j < alContainerItems.size(); j++) {
-                    mi = alContainerItems.get(j);
+            for (Container alContainer : alContainers) {
+                alContainerItems = alContainer.getItemsInside();
+                for (Item alContainerItem : alContainerItems) {
+                    mi = alContainerItem;
                     if (World.getCell(mi.getCoordinates()).getAstarZoneID() != iASZID) {
                         continue nextContainer;
                     }
@@ -228,8 +228,8 @@ public class Citizen extends LivingEntity implements Externalizable {
             LivingEntityManagerItem lemi;
             ArrayList<LivingEntity> alLivings = cell.getLivings();
             if (alLivings != null) {
-                for (int i = 0; i < alLivings.size(); i++) {
-                    le = alLivings.get(i);
+                for (LivingEntity alLiving : alLivings) {
+                    le = alLiving;
                     lemi = LivingEntityManager.getItem(le.getIniHeader());
                     if (lemi.getType() == TYPE_CITIZEN) {
                         citizen = (Citizen) le;
@@ -278,7 +278,7 @@ public class Citizen extends LivingEntity implements Externalizable {
                         // Equipar
                         boolean itemMetido = false;
                         if (bMilitaryItems) {
-                            if (sm.getItems().size() > 0) {
+                            if (!sm.getItems().isEmpty()) {
                                 sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, null, null, null, null));
                             }
                             // Autoequip
@@ -414,12 +414,12 @@ public class Citizen extends LivingEntity implements Externalizable {
 
     private static SmartMenu createEquipMenu(int location, String sLocation, ArrayList<MilitaryItem> alMI, SmartMenu parent, Citizen citizen) {
         ItemManagerItem imi;
-        ArrayList<MilitaryItem> alMISorted = new ArrayList<MilitaryItem>(alMI.size());
+        ArrayList<MilitaryItem> alMISorted = new ArrayList<>(alMI.size());
 
         // Primero creamos un array ordenado
-        for (int it = 0; it < alMI.size(); it++) {
-            if (World.getCell(alMI.get(it).getCoordinates()).getAstarZoneID() == World.getCell(citizen.getCoordinates()).getAstarZoneID()) {
-                imi = ItemManager.getItem(alMI.get(it).getIniHeader());
+        for (MilitaryItem item : alMI) {
+            if (World.getCell(item.getCoordinates()).getAstarZoneID() == World.getCell(citizen.getCoordinates()).getAstarZoneID()) {
+                imi = ItemManager.getItem(item.getIniHeader());
                 if (imi.getLocation() == location) {
                     // Toca meterlo
                     int iItemLevel = imi.getLevel();
@@ -433,18 +433,18 @@ public class Citizen extends LivingEntity implements Externalizable {
                     }
 
                     if (iItemIndex == -1) {
-                        alMISorted.add(alMI.get(it));
+                        alMISorted.add(item);
                     } else {
-                        alMISorted.add(iItemIndex, alMI.get(it));
+                        alMISorted.add(iItemIndex, item);
                     }
                 }
             }
         }
 
-        if (alMISorted.size() > 0) {
+        if (!alMISorted.isEmpty()) {
             SmartMenu smEM = new SmartMenu(SmartMenu.TYPE_MENU, sLocation, parent, null, null);
-            for (int it = 0; it < alMISorted.size(); it++) {
-                smEM.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, alMISorted.get(it).getExtendedTilename(), parent, CommandPanel.COMMAND_WEAR, Integer.toString(citizen.getID()), Integer.toString(alMISorted.get(it).getID()), alMISorted.get(it).getCoordinates().toPoint3D(), alMISorted.get(it).getItemTextColor()));
+            for (MilitaryItem militaryItem : alMISorted) {
+                smEM.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, militaryItem.getExtendedTilename(), parent, CommandPanel.COMMAND_WEAR, Integer.toString(citizen.getID()), Integer.toString(militaryItem.getID()), militaryItem.getCoordinates().toPoint3D(), militaryItem.getItemTextColor()));
             }
 
             smEM.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, null, null, null, null));
@@ -501,7 +501,7 @@ public class Citizen extends LivingEntity implements Externalizable {
             ActionManagerItem ami = ActionManager.getItem(getCurrentTask().getParameter());
             if (ami != null) {
                 // Cola
-                if (getCurrentCustomAction().getQueue().size() == 0) {
+                if (getCurrentCustomAction().getQueue().isEmpty()) {
                     // Finish
                     getCurrentTask().setFinished(true);
                     Game.getWorld().getTaskManager().removeCitizen(this);
@@ -625,8 +625,8 @@ public class Citizen extends LivingEntity implements Externalizable {
                             int iCurrentASZID = World.getCell(getCoordinates()).getAstarZoneID();
                             Point3DShort p3dClosest = null, p3dTemp;
                             int iMaxDistance = Utils.MAX_DISTANCE;
-                            for (int i = 0; i < alZones.size(); i++) {
-                                zone = alZones.get(i);
+                            for (Zone alZone : alZones) {
+                                zone = alZone;
                                 if (ZoneManager.getItem(zone.getIniHeader()).getType() == ZoneManagerItem.TYPE_SOCIAL) {
                                     // Zona social encontrada, miramos la distancia
                                     p3dTemp = Zone.getFreeSitItemAtRandom(zone, iCurrentASZID);
@@ -786,7 +786,7 @@ public class Citizen extends LivingEntity implements Externalizable {
         }
 
         ArrayList<int[]> alPrerequisites = building.getPrerequisites();
-        if (alPrerequisites != null && alPrerequisites.size() > 0) {
+        if (alPrerequisites != null && !alPrerequisites.isEmpty()) {
             // Primero de todo miramos si llevamos un material bueno encima y estamos en la casilla del edificio
             if (getCitizenData().getCarryingData().getCarrying() != null) {
                 // Llevamos algo encima, miramos si va bien para la construcci�n
@@ -818,9 +818,9 @@ public class Citizen extends LivingEntity implements Externalizable {
             // Para evitar lag miramos que haya items en la hash de num items
             boolean bHayItems = false;
             forcountitems:
-            for (int i = 0; i < alPrerequisites.size(); i++) {
-                for (int j = 0; j < alPrerequisites.get(i).length; j++) {
-                    if (Item.getNumItems(alPrerequisites.get(i)[j], false, Game.getWorld().getRestrictHaulEquippingLevel()) > 0) {
+            for (int[] alPrerequisite : alPrerequisites) {
+                for (int j = 0; j < alPrerequisite.length; j++) {
+                    if (Item.getNumItems(alPrerequisite[j], false, Game.getWorld().getRestrictHaulEquippingLevel()) > 0) {
                         bHayItems = true;
                         break forcountitems;
                     }
@@ -828,8 +828,8 @@ public class Citizen extends LivingEntity implements Externalizable {
             }
             if (bHayItems) {
                 Point3DShort p3dItem = null;
-                for (int i = 0; i < alPrerequisites.size(); i++) {
-                    p3dItem = Item.searchItem(false, getCoordinates(), alPrerequisites.get(i), true, Item.SEARCH_FALSE, Item.SEARCH_DOESNTMATTER, null, Game.getWorld().getRestrictHaulEquippingLevel());
+                for (int[] alPrerequisite : alPrerequisites) {
+                    p3dItem = Item.searchItem(false, getCoordinates(), alPrerequisite, true, Item.SEARCH_FALSE, Item.SEARCH_DOESNTMATTER, null, Game.getWorld().getRestrictHaulEquippingLevel());
                     if (p3dItem != null) {
                         break;
                     }
@@ -871,7 +871,7 @@ public class Citizen extends LivingEntity implements Externalizable {
             // No tiene prerequisitos, miramos los prerequisitos living
 
             ArrayList<int[]> alPrerequisitesLiving = building.getPrerequisitesLiving();
-            if (alPrerequisitesLiving != null && alPrerequisitesLiving.size() > 0) {
+            if (alPrerequisitesLiving != null && !alPrerequisitesLiving.isEmpty()) {
                 // Primero de todo miramos si llevamos un living bueno encima y estamos en la casilla del edificio
                 if (getCitizenData().getCarryingData().getCarryingLiving() != null) {
                     // Llevamos algo encima, miramos si va bien para la construcci�n
@@ -884,7 +884,7 @@ public class Citizen extends LivingEntity implements Externalizable {
 
                             // FX
                             LivingEntityManagerItem lemi = LivingEntityManager.getItem(getCitizenData().getCarryingData().getCarryingLiving().getIniHeader());
-                            if (lemi.getFxDead() != null && lemi.getFxDead().length() > 0) {
+                            if (lemi.getFxDead() != null && !lemi.getFxDead().isEmpty()) {
                                 UtilsAL.play(lemi.getFxDead(), z);
                             } else {
                                 UtilsAL.play(UtilsAL.SOURCE_FX_DEAD, z);
@@ -908,8 +908,8 @@ public class Citizen extends LivingEntity implements Externalizable {
 
                 // Buscamos el friendly m�s cercano que nos vaya bien
                 LivingEntity le = null;
-                for (int i = 0; i < alPrerequisitesLiving.size(); i++) {
-                    le = searchLiving(getCoordinates(), alPrerequisitesLiving.get(i), true, null);
+                for (int[] ints : alPrerequisitesLiving) {
+                    le = searchLiving(getCoordinates(), ints, true, null);
                     if (le != null) {
                         break;
                     }
@@ -1040,7 +1040,7 @@ public class Citizen extends LivingEntity implements Externalizable {
                         if (container != null) {
                             Item item;
                             if (iItemID == -1) {
-                                ArrayList<String> alItemHeaders = new ArrayList<String>(1);
+                                ArrayList<String> alItemHeaders = new ArrayList<>(1);
                                 alItemHeaders.add(sItemIniHeader);
                                 item = container.removeItemWithPrerequisites(alItemHeaders);
                             } else {
@@ -1305,8 +1305,8 @@ public class Citizen extends LivingEntity implements Externalizable {
                                     // Hay un container, vamos a ver si el item buscado est� dentro
                                     ArrayList<Container> containers = Game.getWorld().getContainers();
                                     Container container = null;
-                                    for (int i = 0; i < containers.size(); i++) {
-                                        container = containers.get(i);
+                                    for (Container value : containers) {
+                                        container = value;
                                         if (container.getItemID() == item.getID()) {
                                             // Tenemos el container
                                             break;
@@ -1356,10 +1356,10 @@ public class Citizen extends LivingEntity implements Externalizable {
                 // Caso especial, bridges (o items que se ponen desde una casilla anterior al destino)
                 if (getCitizenData().getCarryingData().getCarrying() instanceof Item && ItemManager.getItem(getCitizenData().getCarryingData().getCarrying().getIniHeader()).canBeBuiltOnHoles()) {
                     ArrayList<Point3DShort> alPoints = Task.getAccesingPointsMatchingASZI(endPoint, World.getCell(x, y, z).getAstarZoneID(), task.getTask());
-                    if (alPoints.size() > 0) {
+                    if (!alPoints.isEmpty()) {
                         // Miramos si estamos en alguna casilla
-                        for (int i = 0; i < alPoints.size(); i++) {
-                            if (getCoordinates().equals(alPoints.get(i))) {
+                        for (Point3DShort alPoint : alPoints) {
+                            if (getCoordinates().equals(alPoint)) {
                                 bEnDestino = true;
                                 break;
                             }
@@ -1583,8 +1583,8 @@ public class Citizen extends LivingEntity implements Externalizable {
         ArrayList<Integer> citIDs = World.getCitizenIDs();
         LivingEntity le;
         Cell cellCit;
-        for (int c = 0; c < citIDs.size(); c++) {
-            le = World.getLivingEntityByID(citIDs.get(c));
+        for (Integer citID : citIDs) {
+            le = World.getLivingEntityByID(citID);
             if (le.getCoordinates().z != iNivelMalo) {
                 cellCit = World.getCell(le.getCoordinates());
                 if (cellCit.getAstarZoneID() == iASZID) {
@@ -1678,11 +1678,11 @@ public class Citizen extends LivingEntity implements Externalizable {
                 Cell cell = World.getCell(getCoordinates());
                 boolean bEstamosEnComedor = false;
                 String sZoneToEat = LivingEntityManager.getItem(getIniHeader()).getEatZone();
-                if (sZoneToEat != null && sZoneToEat.length() > 0) {
+                if (sZoneToEat != null && !sZoneToEat.isEmpty()) {
                     if (cell.hasZone()) {
                         Zone zone;
-                        for (int i = 0; i < zones.size(); i++) {
-                            zone = zones.get(i);
+                        for (Zone value : zones) {
+                            zone = value;
                             if (zone.getID() == cell.getZoneID()) {
                                 // Tenemos la zona actual
                                 if (zone.isOperative() && zone.getIniHeader().equalsIgnoreCase(sZoneToEat)) {
@@ -1700,8 +1700,8 @@ public class Citizen extends LivingEntity implements Externalizable {
                         Point3DShort p3dMinDistance = null;
                         int iMinDistance = Utils.MAX_DISTANCE;
                         Zone zone;
-                        for (int i = 0; i < zones.size(); i++) {
-                            zone = zones.get(i);
+                        for (Zone item : zones) {
+                            zone = item;
                             if (zone.isOperative() && zone.getIniHeader().equalsIgnoreCase(sZoneToEat)) {
                                 // Miramos si alguna celda del comedor es accesible
                                 p3d = Zone.getFreeSitItemAtRandom(zone, cell.getAstarZoneID());
@@ -1725,8 +1725,8 @@ public class Citizen extends LivingEntity implements Externalizable {
 
                         if (p3dMinDistance == null) {
                             // Si no hay sillas miraremos cualquier casilla del comedor
-                            for (int i = 0; i < zones.size(); i++) {
-                                zone = zones.get(i);
+                            for (Zone value : zones) {
+                                zone = value;
                                 if (zone.isOperative() && zone.getIniHeader().equalsIgnoreCase(sZoneToEat)) {
                                     // Miramos si alguna celda del comedor es accesible
                                     p3d = Zone.getFreeCellAtRandom(zone, cell.getAstarZoneID());
@@ -1896,8 +1896,8 @@ public class Citizen extends LivingEntity implements Externalizable {
         Point3DShort p3dNearest = null;
         int iDistanceNearest = Utils.MAX_DISTANCE;
 
-        for (int i = 0; i < alZones.size(); i++) {
-            zone = alZones.get(i);
+        for (Zone alZone : alZones) {
+            zone = alZone;
             zmi = ZoneManager.getItem(zone.getIniHeader());
             if (zmi.getType() == ZoneManagerItem.TYPE_HOSPITAL && zone.isOperative()) {
                 // Tenemos un hospital, miramos si tiena alguna cama accesible
@@ -2081,11 +2081,11 @@ public class Citizen extends LivingEntity implements Externalizable {
                 ArrayList<Container> alContainers = Game.getWorld().getContainers();
                 ArrayList<Item> alContainerItems;
                 breakcontainers:
-                for (int i = 0; i < alContainers.size(); i++) {
-                    alContainerItems = alContainers.get(i).getItemsInside();
-                    for (int j = 0; j < alContainerItems.size(); j++) {
-                        if (alContainerItems.get(j).getID() == iItemID) {
-                            item = alContainerItems.get(j);
+                for (Container alContainer : alContainers) {
+                    alContainerItems = alContainer.getItemsInside();
+                    for (Item alContainerItem : alContainerItems) {
+                        if (alContainerItem.getID() == iItemID) {
+                            item = alContainerItem;
                             break breakcontainers;
                         }
                     }
@@ -2175,11 +2175,11 @@ public class Citizen extends LivingEntity implements Externalizable {
         // Miramos si hay objetos militares en el mundo
         // Pillaremos los de mayor nivel para cada zona (cabeza, cuerpo, ...) (si el aldeano puede llegar al area, claro)
         Integer[] aItems = World.getItems().keySet().toArray(new Integer[0]);
-        ArrayList<MilitaryItem> alHead = new ArrayList<MilitaryItem>(); // Head
-        ArrayList<MilitaryItem> alBody = new ArrayList<MilitaryItem>(); // Body
-        ArrayList<MilitaryItem> alLegs = new ArrayList<MilitaryItem>(); // Legs
-        ArrayList<MilitaryItem> alFeet = new ArrayList<MilitaryItem>(); // Feet
-        ArrayList<MilitaryItem> alWeapon = new ArrayList<MilitaryItem>(); // Weapon
+        ArrayList<MilitaryItem> alHead = new ArrayList<>(); // Head
+        ArrayList<MilitaryItem> alBody = new ArrayList<>(); // Body
+        ArrayList<MilitaryItem> alLegs = new ArrayList<>(); // Legs
+        ArrayList<MilitaryItem> alFeet = new ArrayList<>(); // Feet
+        ArrayList<MilitaryItem> alWeapon = new ArrayList<>(); // Weapon
         int iHeadLevel = -1;
         int iBodyLevel = -1;
         int iLegsLevel = -1;
@@ -2190,8 +2190,8 @@ public class Citizen extends LivingEntity implements Externalizable {
 
         Item mi;
         ItemManagerItem imi;
-        for (int i = 0; i < aItems.length; i++) {
-            mi = World.getItems().get(aItems[i]);
+        for (Integer aItem : aItems) {
+            mi = World.getItems().get(aItem);
             if (mi != null && mi instanceof MilitaryItem) {
                 if (World.getCell(mi.getCoordinates()).getAstarZoneID() == iASZID && mi.getCoordinates().z <= Game.getWorld().getRestrictHaulEquippingLevel()) {
                     imi = ItemManager.getItem(mi.getIniHeader());
@@ -2245,14 +2245,14 @@ public class Citizen extends LivingEntity implements Externalizable {
         ArrayList<Container> alContainers = Game.getWorld().getContainers();
         ArrayList<Item> alContainerItems;
         nextContainer:
-        for (int i = 0; i < alContainers.size(); i++) {
-            Item itemContainer = Item.getItemByID(alContainers.get(i).getItemID());
+        for (Container alContainer : alContainers) {
+            Item itemContainer = Item.getItemByID(alContainer.getItemID());
             if (itemContainer != null && itemContainer.getCoordinates().z > Game.getWorld().getRestrictHaulEquippingLevel()) {
                 continue;
             }
-            alContainerItems = alContainers.get(i).getItemsInside();
-            for (int j = 0; j < alContainerItems.size(); j++) {
-                mi = alContainerItems.get(j);
+            alContainerItems = alContainer.getItemsInside();
+            for (Item alContainerItem : alContainerItems) {
+                mi = alContainerItem;
                 if (World.getCell(mi.getCoordinates()).getAstarZoneID() != iASZID) {
                     continue nextContainer;
                 }
@@ -2376,7 +2376,7 @@ public class Citizen extends LivingEntity implements Externalizable {
     private boolean doAutoEquipInternal(ArrayList<MilitaryItem> alList, int location) {
         // Si ya lleva algo s�lo se cambiar�a si lo que hay en la lista es mejor
         MilitaryItem mi = getEquippedData().getLocation(location);
-        if (mi != null && alList.size() > 0) {
+        if (mi != null && !alList.isEmpty()) {
             int iCurrentLevel = ItemManager.getItem(mi.getIniHeader()).getLevel();
             int iListLevel = ItemManager.getItem(alList.get(0).getIniHeader()).getLevel();
 
@@ -2387,7 +2387,7 @@ public class Citizen extends LivingEntity implements Externalizable {
 
         Cell citizenCell = World.getCell(getCoordinates());
         Cell cell;
-        ArrayList<Integer> alIndexes = new ArrayList<Integer>();
+        ArrayList<Integer> alIndexes = new ArrayList<>();
         for (int i = 0; i < alList.size(); i++) {
             // Miramos por cada item si est� en la zona del aldeano
             cell = World.getCell(alList.get(i).getCoordinates());
@@ -2397,10 +2397,10 @@ public class Citizen extends LivingEntity implements Externalizable {
             }
         }
 
-        if (alIndexes.size() > 0) {
+        if (!alIndexes.isEmpty()) {
             int i = Utils.getRandomBetween(0, (alIndexes.size() - 1));
             // Lo tenemos, salimos y a por el
-            getCurrentTask().setParameter2(Integer.toString(alList.get(alIndexes.get(i).intValue()).getID()));
+            getCurrentTask().setParameter2(Integer.toString(alList.get(alIndexes.get(i)).getID()));
             getCurrentTask().setPointIni(new Point3D(location, -1, -1));
             return true;
         }
@@ -2546,8 +2546,8 @@ public class Citizen extends LivingEntity implements Externalizable {
                 if (getCitizenData().getCarryingData().getCarrying() instanceof Item && ItemManager.getItem(getCitizenData().getCarryingData().getCarrying().getIniHeader()).canBeBuiltOnHoles()) {
                     ArrayList<Point3DShort> alPoints = Task.getAccesingPointsMatchingASZI(getCitizenData().getCarryingData().getCarrying().getCoordinates(), World.getCell(x, y, z).getAstarZoneID(), task.getTask());
                     // Miramos si estamos en alguno de los puntos
-                    for (int i = 0; i < alPoints.size(); i++) {
-                        if (getCoordinates().equals(alPoints.get(i))) {
+                    for (Point3DShort alPoint : alPoints) {
+                        if (getCoordinates().equals(alPoint)) {
                             bEnDestino = true;
                             break;
                         }
@@ -2580,7 +2580,7 @@ public class Citizen extends LivingEntity implements Externalizable {
                     // Nos moveremos al primer place adyacente disponible
                     if (getCitizenData().getCarryingData().getCarrying() instanceof Item && ItemManager.getItem(getCitizenData().getCarryingData().getCarrying().getIniHeader()).canBeBuiltOnHoles()) {
                         ArrayList<Point3DShort> alPoints = Task.getAccesingPointsMatchingASZI(getCitizenData().getCarryingData().getCarrying().getCoordinates(), World.getCell(x, y, z).getAstarZoneID(), task.getTask());
-                        if (alPoints.size() > 0) {
+                        if (!alPoints.isEmpty()) {
                             setDestination(alPoints.get(0));
                         } else {
                             // No se puede acceder, soltamos item y se acab�
@@ -2601,7 +2601,7 @@ public class Citizen extends LivingEntity implements Externalizable {
         // Obtenemos el edificio y el item
         Item item = null;
         Building building = Building.getBuilding(task.getPointIni());
-        if (building != null && building.getItemQueue().size() > 0) {
+        if (building != null && !building.getItemQueue().isEmpty()) {
             item = building.getItemQueue().get(0);
         }
 
@@ -2618,7 +2618,7 @@ public class Citizen extends LivingEntity implements Externalizable {
 
         // Ok, tenemos building y item, obtenemos los prerequisitos del item
         ArrayList<String> alPrerequisites = item.getPrerequisites();
-        if (alPrerequisites == null || alPrerequisites.size() == 0) {
+        if (alPrerequisites == null || alPrerequisites.isEmpty()) {
             // Perfecto, item construido
             if (getCarrying() != null) {
                 dropCarryingItem();
@@ -2634,7 +2634,7 @@ public class Citizen extends LivingEntity implements Externalizable {
                 if (getCitizenData().getCarryingData().getCarrying() instanceof Item && ItemManager.getItem(getCitizenData().getCarryingData().getCarrying().getIniHeader()).canBeBuiltOnHoles()) {
                     // Iremos al primer punto accesible
                     ArrayList<Point3DShort> alPoints = Task.getAccesingPointsMatchingASZI(getCitizenData().getCarryingData().getCarrying().getCoordinates(), World.getCell(x, y, z).getAstarZoneID(), task.getTask());
-                    if (alPoints.size() > 0) {
+                    if (!alPoints.isEmpty()) {
                         setDestination(alPoints.get(0));
                     } else {
                         // No se puede poner, soltamos el item
@@ -2870,7 +2870,7 @@ public class Citizen extends LivingEntity implements Externalizable {
      */
     private void doCustomActionTask() {
         // Cola
-        if (getCurrentCustomAction().getQueue().size() == 0) {
+        if (getCurrentCustomAction().getQueue().isEmpty()) {
             // Finish
             getCurrentTask().setFinished(true);
             Game.getWorld().getTaskManager().removeCitizen(this);
@@ -2910,7 +2910,7 @@ public class Citizen extends LivingEntity implements Externalizable {
             getCurrentCustomAction().getQueue().add(0, qiPlace);
         } else if (qi.getType() == QueueItem.TYPE_CREATE_ITEM_BY_TYPE) {
             ArrayList<String> alItems = ItemManager.getItemsByType(qi.getValue());
-            if (alItems != null && alItems.size() > 0) {
+            if (alItems != null && !alItems.isEmpty()) {
                 ItemManagerItem imi = ItemManager.getItem(alItems.get(Utils.getRandomBetween(0, (alItems.size() - 1))));
                 getCurrentCustomAction().getQueueData().setLastQueueItem(null);
                 // Creamos un item, se lo ponemos en el carrying, si llevaba algo lo pierde
@@ -2951,8 +2951,8 @@ public class Citizen extends LivingEntity implements Externalizable {
                     if (getCitizenData().getCarryingData().getCarrying() instanceof Item && ItemManager.getItem(getCitizenData().getCarryingData().getCarrying().getIniHeader()).canBeBuiltOnHoles()) {
                         ArrayList<Point3DShort> alPoints = Task.getAccesingPointsMatchingASZI(destPoint, World.getCell(getCoordinates()).getAstarZoneID(), getCurrentTask().getTask());
                         // Miramos si estamos en alguno de los puntos
-                        for (int i = 0; i < alPoints.size(); i++) {
-                            if (getCoordinates().equals(alPoints.get(i))) {
+                        for (Point3DShort alPoint : alPoints) {
+                            if (getCoordinates().equals(alPoint)) {
                                 bEnDestino = true;
                                 break;
                             }
@@ -2984,7 +2984,7 @@ public class Citizen extends LivingEntity implements Externalizable {
                         // Nos moveremos al primer place adyacente disponible
                         if (getCitizenData().getCarryingData().getCarrying() instanceof Item && ItemManager.getItem(getCitizenData().getCarryingData().getCarrying().getIniHeader()).canBeBuiltOnHoles()) {
                             ArrayList<Point3DShort> alPoints = Task.getAccesingPointsMatchingASZI(destPoint, World.getCell(getCoordinates()).getAstarZoneID(), getCurrentTask().getTask());
-                            if (alPoints.size() > 0) {
+                            if (!alPoints.isEmpty()) {
                                 setDestination(alPoints.get(0));
                             } else {
                                 // No se puede acceder
@@ -3401,8 +3401,8 @@ public class Citizen extends LivingEntity implements Externalizable {
                     le = null;
                 }
             } else {
-                for (int p = 0; p < alPicks.size(); p++) {
-                    le = getLivingByCoordinatesAndIniHeader(getCoordinates(), alPicks.get(p));
+                for (String alPick : alPicks) {
+                    le = getLivingByCoordinatesAndIniHeader(getCoordinates(), alPick);
                     if (le != null) {
                         break;
                     }
@@ -3500,13 +3500,13 @@ public class Citizen extends LivingEntity implements Externalizable {
 
         if (iSoldierState == SoldierData.STATE_PATROL) {
             ArrayList<Point3DShort> alPatrolPoints = getSoldierData().getPatrolPoints();
-            if (alPatrolPoints.size() == 0) {
+            if (alPatrolPoints.isEmpty()) {
                 // Miramos si tiene grupo
                 if (getSoldierData().getState() == SoldierData.STATE_IN_A_GROUP) {
                     alPatrolPoints = Game.getWorld().getSoldierGroups().getGroup(getSoldierData().getGroup()).getPatrolPoints();
                 }
             }
-            if (alPatrolPoints.size() == 0) {
+            if (alPatrolPoints.isEmpty()) {
                 moveAtRandom(getLivingEntityData().getMovePCTCurrent(), TYPE_CITIZEN);
             } else {
                 int iIndexPatrol = getSoldierData().getPatrolPointTarget();
@@ -3858,11 +3858,11 @@ public class Citizen extends LivingEntity implements Externalizable {
                 ArrayList<Zone> alZones = Game.getWorld().getZones();
                 boolean bHayHospital = false;
                 ZoneManagerItem zmi;
-                for (int i = 0; i < alZones.size(); i++) {
-                    zmi = ZoneManager.getItem(alZones.get(i).getIniHeader());
-                    if (zmi != null && zmi.getType() == ZoneManagerItem.TYPE_HOSPITAL && alZones.get(i).isOperative()) {
+                for (Zone alZone : alZones) {
+                    zmi = ZoneManager.getItem(alZone.getIniHeader());
+                    if (zmi != null && zmi.getType() == ZoneManagerItem.TYPE_HOSPITAL && alZone.isOperative()) {
                         // Hospital encontrado, miramos si hay celda posible
-                        if (Zone.getFreeCellAtRandom(alZones.get(i), World.getCell(getCoordinates()).getAstarZoneID()) != null) {
+                        if (Zone.getFreeCellAtRandom(alZone, World.getCell(getCoordinates()).getAstarZoneID()) != null) {
                             bHayHospital = true;
                             break;
                         }

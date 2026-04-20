@@ -13,8 +13,8 @@ public class CitizenGroups implements Externalizable {
 
     public final static int MAX_GROUPS = SoldierGroups.MAX_GROUPS;
     private static final long serialVersionUID = 2133422179578566722L;
-    private ArrayList<Integer> citizensWithoutGroup = new ArrayList<Integer>();
-    private ArrayList<CitizenGroupData> groups = new ArrayList<CitizenGroupData>(MAX_GROUPS);
+    private ArrayList<Integer> citizensWithoutGroup = new ArrayList<>();
+    private ArrayList<CitizenGroupData> groups = new ArrayList<>(MAX_GROUPS);
 
     public CitizenGroups() {
         clear();
@@ -46,9 +46,9 @@ public class CitizenGroups implements Externalizable {
 
     public void addCitizenToGroup(int iCitizenID, int iDestinationGroup) {
         if (iDestinationGroup == -1) {
-            getCitizensWithoutGroup().add(Integer.valueOf(iCitizenID));
+            getCitizensWithoutGroup().add(iCitizenID);
         } else {
-            getGroup(iDestinationGroup).getLivingIDs().add(Integer.valueOf(iCitizenID));
+            getGroup(iDestinationGroup).getLivingIDs().add(iCitizenID);
         }
     }
 
@@ -93,8 +93,8 @@ public class CitizenGroups implements Externalizable {
     }
 
     public void clear() {
-        citizensWithoutGroup = new ArrayList<Integer>();
-        groups = new ArrayList<CitizenGroupData>(MAX_GROUPS);
+        citizensWithoutGroup = new ArrayList<>();
+        groups = new ArrayList<>(MAX_GROUPS);
         for (int i = 0; i < MAX_GROUPS; i++) {
             CitizenGroupData cgd = new CitizenGroupData(i);
             groups.add(cgd);
@@ -114,8 +114,8 @@ public class CitizenGroups implements Externalizable {
                 }
             }
         } else {
-            citizensWithoutGroup = new ArrayList<Integer>();
-            groups = new ArrayList<CitizenGroupData>(MAX_GROUPS);
+            citizensWithoutGroup = new ArrayList<>();
+            groups = new ArrayList<>(MAX_GROUPS);
         }
     }
 

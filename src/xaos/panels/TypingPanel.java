@@ -231,7 +231,7 @@ public class TypingPanel {
         }
 
         if (key == Keyboard.KEY_BACK || key == Keyboard.KEY_DELETE) {
-            if (getNewText().length() > 0) {
+            if (!getNewText().isEmpty()) {
                 setNewText(getNewText().substring(0, getNewText().length() - 1));
             }
         } else if (key == Keyboard.KEY_ESCAPE) {
@@ -241,7 +241,7 @@ public class TypingPanel {
             String sNewName = getNewText().trim();
             setNewText(sNewName);
 
-            if (getNewText().length() == 0) {
+            if (getNewText().isEmpty()) {
                 setNewText(getOldText());
             }
             return true;
@@ -252,7 +252,7 @@ public class TypingPanel {
                 if (sChar != null) {
                     if (sChar.equals(" ")) { //$NON-NLS-1$
                         // Si ya ten�a un espacio al final pasamos de �ste
-                        if (getNewText().length() > 0) {
+                        if (!getNewText().isEmpty()) {
                             if (getNewText().charAt(getNewText().length() - 1) != ' ') {
                                 setNewText(getNewText() + sChar);
                             }

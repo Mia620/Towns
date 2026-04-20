@@ -93,7 +93,7 @@ public class Terrain implements Externalizable {
         Iterator<String> itAllItems = allItems.keySet().iterator();
         String sIniHeader;
         ItemManagerItem imi;
-        ArrayList<String> alNames = new ArrayList<String>(allItems.size());
+        ArrayList<String> alNames = new ArrayList<>(allItems.size());
         while (itAllItems.hasNext()) {
             sIniHeader = itAllItems.next();
             imi = allItems.get(sIniHeader);
@@ -137,7 +137,7 @@ public class Terrain implements Externalizable {
         Iterator<String> itAllLivings = allLivings.keySet().iterator();
         String sIniHeader;
         LivingEntityManagerItem lemi;
-        ArrayList<String> alNames = new ArrayList<String>(allLivings.size());
+        ArrayList<String> alNames = new ArrayList<>(allLivings.size());
         while (itAllLivings.hasNext()) {
             sIniHeader = itAllLivings.next();
             lemi = allLivings.get(sIniHeader);
@@ -181,7 +181,7 @@ public class Terrain implements Externalizable {
         Iterator<String> itAllEvents = allEvents.keySet().iterator();
         String sIniHeader;
         EventManagerItem emi;
-        ArrayList<String> alNames = new ArrayList<String>(allEvents.size());
+        ArrayList<String> alNames = new ArrayList<>(allEvents.size());
         while (itAllEvents.hasNext()) {
             sIniHeader = itAllEvents.next();
             emi = allEvents.get(sIniHeader);
@@ -268,8 +268,8 @@ public class Terrain implements Externalizable {
             HashMap<String, TerrainManagerItem> hmTerrains = TerrainManager.getTerrainList();
             Object[] asTerrains = hmTerrains.keySet().toArray();
             TerrainManagerItem tmi;
-            for (int i = 0; i < asTerrains.length; i++) {
-                tmi = hmTerrains.get(asTerrains[i]);
+            for (Object asTerrain : asTerrains) {
+                tmi = hmTerrains.get(asTerrain);
                 if (tmi != null && tmi.getTerrainID() != cell.getTerrain().getTerrainID()) {
                     menuChangeTerrain.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, tmi.getName() + " (" + tmi.getIniHeader() + ")", null, CommandPanel.COMMAND_TERRAIN_CHANGE, tmi.getIniHeader(), null, cell.getCoordinates().toPoint3D())); //$NON-NLS-1$ //$NON-NLS-2$
                 }
@@ -307,8 +307,8 @@ public class Terrain implements Externalizable {
         if (!cell.getTerrain().hasFluids()) {
 
             // Soldados con patrol
-            ArrayList<Citizen> alPatrolSoldiers = new ArrayList<Citizen>();
-            ArrayList<Integer> alPatrolGroups = new ArrayList<Integer>();
+            ArrayList<Citizen> alPatrolSoldiers = new ArrayList<>();
+            ArrayList<Integer> alPatrolGroups = new ArrayList<>();
             Citizen cit;
             for (int i = 0; i < World.getSoldierIDs().size(); i++) {
                 cit = (Citizen) World.getLivingEntityByID(World.getSoldierIDs().get(i));
@@ -325,16 +325,16 @@ public class Terrain implements Externalizable {
                 }
             }
 
-            if (alPatrolSoldiers.size() > 0 || alPatrolGroups.size() > 0) {
+            if (!alPatrolSoldiers.isEmpty() || !alPatrolGroups.isEmpty()) {
                 if (cell.getAstarZoneID() != -1) {
                     // Hay soldados con patrol, creamos el men� de poner punto de patrol
                     SmartMenu menuPatrols = new SmartMenu(SmartMenu.TYPE_MENU, Messages.getString("Terrain.9"), sm, null, null); //$NON-NLS-1$
 
-                    for (int i = 0; i < alPatrolSoldiers.size(); i++) {
-                        menuPatrols.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, alPatrolSoldiers.get(i).getCitizenData().getFullName(), null, CommandPanel.COMMAND_ADD_PATROL_POINT, Integer.toString(alPatrolSoldiers.get(i).getID()), null, cell.getCoordinates().toPoint3D()));
+                    for (Citizen alPatrolSoldier : alPatrolSoldiers) {
+                        menuPatrols.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, alPatrolSoldier.getCitizenData().getFullName(), null, CommandPanel.COMMAND_ADD_PATROL_POINT, Integer.toString(alPatrolSoldier.getID()), null, cell.getCoordinates().toPoint3D()));
                     }
-                    for (int i = 0; i < alPatrolGroups.size(); i++) {
-                        menuPatrols.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, Game.getWorld().getSoldierGroups().getGroup(alPatrolGroups.get(i)).getName(), null, CommandPanel.COMMAND_ADD_PATROL_POINT_GROUP, Integer.toString(alPatrolGroups.get(i)), null, cell.getCoordinates().toPoint3D()));
+                    for (Integer alPatrolGroup : alPatrolGroups) {
+                        menuPatrols.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, Game.getWorld().getSoldierGroups().getGroup(alPatrolGroup).getName(), null, CommandPanel.COMMAND_ADD_PATROL_POINT_GROUP, Integer.toString(alPatrolGroup), null, cell.getCoordinates().toPoint3D()));
                     }
 
                     menuPatrols.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, null, null, null, null));
@@ -348,16 +348,16 @@ public class Terrain implements Externalizable {
                 // Miramos si hay m�s de 1 aldeano con ese punto, para crear un men� lista (tambi�n miramos los grupos)
                 SmartMenu menuPatrols = new SmartMenu(SmartMenu.TYPE_MENU, Messages.getString("Terrain.10"), sm, null, null); //$NON-NLS-1$
 
-                for (int i = 0; i < alPatrolSoldiers.size(); i++) {
-                    if (alPatrolSoldiers.get(i).getSoldierData().getPatrolPoints().contains(cell.getCoordinates())) {
-                        menuPatrols.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, alPatrolSoldiers.get(i).getCitizenData().getFullName(), null, CommandPanel.COMMAND_REMOVE_PATROL_POINT, Integer.toString(alPatrolSoldiers.get(i).getID()), null, cell.getCoordinates().toPoint3D()));
+                for (Citizen alPatrolSoldier : alPatrolSoldiers) {
+                    if (alPatrolSoldier.getSoldierData().getPatrolPoints().contains(cell.getCoordinates())) {
+                        menuPatrols.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, alPatrolSoldier.getCitizenData().getFullName(), null, CommandPanel.COMMAND_REMOVE_PATROL_POINT, Integer.toString(alPatrolSoldier.getID()), null, cell.getCoordinates().toPoint3D()));
                     }
                 }
                 SoldierGroupData sgd;
-                for (int i = 0; i < alPatrolGroups.size(); i++) {
-                    sgd = Game.getWorld().getSoldierGroups().getGroup(alPatrolGroups.get(i));
+                for (Integer alPatrolGroup : alPatrolGroups) {
+                    sgd = Game.getWorld().getSoldierGroups().getGroup(alPatrolGroup);
                     if (sgd.getPatrolPoints().contains(cell.getCoordinates())) {
-                        menuPatrols.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, sgd.getName(), null, CommandPanel.COMMAND_REMOVE_PATROL_POINT_GROUP, Integer.toString(alPatrolGroups.get(i)), null, cell.getCoordinates().toPoint3D()));
+                        menuPatrols.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, sgd.getName(), null, CommandPanel.COMMAND_REMOVE_PATROL_POINT_GROUP, Integer.toString(alPatrolGroup), null, cell.getCoordinates().toPoint3D()));
                     }
                 }
 
@@ -556,12 +556,12 @@ public class Terrain implements Externalizable {
             return;
         }
 
-        StringBuffer buffer;
+        StringBuilder buffer;
         Cell cellCurrent = cells[x][y][z];
         if (!cellCurrent.isMined()) {
             Cell cell;
             // Miramos que gr�fico usar
-            buffer = new StringBuffer("_"); //$NON-NLS-1$
+            buffer = new StringBuilder("_"); //$NON-NLS-1$
             if (y > 0) {
                 cell = cells[x][y - 1][z];
                 if (!cell.isDiscovered() || !cell.isMined()) {

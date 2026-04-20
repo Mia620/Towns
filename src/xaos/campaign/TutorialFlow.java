@@ -68,7 +68,7 @@ public class TutorialFlow implements Externalizable {
      * @return
      */
     public static boolean isBlinkBottom() {
-        return (Game.getCurrentMissionData() != null && ImagesPanel.getCurrentFlowIndex() >= 0 && ImagesPanel.getCurrentFlowIndex() < Game.getCurrentMissionData().getTutorialFlows().size() && Game.getCurrentMissionData().getTutorialFlows().get(ImagesPanel.getCurrentFlowIndex()).getBlinkBottom() != null && Game.getCurrentMissionData().getTutorialFlows().get(ImagesPanel.getCurrentFlowIndex()).getBlinkBottom().size() > 0);
+        return (Game.getCurrentMissionData() != null && ImagesPanel.getCurrentFlowIndex() >= 0 && ImagesPanel.getCurrentFlowIndex() < Game.getCurrentMissionData().getTutorialFlows().size() && Game.getCurrentMissionData().getTutorialFlows().get(ImagesPanel.getCurrentFlowIndex()).getBlinkBottom() != null && !Game.getCurrentMissionData().getTutorialFlows().get(ImagesPanel.getCurrentFlowIndex()).getBlinkBottom().isEmpty());
     }
 
     public void setBlinkBottom(ArrayList<String> blinkBottom) {
@@ -95,7 +95,7 @@ public class TutorialFlow implements Externalizable {
      * @return
      */
     public static boolean isBlinkRight() {
-        return (Game.getCurrentMissionData() != null && ImagesPanel.getCurrentFlowIndex() >= 0 && ImagesPanel.getCurrentFlowIndex() < Game.getCurrentMissionData().getTutorialFlows().size() && Game.getCurrentMissionData().getTutorialFlows().get(ImagesPanel.getCurrentFlowIndex()).getBlinkRight() != null && Game.getCurrentMissionData().getTutorialFlows().get(ImagesPanel.getCurrentFlowIndex()).getBlinkRight().size() > 0);
+        return (Game.getCurrentMissionData() != null && ImagesPanel.getCurrentFlowIndex() >= 0 && ImagesPanel.getCurrentFlowIndex() < Game.getCurrentMissionData().getTutorialFlows().size() && Game.getCurrentMissionData().getTutorialFlows().get(ImagesPanel.getCurrentFlowIndex()).getBlinkRight() != null && !Game.getCurrentMissionData().getTutorialFlows().get(ImagesPanel.getCurrentFlowIndex()).getBlinkRight().isEmpty());
     }
 
     public void setBlinkRight(ArrayList<String> blinkRight) {
@@ -122,7 +122,7 @@ public class TutorialFlow implements Externalizable {
      * @return
      */
     public static boolean isBlinkProduction() {
-        return (Game.getCurrentMissionData() != null && ImagesPanel.getCurrentFlowIndex() >= 0 && ImagesPanel.getCurrentFlowIndex() < Game.getCurrentMissionData().getTutorialFlows().size() && Game.getCurrentMissionData().getTutorialFlows().get(ImagesPanel.getCurrentFlowIndex()).getBlinkProduction() != null && Game.getCurrentMissionData().getTutorialFlows().get(ImagesPanel.getCurrentFlowIndex()).getBlinkProduction().size() > 0);
+        return (Game.getCurrentMissionData() != null && ImagesPanel.getCurrentFlowIndex() >= 0 && ImagesPanel.getCurrentFlowIndex() < Game.getCurrentMissionData().getTutorialFlows().size() && Game.getCurrentMissionData().getTutorialFlows().get(ImagesPanel.getCurrentFlowIndex()).getBlinkProduction() != null && !Game.getCurrentMissionData().getTutorialFlows().get(ImagesPanel.getCurrentFlowIndex()).getBlinkProduction().isEmpty());
     }
 
     public void setBlinkProduction(ArrayList<String> blinkProduction) {
@@ -174,7 +174,7 @@ public class TutorialFlow implements Externalizable {
      * @return
      */
     public static boolean isBlinkPiles() {
-        return (Game.getCurrentMissionData() != null && ImagesPanel.getCurrentFlowIndex() >= 0 && ImagesPanel.getCurrentFlowIndex() < Game.getCurrentMissionData().getTutorialFlows().size() && Game.getCurrentMissionData().getTutorialFlows().get(ImagesPanel.getCurrentFlowIndex()).getBlinkPiles() != null && Game.getCurrentMissionData().getTutorialFlows().get(ImagesPanel.getCurrentFlowIndex()).getBlinkPiles().size() > 0);
+        return (Game.getCurrentMissionData() != null && ImagesPanel.getCurrentFlowIndex() >= 0 && ImagesPanel.getCurrentFlowIndex() < Game.getCurrentMissionData().getTutorialFlows().size() && Game.getCurrentMissionData().getTutorialFlows().get(ImagesPanel.getCurrentFlowIndex()).getBlinkPiles() != null && !Game.getCurrentMissionData().getTutorialFlows().get(ImagesPanel.getCurrentFlowIndex()).getBlinkPiles().isEmpty());
     }
 
     public void setBlinkPiles(ArrayList<String> blinkPiles) {
@@ -250,7 +250,7 @@ public class TutorialFlow implements Externalizable {
     }
 
     public void setImage(String image) {
-        if (image != null && image.trim().length() == 0) {
+        if (image != null && image.trim().isEmpty()) {
             this.image = null;
         } else {
             this.image = image;
@@ -262,7 +262,7 @@ public class TutorialFlow implements Externalizable {
     }
 
     public void setTile(String tile) {
-        if (tile != null && tile.trim().length() == 0) {
+        if (tile != null && tile.trim().isEmpty()) {
             this.tile = null;
         } else {
             this.tile = tile;
@@ -288,8 +288,8 @@ public class TutorialFlow implements Externalizable {
     public void setBlinkMinis(ArrayList<String> alMinis) {
         if (alMinis != null) {
             String sAux;
-            for (int i = 0; i < alMinis.size(); i++) {
-                sAux = alMinis.get(i);
+            for (String alMini : alMinis) {
+                sAux = alMini;
                 if (sAux.equalsIgnoreCase(TutorialTrigger.ICON_FLAT)) {
                     setBlinkMiniFlat(true);
                 } else if (sAux.equalsIgnoreCase(TutorialTrigger.ICON_GRID)) {

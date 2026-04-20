@@ -77,9 +77,7 @@ public final class HotPoint implements Externalizable {
             }
 
             // Una vez terminado metemos lo que queda en la lista
-            for (int i = 0; i < places.size(); i++) {
-                this.places.add(places.get(i));
-            }
+            this.places.addAll(places);
         } else {
             this.places = places;
         }
@@ -87,7 +85,7 @@ public final class HotPoint implements Externalizable {
 
     public void addPlace(Point3DShort point) {
         if (places == null) {
-            places = new ArrayList<Point3DShort>();
+            places = new ArrayList<>();
         }
 
         places.add(point);

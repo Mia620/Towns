@@ -45,13 +45,13 @@ public class HeroPrerequisite implements Externalizable {
      * @return
      */
     public static HeroPrerequisite getHeroPrerequisite(ArrayList<HeroPrerequisite> alPrerequisites, int iPrerequisiteID) {
-        if (alPrerequisites == null || alPrerequisites.size() == 0) {
+        if (alPrerequisites == null || alPrerequisites.isEmpty()) {
             return null;
         }
 
-        for (int i = 0; i < alPrerequisites.size(); i++) {
-            if (alPrerequisites.get(i).getId() == iPrerequisiteID) {
-                return alPrerequisites.get(i);
+        for (HeroPrerequisite alPrerequisite : alPrerequisites) {
+            if (alPrerequisite.getId() == iPrerequisiteID) {
+                return alPrerequisite;
             }
         }
 
@@ -67,7 +67,7 @@ public class HeroPrerequisite implements Externalizable {
     }
 
     public void setId(String sID) throws Exception {
-        if (sID == null || sID.length() == 0) {
+        if (sID == null || sID.isEmpty()) {
             throw new Exception(Messages.getString("HeroPrerequisite.0")); //$NON-NLS-1$
         }
 
@@ -93,26 +93,17 @@ public class HeroPrerequisite implements Externalizable {
     }
 
     public String getStringID(int iID) {
-        switch (iID) {
-            case ID_MIN_CITIZENS:
-                return STR_ID_MIN_CITIZENS;
-            case ID_MAX_CITIZENS:
-                return STR_ID_MAX_CITIZENS;
-            case ID_LEVEL_DISCOVERED:
-                return STR_ID_LEVEL_DISCOVERED;
-            case ID_FREE_ROOM:
-                return STR_ID_FREE_ROOM;
-            case ID_FREE_ROOM_UNDERGROUND:
-                return STR_ID_FREE_ROOM_UNDERGROUND;
-            case ID_FREE_ROOM_HIGH:
-                return STR_ID_FREE_ROOM_HIGH;
-            case ID_ZONE:
-                return STR_ID_ZONE;
-            case ID_FREE_ROOM_ITEMS:
-                return STR_ID_FREE_ROOM_ITEMS;
-            default:
-                return Messages.getString("HeroPrerequisite.4"); //$NON-NLS-1$
-        }
+        return switch (iID) {
+            case ID_MIN_CITIZENS -> STR_ID_MIN_CITIZENS;
+            case ID_MAX_CITIZENS -> STR_ID_MAX_CITIZENS;
+            case ID_LEVEL_DISCOVERED -> STR_ID_LEVEL_DISCOVERED;
+            case ID_FREE_ROOM -> STR_ID_FREE_ROOM;
+            case ID_FREE_ROOM_UNDERGROUND -> STR_ID_FREE_ROOM_UNDERGROUND;
+            case ID_FREE_ROOM_HIGH -> STR_ID_FREE_ROOM_HIGH;
+            case ID_ZONE -> STR_ID_ZONE;
+            case ID_FREE_ROOM_ITEMS -> STR_ID_FREE_ROOM_ITEMS;
+            default -> Messages.getString("HeroPrerequisite.4"); //$NON-NLS-1$
+        };
     }
 
     public int getValueInt() {
@@ -140,7 +131,7 @@ public class HeroPrerequisite implements Externalizable {
     }
 
     public void setValue(String sValue) throws Exception {
-        if (sValue == null || sValue.length() == 0) {
+        if (sValue == null || sValue.isEmpty()) {
             throw new Exception(Messages.getString("HeroPrerequisite.3")); //$NON-NLS-1$
         }
 

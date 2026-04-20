@@ -16,7 +16,7 @@ import java.util.Map.Entry;
 public class PropertiesWriter {
 
     private final PropertyFile file;
-    private final Map<EntryKey, String> map = new LinkedHashMap<EntryKey, String>();
+    private final Map<EntryKey, String> map = new LinkedHashMap<>();
 
     public PropertiesWriter(PropertyFile file) {
         this.file = file;
@@ -38,9 +38,7 @@ public class PropertiesWriter {
     }
 
     public void store(File file) throws IOException {
-        PrintWriter pw = null;
-        try {
-            pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(file), Charset.forName("ISO8859-1")));
+        try (PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(file), Charset.forName("ISO8859-1")))) {
             int counter = 0;
             for (Entry<EntryKey, String> entry : map.entrySet()) {
                 EntryKey entryKey = entry.getKey();
@@ -53,10 +51,6 @@ public class PropertiesWriter {
                     pw.append(propertiesEntryKey.key()).append(" = ").append(entry.getValue()).append("\n");
                 }
                 counter++;
-            }
-        } finally {
-            if (pw != null) {
-                pw.close();
             }
         }
     }

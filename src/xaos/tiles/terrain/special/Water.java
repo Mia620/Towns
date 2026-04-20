@@ -13,14 +13,14 @@ public class Water {
     private static final long serialVersionUID = 2201137814233532108L;
 
     public Water() {
-        for (int i = 0; i < TERRAIN_WATER.length; i++) {
-            TERRAIN_WATER[i].setTextureID(TERRAIN_WATER[i].getIniHeader(), "water"); //$NON-NLS-1$
+        for (Tile tile : TERRAIN_WATER) {
+            tile.setTextureID(tile.getIniHeader(), "water"); //$NON-NLS-1$
 
             // Updateamos los frames y tal de animaciones
-            TERRAIN_WATER[i].setAnimationTiles(TERRAIN_WATER[0].getAnimationTiles());
-            TERRAIN_WATER[i].setAnimationFrameDelay(TERRAIN_WATER[0].getAnimationFrameDelay());
-            TERRAIN_WATER[i].setCurrentAnimationTile(TERRAIN_WATER[0].getCurrentAnimationTile());
-            TERRAIN_WATER[i].setCurrentFrameDelay(TERRAIN_WATER[0].getCurrentFrameDelay());
+            tile.setAnimationTiles(TERRAIN_WATER[0].getAnimationTiles());
+            tile.setAnimationFrameDelay(TERRAIN_WATER[0].getAnimationFrameDelay());
+            tile.setCurrentAnimationTile(TERRAIN_WATER[0].getCurrentAnimationTile());
+            tile.setCurrentFrameDelay(TERRAIN_WATER[0].getCurrentFrameDelay());
         }
     }
 
@@ -39,8 +39,8 @@ public class Water {
     }
 
     public void updateAnimation() {
-        for (int i = 0; i < TERRAIN_WATER.length; i++) {
-            TERRAIN_WATER[i].updateAnimation(false);
+        for (Tile tile : TERRAIN_WATER) {
+            tile.updateAnimation(false);
         }
     }
 }

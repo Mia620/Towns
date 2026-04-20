@@ -46,7 +46,7 @@ public class MapGenerator extends Generator {
         }
         Game.getPanelMainMenu().setLoadingText(Messages.getString("MapGenerator.7")); //$NON-NLS-1$
 
-        hmSeedsIDs = new HashMap<String, ArrayList<Point3DShort>>();
+        hmSeedsIDs = new HashMap<>();
 
         // Leemos el gen_map.xml (si est� en una misi�n se carga de otro sitio)
         Generator generator = new Generator();
@@ -138,7 +138,7 @@ public class MapGenerator extends Generator {
             Log.log(Log.LEVEL_ERROR, Messages.getString("MapGenerator.11"), "MapGenerator"); //$NON-NLS-1$ //$NON-NLS-2$
             Game.exit();
         }
-        if (MAINTERRAIN == null || MAINTERRAIN.trim().length() == 0) {
+        if (MAINTERRAIN == null || MAINTERRAIN.trim().isEmpty()) {
             Log.log(Log.LEVEL_ERROR, Messages.getString("MapGenerator.4"), "MapGenerator"); //$NON-NLS-1$ //$NON-NLS-2$
             Game.exit();
         }
@@ -152,7 +152,7 @@ public class MapGenerator extends Generator {
         }
 
         // Events
-        if (STARTING_EVENTS != null && STARTING_EVENTS.size() > 0) {
+        if (STARTING_EVENTS != null && !STARTING_EVENTS.isEmpty()) {
             // Si hay eventos miramos que la cola de PCTs sea del mismo tama�o
             if (alStartingEventsPCT == null || alStartingEventsPCT.size() != STARTING_EVENTS.size()) {
                 Log.log(Log.LEVEL_ERROR, Messages.getString("MapGenerator.14"), "MapGenerator"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -160,9 +160,9 @@ public class MapGenerator extends Generator {
             }
 
             // Miramos que los eventos existan
-            for (int i = 0; i < STARTING_EVENTS.size(); i++) {
-                if (EventManager.getItem(STARTING_EVENTS.get(i)) == null) {
-                    Log.log(Log.LEVEL_ERROR, Messages.getString("MapGenerator.15") + " [" + STARTING_EVENTS.get(i) + "]", "MapGenerator"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+            for (String startingEvent : STARTING_EVENTS) {
+                if (EventManager.getItem(startingEvent) == null) {
+                    Log.log(Log.LEVEL_ERROR, Messages.getString("MapGenerator.15") + " [" + startingEvent + "]", "MapGenerator"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                     Game.exit();
                 }
             }
@@ -202,7 +202,7 @@ public class MapGenerator extends Generator {
 
         // Array de MAINTERRAINS
         StringTokenizer tokenizer = new StringTokenizer(MAINTERRAIN, ","); //$NON-NLS-1$
-        ArrayList<String> alBaseTerrains = new ArrayList<String>();
+        ArrayList<String> alBaseTerrains = new ArrayList<>();
         while (tokenizer.hasMoreTokens()) {
             alBaseTerrains.add(tokenizer.nextToken());
         }
@@ -438,14 +438,14 @@ public class MapGenerator extends Generator {
         // Leemos todos los nodos
         SeedData sd = new SeedData(item);
 
-        if (sd.type == null || sd.type.trim().length() == 0) {
+        if (sd.type == null || sd.type.trim().isEmpty()) {
             Log.log(Log.LEVEL_ERROR, Messages.getString("MapGenerator.13"), "MapGenerator"); //$NON-NLS-1$ //$NON-NLS-2$
             return;
         }
 
         // Todo cargado, procedemos
         boolean[][][] abMap = new boolean[asMap.length][asMap[0].length][asMap[0][0].length];
-        ArrayList<Point3DShort> alSeedPoints = new ArrayList<Point3DShort>();
+        ArrayList<Point3DShort> alSeedPoints = new ArrayList<>();
 
         int zMin, zMax;
         if (sd.heightMin == -1) {
@@ -466,7 +466,7 @@ public class MapGenerator extends Generator {
             bOK = false;
             if (sd.startingPointID != null) {
                 ArrayList<Point3DShort> alPoints = hmSeedsIDs.get(sd.startingPointID);
-                if (alPoints != null && alPoints.size() > 0) {
+                if (alPoints != null && !alPoints.isEmpty()) {
                     Point3DShort p3d = alPoints.get(Utils.getRandomBetween(0, alPoints.size() - 1));
                     iX = p3d.x;
                     iY = p3d.y;
@@ -483,12 +483,12 @@ public class MapGenerator extends Generator {
                     iLevel = World.MAP_DEPTH - 1;
                 }
 
-                if (sd.pointx == null || sd.pointx.length() == 0) {
+                if (sd.pointx == null || sd.pointx.isEmpty()) {
                     iX = Utils.getRandomBetween(0, World.MAP_WIDTH - 1);
                 } else {
                     iX = Utils.launchDice(sd.pointx);
                 }
-                if (sd.pointy == null || sd.pointy.length() == 0) {
+                if (sd.pointy == null || sd.pointy.isEmpty()) {
                     iY = Utils.getRandomBetween(0, World.MAP_HEIGHT - 1);
                 } else {
                     iY = Utils.launchDice(sd.pointy);
@@ -584,13 +584,13 @@ public class MapGenerator extends Generator {
 
         // Si la seed tiene ID guardamos los puntos en la hash
         if (sd.id != null) {
-            if (alSeedPoints.size() > 0) {
+            if (!alSeedPoints.isEmpty()) {
                 hmSeedsIDs.put(sd.id, alSeedPoints);
             }
         }
 
-        for (int iSeeds = 0; iSeeds < alSeedPoints.size(); iSeeds++) {
-            p3dAux = alSeedPoints.get(iSeeds);
+        for (Point3DShort alSeedPoint : alSeedPoints) {
+            p3dAux = alSeedPoint;
 
             if (iSpecialType != MapGeneratorItem.SPECIAL_INT_NONE) {
                 asMap[p3dAux.x][p3dAux.y][p3dAux.z].setSpecial(iSpecialType);
@@ -629,7 +629,7 @@ public class MapGenerator extends Generator {
             bOK = false;
             if (hsd.startingPointID != null) {
                 ArrayList<Point3DShort> alPoints = hmSeedsIDs.get(hsd.startingPointID);
-                if (alPoints != null && alPoints.size() > 0) {
+                if (alPoints != null && !alPoints.isEmpty()) {
                     Point3DShort p3d = alPoints.get(Utils.getRandomBetween(0, alPoints.size() - 1));
                     iX = p3d.x;
                     iY = p3d.y;
@@ -638,12 +638,12 @@ public class MapGenerator extends Generator {
             }
 
             if (!bOK) {
-                if (hsd.pointx == null || hsd.pointx.length() == 0) {
+                if (hsd.pointx == null || hsd.pointx.isEmpty()) {
                     iX = Utils.getRandomBetween(0, World.MAP_WIDTH - 1);
                 } else {
                     iX = Utils.launchDice(hsd.pointx);
                 }
-                if (hsd.pointy == null || hsd.pointy.length() == 0) {
+                if (hsd.pointy == null || hsd.pointy.isEmpty()) {
                     iY = Utils.getRandomBetween(0, World.MAP_HEIGHT - 1);
                 } else {
                     iY = Utils.launchDice(hsd.pointy);
@@ -805,7 +805,7 @@ public class MapGenerator extends Generator {
         BezierData bd = new BezierData(item);
 
         // Comprobamos que tenemos todos los datos
-        if (bd.type == null || bd.type.trim().length() == 0) {
+        if (bd.type == null || bd.type.trim().isEmpty()) {
             Log.log(Log.LEVEL_ERROR, Messages.getString("MapGenerator.18"), "MapGenerator"); //$NON-NLS-1$ //$NON-NLS-2$
             return;
         }
@@ -889,7 +889,7 @@ public class MapGenerator extends Generator {
         // Leemos todos los nodos
         ChangeData cd = new ChangeData(item);
 
-        if (cd.destination == null || cd.destination.length() == 0 || (cd.iHeightMin > cd.iHeightMax && cd.iHeightMax != -1)) {
+        if (cd.destination == null || cd.destination.isEmpty() || (cd.iHeightMin > cd.iHeightMax && cd.iHeightMax != -1)) {
             Log.log(Log.LEVEL_ERROR, Messages.getString("MapGenerator.3"), "MapGenerator"); //$NON-NLS-1$ //$NON-NLS-2$
             return;
         }

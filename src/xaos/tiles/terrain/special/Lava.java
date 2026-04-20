@@ -13,14 +13,14 @@ public class Lava {
     private static final long serialVersionUID = 8093200100906408032L;
 
     public Lava() {
-        for (int i = 0; i < TERRAIN_LAVA.length; i++) {
-            TERRAIN_LAVA[i].setTextureID(TERRAIN_LAVA[i].getIniHeader(), "lava"); //$NON-NLS-1$
+        for (Tile tile : TERRAIN_LAVA) {
+            tile.setTextureID(tile.getIniHeader(), "lava"); //$NON-NLS-1$
 
             // Updateamos los frames y tal de animaciones
-            TERRAIN_LAVA[i].setAnimationTiles(TERRAIN_LAVA[0].getAnimationTiles());
-            TERRAIN_LAVA[i].setAnimationFrameDelay(TERRAIN_LAVA[0].getAnimationFrameDelay());
-            TERRAIN_LAVA[i].setCurrentAnimationTile(TERRAIN_LAVA[0].getCurrentAnimationTile());
-            TERRAIN_LAVA[i].setCurrentFrameDelay(TERRAIN_LAVA[0].getCurrentFrameDelay());
+            tile.setAnimationTiles(TERRAIN_LAVA[0].getAnimationTiles());
+            tile.setAnimationFrameDelay(TERRAIN_LAVA[0].getAnimationFrameDelay());
+            tile.setCurrentAnimationTile(TERRAIN_LAVA[0].getCurrentAnimationTile());
+            tile.setCurrentFrameDelay(TERRAIN_LAVA[0].getCurrentFrameDelay());
         }
     }
 
@@ -39,8 +39,8 @@ public class Lava {
     }
 
     public void updateAnimation() {
-        for (int i = 0; i < TERRAIN_LAVA.length; i++) {
-            TERRAIN_LAVA[i].updateAnimation(false);
+        for (Tile tile : TERRAIN_LAVA) {
+            tile.updateAnimation(false);
         }
     }
 }

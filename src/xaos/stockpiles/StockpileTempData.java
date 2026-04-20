@@ -8,13 +8,13 @@ public class StockpileTempData {
     private final ArrayList<Boolean> alElementsStatus; // Status, true enabled, false disabled
 
     public StockpileTempData() {
-        alElements = new ArrayList<String>();
-        alElementsStatus = new ArrayList<Boolean>();
+        alElements = new ArrayList<>();
+        alElementsStatus = new ArrayList<>();
     }
 
     public void addElement(String sElement, boolean bStatus) {
         alElements.add(sElement);
-        alElementsStatus.add(Boolean.valueOf(bStatus));
+        alElementsStatus.add(bStatus);
     }
 
     public ArrayList<String> getAlElements() {

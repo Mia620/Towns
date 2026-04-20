@@ -29,7 +29,7 @@ public class ActionManagerItem {
     }
 
     public void setId(String sID) throws Exception {
-        if (sID == null || sID.trim().length() == 0) {
+        if (sID == null || sID.trim().isEmpty()) {
             throw new Exception(Messages.getString("ActionManagerItem.0")); //$NON-NLS-1$
         }
 
@@ -98,16 +98,16 @@ public class ActionManagerItem {
         }
 
         // Devolvemos una copia
-        ArrayList<QueueItem> alReturn = new ArrayList<QueueItem>();
-        for (int i = 0; i < queue.size(); i++) {
-            alReturn.add(queue.get(i).copy());
+        ArrayList<QueueItem> alReturn = new ArrayList<>();
+        for (QueueItem queueItem : queue) {
+            alReturn.add(queueItem.copy());
         }
 
         return alReturn;
     }
 
     public void setQueue(ArrayList<QueueItem> queue) throws Exception {
-        if (queue == null || queue.size() == 0) {
+        if (queue == null || queue.isEmpty()) {
             throw new Exception(Messages.getString("ActionManagerItem.5")); //$NON-NLS-1$
         }
 
@@ -115,7 +115,7 @@ public class ActionManagerItem {
 
         if (getName() == null) {
             // Miramos si tiene generated item, en ese caso ponemos ese nombre en el tooltip
-            if (getGeneratedItem() != null && getGeneratedItem().length() > 0) {
+            if (getGeneratedItem() != null && !getGeneratedItem().isEmpty()) {
                 ItemManagerItem imi = ItemManager.getItem(getGeneratedItem());
                 if (imi != null) {
                     setName(imi.getName());
@@ -126,7 +126,7 @@ public class ActionManagerItem {
                 for (int i = queue.size() - 1; i >= 0; i--) {
                     if (queue.get(i).getType() == QueueItem.TYPE_CREATE_ITEM) {
                         setGeneratedItem(queue.get(i).getValue());
-                        if (getName() == null || getName().trim().length() == 0) {
+                        if (getName() == null || getName().trim().isEmpty()) {
 
                             ItemManagerItem imi = ItemManager.getItem(queue.get(i).getValue());
                             if (imi != null) {

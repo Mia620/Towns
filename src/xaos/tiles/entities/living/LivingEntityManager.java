@@ -14,6 +14,7 @@ import xaos.tiles.entities.living.heroes.HeroManager;
 import xaos.utils.*;
 
 import java.io.File;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -31,7 +32,7 @@ public class LivingEntityManager {
      */
     private static void loadLivingEntities() {
         if (hmLivingEntities == null) {
-            hmLivingEntities = new HashMap<String, LivingEntityManagerItem>();
+            hmLivingEntities = new HashMap<>();
 
             // Cargar de fichero
             loadXML(Towns.getPropertiesString("DATA_FOLDER") + "livingentities.xml", true); //$NON-NLS-1$ //$NON-NLS-2$
@@ -43,9 +44,9 @@ public class LivingEntityManager {
             }
 
             ArrayList<String> alMods = Game.getModsLoaded();
-            if (alMods != null && alMods.size() > 0) {
-                for (int i = 0; i < alMods.size(); i++) {
-                    String sModActionsPath = fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator") + alMods.get(i) + System.getProperty("file.separator") + Towns.getPropertiesString("DATA_FOLDER") + "livingentities.xml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+            if (!alMods.isEmpty()) {
+                for (String alMod : alMods) {
+                    String sModActionsPath = fUserFolder.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.MODS_FOLDER1 + FileSystems.getDefault().getSeparator() + alMod + FileSystems.getDefault().getSeparator() + Towns.getPropertiesString("DATA_FOLDER") + "livingentities.xml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
                     File fIni = new File(sModActionsPath);
                     if (fIni.exists()) {
                         loadXML(sModActionsPath, false);
@@ -54,7 +55,7 @@ public class LivingEntityManager {
             }
 
             // Cargamos los hates y comprobamos los steallivings
-            hmLivingEntitiesHates = new HashMap<String, HateData>();
+            hmLivingEntitiesHates = new HashMap<>();
             Iterator<String> iterator = hmLivingEntities.keySet().iterator();
             HateData hateData;
             String sLiving;
@@ -107,7 +108,7 @@ public class LivingEntityManager {
         }
 
         Iterator<LivingEntityManagerItem> iterator = hmLivingEntities.values().iterator();
-        ArrayList<LivingEntityManagerItem> alCaravans = new ArrayList<LivingEntityManagerItem>();
+        ArrayList<LivingEntityManagerItem> alCaravans = new ArrayList<>();
         LivingEntityManagerItem lemi;
         CaravanManagerItem cmi;
 
@@ -121,7 +122,7 @@ public class LivingEntityManager {
             }
         }
 
-        if (alCaravans.size() > 0) {
+        if (!alCaravans.isEmpty()) {
             return alCaravans.get(Utils.getRandomBetween(0, alCaravans.size() - 1));
         } else {
             return null;
@@ -156,7 +157,7 @@ public class LivingEntityManager {
         }
 
         // Recorremos todas las livings y vamos metiendo en una lista las que tengan el type pasado
-        ArrayList<LivingEntityManagerItem> alLivings = new ArrayList<LivingEntityManagerItem>();
+        ArrayList<LivingEntityManagerItem> alLivings = new ArrayList<>();
         Iterator<LivingEntityManagerItem> iterator = hmLivingEntities.values().iterator();
         LivingEntityManagerItem lemi;
         while (iterator.hasNext()) {
@@ -167,7 +168,7 @@ public class LivingEntityManager {
         }
 
         // Ahora seleccionamos una a random
-        if (alLivings.size() > 0) {
+        if (!alLivings.isEmpty()) {
             return alLivings.get(Utils.getRandomBetween(0, alLivings.size() - 1));
         } else {
             return null;
@@ -210,11 +211,10 @@ public class LivingEntityManager {
         }
 
         // Obtenemos todos los del nivel requerido
-        ArrayList<LivingEntityManagerItem> alLemi = new ArrayList<LivingEntityManagerItem>();
+        ArrayList<LivingEntityManagerItem> alLemi = new ArrayList<>();
         LivingEntityManagerItem lemi;
-        Iterator<String> iterator = hmLivingEntities.keySet().iterator();
-        while (iterator.hasNext()) {
-            lemi = hmLivingEntities.get(iterator.next());
+        for (String s : hmLivingEntities.keySet()) {
+            lemi = hmLivingEntities.get(s);
             if (lemi.getLevel() >= iLevelMin && lemi.getLevel() <= iLevelMax && lemi.getType() == iType) {
                 if (bSteal && ((lemi.getSteal() != null && lemi.getSteal().length > 0) || (lemi.getStealLivings() != null && lemi.getStealLivings().length > 0))) {
                     alLemi.add(lemi);
@@ -224,7 +224,7 @@ public class LivingEntityManager {
             }
         }
 
-        if (alLemi.size() == 0) {
+        if (alLemi.isEmpty()) {
             return null;
         } else {
             return alLemi.get(Utils.getRandomBetween(0, (alLemi.size() - 1)));
@@ -247,11 +247,10 @@ public class LivingEntityManager {
         }
 
         // Obtenemos todos los del nivel requerido
-        ArrayList<LivingEntityManagerItem> alLemi = new ArrayList<LivingEntityManagerItem>();
+        ArrayList<LivingEntityManagerItem> alLemi = new ArrayList<>();
         LivingEntityManagerItem lemi;
-        Iterator<String> iterator = hmLivingEntities.keySet().iterator();
-        while (iterator.hasNext()) {
-            lemi = hmLivingEntities.get(iterator.next());
+        for (String s : hmLivingEntities.keySet()) {
+            lemi = hmLivingEntities.get(s);
             if (lemi.getLevel() >= iLevelMin && lemi.getLevel() <= iLevelMax && lemi.getType() == iType) {
                 if (bSteal && ((lemi.getSteal() != null && lemi.getSteal().length > 0) || (lemi.getStealLivings() != null && lemi.getStealLivings().length > 0))) {
                     alLemi.add(lemi);
@@ -261,7 +260,7 @@ public class LivingEntityManager {
             }
         }
 
-        if (alLemi.size() == 0) {
+        if (alLemi.isEmpty()) {
             return null;
         } else {
             return alLemi;
@@ -281,7 +280,7 @@ public class LivingEntityManager {
             loadLivingEntities();
         }
 
-        ArrayList<LivingEntityManagerItem> alReturn = new ArrayList<LivingEntityManagerItem>();
+        ArrayList<LivingEntityManagerItem> alReturn = new ArrayList<>();
 
         // Recorremos todos los items buscando el que tenga building = "par�metro pasado"
         Iterator<String> it = hmLivingEntities.keySet().iterator();
@@ -315,7 +314,7 @@ public class LivingEntityManager {
                             String sIDToDelete = node.getAttributes().getNamedItem("id").getNodeValue();
                             if (sIDToDelete != null) {
                                 LivingEntityManagerItem lemi = hmLivingEntities.remove(sIDToDelete);
-                                if (lemi != null && lemi.getAltGraphics() != null && lemi.getAltGraphics().size() > 0) {
+                                if (lemi != null && lemi.getAltGraphics() != null && !lemi.getAltGraphics().isEmpty()) {
                                     String altG;
                                     for (int a = 0; a < lemi.getAltGraphics().size(); a++) {
                                         altG = lemi.getAltGraphics().get(a);
@@ -523,7 +522,7 @@ public class LivingEntityManager {
                     // Equip
                     if (bModChangingValues) {
                         ArrayList<String> alAux = UtilsXML.getChildValues(node.getChildNodes(), "equip"); //$NON-NLS-1$
-                        if (alAux != null && alAux.size() > 0) {
+                        if (alAux != null && !alAux.isEmpty()) {
                             lemi.setEquip(alAux);
                         }
                     } else {
@@ -543,7 +542,7 @@ public class LivingEntityManager {
                     // Habitat
                     if (bModChangingValues) {
                         ArrayList<String> alAux = UtilsXML.getChildValues(node.getChildNodes(), "habitat"); //$NON-NLS-1$
-                        if (alAux != null && alAux.size() > 0) {
+                        if (alAux != null && !alAux.isEmpty()) {
                             lemi.setHabitatAsString(alAux);
                         }
                         String sAux = UtilsXML.getChildValue(node.getChildNodes(), "habitatHeightMin"); //$NON-NLS-1$
@@ -593,7 +592,7 @@ public class LivingEntityManager {
                     // Drops
                     if (bModChangingValues) {
                         ArrayList<DropData> alDrops = loadDropData(node.getChildNodes());
-                        if (alDrops != null && alDrops.size() > 0) {
+                        if (alDrops != null && !alDrops.isEmpty()) {
                             lemi.setDropData(alDrops);
                         }
                     } else {
@@ -603,7 +602,7 @@ public class LivingEntityManager {
                     // Alternative graphics
                     if (bModChangingValues) {
                         ArrayList<String> alAux = UtilsXML.getChildValues(node.getChildNodes(), "altGraphics"); //$NON-NLS-1$
-                        if (alAux != null && alAux.size() > 0) {
+                        if (alAux != null && !alAux.isEmpty()) {
                             lemi.setAltGraphics(alAux);
                         }
                     } else {
@@ -613,7 +612,7 @@ public class LivingEntityManager {
                     // Custom actions
                     if (bModChangingValues) {
                         ArrayList<String> alAux = UtilsXML.getChildValues(node.getChildNodes(), "action"); //$NON-NLS-1$
-                        if (alAux != null && alAux.size() > 0) {
+                        if (alAux != null && !alAux.isEmpty()) {
                             lemi.setActions(alAux);
                         }
                     } else {
@@ -847,7 +846,7 @@ public class LivingEntityManager {
 
                     //System.out.println (lemi.getIniHeader () + "," + lemi.getName () + "," + lemi.getAttack () + "," + lemi.getAttackSpeed () + "," + lemi.getDamage () + "," + lemi.getDefense () + "," + lemi.getHealthPoints () + "," + lemi.getLevel ());
                     // Miramos si tiene gr�ficos alternativos, en ese caso creamos un "lemi" igual con distinto ID
-                    if (lemi.getAltGraphics() != null && lemi.getAltGraphics().size() > 0) {
+                    if (lemi.getAltGraphics() != null && !lemi.getAltGraphics().isEmpty()) {
                         String altG;
                         for (int a = 0; a < lemi.getAltGraphics().size(); a++) {
                             altG = lemi.getAltGraphics().get(a);
@@ -865,7 +864,7 @@ public class LivingEntityManager {
     }
 
     private static ArrayList<DropData> loadDropData(NodeList nodeList) throws Exception {
-        ArrayList<DropData> alDrops = new ArrayList<DropData>();
+        ArrayList<DropData> alDrops = new ArrayList<>();
 
         Node node;
         for (int i = 0; i < nodeList.getLength(); i++) {

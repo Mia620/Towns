@@ -40,43 +40,54 @@ public class ObjectiveData {
             return false;
         }
 
-        if (data.getType().equals(TYPE_COLLECT)) {
-            // Collect, contamos el n�mero de items
-            return Item.getNumItemsTotal(data.getParam1(), World.MAP_DEPTH - 1) >= data.getParam2();
-        } else if (data.getType().equals(TYPE_BUILD)) {
-            // Construir edificio
-            // Hay que contarlos y tiene que estar operativo
-            ArrayList<Building> alBuildings = World.getBuildings();
-            if (alBuildings.size() == 0) {
-                return false;
+        switch (data.getType()) {
+            case TYPE_COLLECT -> {
+                // Collect, contamos el n�mero de items
+                return Item.getNumItemsTotal(data.getParam1(), World.MAP_DEPTH - 1) >= data.getParam2();
+                // Collect, contamos el n�mero de items
             }
+            case TYPE_BUILD -> {
+                // Construir edificio
+                // Hay que contarlos y tiene que estar operativo
+                ArrayList<Building> alBuildings = World.getBuildings();
+                if (alBuildings.isEmpty()) {
+                    return false;
+                }
 
-            int contador = data.getParam2();
-            for (int i = 0; i < alBuildings.size(); i++) {
-                if (alBuildings.get(i).getIniHeader().equalsIgnoreCase(data.getParam1())) {
-                    if (alBuildings.get(i).isOperative()) {
-                        contador--;
-                        if (contador == 0) {
-                            return true;
+                int contador = data.getParam2();
+                for (Building alBuilding : alBuildings) {
+                    if (alBuilding.getIniHeader().equalsIgnoreCase(data.getParam1())) {
+                        if (alBuilding.isOperative()) {
+                            contador--;
+                            if (contador == 0) {
+                                return true;
+                            }
                         }
                     }
                 }
             }
-        } else if (data.getType().equals(TYPE_ZONE)) {
-            // Crear zonas
-            return Game.getWorld().getZones() != null && Game.getWorld().getZones().size() >= data.getParam2();
-        } else if (data.getType().equals(TYPE_KILL)) {
-            // Matar
-            return Game.getWorld().getNumKilledEnemies(data.getParam1()) >= data.getParam2();
-        } else if (data.getType().equals(TYPE_PILE)) {
-            // Crear pilas
-            return Game.getWorld().getStockpiles() != null && Game.getWorld().getStockpiles().size() >= data.getParam2();
+            case TYPE_ZONE -> {
+                // Crear zonas
+                return Game.getWorld().getZones() != null && Game.getWorld().getZones().size() >= data.getParam2();
+                // Crear zonas
+            }
+            case TYPE_KILL -> {
+                // Matar
+                return Game.getWorld().getNumKilledEnemies(data.getParam1()) >= data.getParam2();
+                // Matar
+            }
+            case TYPE_PILE -> {
+                // Crear pilas
+                return Game.getWorld().getStockpiles() != null && Game.getWorld().getStockpiles().size() >= data.getParam2();
+                // Crear pilas
+            }
 //		} else if (data.getType ().equals (TYPE_ROOF)) {
 //			// Roofs
 //			return Roof.getNumRoofs () >= data.getParam2 ();
-        } else if (data.getType().equals(TYPE_SOLDIER)) {
-            // Soldiers
-            return World.getNumSoldiers() >= data.getParam2();
+            case TYPE_SOLDIER -> {
+                // Soldiers
+                return World.getNumSoldiers() >= data.getParam2();
+            }
         }
 
         return false;
@@ -89,12 +100,12 @@ public class ObjectiveData {
      * @return true si la lista de objetivos pasada est� conseguida
      */
     public static boolean checkCompleted(ArrayList<ObjectiveData> alData) {
-        if (alData == null || alData.size() == 0) {
+        if (alData == null || alData.isEmpty()) {
             return false;
         }
 
-        for (int i = 0; i < alData.size(); i++) {
-            if (!checkCompleted(alData.get(i))) {
+        for (ObjectiveData alDatum : alData) {
+            if (!checkCompleted(alDatum)) {
                 return false;
             }
         }
@@ -148,8 +159,8 @@ public class ObjectiveData {
             ArrayList<Building> alBuildings = World.getBuildings();
             Building building;
             int number = 0;
-            for (int i = 0; i < alBuildings.size(); i++) {
-                building = alBuildings.get(i);
+            for (Building alBuilding : alBuildings) {
+                building = alBuilding;
                 if (building.isOperative() && building.getIniHeader().equals(getParam1())) {
                     number++;
                 }

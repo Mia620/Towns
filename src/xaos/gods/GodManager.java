@@ -13,6 +13,7 @@ import xaos.utils.Utils;
 import xaos.utils.UtilsXML;
 
 import java.io.File;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,7 +23,7 @@ public class GodManager {
     private static HashMap<String, GodManagerItem> godsList;
 
     public static void loadItems() {
-        godsList = new HashMap<String, GodManagerItem>();
+        godsList = new HashMap<>();
 
         // Cargar de fichero
         loadXMLEvents(Towns.getPropertiesString("DATA_FOLDER") + "gods.xml", true); //$NON-NLS-1$ //$NON-NLS-2$
@@ -34,9 +35,9 @@ public class GodManager {
         }
 
         ArrayList<String> alMods = Game.getModsLoaded();
-        if (alMods != null && alMods.size() > 0) {
-            for (int i = 0; i < alMods.size(); i++) {
-                String sModActionsPath = fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator") + alMods.get(i) + System.getProperty("file.separator") + Towns.getPropertiesString("DATA_FOLDER") + "gods.xml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+        if (!alMods.isEmpty()) {
+            for (String alMod : alMods) {
+                String sModActionsPath = fUserFolder.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.MODS_FOLDER1 + FileSystems.getDefault().getSeparator() + alMod + FileSystems.getDefault().getSeparator() + Towns.getPropertiesString("DATA_FOLDER") + "gods.xml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
                 File fIni = new File(sModActionsPath);
                 if (fIni.exists()) {
                     loadXMLEvents(sModActionsPath, false);
@@ -51,7 +52,7 @@ public class GodManager {
             gmi = itEffects.next();
 
             // itemsLike
-            if (gmi.getItemsLike() != null && gmi.getItemsDislike().size() > 0) {
+            if (gmi.getItemsLike() != null && !gmi.getItemsDislike().isEmpty()) {
                 for (int i = 0; i < gmi.getItemsLike().size(); i++) {
                     if (ItemManager.getItem(gmi.getItemsLike().get(i)) == null) {
                         Log.log(Log.LEVEL_ERROR, Messages.getString("GodManager.2") + " [" + gmi.getItemsLike().get(i) + "]", "GodManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -61,7 +62,7 @@ public class GodManager {
             }
 
             // itemsDislike
-            if (gmi.getItemsDislike() != null && gmi.getItemsDislike().size() > 0) {
+            if (gmi.getItemsDislike() != null && !gmi.getItemsDislike().isEmpty()) {
                 for (int i = 0; i < gmi.getItemsDislike().size(); i++) {
                     if (ItemManager.getItem(gmi.getItemsDislike().get(i)) == null) {
                         Log.log(Log.LEVEL_ERROR, Messages.getString("GodManager.6") + " [" + gmi.getItemsDislike().get(i) + "]", "GodManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -71,7 +72,7 @@ public class GodManager {
             }
 
             // eventsWhenHappy
-            if (gmi.getEventsWhenHappy() != null && gmi.getEventsWhenHappy().size() > 0) {
+            if (gmi.getEventsWhenHappy() != null && !gmi.getEventsWhenHappy().isEmpty()) {
                 for (int i = 0; i < gmi.getEventsWhenHappy().size(); i++) {
                     if (EventManager.getItem(gmi.getEventsWhenHappy().get(i)) == null) {
                         Log.log(Log.LEVEL_ERROR, Messages.getString("GodManager.3") + " [" + gmi.getEventsWhenHappy().get(i) + "]", "GodManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -81,7 +82,7 @@ public class GodManager {
             }
 
             // eventsWhenReallyHappy
-            if (gmi.getEventsWhenReallyHappy() != null && gmi.getEventsWhenReallyHappy().size() > 0) {
+            if (gmi.getEventsWhenReallyHappy() != null && !gmi.getEventsWhenReallyHappy().isEmpty()) {
                 for (int i = 0; i < gmi.getEventsWhenReallyHappy().size(); i++) {
                     if (EventManager.getItem(gmi.getEventsWhenReallyHappy().get(i)) == null) {
                         Log.log(Log.LEVEL_ERROR, Messages.getString("GodManager.8") + " [" + gmi.getEventsWhenReallyHappy().get(i) + "]", "GodManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -91,7 +92,7 @@ public class GodManager {
             }
 
             // eventsWhenAngry
-            if (gmi.getEventsWhenAngry() != null && gmi.getEventsWhenAngry().size() > 0) {
+            if (gmi.getEventsWhenAngry() != null && !gmi.getEventsWhenAngry().isEmpty()) {
                 for (int i = 0; i < gmi.getEventsWhenAngry().size(); i++) {
                     if (EventManager.getItem(gmi.getEventsWhenAngry().get(i)) == null) {
                         Log.log(Log.LEVEL_ERROR, Messages.getString("GodManager.12") + " [" + gmi.getEventsWhenAngry().get(i) + "]", "GodManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -101,7 +102,7 @@ public class GodManager {
             }
 
             // eventsWhenReallyAngry
-            if (gmi.getEventsWhenReallyAngry() != null && gmi.getEventsWhenReallyAngry().size() > 0) {
+            if (gmi.getEventsWhenReallyAngry() != null && !gmi.getEventsWhenReallyAngry().isEmpty()) {
                 for (int i = 0; i < gmi.getEventsWhenReallyAngry().size(); i++) {
                     if (EventManager.getItem(gmi.getEventsWhenReallyAngry().get(i)) == null) {
                         Log.log(Log.LEVEL_ERROR, Messages.getString("GodManager.16") + " [" + gmi.getEventsWhenReallyAngry().get(i) + "]", "GodManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -129,7 +130,7 @@ public class GodManager {
             loadItems();
         }
 
-        if (godsList.size() == 0) {
+        if (godsList.isEmpty()) {
             return null;
         }
 
@@ -169,7 +170,7 @@ public class GodManager {
                     }
 
                     sIniHeader = UtilsXML.getChildValue(node.getChildNodes(), "id"); //$NON-NLS-1$
-                    if (sIniHeader == null || sIniHeader.length() == 0) {
+                    if (sIniHeader == null || sIniHeader.isEmpty()) {
                         throw new Exception(Messages.getString("GodManager.0")); //$NON-NLS-1$
                     }
 

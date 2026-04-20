@@ -10,6 +10,7 @@ import xaos.main.Game;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -40,7 +41,7 @@ public final class UtilsAL {
      * @return true si todo ok
      */
     private static boolean loadALData() {
-        hmAudio = new HashMap<String, Audio>();
+        hmAudio = new HashMap<>();
 
         // Deshabilitamos el log de la libreria
         org.newdawn.slick.util.Log.setVerbose(false);
@@ -53,9 +54,9 @@ public final class UtilsAL {
             File fUserFolder = new File(Game.getUserFolder());
             if (fUserFolder.exists() && fUserFolder.isDirectory()) {
                 ArrayList<String> alMods = Game.getModsLoaded();
-                if (alMods != null && alMods.size() > 0) {
-                    for (int i = 0; i < alMods.size(); i++) {
-                        String sModAudioIniPath = fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator") + alMods.get(i) + System.getProperty("file.separator") + "audio.ini";
+                if (!alMods.isEmpty()) {
+                    for (String alMod : alMods) {
+                        String sModAudioIniPath = fUserFolder.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.MODS_FOLDER1 + FileSystems.getDefault().getSeparator() + alMod + FileSystems.getDefault().getSeparator() + "audio.ini";
                         File fIni = new File(sModAudioIniPath);
                         if (fIni.exists()) {
                             propsAudio.load(new FileInputStream(fIni));
@@ -90,7 +91,7 @@ public final class UtilsAL {
     private static boolean loadAudio(String sKey, String sFile) {
         String sFilePath = Towns.getPropertiesString("AUDIO_FOLDER") + sFile; //$NON-NLS-1$
 
-        if (sFile == null || sFile.trim().length() == 0) {
+        if (sFile == null || sFile.trim().isEmpty()) {
             hmAudio.put(sKey, null);
             return true;
         }
@@ -102,9 +103,9 @@ public final class UtilsAL {
             File fUserFolder = new File(Game.getUserFolder());
             if (fUserFolder.exists() && fUserFolder.isDirectory()) {
                 ArrayList<String> alMods = Game.getModsLoaded();
-                if (alMods != null && alMods.size() > 0) {
-                    for (int i = 0; i < alMods.size(); i++) {
-                        String sModAudioPath = fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator") + alMods.get(i) + System.getProperty("file.separator") + Towns.getPropertiesString("AUDIO_FOLDER") + sFile;
+                if (!alMods.isEmpty()) {
+                    for (String alMod : alMods) {
+                        String sModAudioPath = fUserFolder.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.MODS_FOLDER1 + FileSystems.getDefault().getSeparator() + alMod + FileSystems.getDefault().getSeparator() + Towns.getPropertiesString("AUDIO_FOLDER") + sFile;
                         File fIni = new File(sModAudioPath);
                         if (fIni.exists()) {
                             sFilePath = sModAudioPath;

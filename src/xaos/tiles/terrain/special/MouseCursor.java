@@ -14,8 +14,8 @@ public class MouseCursor {
     private static final long serialVersionUID = -1691568571780933791L;
 
     public MouseCursor() {
-        for (int i = 0; i < TERRAIN_CURSORS.length; i++) {
-            TERRAIN_CURSORS[i].setTextureID(TERRAIN_CURSORS[i].getIniHeader(), "mouseCursor"); //$NON-NLS-1$
+        for (Tile terrainCursor : TERRAIN_CURSORS) {
+            terrainCursor.setTextureID(terrainCursor.getIniHeader(), "mouseCursor"); //$NON-NLS-1$
         }
     }
 

@@ -57,7 +57,7 @@ public class Cell implements Externalizable {
     public final static int FLAG_BLINK = 524288; // 100 00000000 00000000 (Indica si la casilla est� en la lista de fluidos a chequear
     private static final long serialVersionUID = -3099620916063413505L;
     public static int MAX_ASTAR_ZONE_ID = 0;
-    public static HashMap<Integer, Integer> HASH_ASTAR_ZONE_RELATIONS = new HashMap<Integer, Integer>();
+    public static HashMap<Integer, Integer> HASH_ASTAR_ZONE_RELATIONS = new HashMap<>();
     private static final int[][] depths = new int[World.MAP_WIDTH][World.MAP_HEIGHT];
     private static final int[] neighborIDs = new int[27]; // Ser� 13 o 26, pongo 27 para poder poner el -1 al final
     private static int neighborIDsIndex;
@@ -141,7 +141,7 @@ public class Cell implements Externalizable {
 
     private static void checkConnectorsWalls(int x, int y, int z, Item item, ItemManagerItem imi) {
         ItemManagerItem imiTemp;
-        StringBuffer sbConnectors = new StringBuffer("_"); //$NON-NLS-1$
+        StringBuilder sbConnectors = new StringBuilder("_"); //$NON-NLS-1$
         Cell cellTemp;
         Item entityTemp;
 
@@ -308,7 +308,7 @@ public class Cell implements Externalizable {
 
     private static void checkConnectorsRoads(int x, int y, int z, Item item, ItemManagerItem imi) {
         ItemManagerItem imiTemp;
-        StringBuffer sbConnectors = new StringBuffer("_"); //$NON-NLS-1$
+        StringBuilder sbConnectors = new StringBuilder("_"); //$NON-NLS-1$
         Item entityTemp;
 
         // Norte
@@ -1236,9 +1236,9 @@ public class Cell implements Externalizable {
         }
 
         if (livings != null) {
-            for (int i = 0; i < livings.size(); i++) {
-                livings.get(i).refreshTransients();
-                livings.get(i).setWaitingForPath(false);
+            for (LivingEntity living : livings) {
+                living.refreshTransients();
+                living.setWaitingForPath(false);
             }
         }
 
@@ -1450,7 +1450,7 @@ public class Cell implements Externalizable {
 
     public void addLiving(LivingEntity le) {
         if (livings == null) {
-            livings = new ArrayList<LivingEntity>(1);
+            livings = new ArrayList<>(1);
         }
 
         livings.add(le);
@@ -1467,7 +1467,7 @@ public class Cell implements Externalizable {
      * @return
      */
     public LivingEntity containsSpecificLiving(int type) {
-        if (getLivings() != null && getLivings().size() > 0) {
+        if (getLivings() != null && !getLivings().isEmpty()) {
             for (int i = 0; i < getLivings().size(); i++) {
                 if (LivingEntityManager.getItem(getLivings().get(i).getIniHeader()).getType() == type) {
                     return getLivings().get(i);
@@ -1514,10 +1514,10 @@ public class Cell implements Externalizable {
 
             // Al descubrir una casilla miramos si hay enemigo undiscovered
             ArrayList<LivingEntity> alLivings = World.getCell(getCoordinates()).getLivings();
-            if (alLivings != null && alLivings.size() > 0) { // Hay livings, los sacamos de undiscovered y los ponemos en discovereds
+            if (alLivings != null && !alLivings.isEmpty()) { // Hay livings, los sacamos de undiscovered y los ponemos en discovereds
                 LivingEntity le;
-                for (int i = 0; i < alLivings.size(); i++) {
-                    le = World.getLivingEntityByID(alLivings.get(i).getID());
+                for (LivingEntity alLiving : alLivings) {
+                    le = World.getLivingEntityByID(alLiving.getID());
                     if (le != null) {
                         LivingEntity.removeLiving(le, false);
                         World.getLivings(false).remove(le.getID());
@@ -1533,7 +1533,7 @@ public class Cell implements Externalizable {
                     BuryData bd;
                     // Bingo, hay bury, creamos un nuevo item en la celda
                     ArrayList<BuryData> alBuryData = Game.getWorld().getBuryData();
-                    if (alBuryData != null && alBuryData.size() > 0) {
+                    if (alBuryData != null && !alBuryData.isEmpty()) {
                         boolean bExitBury = false;
                         int iIndexBuryData = 0;
                         while (!bExitBury) {
@@ -1549,7 +1549,7 @@ public class Cell implements Externalizable {
                                     bExitBury = true;
 
                                     // Bingo
-                                    String sIniHeader = UtilsIniHeaders.getStringIniHeader(iIniHeader.intValue());
+                                    String sIniHeader = UtilsIniHeaders.getStringIniHeader(iIniHeader);
                                     if (sIniHeader != null) {
                                         ItemManagerItem imi = ItemManager.getItem(sIniHeader);
                                         if (imi != null && isMined()) {
@@ -1558,10 +1558,10 @@ public class Cell implements Externalizable {
                                             if (!imi.isBuryDestroyItem()) {
                                                 ArrayList<String> alBuryItem = imi.getBuryItem();
                                                 String sBuryItem = null;
-                                                if (alBuryItem != null && alBuryItem.size() > 0) {
+                                                if (alBuryItem != null && !alBuryItem.isEmpty()) {
                                                     // Lanzamos porcentajes
                                                     for (int p = 0; p < alBuryItem.size(); p++) {
-                                                        if (Utils.getRandomBetween(1, 100) <= imi.getBuryItemPCT().get(p).intValue()) {
+                                                        if (Utils.getRandomBetween(1, 100) <= imi.getBuryItemPCT().get(p)) {
                                                             // Bingo
                                                             sBuryItem = alBuryItem.get(p);
                                                             break;
@@ -1585,18 +1585,18 @@ public class Cell implements Externalizable {
 
                                                         // Miramos si tiene text
                                                         ArrayList<String> alTexts = bd.getHashTexts().remove(p3ds);
-                                                        if (alTexts != null && alTexts.size() > 0) {
-                                                            World.getItemsText().put(Integer.valueOf(newItem.getID()), alTexts);
+                                                        if (alTexts != null && !alTexts.isEmpty()) {
+                                                            World.getItemsText().put(newItem.getID(), alTexts);
                                                         }
                                                     }
                                                 }
                                             }
 
                                             // buryLivings
-                                            if (!bWall && imi.getBuryLivings() != null && imi.getBuryLivings().size() > 0) {
+                                            if (!bWall && imi.getBuryLivings() != null && !imi.getBuryLivings().isEmpty()) {
                                                 String sLiving;
                                                 for (int i = 0; i < imi.getBuryLivings().size(); i++) {
-                                                    int iPCT = imi.getBuryLivingsPCT().get(i).intValue();
+                                                    int iPCT = imi.getBuryLivingsPCT().get(i);
                                                     if (Utils.getRandomBetween(1, 100) <= iPCT) {
                                                         sLiving = imi.getBuryLivings().get(i);
                                                         LivingEntityManagerItem lemi = LivingEntityManager.getItem(sLiving);
@@ -1744,7 +1744,7 @@ public class Cell implements Externalizable {
 
     public int getAstarZoneID() {
         // Miramos en la HASH
-        Integer iReturn = Integer.valueOf(astarZoneID);
+        Integer iReturn = astarZoneID;
         int iFirstValue = astarZoneID;
         boolean bIterations = HASH_ASTAR_ZONE_RELATIONS.containsKey(iReturn);
         if (bIterations) {
@@ -1752,11 +1752,11 @@ public class Cell implements Externalizable {
                 iReturn = HASH_ASTAR_ZONE_RELATIONS.get(iReturn);
             }
 
-            setAstarZoneID(iReturn.intValue());
-            HASH_ASTAR_ZONE_RELATIONS.put(Integer.valueOf(iFirstValue), iReturn);
+            setAstarZoneID(iReturn);
+            HASH_ASTAR_ZONE_RELATIONS.put(iFirstValue, iReturn);
         }
 
-        return iReturn.intValue();
+        return iReturn;
     }
 
     public void setAstarZoneID(int astarZoneID) {

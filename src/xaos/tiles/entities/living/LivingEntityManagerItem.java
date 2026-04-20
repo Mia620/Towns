@@ -480,12 +480,12 @@ public class LivingEntityManagerItem {
 
     public void setHabitatAsString(ArrayList<String> habitat) throws Exception {
         if (habitat != null) {
-            ArrayList<Integer> alHabitat = new ArrayList<Integer>(habitat.size());
+            ArrayList<Integer> alHabitat = new ArrayList<>(habitat.size());
             TerrainManagerItem tmi;
-            for (int i = 0; i < habitat.size(); i++) {
-                tmi = TerrainManager.getItem(habitat.get(i));
+            for (String s : habitat) {
+                tmi = TerrainManager.getItem(s);
                 if (tmi == null) {
-                    throw new Exception(Messages.getString("LivingEntityManagerItem.9") + habitat.get(i) + "]"); //$NON-NLS-1$ //$NON-NLS-2$
+                    throw new Exception(Messages.getString("LivingEntityManagerItem.9") + s + "]"); //$NON-NLS-1$ //$NON-NLS-2$
                 }
                 alHabitat.add(tmi.getTerrainID());
             }
@@ -576,7 +576,7 @@ public class LivingEntityManagerItem {
     }
 
     public boolean hasActions() {
-        return actions != null && actions.size() > 0;
+        return actions != null && !actions.isEmpty();
     }
 
     public boolean isFacingDirections() {
@@ -600,7 +600,7 @@ public class LivingEntityManagerItem {
 
     public void setMaxHungryTurns(String maxHungryTurns) throws Exception {
         // S�lo se llama si es citizen o hero
-        if (maxHungryTurns == null || maxHungryTurns.trim().length() == 0) {
+        if (maxHungryTurns == null || maxHungryTurns.trim().isEmpty()) {
             throw new Exception(Messages.getString("LivingEntityManagerItem.0")); //$NON-NLS-1$
         }
 
@@ -617,7 +617,7 @@ public class LivingEntityManagerItem {
 
     public void setMaxSleepTurns(String maxSleepTurns) throws Exception {
         // S�lo se llama si es citizen o hero
-        if (maxSleepTurns == null || maxSleepTurns.trim().length() == 0) {
+        if (maxSleepTurns == null || maxSleepTurns.trim().isEmpty()) {
             throw new Exception(Messages.getString("LivingEntityManagerItem.3")); //$NON-NLS-1$
         }
 
@@ -703,9 +703,9 @@ public class LivingEntityManagerItem {
 
     public void setEffects(ArrayList<String> effects) throws Exception {
         if (effects != null) {
-            for (int i = 0; i < effects.size(); i++) {
-                if (EffectManager.getItem(effects.get(i)) == null) {
-                    throw new Exception(Messages.getString("LivingEntityManagerItem.2") + effects.get(i) + "]"); //$NON-NLS-1$ //$NON-NLS-2$
+            for (String effect : effects) {
+                if (EffectManager.getItem(effect) == null) {
+                    throw new Exception(Messages.getString("LivingEntityManagerItem.2") + effect + "]"); //$NON-NLS-1$ //$NON-NLS-2$
                 }
             }
         }
@@ -723,9 +723,9 @@ public class LivingEntityManagerItem {
 
     public void setEffectsImmune(ArrayList<String> effectsImmune) throws Exception {
         if (effectsImmune != null) {
-            for (int i = 0; i < effectsImmune.size(); i++) {
-                if (EffectManager.getItem(effectsImmune.get(i)) == null) {
-                    throw new Exception(Messages.getString("LivingEntityManagerItem.2") + effectsImmune.get(i) + "]"); //$NON-NLS-1$ //$NON-NLS-2$
+            for (String s : effectsImmune) {
+                if (EffectManager.getItem(s) == null) {
+                    throw new Exception(Messages.getString("LivingEntityManagerItem.2") + s + "]"); //$NON-NLS-1$ //$NON-NLS-2$
                 }
             }
         }
@@ -770,20 +770,20 @@ public class LivingEntityManagerItem {
     public void setSteal(ArrayList<String> steal) throws Exception {
         if (steal != null) {
             // Pasamos los types a items
-            ArrayList<String> alItems = new ArrayList<String>();
-            for (int i = 0; i < steal.size(); i++) {
-                ArrayList<String> alTypeItems = ItemManager.getItemsByType(steal.get(i));
-                if (alTypeItems.size() == 0) {
+            ArrayList<String> alItems = new ArrayList<>();
+            for (String s : steal) {
+                ArrayList<String> alTypeItems = ItemManager.getItemsByType(s);
+                if (alTypeItems.isEmpty()) {
                     // No es tipo, asumimos item de momento
-                    if (!alItems.contains(steal.get(i))) {
-                        alItems.add(steal.get(i));
+                    if (!alItems.contains(s)) {
+                        alItems.add(s);
                     }
                 } else {
                     // Tipo! Obtenemos todos los items
                     if (alTypeItems != null) {
-                        for (int j = 0; j < alTypeItems.size(); j++) {
-                            if (!alItems.contains(alTypeItems.get(j))) {
-                                alItems.add(alTypeItems.get(j));
+                        for (String alTypeItem : alTypeItems) {
+                            if (!alItems.contains(alTypeItem)) {
+                                alItems.add(alTypeItem);
                             }
                         }
                     }
@@ -791,9 +791,9 @@ public class LivingEntityManagerItem {
             }
 
             // Llegados aqu� tenemos una lista de items, comprobamos que existan
-            for (int i = 0; i < alItems.size(); i++) {
-                if (ItemManager.getItem(alItems.get(i)) == null) {
-                    throw new Exception(Messages.getString("LivingEntityManagerItem.11") + " [" + alItems.get(i) + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            for (String alItem : alItems) {
+                if (ItemManager.getItem(alItem) == null) {
+                    throw new Exception(Messages.getString("LivingEntityManagerItem.11") + " [" + alItem + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 }
             }
 
@@ -835,7 +835,7 @@ public class LivingEntityManagerItem {
     }
 
     public void setFxDead(String fxDead) throws Exception {
-        if (fxDead == null || fxDead.trim().length() == 0) {
+        if (fxDead == null || fxDead.trim().isEmpty()) {
             this.fxDead = null;
         } else {
             this.fxDead = fxDead.trim();
@@ -873,7 +873,7 @@ public class LivingEntityManagerItem {
     }
 
     public void setFoodNeededTurns(String foodNeededTurns) throws Exception {
-        if (foodNeededTurns == null || foodNeededTurns.length() == 0) {
+        if (foodNeededTurns == null || foodNeededTurns.isEmpty()) {
             setFoodNeededTurns(0);
         } else {
             try {
@@ -906,7 +906,7 @@ public class LivingEntityManagerItem {
     }
 
     public void setFoodNeededDieTurns(String sFoodNeededDieTurns) throws Exception {
-        if (sFoodNeededDieTurns == null || sFoodNeededDieTurns.length() == 0) {
+        if (sFoodNeededDieTurns == null || sFoodNeededDieTurns.isEmpty()) {
             setFoodNeededDieTurns(0);
         } else {
             try {

@@ -78,8 +78,8 @@ public class Hero extends LivingEntity implements Externalizable {
             LivingEntityManagerItem lemi;
             ArrayList<LivingEntity> alLivings = cell.getLivings();
             if (alLivings != null) {
-                for (int i = 0; i < alLivings.size(); i++) {
-                    le = alLivings.get(i);
+                for (LivingEntity alLiving : alLivings) {
+                    le = alLiving;
                     lemi = LivingEntityManager.getItem(le.getIniHeader());
                     if (lemi.getType() == TYPE_HERO) {
                         hero = (Hero) le;
@@ -333,11 +333,11 @@ public class Hero extends LivingEntity implements Externalizable {
                     if (MilitaryItem.isBetterItem(this, (MilitaryItem) item)) {
                         // Miramos si el item tiene tags
                         boolean bTagsOK = true;
-                        if (imi.getTags() != null && imi.getTags().size() > 0) {
+                        if (imi.getTags() != null && !imi.getTags().isEmpty()) {
                             // El item tiene tags
 
                             LivingEntityManagerItem lemi = LivingEntityManager.getItem(getIniHeader());
-                            if (lemi.getEquipAllowed() != null && lemi.getEquipAllowed().size() > 0) {
+                            if (lemi.getEquipAllowed() != null && !lemi.getEquipAllowed().isEmpty()) {
                                 // El personaje tiene tags
 
                                 for (int i = 0; i < imi.getTags().size(); i++) {
@@ -433,8 +433,8 @@ public class Hero extends LivingEntity implements Externalizable {
                         ArrayList<Zone> alZones = Game.getWorld().getZones();
                         Point3DShort p3dZoneNear = null;
                         int iMinDistance = Utils.MAX_DISTANCE;
-                        for (int i = 0; i < alZones.size(); i++) {
-                            zone = alZones.get(i);
+                        for (Zone alZone : alZones) {
+                            zone = alZone;
                             if (ZoneManager.getItem(zone.getIniHeader()).getType() == ZoneManagerItem.TYPE_SOCIAL) {
                                 // Zona social encontrada
                                 Point3DShort p3d = Zone.getFreeSitItemAtRandom(zone, cell.getAstarZoneID());
@@ -522,11 +522,11 @@ public class Hero extends LivingEntity implements Externalizable {
                 ArrayList<Zone> zones = Game.getWorld().getZones();
                 Cell cell = World.getCell(getCoordinates());
                 boolean bEstamosEnComedor = false;
-                if (sZoneToEat != null && sZoneToEat.length() > 0) {
+                if (sZoneToEat != null && !sZoneToEat.isEmpty()) {
                     if (cell.hasZone()) {
                         Zone zone;
-                        for (int i = 0; i < zones.size(); i++) {
-                            zone = zones.get(i);
+                        for (Zone value : zones) {
+                            zone = value;
                             if (zone.getID() == cell.getZoneID()) {
                                 // Tenemos la zona actual
                                 if (zone.isOperative() && zone.getIniHeader().equalsIgnoreCase(sZoneToEat)) {
@@ -544,8 +544,8 @@ public class Hero extends LivingEntity implements Externalizable {
                         Point3DShort p3dMinDistance = null;
                         int iMinDistance = Utils.MAX_DISTANCE;
                         Zone zone;
-                        for (int i = 0; i < zones.size(); i++) {
-                            zone = zones.get(i);
+                        for (Zone item : zones) {
+                            zone = item;
                             if (zone.isOperative() && zone.getIniHeader().equalsIgnoreCase(sZoneToEat)) {
                                 // Miramos si alguna celda del comedor es accesible
                                 p3d = Zone.getFreeSitItemAtRandom(zone, cell.getAstarZoneID());
@@ -569,8 +569,8 @@ public class Hero extends LivingEntity implements Externalizable {
 
                         if (p3dMinDistance == null) {
                             // Si no hay sillas miraremos cualquier casilla del comedor
-                            for (int i = 0; i < zones.size(); i++) {
-                                zone = zones.get(i);
+                            for (Zone value : zones) {
+                                zone = value;
                                 if (zone.isOperative() && zone.getIniHeader().equalsIgnoreCase(sZoneToEat)) {
                                     // Miramos si alguna celda del comedor es accesible
                                     p3d = Zone.getFreeCellAtRandom(zone, cell.getAstarZoneID());
@@ -798,7 +798,7 @@ public class Hero extends LivingEntity implements Externalizable {
     private void moveFriendsTo(Point3DShort p3ds) {
 //		getHeroData ().setExploringCounter (HeroData.TURNS_BETWEEN_EXPLORE);
         // Miramos friends
-        if (getHeroData().getFriendships().size() > 0) {
+        if (!getHeroData().getFriendships().isEmpty()) {
             Hero hero;
             for (int h = 0; h < World.getHeroIDs().size(); h++) {
                 hero = (Hero) World.getLivingEntityByID(World.getHeroIDs().get(h));
@@ -809,7 +809,7 @@ public class Hero extends LivingEntity implements Externalizable {
                         // Miramos que no est� muriendo (v13a)
                         if ((hero.getLivingEntityData().getHealthPointsMAXCurrent() / 3) <= hero.getLivingEntityData().getHealthPoints()) {
                             // Lo m�s importante, que el heroe sea un amigo (v13a)
-                            if (getHeroData().getFriendships().contains(Integer.valueOf(hero.getID()))) {
+                            if (getHeroData().getFriendships().contains(hero.getID())) {
                                 // Perfecto, que se venga
                                 hero.setDestination(p3ds);
                                 hero.getHeroData().setExploringCounter(HeroData.TURNS_BETWEEN_EXPLORE);
@@ -826,17 +826,17 @@ public class Hero extends LivingEntity implements Externalizable {
      */
     private void useSkill(SkillManagerItem smi) {
         ArrayList<SkillEffectItem> alSkillEffects = smi.getEffects();
-        if (alSkillEffects != null && alSkillEffects.size() > 0) {
+        if (alSkillEffects != null && !alSkillEffects.isEmpty()) {
             SkillEffectItem sei;
             boolean bVerbosed = false;
-            for (int i = 0; i < alSkillEffects.size(); i++) {
-                sei = alSkillEffects.get(i);
+            for (SkillEffectItem alSkillEffect : alSkillEffects) {
+                sei = alSkillEffect;
                 if (sei.getTarget() != SkillEffectItem.TARGET_INT_NONE) {
                     // Tiene target, hay que a�adir el effect al target
                     ArrayList<LivingEntity> alTargets = null;
                     if (sei.getTarget() == SkillEffectItem.TARGET_INT_SELF) {
                         // SELF
-                        alTargets = new ArrayList<LivingEntity>(1);
+                        alTargets = new ArrayList<>(1);
                         alTargets.add(this);
                         bVerbosed = true;
                     } else if (sei.getTarget() == SkillEffectItem.TARGET_INT_FRIENDLIES) {
@@ -852,8 +852,8 @@ public class Hero extends LivingEntity implements Externalizable {
                             MessagesPanel.addMessage(MessagesPanel.TYPE_HEROES, getCitizenData().getFullName() + Messages.getString("Hero.6") + smi.getName() + "]", ColorGL.WHITE, getCoordinates(), getID()); //$NON-NLS-1$ //$NON-NLS-2$
                             bVerbosed = true;
                         }
-                        for (int t = 0; t < alTargets.size(); t++) {
-                            alTargets.get(t).addEffect(EffectManager.getItem(sei.getId()), true);
+                        for (LivingEntity alTarget : alTargets) {
+                            alTarget.addEffect(EffectManager.getItem(sei.getId()), true);
                         }
                     }
                 }
@@ -867,11 +867,11 @@ public class Hero extends LivingEntity implements Externalizable {
             // Obtenemos hateds para cambiarles el target
             ArrayList<LivingEntity> alTargets = getAllLivingsInRadius(getLivingEntityData().getLOSCurrent() * 2, true);
             LivingEntity le;
-            if (alTargets.size() > 0) {
+            if (!alTargets.isEmpty()) {
                 MessagesPanel.addMessage(MessagesPanel.TYPE_HEROES, getCitizenData().getFullName() + Messages.getString("Hero.6") + smi.getName() + "]", ColorGL.WHITE, getCoordinates()); //$NON-NLS-1$ //$NON-NLS-2$
 
-                for (int t = 0; t < alTargets.size(); t++) {
-                    le = alTargets.get(t);
+                for (LivingEntity alTarget : alTargets) {
+                    le = alTarget;
                     le.setFocusData(new FocusData(getID(), TYPE_HERO));
                 }
             }
@@ -1043,7 +1043,7 @@ public class Hero extends LivingEntity implements Externalizable {
         Citizen cit;
         boolean bFocusSet = false;
         for (int i = 0; i < World.getCitizenIDs().size(); i++) {
-            cit = (Citizen) World.getLivingEntityByID(World.getCitizenIDs().get(i).intValue());
+            cit = (Citizen) World.getLivingEntityByID(World.getCitizenIDs().get(i));
             if (cit != null) {
                 if (World.getCell(cit.getCoordinates()).getAstarZoneID() == iASZID) {
                     getFocusData().setEntityID(cit.getID());
@@ -1057,7 +1057,7 @@ public class Hero extends LivingEntity implements Externalizable {
         if (!bFocusSet) {
             // Buscamos soldiers
             for (int i = 0; i < World.getSoldierIDs().size(); i++) {
-                cit = (Citizen) World.getLivingEntityByID(World.getSoldierIDs().get(i).intValue());
+                cit = (Citizen) World.getLivingEntityByID(World.getSoldierIDs().get(i));
                 if (cit != null) {
                     if (World.getCell(cit.getCoordinates()).getAstarZoneID() == iASZID) {
                         getFocusData().setEntityID(cit.getID());
@@ -1191,8 +1191,8 @@ public class Hero extends LivingEntity implements Externalizable {
                         Zone zone;
                         int iMaxDistance = Utils.MAX_DISTANCE;
                         Point3DShort p3dNear = null;
-                        for (int i = 0; i < zones.size(); i++) {
-                            zone = zones.get(i);
+                        for (Zone value : zones) {
+                            zone = value;
                             if (ZoneManager.getItem(zone.getIniHeader()).getType() == ZoneManagerItem.TYPE_DINING) {
                                 Point3DShort p3d = Zone.getFreeSleepItemAtRandom(zone, iCurrentASZID);
                                 if (p3d == null) {

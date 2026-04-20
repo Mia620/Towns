@@ -51,7 +51,7 @@ public final class UtilsXML {
     }
 
     public static ArrayList<String> getChildValues(NodeList list, String sChildName) throws Exception {
-        ArrayList<String> alPrerequisites = new ArrayList<String>();
+        ArrayList<String> alPrerequisites = new ArrayList<>();
         Node node;
         String sLocale = Locale.getDefault().getLanguage() + Locale.getDefault().getCountry();
 

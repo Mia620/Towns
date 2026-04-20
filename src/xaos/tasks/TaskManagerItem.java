@@ -18,7 +18,7 @@ public final class TaskManagerItem implements Externalizable {
 
     public TaskManagerItem(Task task) {
         setTask(task);
-        listCitizens = new ArrayList<Integer>();
+        listCitizens = new ArrayList<>();
     }
 
     public Task getTask() {
@@ -50,11 +50,10 @@ public final class TaskManagerItem implements Externalizable {
     }
 
     public String toString() {
-        String buffer = "Task\n" + task.toString() +
+        return "Task\n" + task.toString() +
                 "\n Cits: " +
                 listCitizens.size() +
                 "\n";
-        return buffer;
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {

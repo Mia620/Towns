@@ -80,35 +80,25 @@ public class EquippedData implements Externalizable {
     }
 
     public boolean isWearing(int location) {
-        switch (location) {
-            case MilitaryItem.LOCATION_HEAD:
-                return getHead() != null;
-            case MilitaryItem.LOCATION_BODY:
-                return getBody() != null;
-            case MilitaryItem.LOCATION_LEGS:
-                return getLegs() != null;
-            case MilitaryItem.LOCATION_FEET:
-                return getFeet() != null;
-            case MilitaryItem.LOCATION_WEAPON:
-                return getWeapon() != null;
-        }
-        return false;
+        return switch (location) {
+            case MilitaryItem.LOCATION_HEAD -> getHead() != null;
+            case MilitaryItem.LOCATION_BODY -> getBody() != null;
+            case MilitaryItem.LOCATION_LEGS -> getLegs() != null;
+            case MilitaryItem.LOCATION_FEET -> getFeet() != null;
+            case MilitaryItem.LOCATION_WEAPON -> getWeapon() != null;
+            default -> false;
+        };
     }
 
     public MilitaryItem getLocation(int location) {
-        switch (location) {
-            case MilitaryItem.LOCATION_HEAD:
-                return getHead();
-            case MilitaryItem.LOCATION_BODY:
-                return getBody();
-            case MilitaryItem.LOCATION_LEGS:
-                return getLegs();
-            case MilitaryItem.LOCATION_FEET:
-                return getFeet();
-            case MilitaryItem.LOCATION_WEAPON:
-                return getWeapon();
-        }
-        return null;
+        return switch (location) {
+            case MilitaryItem.LOCATION_HEAD -> getHead();
+            case MilitaryItem.LOCATION_BODY -> getBody();
+            case MilitaryItem.LOCATION_LEGS -> getLegs();
+            case MilitaryItem.LOCATION_FEET -> getFeet();
+            case MilitaryItem.LOCATION_WEAPON -> getWeapon();
+            default -> null;
+        };
     }
 
     /**

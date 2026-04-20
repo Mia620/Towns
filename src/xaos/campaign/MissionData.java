@@ -78,7 +78,7 @@ public class MissionData implements Externalizable {
     }
 
     public void setAllowBury(String sAllowBury) {
-        if (sAllowBury == null || sAllowBury.trim().length() == 0) {
+        if (sAllowBury == null || sAllowBury.trim().isEmpty()) {
             setAllowBury(true);
         } else {
             setAllowBury(!sAllowBury.equalsIgnoreCase("FALSE")); //$NON-NLS-1$

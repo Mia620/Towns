@@ -66,7 +66,7 @@ public class GodManagerItem {
     public void setNamePool(String namePool) throws Exception {
         this.namePool = namePool;
 
-        if (this.namePool == null || this.namePool.length() == 0) {
+        if (this.namePool == null || this.namePool.isEmpty()) {
             throw new Exception(Messages.getString("GodManagerItem.0")); //$NON-NLS-1$
         } else {
             if (Names.getName(this.namePool, null, null) == null) {
@@ -82,7 +82,7 @@ public class GodManagerItem {
     public void setSurName(String surName) throws Exception {
         this.surName = surName;
 
-        if (this.surName == null || this.surName.length() == 0) {
+        if (this.surName == null || this.surName.isEmpty()) {
             throw new Exception(Messages.getString("GodManagerItem.2")); //$NON-NLS-1$
         }
     }
@@ -108,7 +108,7 @@ public class GodManagerItem {
             setItemsLikePCTInteger(null);
 
             // Si hab�a items, BAM, error
-            if (getItemsLike() != null && getItemsLike().size() > 0) {
+            if (getItemsLike() != null && !getItemsLike().isEmpty()) {
                 throw new Exception(Messages.getString("GodManagerItem.4")); //$NON-NLS-1$
             }
         } else {
@@ -116,12 +116,12 @@ public class GodManagerItem {
             if (getItemsLike() == null || getItemsLike().size() != itemsLikePCT.size()) {
                 throw new Exception(Messages.getString("GodManagerItem.4")); //$NON-NLS-1$
             }
-            ArrayList<Integer> alPCT = new ArrayList<Integer>(itemsLikePCT.size());
-            for (int i = 0; i < itemsLikePCT.size(); i++) {
+            ArrayList<Integer> alPCT = new ArrayList<>(itemsLikePCT.size());
+            for (String s : itemsLikePCT) {
                 try {
-                    alPCT.add(Integer.parseInt(itemsLikePCT.get(i)));
+                    alPCT.add(Integer.parseInt(s));
                 } catch (Exception e) {
-                    throw new Exception(Messages.getString("GodManagerItem.3") + " [" + itemsLikePCT.get(i) + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                    throw new Exception(Messages.getString("GodManagerItem.3") + " [" + s + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 }
             }
             setItemsLikePCTInteger(alPCT);
@@ -149,7 +149,7 @@ public class GodManagerItem {
             setItemsDislikePCTInteger(null);
 
             // Si hab�a items, BAM, error
-            if (getItemsDislike() != null && getItemsDislike().size() > 0) {
+            if (getItemsDislike() != null && !getItemsDislike().isEmpty()) {
                 throw new Exception(Messages.getString("GodManagerItem.7")); //$NON-NLS-1$
             }
         } else {
@@ -157,12 +157,12 @@ public class GodManagerItem {
             if (getItemsDislike() == null || getItemsDislike().size() != itemsDislikePCT.size()) {
                 throw new Exception(Messages.getString("GodManagerItem.7")); //$NON-NLS-1$
             }
-            ArrayList<Integer> alPCT = new ArrayList<Integer>(itemsDislikePCT.size());
-            for (int i = 0; i < itemsDislikePCT.size(); i++) {
+            ArrayList<Integer> alPCT = new ArrayList<>(itemsDislikePCT.size());
+            for (String s : itemsDislikePCT) {
                 try {
-                    alPCT.add(Integer.parseInt(itemsDislikePCT.get(i)));
+                    alPCT.add(Integer.parseInt(s));
                 } catch (Exception e) {
-                    throw new Exception(Messages.getString("GodManagerItem.6") + " [" + itemsDislikePCT.get(i) + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                    throw new Exception(Messages.getString("GodManagerItem.6") + " [" + s + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 }
             }
             setItemsDislikePCTInteger(alPCT);

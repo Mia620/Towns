@@ -10,6 +10,7 @@ import xaos.utils.Messages;
 import xaos.utils.UtilsXML;
 
 import java.io.File;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -18,7 +19,7 @@ public class ZoneManager {
     private static HashMap<String, ZoneManagerItem> zoneList;
 
     private static void loadItems() {
-        zoneList = new HashMap<String, ZoneManagerItem>();
+        zoneList = new HashMap<>();
         // Cargar de fichero
         loadXMLZones(Towns.getPropertiesString("DATA_FOLDER") + "zones.xml", true); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -29,9 +30,9 @@ public class ZoneManager {
         }
 
         ArrayList<String> alMods = Game.getModsLoaded();
-        if (alMods != null && alMods.size() > 0) {
-            for (int i = 0; i < alMods.size(); i++) {
-                String sModActionsPath = fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator") + alMods.get(i) + System.getProperty("file.separator") + Towns.getPropertiesString("DATA_FOLDER") + "zones.xml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+        if (!alMods.isEmpty()) {
+            for (String alMod : alMods) {
+                String sModActionsPath = fUserFolder.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.MODS_FOLDER1 + FileSystems.getDefault().getSeparator() + alMod + FileSystems.getDefault().getSeparator() + Towns.getPropertiesString("DATA_FOLDER") + "zones.xml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
                 File fIni = new File(sModActionsPath);
                 if (fIni.exists()) {
                     loadXMLZones(sModActionsPath, false);
@@ -101,7 +102,7 @@ public class ZoneManager {
                         }
 
                         ArrayList<String> alNeighbors = UtilsXML.getChildValues(node.getChildNodes(), "neighbor"); //$NON-NLS-1$
-                        if (alNeighbors != null && alNeighbors.size() > 0) {
+                        if (alNeighbors != null && !alNeighbors.isEmpty()) {
                             item.setNeighbors(alNeighbors);
                         }
                     } else {

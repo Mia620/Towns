@@ -18,7 +18,7 @@ public class ActionPriorityManagerItem {
     }
 
     public void setId(String sID) throws Exception {
-        if (sID == null || sID.trim().length() == 0) {
+        if (sID == null || sID.trim().isEmpty()) {
             throw new Exception(Messages.getString("ActionManagerItem.0")); //$NON-NLS-1$
         }
 

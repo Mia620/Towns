@@ -182,7 +182,7 @@ public class Projectile extends Tile implements Externalizable {
     }
 
     public boolean nextTurn() {
-        if (path.size() > 0) {
+        if (!path.isEmpty()) {
             Point3DShort nextPoint = path.remove(0);
             if (checkHit()) {
                 return true;

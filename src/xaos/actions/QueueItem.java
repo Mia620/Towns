@@ -74,7 +74,7 @@ public class QueueItem implements Externalizable {
     }
 
     public void setType(String sType) throws Exception {
-        if (sType == null || sType.length() == 0) {
+        if (sType == null || sType.isEmpty()) {
             throw new Exception(Messages.getString("QueueItem.5")); //$NON-NLS-1$
         }
 
@@ -136,14 +136,14 @@ public class QueueItem implements Externalizable {
                 ArrayList<String> alTokens = Utils.getArray(value);
 
                 if (alTokens != null) {
-                    for (int i = 0; i < alTokens.size(); i++) {
+                    for (String alToken : alTokens) {
                         if (getType() == TYPE_PICK || getType() == TYPE_MOVE || getType() == TYPE_LOCK) {
-                            if (ItemManager.getItem(alTokens.get(i)) == null) {
-                                throw new Exception(Messages.getString("QueueItem.0") + alTokens.get(i) + "]"); //$NON-NLS-1$ //$NON-NLS-2$
+                            if (ItemManager.getItem(alToken) == null) {
+                                throw new Exception(Messages.getString("QueueItem.0") + alToken + "]"); //$NON-NLS-1$ //$NON-NLS-2$
                             }
                         } else {
-                            if (LivingEntityManager.getItem(alTokens.get(i)) == null) {
-                                throw new Exception(Messages.getString("QueueItem.0") + alTokens.get(i) + "]"); //$NON-NLS-1$ //$NON-NLS-2$
+                            if (LivingEntityManager.getItem(alToken) == null) {
+                                throw new Exception(Messages.getString("QueueItem.0") + alToken + "]"); //$NON-NLS-1$ //$NON-NLS-2$
                             }
                         }
                     }

@@ -10,6 +10,7 @@ import xaos.utils.Messages;
 import xaos.utils.UtilsXML;
 
 import java.io.File;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -19,7 +20,7 @@ public class EffectManager {
     private static HashMap<String, EffectManagerItem> effectList;
 
     private static void loadItems() {
-        effectList = new HashMap<String, EffectManagerItem>();
+        effectList = new HashMap<>();
 
         // Cargar de fichero
         loadXMLEffects(Towns.getPropertiesString("DATA_FOLDER") + "effects.xml", true); //$NON-NLS-1$ //$NON-NLS-2$
@@ -31,9 +32,9 @@ public class EffectManager {
         }
 
         ArrayList<String> alMods = Game.getModsLoaded();
-        if (alMods != null && alMods.size() > 0) {
-            for (int i = 0; i < alMods.size(); i++) {
-                String sModActionsPath = fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator") + alMods.get(i) + System.getProperty("file.separator") + Towns.getPropertiesString("DATA_FOLDER") + "effects.xml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+        if (!alMods.isEmpty()) {
+            for (String alMod : alMods) {
+                String sModActionsPath = fUserFolder.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.MODS_FOLDER1 + FileSystems.getDefault().getSeparator() + alMod + FileSystems.getDefault().getSeparator() + Towns.getPropertiesString("DATA_FOLDER") + "effects.xml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
                 File fIni = new File(sModActionsPath);
                 if (fIni.exists()) {
                     loadXMLEffects(sModActionsPath, false);
@@ -47,7 +48,7 @@ public class EffectManager {
         while (itEffects.hasNext()) {
             emi = itEffects.next();
 
-            if (emi.getAfterEffects() != null && emi.getAfterEffects().size() > 0) {
+            if (emi.getAfterEffects() != null && !emi.getAfterEffects().isEmpty()) {
                 for (int e = 0; e < emi.getAfterEffects().size(); e++) {
                     if (!effectList.containsKey(emi.getAfterEffects().get(e))) {
                         Log.log(Log.LEVEL_ERROR, Messages.getString("EffectManager.2") + emi.getAfterEffects().get(e) + "]", "EffectManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -56,7 +57,7 @@ public class EffectManager {
                 }
             }
 
-            if (emi.getOnHitEffects() != null && emi.getOnHitEffects().size() > 0) {
+            if (emi.getOnHitEffects() != null && !emi.getOnHitEffects().isEmpty()) {
                 for (int e = 0; e < emi.getOnHitEffects().size(); e++) {
                     if (!effectList.containsKey(emi.getOnHitEffects().get(e))) {
                         Log.log(Log.LEVEL_ERROR, Messages.getString("EffectManager.3") + emi.getOnHitEffects().get(e) + "]", "EffectManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -65,7 +66,7 @@ public class EffectManager {
                 }
             }
 
-            if (emi.getOnRangedHitEffects() != null && emi.getOnRangedHitEffects().size() > 0) {
+            if (emi.getOnRangedHitEffects() != null && !emi.getOnRangedHitEffects().isEmpty()) {
                 for (int e = 0; e < emi.getOnRangedHitEffects().size(); e++) {
                     if (!effectList.containsKey(emi.getOnRangedHitEffects().get(e))) {
                         Log.log(Log.LEVEL_ERROR, Messages.getString("EffectManager.4") + emi.getOnRangedHitEffects().get(e) + "]", "EffectManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -74,7 +75,7 @@ public class EffectManager {
                 }
             }
 
-            if (emi.getEffectsImmune() != null && emi.getEffectsImmune().size() > 0) {
+            if (emi.getEffectsImmune() != null && !emi.getEffectsImmune().isEmpty()) {
                 for (int e = 0; e < emi.getEffectsImmune().size(); e++) {
                     if (!effectList.containsKey(emi.getEffectsImmune().get(e))) {
                         Log.log(Log.LEVEL_ERROR, Messages.getString("EffectManager.1") + emi.getEffectsImmune().get(e) + "]", "EffectManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -83,7 +84,7 @@ public class EffectManager {
                 }
             }
 
-            if (emi.getEffectsPrerequisite() != null && emi.getEffectsPrerequisite().size() > 0) {
+            if (emi.getEffectsPrerequisite() != null && !emi.getEffectsPrerequisite().isEmpty()) {
                 for (int e = 0; e < emi.getEffectsPrerequisite().size(); e++) {
                     if (!effectList.containsKey(emi.getEffectsPrerequisite().get(e))) {
                         Log.log(Log.LEVEL_ERROR, Messages.getString("EffectManager.7") + " [" + emi.getEffectsPrerequisite().get(e) + "]", "EffectManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -92,7 +93,7 @@ public class EffectManager {
                 }
             }
 
-            if (emi.getCastEffects() != null && emi.getCastEffects().size() > 0) {
+            if (emi.getCastEffects() != null && !emi.getCastEffects().isEmpty()) {
                 for (int e = 0; e < emi.getCastEffects().size(); e++) {
                     if (!effectList.containsKey(emi.getCastEffects().get(e))) {
                         Log.log(Log.LEVEL_ERROR, Messages.getString("EffectManager.5") + emi.getCastEffects().get(e) + "]", "EffectManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -142,7 +143,7 @@ public class EffectManager {
                     }
 
                     sIniHeader = UtilsXML.getChildValue(node.getChildNodes(), "id"); //$NON-NLS-1$
-                    if (sIniHeader == null || sIniHeader.length() == 0) {
+                    if (sIniHeader == null || sIniHeader.isEmpty()) {
                         throw new Exception(Messages.getString("SkillManager.1")); //$NON-NLS-1$
                     }
 

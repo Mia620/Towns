@@ -23,6 +23,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -41,9 +42,9 @@ public class ActionPriorityManager {
 
     public static void loadItems() {
         // Cargar de fichero
-        prioritiesList = new ArrayList<String>();
-        prioritiesValues = new HashMap<String, Integer>();
-        itemList = new HashMap<String, ActionPriorityManagerItem>();
+        prioritiesList = new ArrayList<>();
+        prioritiesValues = new HashMap<>();
+        itemList = new HashMap<>();
 
         // Cargar de fichero
         loadXMLPriorityActions(Towns.getPropertiesString("DATA_FOLDER") + "priorities.xml");
@@ -55,9 +56,9 @@ public class ActionPriorityManager {
         }
 
         ArrayList<String> alMods = Game.getModsLoaded();
-        if (alMods != null && alMods.size() > 0) {
-            for (int i = 0; i < alMods.size(); i++) {
-                String sModActionsPath = fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator") + alMods.get(i) + System.getProperty("file.separator") + Towns.getPropertiesString("DATA_FOLDER") + "priorities.xml";
+        if (!alMods.isEmpty()) {
+            for (String alMod : alMods) {
+                String sModActionsPath = fUserFolder.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.MODS_FOLDER1 + FileSystems.getDefault().getSeparator() + alMod + FileSystems.getDefault().getSeparator() + Towns.getPropertiesString("DATA_FOLDER") + "priorities.xml";
                 File fIni = new File(sModActionsPath);
                 if (fIni.exists()) {
                     loadXMLPriorityActions(sModActionsPath);
@@ -109,7 +110,7 @@ public class ActionPriorityManager {
 
                     // Priority
                     if (sID != null && !prioritiesList.contains(sID)) {
-                        prioritiesValues.put(sID, Integer.valueOf(prioritiesList.size()));
+                        prioritiesValues.put(sID, prioritiesList.size());
                         prioritiesList.add(sID);
                     }
 
@@ -145,7 +146,7 @@ public class ActionPriorityManager {
 
         Integer iValue = prioritiesValues.get(sID);
         if (iValue != null) {
-            return iValue.intValue();
+            return iValue;
         }
 
         return prioritiesList.size();
@@ -160,7 +161,7 @@ public class ActionPriorityManager {
         if (ami.getPriorityID() != null) {
             Integer iValue = prioritiesValues.get(ami.getPriorityID());
             if (iValue != null) {
-                return iValue.intValue();
+                return iValue;
             }
         }
 
@@ -202,7 +203,7 @@ public class ActionPriorityManager {
         }
 
         ArrayList<String> alPriorities = getPrioritiesList();
-        if (alPriorities == null || alPriorities.size() == 0) {
+        if (alPriorities == null || alPriorities.isEmpty()) {
             return null;
         }
 
@@ -219,13 +220,13 @@ public class ActionPriorityManager {
         smProfessionsMenu.addItem(smAux);
 
         // A�adimos 1 linea por cada priority (para poner/quitar)
-        for (int i = 0; i < alPriorities.size(); i++) {
-            ActionPriorityManagerItem apmi = getItem(alPriorities.get(i));
+        for (String alPriority : alPriorities) {
+            ActionPriorityManagerItem apmi = getItem(alPriority);
             if (apmi != null) {
-                if (cit.getCitizenData().containsDeniedJob(alPriorities.get(i))) {
-                    smAux = new SmartMenu(SmartMenu.TYPE_ITEM, apmi.getName(), null, CommandPanel.COMMAND_PROFESSIONS_ENABLE_ITEM, Integer.toString(iCitizenID), alPriorities.get(i), null, Color.GREEN);
+                if (cit.getCitizenData().containsDeniedJob(alPriority)) {
+                    smAux = new SmartMenu(SmartMenu.TYPE_ITEM, apmi.getName(), null, CommandPanel.COMMAND_PROFESSIONS_ENABLE_ITEM, Integer.toString(iCitizenID), alPriority, null, Color.GREEN);
                 } else {
-                    smAux = new SmartMenu(SmartMenu.TYPE_ITEM, apmi.getName(), null, CommandPanel.COMMAND_PROFESSIONS_DISABLE_ITEM, Integer.toString(iCitizenID), alPriorities.get(i), null, Color.ORANGE);
+                    smAux = new SmartMenu(SmartMenu.TYPE_ITEM, apmi.getName(), null, CommandPanel.COMMAND_PROFESSIONS_DISABLE_ITEM, Integer.toString(iCitizenID), alPriority, null, Color.ORANGE);
                 }
                 smAux.setIcon(apmi.getIcon().getIniHeader());
                 smProfessionsMenu.addItem(smAux);
@@ -246,7 +247,7 @@ public class ActionPriorityManager {
         }
 
         ArrayList<String> alPriorities = getPrioritiesList();
-        if (alPriorities == null || alPriorities.size() == 0) {
+        if (alPriorities == null || alPriorities.isEmpty()) {
             return null;
         }
 
@@ -261,13 +262,13 @@ public class ActionPriorityManager {
         smJobGroupMenu.addItem(smAux);
 
         // A�adimos 1 linea por cada priority (para poner/quitar)
-        for (int i = 0; i < alPriorities.size(); i++) {
-            ActionPriorityManagerItem apmi = getItem(alPriorities.get(i));
+        for (String alPriority : alPriorities) {
+            ActionPriorityManagerItem apmi = getItem(alPriority);
             if (apmi != null) {
-                if (cgd.containsDeniedJob(UtilsIniHeaders.getIntIniHeader(alPriorities.get(i)))) {
-                    smAux = new SmartMenu(SmartMenu.TYPE_ITEM, apmi.getName(), null, CommandPanel.COMMAND_JOB_GROUP_ENABLE_ITEM, Integer.toString(iGroupID), alPriorities.get(i), null, Color.GREEN);
+                if (cgd.containsDeniedJob(UtilsIniHeaders.getIntIniHeader(alPriority))) {
+                    smAux = new SmartMenu(SmartMenu.TYPE_ITEM, apmi.getName(), null, CommandPanel.COMMAND_JOB_GROUP_ENABLE_ITEM, Integer.toString(iGroupID), alPriority, null, Color.GREEN);
                 } else {
-                    smAux = new SmartMenu(SmartMenu.TYPE_ITEM, apmi.getName(), null, CommandPanel.COMMAND_JOB_GROUP_DISABLE_ITEM, Integer.toString(iGroupID), alPriorities.get(i), null, Color.ORANGE);
+                    smAux = new SmartMenu(SmartMenu.TYPE_ITEM, apmi.getName(), null, CommandPanel.COMMAND_JOB_GROUP_DISABLE_ITEM, Integer.toString(iGroupID), alPriority, null, Color.ORANGE);
                 }
                 smAux.setIcon(apmi.getIcon().getIniHeader());
                 smJobGroupMenu.addItem(smAux);
@@ -297,7 +298,7 @@ public class ActionPriorityManager {
         Citizen cit = (Citizen) le;
 
         ArrayList<String> alPriorities = getPrioritiesList();
-        if (alPriorities == null || alPriorities.size() == 0) {
+        if (alPriorities == null || alPriorities.isEmpty()) {
             return false;
         }
 

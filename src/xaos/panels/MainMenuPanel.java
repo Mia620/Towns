@@ -134,7 +134,7 @@ public final class MainMenuPanel implements Runnable {
 
         // Campaign / new game
         ArrayList<CampaignData> alCampaigns = CampaignManager.getCampaigns();
-        if (alCampaigns != null && alCampaigns.size() > 0) {
+        if (alCampaigns != null && !alCampaigns.isEmpty()) {
             // Tutorial
             SmartMenu menuTutorial = new SmartMenu(SmartMenu.TYPE_MENU, Messages.getString("MainMenuPanel.82"), mainMenu, null, null, null, null, textColor); //$NON-NLS-1$
             menuTutorial.setTrasparency(mainMenu.isTrasparency());
@@ -150,9 +150,9 @@ public final class MainMenuPanel implements Runnable {
             menuCampaign.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, null, null, null, null, null));
 
             // Fill the menus (tutorial OR new game)
-            for (int i = 0; i < alCampaigns.size(); i++) {
-                String sCampaignID = alCampaigns.get(i).getId();
-                boolean bTutorial = alCampaigns.get(i).isTutorial();
+            for (CampaignData alCampaign : alCampaigns) {
+                String sCampaignID = alCampaign.getId();
+                boolean bTutorial = alCampaign.isTutorial();
                 SmartMenu campaign;
                 if (bTutorial) {
                     campaign = menuTutorial;
@@ -167,12 +167,12 @@ public final class MainMenuPanel implements Runnable {
 //                campaign.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, alCampaigns.get(i).getName(), null, null, null, null));
 //                campaign.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, null, null, null, null, null));
 
-                for (int j = 0; j < alCampaigns.get(i).getMissions().size(); j++) {
-                    String missionName = alCampaigns.get(i).getMissions().get(j).getName();
-                    String sMissionID = alCampaigns.get(i).getMissions().get(j).getId();
+                for (int j = 0; j < alCampaign.getMissions().size(); j++) {
+                    String missionName = alCampaign.getMissions().get(j).getName();
+                    String sMissionID = alCampaign.getMissions().get(j).getId();
 
                     // A�adimos la opci�n de bajar burieds
-                    if (Game.isAllowBury() && alCampaigns.get(i).getMissions().get(j).isAllowBury()) {
+                    if (Game.isAllowBury() && alCampaign.getMissions().get(j).isAllowBury()) {
                         SmartMenu loadBurieds = new SmartMenu(SmartMenu.TYPE_MENU, missionName, campaign, null, null, null, null, textColor);
                         loadBurieds.setTrasparency(true);
                         loadBurieds.setBorderColor(borderColor);
@@ -193,7 +193,7 @@ public final class MainMenuPanel implements Runnable {
                         loadBurieds.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, null, null, null, null));
 
                         // Server bury
-                        if (Game.getServerNames().size() > 0) {
+                        if (!Game.getServerNames().isEmpty()) {
                             for (int s = 0; s < Game.getServerNames().size(); s++) {
                                 menuAux = new SmartMenu(SmartMenu.TYPE_ITEM, Messages.getString("MainMenuPanel.68") + " [" + Game.getServerNames().get(s) + "]", null, CommandPanel.COMMAND_MM_NEWGAME_SET_SAVE_NAME, sCampaignID, sMissionID, new Point3D(s, s, s), textColor); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                                 menuAux.setBorderColor(borderColor);
@@ -248,7 +248,7 @@ public final class MainMenuPanel implements Runnable {
         // Load game
         // Si no hay saves no creamos este menu
         ArrayList<File> alSavegames = Utils.getSaveFiles();
-        if (alSavegames != null && alSavegames.size() > 0) {
+        if (alSavegames != null && !alSavegames.isEmpty()) {
             SmartMenu menuLoad = new SmartMenu(SmartMenu.TYPE_MENU, Messages.getString("MainMenuPanel.38"), mainMenu, null, null, null, null, textColor); //$NON-NLS-1$
             menuLoad.setTrasparency(mainMenu.isTrasparency());
             menuLoad.setBorderColor(borderColor);
@@ -260,8 +260,8 @@ public final class MainMenuPanel implements Runnable {
             Calendar cal;
             Calendar calToday = Calendar.getInstance();
             String sDate;
-            for (int i = 0; i < alSavegames.size(); i++) {
-                fAux = alSavegames.get(i);
+            for (File alSavegame : alSavegames) {
+                fAux = alSavegame;
                 cal = Calendar.getInstance();
                 cal.setTimeInMillis(fAux.lastModified());
                 if (cal.get(Calendar.DAY_OF_MONTH) == calToday.get(Calendar.DAY_OF_MONTH) && cal.get(Calendar.MONTH) == calToday.get(Calendar.MONTH) && cal.get(Calendar.YEAR) == calToday.get(Calendar.YEAR)) {
@@ -315,9 +315,9 @@ public final class MainMenuPanel implements Runnable {
 
         ArrayList<File> alMods = Utils.getModsFolders();
 
-        if (alMods != null && alMods.size() > 0) {
-            for (int i = 0; i < alMods.size(); i++) {
-                menuAux = new SmartMenu(SmartMenu.TYPE_ITEM, alMods.get(i).getName() + " __MOD__" + alMods.get(i).getName() + "__/MOD__", null, CommandPanel.COMMAND_TOGGLE_MOD, alMods.get(i).getName(), null); //$NON-NLS-1$ //$NON-NLS-2$
+        if (alMods != null && !alMods.isEmpty()) {
+            for (File alMod : alMods) {
+                menuAux = new SmartMenu(SmartMenu.TYPE_ITEM, alMod.getName() + " __MOD__" + alMod.getName() + "__/MOD__", null, CommandPanel.COMMAND_TOGGLE_MOD, alMod.getName(), null); //$NON-NLS-1$ //$NON-NLS-2$
                 menuAux.setDynamic(true);
                 menuAux.setBorderColor(borderColor);
                 smMods.addItem(menuAux);
@@ -346,7 +346,7 @@ public final class MainMenuPanel implements Runnable {
 
         ArrayList<String> alServerNames = Game.getServerNames();
 
-        if (alServerNames.size() > 0) {
+        if (!alServerNames.isEmpty()) {
             String sServer;
             for (int i = 0; i < alServerNames.size(); i++) {
                 sServer = alServerNames.get(i);
@@ -577,8 +577,7 @@ public final class MainMenuPanel implements Runnable {
             menuOptionsLanguage.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, null, null, null, null, null));
 
             // Languages
-            for (int l = 0; l < alLanguages.size(); l++) {
-                LanguageData ld = alLanguages.get(l);
+            for (LanguageData ld : alLanguages) {
                 if (ld.mod == null || Game.getModsLoaded() == null) {
                     menuAux = new SmartMenu(SmartMenu.TYPE_ITEM, ld.name, null, CommandPanel.COMMAND_CHANGE_LANGUAGE, ld.language, ld.country, null, textColor);
                 } else {
@@ -825,7 +824,7 @@ public final class MainMenuPanel implements Runnable {
 
             // Si hay texto de loading lo pintamos tambi�n
             String sLoadingText = getLoadingText();
-            if (sLoadingText.length() > 0) {
+            if (!sLoadingText.isEmpty()) {
                 bTextureFontLoaded = true;
                 GL11.glBindTexture(GL11.GL_TEXTURE_2D, Game.TEXTURE_FONT_ID);
                 GL11.glTexEnvf(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE);
@@ -884,7 +883,7 @@ public final class MainMenuPanel implements Runnable {
                         // Cerramos
                         setSettingSavegameName(false, null, null);
                     } else if (iMousePanel == UIPanel.MOUSE_TYPING_PANEL_CONFIRM) {
-                        if (TypingPanel.getNewText() != null && TypingPanel.getNewText().length() > 0) {
+                        if (TypingPanel.getNewText() != null && !TypingPanel.getNewText().isEmpty()) {
                             // Confirmamos y empieza la partida
                             if (!Utils.existsSavegame(TypingPanel.getNewText())) { // S�lo si no existe en disco previamente
                                 startGame(TypingPanel.getNewText());
@@ -905,7 +904,7 @@ public final class MainMenuPanel implements Runnable {
                         // Cerramos
                         setSettingNewServer(false);
                     } else if (iMousePanel == UIPanel.MOUSE_TYPING_PANEL_CONFIRM) {
-                        if (TypingPanel.getNewText() != null && TypingPanel.getNewText().length() > 0) {
+                        if (TypingPanel.getNewText() != null && !TypingPanel.getNewText().isEmpty()) {
                             // Confirmamos
                             Game.addServer(TypingPanel.getNewText());
                             Utils.saveOptions();
@@ -930,7 +929,7 @@ public final class MainMenuPanel implements Runnable {
         if (isSettingSavegameName()) {
             if (TypingPanel.keyPressed(iKey)) {
                 // Ya ha acabado (o ha pulsado ESC)
-                if (TypingPanel.getNewText() != null && TypingPanel.getNewText().length() > 0) {
+                if (TypingPanel.getNewText() != null && !TypingPanel.getNewText().isEmpty()) {
                     // Todo ok, toca empezar la partida (s�lo si la partida no existe previamente en disco)
                     if (!Utils.existsSavegame(TypingPanel.getNewText())) {
                         startGame(TypingPanel.getNewText());
@@ -942,7 +941,7 @@ public final class MainMenuPanel implements Runnable {
         } else if (isSettingHotkey()) {
             if (TypingPanel.keyPressed(iKey)) {
                 // Ya ha acabado (o ha pulsado ESC)
-                if (TypingPanel.getNewText() != null && TypingPanel.getNewText().length() > 0) {
+                if (TypingPanel.getNewText() != null && !TypingPanel.getNewText().isEmpty()) {
                     // Key pulsada, la seteamos y saltamos a la siguiente (si hace falta)
                     if (settingHotkey == 1) {
                         UtilsKeyboard.redefineKey(0, TypingPanel.TYPING_PARAMETER, Integer.parseInt(TypingPanel.getNewText()));
@@ -970,7 +969,7 @@ public final class MainMenuPanel implements Runnable {
         } else if (isSettingNewServer()) {
             if (TypingPanel.keyPressed(iKey)) {
                 // Ya ha acabado (o ha pulsado ESC)
-                if (TypingPanel.getNewText() != null && TypingPanel.getNewText().length() > 0) {
+                if (TypingPanel.getNewText() != null && !TypingPanel.getNewText().isEmpty()) {
                     Game.addServer(TypingPanel.getNewText());
                     Utils.saveOptions();
 
@@ -995,7 +994,7 @@ public final class MainMenuPanel implements Runnable {
 
     public void setLoadingText(String sLoadingText) {
         loadingText = sLoadingText;
-        if (sLoadingText.length() > 0) {
+        if (!sLoadingText.isEmpty()) {
             if (isActive()) {
                 Game.getPanelMainMenu().render();
                 // Updateamos la pantalla / ventana

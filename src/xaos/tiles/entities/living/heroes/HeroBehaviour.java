@@ -64,15 +64,11 @@ public class HeroBehaviour implements Externalizable {
      */
     public static int getTurns(int iBehaviourID, HeroBehaviour behaviour) {
         int iMaxTurns = World.TIME_MODIFIER_DAY;
-        int PCT = 0;
-        switch (iBehaviourID) {
-            case BEHAVIOUR_ID_IDLE:
-                PCT = behaviour.getIdlePCT();
-                break;
-            case BEHAVIOUR_ID_EXPLORE:
-                PCT = behaviour.getExplorePCT();
-                break;
-        }
+        int PCT = switch (iBehaviourID) {
+            case BEHAVIOUR_ID_IDLE -> behaviour.getIdlePCT();
+            case BEHAVIOUR_ID_EXPLORE -> behaviour.getExplorePCT();
+            default -> 0;
+        };
 
         return (iMaxTurns * PCT) / 100;
     }

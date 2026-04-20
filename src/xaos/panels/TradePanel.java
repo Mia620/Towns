@@ -164,12 +164,12 @@ public class TradePanel {
 
         ItemManagerItem imi;
         ArrayList<String> alBuys = cmi.getBuys();
-        if (alBuys != null && alBuys.size() > 0) {
+        if (alBuys != null && !alBuys.isEmpty()) {
             // Items del mundo
             Integer[] aItems = World.getItems().keySet().toArray(new Integer[0]);
             Item oItem;
-            ArrayList<String> alIniHeaders = new ArrayList<String>();
-            ArrayList<Integer> alQtty = new ArrayList<Integer>();
+            ArrayList<String> alIniHeaders = new ArrayList<>();
+            ArrayList<Integer> alQtty = new ArrayList<>();
             for (int i = (aItems.length - 1); i >= 0; i--) {
                 oItem = World.getItems().get(aItems[i]);
                 if (oItem != null && !oItem.isLocked()) {
@@ -213,17 +213,17 @@ public class TradePanel {
             ArrayList<Item> alContainerItems;
             Item item;
             nextContainer:
-            for (int i = 0; i < alContainers.size(); i++) {
-                item = Item.getItemByID(alContainers.get(i).getItemID());
+            for (Container alContainer : alContainers) {
+                item = Item.getItemByID(alContainer.getItemID());
                 if (item == null || World.getCell(item.getCoordinates()).getAstarZoneID() != iASZID) {
                     continue nextContainer;
                 }
 
                 // Container en la zona
-                alContainerItems = alContainers.get(i).getItemsInside();
+                alContainerItems = alContainer.getItemsInside();
 
-                for (int j = 0; j < alContainerItems.size(); j++) {
-                    oItem = alContainerItems.get(j);
+                for (Item alContainerItem : alContainerItems) {
+                    oItem = alContainerItem;
                     imi = ItemManager.getItem(oItem.getIniHeader());
                     if (imi.getType() != null && alBuys.contains(imi.getType())) {
                         if (oItem instanceof MilitaryItem) {
@@ -677,7 +677,7 @@ public class TradePanel {
 
         int iWorldCoins = Game.getWorld().getCoins();
         int iCostoins = cost;
-        if (caravanData.getMenuCaravanToBuy().getItems().size() > 0 || caravanData.getMenuTownToSell().getItems().size() > 0) {
+        if (!caravanData.getMenuCaravanToBuy().getItems().isEmpty() || !caravanData.getMenuTownToSell().getItems().isEmpty()) {
             // Hay items en las listas, miramos si el pueblo puede permitirse el gasto
             // Venta, miramos si la caravana tiene suficiente pasta
             // Compra/venta justa o el pueblo/caravana tiene pasta suficiente
@@ -735,7 +735,7 @@ public class TradePanel {
             iMaxButtons = caravanData.getAlItems().size();
         }
 
-        ArrayList<Point> alButtonPoints = new ArrayList<Point>(iMaxButtons);
+        ArrayList<Point> alButtonPoints = new ArrayList<>(iMaxButtons);
         for (int i = 0; i < iMaxButtons; i++) {
             alButtonPoints.add(new Point(COLUMN1X, iYMin));
             iYMin += (tileTradeButton.getTileHeight() + 16);
@@ -758,7 +758,7 @@ public class TradePanel {
         if (iMaxButtons > caravanData.getMenuCaravanToBuy().getItems().size()) {
             iMaxButtons = caravanData.getMenuCaravanToBuy().getItems().size();
         }
-        ArrayList<Point> alButtonPointsToBuy = new ArrayList<Point>(iMaxButtons);
+        ArrayList<Point> alButtonPointsToBuy = new ArrayList<>(iMaxButtons);
         for (int i = 0; i < iMaxButtons; i++) {
             alButtonPointsToBuy.add(new Point(COLUMN2X + (tileTradeButton.getTileWidth() * 2), iYMin));
             iYMin += (tileTradeButton.getTileHeight() + 16);
@@ -787,7 +787,7 @@ public class TradePanel {
             iMaxButtons = getMenuTown().getItems().size();
         }
 
-        ArrayList<Point> alButtonPointsTown = new ArrayList<Point>(iMaxButtons);
+        ArrayList<Point> alButtonPointsTown = new ArrayList<>(iMaxButtons);
         for (int i = 0; i < iMaxButtons; i++) {
             alButtonPointsTown.add(new Point(COLUMN4X, iYMin));
             iYMin += (tileTradeButton.getTileHeight() + 16);
@@ -810,7 +810,7 @@ public class TradePanel {
         if (iMaxButtons > caravanData.getMenuTownToSell().getItems().size()) {
             iMaxButtons = caravanData.getMenuTownToSell().getItems().size();
         }
-        ArrayList<Point> alButtonPointsToSell = new ArrayList<Point>(iMaxButtons);
+        ArrayList<Point> alButtonPointsToSell = new ArrayList<>(iMaxButtons);
         for (int i = 0; i < iMaxButtons; i++) {
             alButtonPointsToSell.add(new Point(COLUMN3X, iYMin));
             iYMin += (tileTradeButton.getTileHeight() + 16);
@@ -1167,24 +1167,24 @@ public class TradePanel {
     public void recheckPriceToBuySell(CaravanData caravanData) {
         // Buy
         int iTotal = 0;
-        if (caravanData != null && caravanData.getMenuCaravanToBuy() != null & caravanData.getMenuCaravanToBuy().getItems().size() > 0) {
+        if (caravanData != null && caravanData.getMenuCaravanToBuy() != null & !caravanData.getMenuCaravanToBuy().getItems().isEmpty()) {
             int iPrice = 0;
             ArrayList<SmartMenu> alItems = caravanData.getMenuCaravanToBuy().getItems();
             SmartMenu smItem;
-            for (int i = 0, n = alItems.size(); i < n; i++) {
-                smItem = alItems.get(i);
+            for (SmartMenu alItem : alItems) {
+                smItem = alItem;
                 iPrice += (smItem.getDirectCoordinates().x * smItem.getDirectCoordinates().y);
             }
             iTotal = iPrice;
         }
 
         // Sell
-        if (caravanData != null && caravanData.getMenuTownToSell() != null && caravanData.getMenuTownToSell().getItems().size() > 0) {
+        if (caravanData != null && caravanData.getMenuTownToSell() != null && !caravanData.getMenuTownToSell().getItems().isEmpty()) {
             int iPrice = 0;
             ArrayList<SmartMenu> alItems = caravanData.getMenuTownToSell().getItems();
             SmartMenu smItem;
-            for (int i = 0, n = alItems.size(); i < n; i++) {
-                smItem = alItems.get(i);
+            for (SmartMenu alItem : alItems) {
+                smItem = alItem;
                 iPrice += (smItem.getDirectCoordinates().x * smItem.getDirectCoordinates().y);
             }
             iTotal -= iPrice;

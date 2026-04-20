@@ -14,6 +14,7 @@ import xaos.utils.Utils;
 import xaos.utils.UtilsXML;
 
 import java.io.File;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -23,7 +24,7 @@ public class EventManager {
     private static HashMap<String, EventManagerItem> eventsList;
 
     public static void loadItems() {
-        eventsList = new HashMap<String, EventManagerItem>();
+        eventsList = new HashMap<>();
 
         // Cargar de fichero
         loadXMLEvents(Towns.getPropertiesString("DATA_FOLDER") + "events.xml", true); //$NON-NLS-1$ //$NON-NLS-2$
@@ -35,9 +36,9 @@ public class EventManager {
         }
 
         ArrayList<String> alMods = Game.getModsLoaded();
-        if (alMods != null && alMods.size() > 0) {
-            for (int i = 0; i < alMods.size(); i++) {
-                String sModActionsPath = fUserFolder.getAbsolutePath() + System.getProperty("file.separator") + Game.MODS_FOLDER1 + System.getProperty("file.separator") + alMods.get(i) + System.getProperty("file.separator") + Towns.getPropertiesString("DATA_FOLDER") + "events.xml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+        if (!alMods.isEmpty()) {
+            for (String alMod : alMods) {
+                String sModActionsPath = fUserFolder.getAbsolutePath() + FileSystems.getDefault().getSeparator() + Game.MODS_FOLDER1 + FileSystems.getDefault().getSeparator() + alMod + FileSystems.getDefault().getSeparator() + Towns.getPropertiesString("DATA_FOLDER") + "events.xml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
                 File fIni = new File(sModActionsPath);
                 if (fIni.exists()) {
                     loadXMLEvents(sModActionsPath, false);
@@ -52,7 +53,7 @@ public class EventManager {
             emi = itEffects.next();
 
             // items
-            if (emi.getItems() != null && emi.getItems().size() > 0) {
+            if (emi.getItems() != null && !emi.getItems().isEmpty()) {
                 for (int e = 0; e < emi.getItems().size(); e++) {
                     if (ItemManager.getItem(emi.getItems().get(e)) == null) {
                         Log.log(Log.LEVEL_ERROR, Messages.getString("EventManager.0") + " [" + emi.getItems().get(e) + "]", "EventManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -62,7 +63,7 @@ public class EventManager {
             }
 
             // itemsSpawnLiving
-            if (emi.getItemsSpawnLiving() != null && emi.getItemsSpawnLiving().size() > 0) {
+            if (emi.getItemsSpawnLiving() != null && !emi.getItemsSpawnLiving().isEmpty()) {
                 for (int e = 0; e < emi.getItemsSpawnLiving().size(); e++) {
                     if (LivingEntityManager.getItem(emi.getItemsSpawnLiving().get(e)) == null) {
                         Log.log(Log.LEVEL_ERROR, Messages.getString("EventManager.2") + " [" + emi.getItemsSpawnLiving().get(e) + "]", "EventManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -72,7 +73,7 @@ public class EventManager {
             }
 
             // siegeLivings
-            if (emi.getSiegeLivings() != null && emi.getSiegeLivings().size() > 0) {
+            if (emi.getSiegeLivings() != null && !emi.getSiegeLivings().isEmpty()) {
                 for (int e = 0; e < emi.getSiegeLivings().size(); e++) {
                     if (LivingEntityManager.getItem(emi.getSiegeLivings().get(e)) == null) {
                         Log.log(Log.LEVEL_ERROR, Messages.getString("EventManager.3") + " [" + emi.getSiegeLivings().get(e) + "]", "EventManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -82,7 +83,7 @@ public class EventManager {
             }
 
             // afterEvents
-            if (emi.getAfterEvents() != null && emi.getAfterEvents().size() > 0) {
+            if (emi.getAfterEvents() != null && !emi.getAfterEvents().isEmpty()) {
                 for (int e = 0; e < emi.getAfterEvents().size(); e++) {
                     if (!eventsList.containsKey(emi.getAfterEvents().get(e))) {
                         Log.log(Log.LEVEL_ERROR, Messages.getString("EventManager.4") + " [" + emi.getAfterEvents().get(e) + "]", "EventManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -92,7 +93,7 @@ public class EventManager {
             }
 
             // prerequisites
-            if (emi.getPrerequisites() != null && emi.getPrerequisites().size() > 0) {
+            if (emi.getPrerequisites() != null && !emi.getPrerequisites().isEmpty()) {
                 for (int e = 0; e < emi.getPrerequisites().size(); e++) {
                     if (!eventsList.containsKey(emi.getPrerequisites().get(e))) {
                         Log.log(Log.LEVEL_ERROR, Messages.getString("EventManager.8") + " [" + emi.getPrerequisites().get(e) + "]", "EventManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -102,7 +103,7 @@ public class EventManager {
             }
 
             // eventsImmune
-            if (emi.getEventsImmune() != null && emi.getEventsImmune().size() > 0) {
+            if (emi.getEventsImmune() != null && !emi.getEventsImmune().isEmpty()) {
                 for (int e = 0; e < emi.getEventsImmune().size(); e++) {
                     if (!eventsList.containsKey(emi.getEventsImmune().get(e))) {
                         Log.log(Log.LEVEL_ERROR, Messages.getString("EventManager.12") + " [" + emi.getEventsImmune().get(e) + "]", "EventManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -112,7 +113,7 @@ public class EventManager {
             }
 
             // effects
-            if (emi.getEffects() != null && emi.getEffects().size() > 0) {
+            if (emi.getEffects() != null && !emi.getEffects().isEmpty()) {
                 for (int e = 0; e < emi.getEffects().size(); e++) {
                     if (EffectManager.getItem(emi.getEffects().get(e)) == null) {
                         Log.log(Log.LEVEL_ERROR, Messages.getString("EventManager.16") + " [" + emi.getEffects().get(e) + "]", "EventManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -122,7 +123,7 @@ public class EventManager {
             }
 
             // effectsAfterEat
-            if (emi.getEffectsAfterEat() != null && emi.getEffectsAfterEat().size() > 0) {
+            if (emi.getEffectsAfterEat() != null && !emi.getEffectsAfterEat().isEmpty()) {
                 for (int e = 0; e < emi.getEffectsAfterEat().size(); e++) {
                     if (EffectManager.getItem(emi.getEffectsAfterEat().get(e)) == null) {
                         Log.log(Log.LEVEL_ERROR, Messages.getString("EventManager.1") + " [" + emi.getEffectsAfterEat().get(e) + "]", "EventManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -132,7 +133,7 @@ public class EventManager {
             }
 
             // effectsAfterSleep
-            if (emi.getEffectsAfterSleep() != null && emi.getEffectsAfterSleep().size() > 0) {
+            if (emi.getEffectsAfterSleep() != null && !emi.getEffectsAfterSleep().isEmpty()) {
                 for (int e = 0; e < emi.getEffectsAfterSleep().size(); e++) {
                     if (EffectManager.getItem(emi.getEffectsAfterSleep().get(e)) == null) {
                         Log.log(Log.LEVEL_ERROR, Messages.getString("EventManager.24") + " [" + emi.getEffectsAfterSleep().get(e) + "]", "EventManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -160,7 +161,7 @@ public class EventManager {
             loadItems();
         }
 
-        ArrayList<String> alRandomEvents = new ArrayList<String>();
+        ArrayList<String> alRandomEvents = new ArrayList<>();
 
         Iterator<EventManagerItem> itEffects = eventsList.values().iterator();
         EventManagerItem emi;
@@ -171,7 +172,7 @@ public class EventManager {
             }
         }
 
-        if (alRandomEvents.size() == 0) {
+        if (alRandomEvents.isEmpty()) {
             return null;
         }
 
@@ -205,7 +206,7 @@ public class EventManager {
                     }
 
                     sIniHeader = UtilsXML.getChildValue(node.getChildNodes(), "id"); //$NON-NLS-1$
-                    if (sIniHeader == null || sIniHeader.length() == 0) {
+                    if (sIniHeader == null || sIniHeader.isEmpty()) {
                         throw new Exception(Messages.getString("EventManager.31")); //$NON-NLS-1$
                     }
 

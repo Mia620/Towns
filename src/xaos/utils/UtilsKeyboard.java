@@ -129,7 +129,7 @@ public final class UtilsKeyboard {
     public static void loadShortcuts() {
         for (int i = 0; i < FNSTRINGS.length; i++) {
             String sShortcuts = Towns.getPropertiesString(FNSTRINGS[i]);
-            if (sShortcuts != null && sShortcuts.trim().length() > 0) {
+            if (sShortcuts != null && !sShortcuts.trim().isEmpty()) {
                 sShortcuts = sShortcuts.toUpperCase();
                 StringTokenizer tokenizer = new StringTokenizer(sShortcuts.trim(), ","); //$NON-NLS-1$
                 String key = tokenizer.nextToken().trim();
