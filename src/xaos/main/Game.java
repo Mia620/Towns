@@ -893,21 +893,21 @@ public final class Game {
     }
 
 
-    public static void createTask(int taskID) {
+    public static void createTask(Task.TASK task) {
         setCurrentState(STATE_CREATING_TASK);
-        currentTask = new Task(taskID);
+        currentTask = new Task(task);
     }
 
 
-    public static void createTask(int taskID, String sParameter) {
+    public static void createTask(Task.TASK taskID, String sParameter) {
         createTask(taskID);
         currentTask.setParameter(sParameter);
     }
 
 
     public static void taskCreated() {
-        if (getCurrentTask() != null && getCurrentTask().getTask() == Task.TASK_DIG) {
-            getCurrentTask().setTask(Task.TASK_MINE);
+        if (getCurrentTask() != null && getCurrentTask().getTask() == Task.TASK.DIG) {
+            getCurrentTask().setTask(Task.TASK.MINE);
         }
         world.getTaskManager().addTask(getCurrentTask());
         setCurrentState(Game.STATE_NO_STATE);

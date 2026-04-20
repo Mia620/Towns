@@ -128,7 +128,7 @@ public class Citizen extends LivingEntity implements Externalizable {
 
     private static boolean isCitizenWalkingToFood(Point3DShort p3dItem, int citID, Citizen citizen) {
         Point3DShort p3d;
-        if (citizen.getCurrentTask() != null && citizen.getCurrentTask().getTask() == Task.TASK_EAT) {
+        if (citizen.getCurrentTask() != null && citizen.getCurrentTask().getTask() == Task.TASK.EAT) {
             // Aldeano con tarea de comer
             Point3D p3dFull = citizen.getCurrentTask().getPointIni();
             if (p3dFull != null) {
@@ -358,17 +358,17 @@ public class Citizen extends LivingEntity implements Externalizable {
 
                             int iSoldierState = citizen.getSoldierData().getState();
                             if (iSoldierState != SoldierData.STATE_GUARD) {
-                                smChangeState.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, Messages.getString("Citizen.32"), null, CommandPanel.COMMAND_SOLDIER_SET_STATE, Integer.toString(citizen.getID()), Integer.toString(SoldierData.STATE_GUARD), new Point3D(-1, -1, -1))); //$NON-NLS-1$
+                                smChangeState.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, Messages.getString("Citizen.32"), null, CommandPanel.COMMAND_SOLIDER_SET_STATE, Integer.toString(citizen.getID()), Integer.toString(SoldierData.STATE_GUARD), new Point3D(-1, -1, -1))); //$NON-NLS-1$
                             } else {
                                 smChangeState.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, Messages.getString("Citizen.32"), null, null, null, null, null, Color.GRAY)); //$NON-NLS-1$
                             }
                             if (iSoldierState != SoldierData.STATE_PATROL) {
-                                smChangeState.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, Messages.getString("Citizen.34"), null, CommandPanel.COMMAND_SOLDIER_SET_STATE, Integer.toString(citizen.getID()), Integer.toString(SoldierData.STATE_PATROL), new Point3D(-1, -1, -1))); //$NON-NLS-1$
+                                smChangeState.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, Messages.getString("Citizen.34"), null, CommandPanel.COMMAND_SOLIDER_SET_STATE, Integer.toString(citizen.getID()), Integer.toString(SoldierData.STATE_PATROL), new Point3D(-1, -1, -1))); //$NON-NLS-1$
                             } else {
                                 smChangeState.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, Messages.getString("Citizen.34"), null, null, null, null, null, Color.GRAY)); //$NON-NLS-1$
                             }
                             if (iSoldierState != SoldierData.STATE_BOSS_AROUND) {
-                                smChangeState.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, Messages.getString("Citizen.35"), null, CommandPanel.COMMAND_SOLDIER_SET_STATE, Integer.toString(citizen.getID()), Integer.toString(SoldierData.STATE_BOSS_AROUND), new Point3D(-1, -1, -1))); //$NON-NLS-1$
+                                smChangeState.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, Messages.getString("Citizen.35"), null, CommandPanel.COMMAND_SOLIDER_SET_STATE, Integer.toString(citizen.getID()), Integer.toString(SoldierData.STATE_BOSS_AROUND), new Point3D(-1, -1, -1))); //$NON-NLS-1$
                             } else {
                                 smChangeState.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, Messages.getString("Citizen.35"), null, null, null, null, null, Color.GRAY)); //$NON-NLS-1$
                             }
@@ -381,7 +381,7 @@ public class Citizen extends LivingEntity implements Externalizable {
                                 // A�adir a grupos existentes
                                 sgd = Game.getWorld().getSoldierGroups().getGroup(g);
                                 if (iSoldierState != SoldierData.STATE_IN_A_GROUP || citizen.getSoldierData().getGroup() != sgd.getId()) {
-                                    smChangeState.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, sgd.getName(), null, CommandPanel.COMMAND_SOLDIER_SET_STATE, Integer.toString(citizen.getID()), Integer.toString(SoldierData.STATE_IN_A_GROUP), new Point3D(sgd.getId(), -1, -1)));
+                                    smChangeState.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, sgd.getName(), null, CommandPanel.COMMAND_SOLIDER_SET_STATE, Integer.toString(citizen.getID()), Integer.toString(SoldierData.STATE_IN_A_GROUP), new Point3D(sgd.getId(), -1, -1)));
                                 } else {
                                     smChangeState.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, sgd.getName(), null, null, null, null, null, Color.GRAY));
                                 }
@@ -554,39 +554,39 @@ public class Citizen extends LivingEntity implements Externalizable {
             // Tiene tarea
 
             // Miramos si es tarea de construcci�n
-            if (getCurrentTask().getTask() == Task.TASK_CUSTOM_ACTION) {
+            if (getCurrentTask().getTask() == Task.TASK.CUSTOM_ACTION) {
                 doCustomActionTask();
-            } else if (getCurrentTask().getTask() == Task.TASK_BUILD) {
+            } else if (getCurrentTask().getTask() == Task.TASK.BUILD) {
                 doBuildingTask();
-            } else if (getCurrentTask().getTask() == Task.TASK_HAUL) {
+            } else if (getCurrentTask().getTask() == Task.TASK.HAUL) {
                 doHaulingTask(false, false, false);
-            } else if (getCurrentTask().getTask() == Task.TASK_MOVE_AND_LOCK) {
+            } else if (getCurrentTask().getTask() == Task.TASK.MOVE_AND_LOCK) {
                 doHaulingTask(true, false, true);
-            } else if (getCurrentTask().getTask() == Task.TASK_PUT_IN_CONTAINER) {
+            } else if (getCurrentTask().getTask() == Task.TASK.PUT_IN_CONTAINER) {
                 doHaulingTask(false, true, false);
-            } else if (getCurrentTask().getTask() == Task.TASK_REMOVE_FROM_CONTAINER) {
+            } else if (getCurrentTask().getTask() == Task.TASK.REMOVE_FROM_CONTAINER) {
                 doRemoveFromContainerTask();
-            } else if (getCurrentTask().getTask() == Task.TASK_DROP) {
+            } else if (getCurrentTask().getTask() == Task.TASK.DROP) {
                 doDropTask();
-            } else if (getCurrentTask().getTask() == Task.TASK_MOVE_TO_CARAVAN) {
+            } else if (getCurrentTask().getTask() == Task.TASK.MOVE_TO_CARAVAN) {
                 doMoveToCaravan();
-            } else if (getCurrentTask().getTask() == Task.TASK_FOOD_NEEDED) {
+            } else if (getCurrentTask().getTask() == Task.TASK.FOOD_NEEDED) {
                 doFoodNeeded();
-            } else if (getCurrentTask().getTask() == Task.TASK_CREATE_AND_PLACE) {
+            } else if (getCurrentTask().getTask() == Task.TASK.CREATE_AND_PLACE) {
                 doCreateAndPlaceTask();
-            } else if (getCurrentTask().getTask() == Task.TASK_EAT) {
+            } else if (getCurrentTask().getTask() == Task.TASK.EAT) {
                 doEatTask();
-            } else if (getCurrentTask().getTask() == Task.TASK_HEAL) {
+            } else if (getCurrentTask().getTask() == Task.TASK.HEAL) {
                 doHealTask();
-            } else if (getCurrentTask().getTask() == Task.TASK_SLEEP) {
+            } else if (getCurrentTask().getTask() == Task.TASK.SLEEP) {
                 doSleepTask();
-                // } else if (getCurrentTask ().getTask () == Task.TASK_FIGHT) {
+                // } else if (getCurrentTask ().getTask () == Task.TASK.FIGHT) {
                 // doFightTask ();
-            } else if (getCurrentTask().getTask() == Task.TASK_WEAR) {
+            } else if (getCurrentTask().getTask() == Task.TASK.WEAR) {
                 doWearTask();
-            } else if (getCurrentTask().getTask() == Task.TASK_WEAR_OFF) {
+            } else if (getCurrentTask().getTask() == Task.TASK.WEAR_OFF) {
                 doWearOffTask();
-            } else if (getCurrentTask().getTask() == Task.TASK_AUTOEQUIP) {
+            } else if (getCurrentTask().getTask() == Task.TASK.AUTOEQUIP) {
                 doAutoEquipTask();
             } else {
                 doGenericTask();
@@ -699,14 +699,14 @@ public class Citizen extends LivingEntity implements Externalizable {
         // Obtenemos el punto donde actuar (el hotpoint del hotpoint)
         Point3DShort hotPoint3D = task.getHotPoint(getHotPointIndex()).getHotPoint();
         Cell cell = World.getCell(hotPoint3D);
-        if (task.getTask() == Task.TASK_MINE || task.getTask() == Task.TASK_MINE_LADDER) {
+        if (task.getTask() == Task.TASK.MINE || task.getTask() == Task.TASK.MINE_LADDER) {
             // Minar
             updatePathConstantOffsets();
             updateFacingDirection(getX(), getY(), getZ(), hotPoint3D.x, hotPoint3D.y, hotPoint3D.z);
 
             // Minamos
             if (!cell.isMined()) {
-                cell.getTerrain().mine(hotPoint3D.x, hotPoint3D.y, hotPoint3D.z, task.getTask() == Task.TASK_MINE_LADDER);
+                cell.getTerrain().mine(hotPoint3D.x, hotPoint3D.y, hotPoint3D.z, task.getTask() == Task.TASK.MINE_LADDER);
             }
 
             bReturn = cell.isMined();
@@ -728,7 +728,7 @@ public class Citizen extends LivingEntity implements Externalizable {
      * Borra la tarea actual del ciudadano y los �ndices
      */
     public void resetTaskIndexes() {
-        if (getCurrentTask() != null && getCurrentTask().getTask() == Task.TASK_CUSTOM_ACTION) {
+        if (getCurrentTask() != null && getCurrentTask().getTask() == Task.TASK.CUSTOM_ACTION) {
             boolean bFinished = true;
             // Custom action, si no est� terminada la ponemos en la lista de tareas para que lo haga otro aldeano
             if (!getCurrentTask().isFinished()) {
@@ -2806,7 +2806,7 @@ public class Citizen extends LivingEntity implements Externalizable {
         }
 
         // Creamos la tarea de DROP (se ejecutar� cuando llegue al destino)
-        Task task = new Task(Task.TASK_DROP);
+        Task task = new Task(Task.TASK.DROP);
         if (bFound) {
             // Ponemos una marca para que no dejen el item a la primera casilla vac�a
             task.setParameter("P");
@@ -3777,7 +3777,7 @@ public class Citizen extends LivingEntity implements Externalizable {
                 }
             }
 
-            if (getCurrentTask() == null || (getCurrentTask().getTask() != Task.TASK_EAT)) {
+            if (getCurrentTask() == null || (getCurrentTask().getTask() != Task.TASK.EAT)) {
                 getCitizenData().setHungryEating(getCitizenData().getHungryEating() - 1);
 
                 if (getCitizenData().getHungryEating() < -(2 * World.TIME_MODIFIER_DAY)) { // 2 dias sin comer, muere
@@ -3795,7 +3795,7 @@ public class Citizen extends LivingEntity implements Externalizable {
      */
     protected void checkEatSleep() {
         // Si no tiene tarea o tiene una tarea distinta a comer/dormir
-        if (getCurrentTask() == null || getCurrentTask().getTask() == Task.TASK_BUILD || getCurrentTask().getTask() == Task.TASK_HEAL || getCurrentTask().getTask() == Task.TASK_HAUL || getCurrentTask().getTask() == Task.TASK_MOVE_TO_CARAVAN || getCurrentTask().getTask() == Task.TASK_AUTOEQUIP) {
+        if (getCurrentTask() == null || getCurrentTask().getTask() == Task.TASK.BUILD || getCurrentTask().getTask() == Task.TASK.HEAL || getCurrentTask().getTask() == Task.TASK.HAUL || getCurrentTask().getTask() == Task.TASK.MOVE_TO_CARAVAN || getCurrentTask().getTask() == Task.TASK.AUTOEQUIP) {
             if (getCitizenData().getHungry() == 0) {
                 // Hambriento, si hay comida en el mundo (y no usada por nadie) le metemos la tarea de comer
                 if (Item.searchFood(getCoordinates(), getID()) != null) {
@@ -3809,7 +3809,7 @@ public class Citizen extends LivingEntity implements Externalizable {
                     if (getCarrying() != null) {
                         dropCarryingItem();
                     } else {
-                        setCurrentTask(new Task(Task.TASK_EAT));
+                        setCurrentTask(new Task(Task.TASK.EAT));
                         getCitizenData().setHungryEating(0);
                     }
 
@@ -3830,7 +3830,7 @@ public class Citizen extends LivingEntity implements Externalizable {
                 }
 
                 // Le asignamos la nueva tarea
-                setCurrentTask(new Task(Task.TASK_SLEEP));
+                setCurrentTask(new Task(Task.TASK.SLEEP));
                 setPath(null);
                 getCitizenData().setSleepSleeping(0);
                 setShowExclamationTurns(0);
@@ -3868,7 +3868,7 @@ public class Citizen extends LivingEntity implements Externalizable {
                     // }
 
                     // Le metemos la tarea de heal
-                    setCurrentTask(new Task(Task.TASK_HEAL));
+                    setCurrentTask(new Task(Task.TASK.HEAL));
                     setPath(null);
                     getFocusData().setEntityID(-1);
                     getFocusData().setEntityType(TYPE_UNKNOWN);

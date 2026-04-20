@@ -8163,7 +8163,7 @@ public final class UIPanel {
                                     // A�adir a grupos existentes
                                     sgd = Game.getWorld().getSoldierGroups().getGroup(g);
                                     if (soldier.getSoldierData().getState() != SoldierData.STATE_IN_A_GROUP || soldier.getSoldierData().getGroup() != sgd.getId()) {
-                                        sm.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, sgd.getName(), null, CommandPanel.COMMAND_SOLDIER_SET_STATE, Integer.toString(soldier.getID()), Integer.toString(SoldierData.STATE_IN_A_GROUP), new Point3D(sgd.getId(), -1, -1)));
+                                        sm.addItem(new SmartMenu(SmartMenu.TYPE_ITEM, sgd.getName(), null, CommandPanel.COMMAND_SOLIDER_SET_STATE, Integer.toString(soldier.getID()), Integer.toString(SoldierData.STATE_IN_A_GROUP), new Point3D(sgd.getId(), -1, -1)));
                                     } else {
                                         sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, sgd.getName(), null, null, null, null, null, Color.GRAY));
                                     }
@@ -8378,15 +8378,15 @@ public final class UIPanel {
                                 Game.updateTutorialFlow(TutorialTrigger.TYPE_INT_ICONHIT, TutorialTrigger.ICON_INT_LIVINGS_CONVERTCIVILIAN, null);
                                 return;
                             } else if (iPanel == MOUSE_LIVINGS_PANEL_BUTTONS_ROWS_CONVERT_SOLDIER_GUARD) {
-                                CommandPanel.executeCommand(CommandPanel.COMMAND_SOLDIER_SET_STATE, Integer.toString(le.getID()), Integer.toString(SoldierData.STATE_GUARD), new Point3D(-1, -1, -1), null, SmartMenu.ICON_TYPE_ITEM);
+                                CommandPanel.executeCommand(CommandPanel.COMMAND_SOLIDER_SET_STATE, Integer.toString(le.getID()), Integer.toString(SoldierData.STATE_GUARD), new Point3D(-1, -1, -1), null, SmartMenu.ICON_TYPE_ITEM);
                                 UtilsAL.play(UtilsAL.SOURCE_FX_CLICK);
                                 return;
                             } else if (iPanel == MOUSE_LIVINGS_PANEL_BUTTONS_ROWS_CONVERT_SOLDIER_PATROL) {
-                                CommandPanel.executeCommand(CommandPanel.COMMAND_SOLDIER_SET_STATE, Integer.toString(le.getID()), Integer.toString(SoldierData.STATE_PATROL), new Point3D(-1, -1, -1), null, SmartMenu.ICON_TYPE_ITEM);
+                                CommandPanel.executeCommand(CommandPanel.COMMAND_SOLIDER_SET_STATE, Integer.toString(le.getID()), Integer.toString(SoldierData.STATE_PATROL), new Point3D(-1, -1, -1), null, SmartMenu.ICON_TYPE_ITEM);
                                 UtilsAL.play(UtilsAL.SOURCE_FX_CLICK);
                                 return;
                             } else if (iPanel == MOUSE_LIVINGS_PANEL_BUTTONS_ROWS_CONVERT_SOLDIER_BOSS) {
-                                CommandPanel.executeCommand(CommandPanel.COMMAND_SOLDIER_SET_STATE, Integer.toString(le.getID()), Integer.toString(SoldierData.STATE_BOSS_AROUND), new Point3D(-1, -1, -1), null, SmartMenu.ICON_TYPE_ITEM);
+                                CommandPanel.executeCommand(CommandPanel.COMMAND_SOLIDER_SET_STATE, Integer.toString(le.getID()), Integer.toString(SoldierData.STATE_BOSS_AROUND), new Point3D(-1, -1, -1), null, SmartMenu.ICON_TYPE_ITEM);
                                 UtilsAL.play(UtilsAL.SOURCE_FX_CLICK);
                                 return;
                             } else if (iPanel == MOUSE_LIVINGS_PANEL_BUTTONS_ROWS_HEAD) {
