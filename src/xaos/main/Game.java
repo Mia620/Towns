@@ -521,7 +521,7 @@ public final class Game {
                     if (cit.getCitizenData() != null && cit.getCitizenData().getGroupID() == -1) {
                         // Ciudadano sin grupo (pq no tiene grupo, pq es un save de la v10 o pq es una nueva partida)
                         if (!alCitsSinGrupo.contains(le.getID())) {
-                            alCitsSinGrupo.add(new Integer(le.getID()));
+                            alCitsSinGrupo.add(le.getID());
                         }
                     }
                 }

@@ -283,7 +283,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
      * @param iNumber    Cantidad
      */
     public static void setNumLivings(String sIniHeader, int iNumber, boolean bDiscovered) {
-        getMapLivings(bDiscovered).put(sIniHeader, new Integer(iNumber));
+        getMapLivings(bDiscovered).put(sIniHeader, iNumber);
     }
 
     /**
@@ -843,7 +843,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
                 if (citizen.getCurrentCustomAction() != null && citizen.getCurrentCustomAction().getQueueData() != null) {
                     // Pick_living
                     if (citizen.getCurrentCustomAction().getQueueData().getLivingIDPick() != -1) {
-                        alItemsInUse.add(new Integer(citizen.getCurrentCustomAction().getQueueData().getLivingIDPick()));
+                        alItemsInUse.add(citizen.getCurrentCustomAction().getQueueData().getLivingIDPick());
                     }
                 }
             }
@@ -854,13 +854,13 @@ public abstract class LivingEntity extends Entity implements Externalizable {
                 if (citizen.getCurrentCustomAction() != null && citizen.getCurrentCustomAction().getQueueData() != null) {
                     // Pick_living
                     if (citizen.getCurrentCustomAction().getQueueData().getLivingIDPick() != -1) {
-                        alItemsInUse.add(new Integer(citizen.getCurrentCustomAction().getQueueData().getLivingIDPick()));
+                        alItemsInUse.add(citizen.getCurrentCustomAction().getQueueData().getLivingIDPick());
                     }
                 }
             }
         }
 
-        if (alItemsInUse.size() > 0) {
+        if (!alItemsInUse.isEmpty()) {
             return alItemsInUse;
         } else {
             return null;

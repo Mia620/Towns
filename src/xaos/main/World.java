@@ -2370,7 +2370,7 @@ public final class World implements Externalizable {
                                 // Evitamos la infravisi�n (teniendo en cuenta que si que hay camino hasta la misma casilla donde est�)
                                 // if ((x == citizen.getX () && y == citizen.getY ()) || Utils.bresenhamLineExists (citizen.getX (), citizen.getY (), x, y, citizen.getZ (), LivingEntity.TYPE_CITIZEN) || Utils.bresenhamLineExists (x, y, citizen.getX (), citizen.getY (), citizen.getZ (), LivingEntity.TYPE_CITIZEN)) {
                                 if ((x == citizen.getX() && y == citizen.getY()) || Utils.bresenhamLineExists(citizen.getX(), citizen.getY(), x, y, citizen.getZ()) || Utils.bresenhamLineExists(x, y, citizen.getX(), citizen.getY(), citizen.getZ())) {
-                                    alItemsHappy.add(new Integer(imi.getHappiness()));
+                                    alItemsHappy.add(imi.getHappiness());
                                 }
                             }
                         }
@@ -2379,7 +2379,7 @@ public final class World implements Externalizable {
             }
 
             // Si la lista tiene items pillamos uno a random
-            if (alItemsHappy.size() > 0) {
+            if (!alItemsHappy.isEmpty()) {
                 citizen.getCitizenData().setHappiness(citizen.getCitizenData().getHappiness() + alItemsHappy.get(Utils.getRandomBetween(0, alItemsHappy.size() - 1)).intValue());
             }
         }
@@ -2432,7 +2432,7 @@ public final class World implements Externalizable {
                             iASZID = getCell(getZones().get(i).getPoints().get(p)).getAstarZoneID();
                             if (iASZID != -1) {
                                 // Zona libre
-                                alASZID.add(new Integer(iASZID));
+                                alASZID.add(iASZID);
                                 alZonesID.add(zonePersonal.getID());
                                 alZonesPoint.add(Point3DShort.getPoolInstance(getZones().get(i).getPoints().get(p)));
                                 iQtty--;
@@ -2446,7 +2446,7 @@ public final class World implements Externalizable {
                     }
                 }
 
-                if (alASZID.size() > 0) {
+                if (!alASZID.isEmpty()) {
                     int iImmigrantsOK = 0;
                     int iImmigrantsNotOK = 0;
 
@@ -2614,7 +2614,7 @@ public final class World implements Externalizable {
                 if (!bPrerequisitesOK) {
                     if (alLeavingHeroes == null) {
                         alLeavingHeroes = new ArrayList<Integer>();
-                        alLeavingHeroes.add(new Integer(hero.getID()));
+                        alLeavingHeroes.add(hero.getID());
                     }
                 }
             }
@@ -2627,7 +2627,7 @@ public final class World implements Externalizable {
             }
 
             for (int i = 0; i < alLeavingHeroes.size(); i++) {
-                iID = alLeavingHeroes.get(i).intValue();
+                iID = alLeavingHeroes.get(i);
                 hero = (Hero) World.getLivingEntityByID(iID);
                 if (hero != null) {
                     // Un h�roe que se pira
@@ -4247,19 +4247,15 @@ public final class World implements Externalizable {
         HashMap<String, Integer> hmKilled = getEnemiesKilled();
         if (hmKilled.containsKey(sIniHeader)) {
             Integer iCount = hmKilled.remove(sIniHeader);
-            hmKilled.put(sIniHeader, new Integer(iCount.intValue() + 1));
+            hmKilled.put(sIniHeader, iCount + 1);
         } else {
-            hmKilled.put(sIniHeader, new Integer(1));
+            hmKilled.put(sIniHeader, 1);
         }
     }
 
     public int getNumKilledEnemies(String sIniHeader) {
         HashMap<String, Integer> hmKilled = getEnemiesKilled();
-        if (hmKilled.containsKey(sIniHeader)) {
-            return hmKilled.get(sIniHeader).intValue();
-        } else {
-            return 0;
-        }
+        return hmKilled.getOrDefault(sIniHeader, 0);
     }
 
     /**

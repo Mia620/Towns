@@ -90,7 +90,7 @@ public class ItemManager {
                 if (imi.getHabitatAsString() != null) {
                     for (int i = 0; i < imi.getHabitatAsString().size(); i++) {
                         if (!habitat.contains(imi.getHabitatAsString().get(i))) {
-                            habitat.add(new Integer(TerrainManager.getItem(imi.getHabitatAsString().get(i)).getTerrainID()));
+                            habitat.add(TerrainManager.getItem(imi.getHabitatAsString().get(i)).getTerrainID());
                             //getHabitat ().add (habitat.get (i));
                         }
                     }
@@ -98,7 +98,7 @@ public class ItemManager {
                 imi.setHabitat(habitat);
 
                 // Habitat group
-                if (imi.getHabitatGroup() != null && imi.getHabitatGroup().length() > 0) {
+                if (imi.getHabitatGroup() != null && !imi.getHabitatGroup().isEmpty()) {
                     imi.addHabitats(TerrainManager.getTerrainsByGroup(imi.getHabitatGroup()));
                 }
 
@@ -109,7 +109,7 @@ public class ItemManager {
                 }
 
                 // maxAgeTerrain
-                if (imi.getMaxAgeTerrain() != null && imi.getMaxAgeTerrain().length() > 0) {
+                if (imi.getMaxAgeTerrain() != null && !imi.getMaxAgeTerrain().isEmpty()) {
                     if (TerrainManager.getItem(imi.getMaxAgeTerrain()) == null) {
                         Log.log(Log.LEVEL_ERROR, Messages.getString("ItemManager.2") + " [" + imi.getMaxAgeTerrain() + "]", "ItemManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                         Game.exit();

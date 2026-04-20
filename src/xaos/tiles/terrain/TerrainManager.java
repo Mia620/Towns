@@ -70,7 +70,7 @@ public class TerrainManager {
                 if (alTerrains == null) {
                     alTerrains = new ArrayList<Integer>();
                 }
-                alTerrains.add(new Integer(terrainList.get(key).getTerrainID()));
+                alTerrains.add(terrainList.get(key).getTerrainID());
 
                 terrainGroups.put(group, alTerrains);
             }

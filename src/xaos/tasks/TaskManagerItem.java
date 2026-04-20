@@ -38,15 +38,15 @@ public final class TaskManagerItem implements Externalizable {
     }
 
     public boolean containsCitizen(int citizenID) {
-        return listCitizens.contains(new Integer(citizenID));
+        return listCitizens.contains(citizenID);
     }
 
     public void addCitizen(int citizenID) {
-        listCitizens.add(new Integer(citizenID));
+        listCitizens.add(citizenID);
     }
 
     public void removeCitizen(int citizenID) {
-        listCitizens.remove(new Integer(citizenID));
+        listCitizens.remove(citizenID);
     }
 
     public String toString() {
