@@ -178,9 +178,7 @@ public class BuildingManagerItem {
         ArrayList<int[]> alReturn = new ArrayList<int[]>(prerequisites.size());
         for (int i = 0; i < prerequisites.size(); i++) {
             int[] aAux = new int[prerequisites.get(i).length];
-            for (int j = 0; j < aAux.length; j++) {
-                aAux[j] = prerequisites.get(i)[j];
-            }
+            System.arraycopy(prerequisites.get(i), 0, aAux, 0, aAux.length);
             alReturn.add(aAux);
         }
 
@@ -225,9 +223,7 @@ public class BuildingManagerItem {
         ArrayList<int[]> alReturn = new ArrayList<int[]>(prerequisitesFriendly.size());
         for (int i = 0; i < prerequisitesFriendly.size(); i++) {
             int[] aAux = new int[prerequisitesFriendly.get(i).length];
-            for (int j = 0; j < aAux.length; j++) {
-                aAux[j] = prerequisitesFriendly.get(i)[j];
-            }
+            System.arraycopy(prerequisitesFriendly.get(i), 0, aAux, 0, aAux.length);
             alReturn.add(aAux);
         }
 

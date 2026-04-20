@@ -44,7 +44,7 @@ public class SmartMenu implements Externalizable {
     public final static Color COLOR_SUBMENU = Color.ORANGE.brighter();
     public final static ColorGL COLORGL_SUBMENU = new ColorGL(COLOR_SUBMENU);
     private static final long serialVersionUID = -2274612491197616852L;
-    private static Tile RED_TILE = new Tile("ui_red"); //$NON-NLS-1$
+    private static final Tile RED_TILE = new Tile("ui_red"); //$NON-NLS-1$
     private int type;
     private String id; // Se usa en los menuXXX.xml , as� los mods pueden referirse a un item para borrarlo
     private String name;
@@ -111,7 +111,7 @@ public class SmartMenu implements Externalizable {
                 readXMLItem(doc, doc.getDocumentElement().getChildNodes(), menuInicial, i == 0);
             }
         } catch (Exception e) {
-            Log.log(Log.LEVEL_ERROR, Messages.getString("SmartMenu.1") + sFilename + Messages.getString("SmartMenu.2") + e.toString() + "]", "SmartMenu"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+            Log.log(Log.LEVEL_ERROR, Messages.getString("SmartMenu.1") + sFilename + Messages.getString("SmartMenu.2") + e + "]", "SmartMenu"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
             Game.exit();
         }
 
@@ -481,7 +481,7 @@ public class SmartMenu implements Externalizable {
                     if (alMessages.size() > 0) { // Tiene descripciones
                         if (alMessagesBuilding.size() > 0 || alMessagesPrerequisites.size() > 0) {
                             // Linea en blanco
-                            alMessages.add(new String());
+                            alMessages.add("");
                             alColor.add(new ColorGL(null));
                         }
                     }
@@ -495,7 +495,7 @@ public class SmartMenu implements Externalizable {
                     if (alMessagesBuilding.size() > 0) {
                         if (alMessagesPrerequisites.size() > 0) {
                             // Item en blanco
-                            alMessages.add(new String());
+                            alMessages.add("");
                             alColor.add(new ColorGL(null));
                         }
                     }
@@ -524,7 +524,7 @@ public class SmartMenu implements Externalizable {
                         if (bmi != null) {
                             if (imi.getDescriptions() != null && imi.getDescriptions().size() > 0) {
                                 // Linea en blanco
-                                alMessages.add(new String());
+                                alMessages.add("");
                                 alColor.add(new ColorGL(null));
                             }
 
@@ -537,7 +537,7 @@ public class SmartMenu implements Externalizable {
                                 if (imi != null) {
                                     if (alMessages.size() == 1) {
                                         // Linea en blanco
-                                        alMessages.add(new String());
+                                        alMessages.add("");
                                         alColor.add(new ColorGL(null));
                                     }
                                     alMessages.add(imi.getName());
@@ -560,7 +560,7 @@ public class SmartMenu implements Externalizable {
                     }
 
                     // Linea en blanco
-                    alMessages.add(new String());
+                    alMessages.add("");
                     alColor.add(new ColorGL(null));
 
                     ArrayList<int[]> alPrerequisites = bmi.getPrerequisites();
@@ -612,7 +612,7 @@ public class SmartMenu implements Externalizable {
                 if (imi != null && imi.getZones() != null && imi.getZones().size() > 0) {
                     // Linea en blanco
                     bBlankLineAdded = true;
-                    alMessages.add(new String());
+                    alMessages.add("");
                     alColor.add(new ColorGL(null));
                     for (int i = 0; i < imi.getZones().size(); i++) {
                         alMessages.add(ZoneManager.getItem(imi.getZones().get(i)).getName());
@@ -623,7 +623,7 @@ public class SmartMenu implements Externalizable {
                 if (imi != null && imi.getHabitat() != null && imi.getHabitat().size() > 0) {
                     // Linea en blanco
                     if (!bBlankLineAdded) {
-                        alMessages.add(new String());
+                        alMessages.add("");
                         alColor.add(new ColorGL(null));
                     }
                     String sHabitat;

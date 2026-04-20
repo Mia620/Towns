@@ -160,7 +160,7 @@ public class HeroPrerequisite implements Externalizable {
             case ID_ZONE:
             case ID_FREE_ROOM_ITEMS:
                 // String
-                setValueString(new String(sValue));
+                setValueString(sValue);
                 break;
             default:
                 throw new Exception(Messages.getString("HeroPrerequisite.2") + getStringID(getId()) + "] [" + sValue + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$

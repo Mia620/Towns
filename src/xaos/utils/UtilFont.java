@@ -91,7 +91,7 @@ public final class UtilFont {
             int iMinOffset = 100;
             chars = new CharDef[maxChar + 1];
             for (Iterator<CharDef> iter = charDefs.iterator(); iter.hasNext(); ) {
-                CharDef def = (CharDef) iter.next();
+                CharDef def = iter.next();
                 chars[def.id] = def;
                 if (iMinOffset > def.yoffset) {
                     iMinOffset = def.yoffset;
@@ -116,7 +116,7 @@ public final class UtilFont {
             }
 
         } catch (Exception e) {
-            Log.log(Log.LEVEL_ERROR, Messages.getString("UtilFont.0") + " " + e.toString(), "UtilFont"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            Log.log(Log.LEVEL_ERROR, Messages.getString("UtilFont.0") + " " + e, "UtilFont"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             Game.exit();
         }
     }

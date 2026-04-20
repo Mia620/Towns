@@ -40,12 +40,12 @@ public final class MainMenuPanel implements Runnable {
     private int renderHeight;
     private int xMenu;
     private int yMenu;
-    private int imageLoadingWidth;
-    private int imageLoadingHeight;
-    private int imageTownsLogoWidth;
-    private int imageTownsLogoHeight;
+    private final int imageLoadingWidth;
+    private final int imageLoadingHeight;
+    private final int imageTownsLogoWidth;
+    private final int imageTownsLogoHeight;
     private ContextMenu menu;
-    private String loadingText = new String();
+    private String loadingText = "";
 
     private boolean settingSavegameName = false;
     private int settingHotkey = 0; // Entero, 0 = cerrado, 1 = abierto y seteando la primera hotkey, 2 = abierto y seteando la segunda hotkey
@@ -114,7 +114,7 @@ public final class MainMenuPanel implements Runnable {
     }
 
     public void createMenu() {
-        setLoadingText(new String());
+        setLoadingText("");
         loadingGame = false;
 
         SmartMenu menuAux;
@@ -720,7 +720,7 @@ public final class MainMenuPanel implements Runnable {
         setSaveGameCampaignID(sCampaign);
         setSaveGameMissionID(sMission);
         if (settingSavegameName) {
-            new TypingPanel(renderWidth, renderHeight, Messages.getString("MainMenuPanel.47"), new String(), TypingPanel.TYPE_SAVEGAME_NAME, 0); //$NON-NLS-1$
+            new TypingPanel(renderWidth, renderHeight, Messages.getString("MainMenuPanel.47"), "", TypingPanel.TYPE_SAVEGAME_NAME, 0); //$NON-NLS-1$
         }
     }
 
@@ -731,7 +731,7 @@ public final class MainMenuPanel implements Runnable {
     public void setSettingHotkey(boolean settingHotkey, int iFN) {
         if (settingHotkey) {
             this.settingHotkey = 1;
-            new TypingPanel(renderWidth, renderHeight, Messages.getString("MainMenuPanel.48") + UtilsKeyboard.getFNHumanString(iFN) + ((UtilsKeyboard.getKey(iFN, 0) == Keyboard.KEY_NONE) ? "" : Messages.getString("MainMenuPanel.50") + Keyboard.getKeyName(UtilsKeyboard.getKey(iFN, 0)) + ")"), new String(), TypingPanel.TYPE_REDEFINE_KEYS, iFN); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+            new TypingPanel(renderWidth, renderHeight, Messages.getString("MainMenuPanel.48") + UtilsKeyboard.getFNHumanString(iFN) + ((UtilsKeyboard.getKey(iFN, 0) == Keyboard.KEY_NONE) ? "" : Messages.getString("MainMenuPanel.50") + Keyboard.getKeyName(UtilsKeyboard.getKey(iFN, 0)) + ")"), "", TypingPanel.TYPE_REDEFINE_KEYS, iFN); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
         } else {
             this.settingHotkey = 0;
             // El panel se cierra, cambiamos los textos de todos los menus COMMAND_CHANGE_HOTKEY
@@ -747,7 +747,7 @@ public final class MainMenuPanel implements Runnable {
         this.settingNewServer = bSettingNewServer;
 
         if (bSettingNewServer) {
-            new TypingPanel(renderWidth, renderHeight, Messages.getString("MainMenuPanel.76"), new String(), TypingPanel.TYPE_ADD_SERVER, 0); //$NON-NLS-1$
+            new TypingPanel(renderWidth, renderHeight, Messages.getString("MainMenuPanel.76"), "", TypingPanel.TYPE_ADD_SERVER, 0); //$NON-NLS-1$
         }
     }
 
@@ -948,7 +948,7 @@ public final class MainMenuPanel implements Runnable {
                         UtilsKeyboard.redefineKey(0, TypingPanel.TYPING_PARAMETER, Integer.parseInt(TypingPanel.getNewText()));
                         settingHotkey = 2;
                         TypingPanel.setTitle(Messages.getString("MainMenuPanel.52") + UtilsKeyboard.getFNHumanString(TypingPanel.TYPING_PARAMETER) + ((UtilsKeyboard.getKey(TypingPanel.TYPING_PARAMETER, 0) == Keyboard.KEY_NONE) ? "" : Messages.getString("MainMenuPanel.50") + Keyboard.getKeyName(UtilsKeyboard.getKey(TypingPanel.TYPING_PARAMETER, 1)) + ")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-                        TypingPanel.setNewText(new String());
+                        TypingPanel.setNewText("");
                     } else {
                         // Key 2
                         UtilsKeyboard.redefineKey(1, TypingPanel.TYPING_PARAMETER, Integer.parseInt(TypingPanel.getNewText()));

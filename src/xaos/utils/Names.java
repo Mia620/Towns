@@ -49,7 +49,7 @@ public final class Names {
                 }
             }
         } catch (Exception e) {
-            Log.log(Log.LEVEL_ERROR, Messages.getString("Names.0") + e.toString() + "]", "Names"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            Log.log(Log.LEVEL_ERROR, Messages.getString("Names.0") + e + "]", "Names"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             Game.exit();
         }
     }

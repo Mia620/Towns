@@ -262,9 +262,7 @@ public class Tile implements Externalizable {
             this.tileY = (byte) Towns.getPropertiesInt(PropertyFile.PROPERTY_FILE_GRAPHICS, "[" + iniHeader2 + "]TILE_Y", -1); //$NON-NLS-1$ //$NON-NLS-2$
             this.tileXRot = (byte) Towns.getPropertiesInt(PropertyFile.PROPERTY_FILE_GRAPHICS, "[" + iniHeader2 + "]TILE_X_ROT", -1); //$NON-NLS-1$ //$NON-NLS-2$
             this.tileYRot = (byte) Towns.getPropertiesInt(PropertyFile.PROPERTY_FILE_GRAPHICS, "[" + iniHeader2 + "]TILE_Y_ROT", -1); //$NON-NLS-1$ //$NON-NLS-2$
-            if (this.tileX == -1 || this.tileY == -1) {
-                return false;
-            }
+            return this.tileX != -1 && this.tileY != -1;
         }
 
         return true;

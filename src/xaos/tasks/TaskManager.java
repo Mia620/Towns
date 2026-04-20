@@ -46,13 +46,13 @@ public final class TaskManager implements Externalizable {
     public static int MAX_CONTAINER_HAUL_PER_TURN = 64; // N�mero de containers a chequear, para ver si hay items maols dentro
     public static int MAX_HAUL_PER_TURN = 64; // N�mero de items a chequear cada turno
 
-    private static int MAX_CUSTOM_ACTIONS_PER_TURN_AND_PRIORITY_LEVEL = 8;
+    private static final int MAX_CUSTOM_ACTIONS_PER_TURN_AND_PRIORITY_LEVEL = 8;
 
-    private static int TASK_TYPE_OTHERS = -1;
-    private static int TASK_TYPE_MINEDIG = 0;
-    private static int TASK_TYPE_MOVE_TO_CARAVAN = 1;
-    private static int TASK_TYPE_FEED_ANIMALS = 3;
-    private static int TASK_TYPE_BUILD_BUILDING = 4;
+    private static final int TASK_TYPE_OTHERS = -1;
+    private static final int TASK_TYPE_MINEDIG = 0;
+    private static final int TASK_TYPE_MOVE_TO_CARAVAN = 1;
+    private static final int TASK_TYPE_FEED_ANIMALS = 3;
+    private static final int TASK_TYPE_BUILD_BUILDING = 4;
 
     private ArrayList<TaskManagerItem> taskItems;
     private ArrayList<TaskManagerItem> taskItemsTemp; // Se usa este array para meter las tareas y que no se coloquen as�ncronamente en el "bueno"
@@ -68,7 +68,7 @@ public final class TaskManager implements Externalizable {
     private int automatedQueueTurns;
     private ArrayList<String> alProductionToRemove;
 
-    private HashMap<String, ArrayList<Integer>> hmNonAvailableActions = new HashMap<String, ArrayList<Integer>>();
+    private final HashMap<String, ArrayList<Integer>> hmNonAvailableActions = new HashMap<String, ArrayList<Integer>>();
 
     public TaskManager() {
         taskItems = new ArrayList<TaskManagerItem>();
@@ -290,21 +290,13 @@ public final class TaskManager implements Externalizable {
         }
 
         // Miramos el destination point
-        if (newAction.getDestinationPoint() != null && action.getDestinationPoint() != null && newAction.getDestinationPoint().equals(action.getDestinationPoint())) {
-            return true;
-        }
-
-        return false;
+        return newAction.getDestinationPoint() != null && action.getDestinationPoint() != null && newAction.getDestinationPoint().equals(action.getDestinationPoint());
     }
 
     private boolean isDuplicateActionAutomated(Action newAction, Action action) {
         ActionManagerItem ami = ActionManager.getItem(newAction.getId());
         ActionManagerItem amiTemp = ActionManager.getItem(action.getId());
-        if (ami.getId().equals(amiTemp.getId())) {
-            return true;
-        }
-
-        return false;
+        return ami.getId().equals(amiTemp.getId());
     }
 
     public boolean isReCheckMinePlaces() {
@@ -1221,8 +1213,7 @@ public final class TaskManager implements Externalizable {
                 int citizenID = Integer.parseInt(item.getTask().getParameter2());
 
                 Zone zone = Zone.getZone(zoneID);
-                if (zone != null && zone instanceof ZonePersonal) {
-                    ZonePersonal zonePersonal = (ZonePersonal) zone;
+                if (zone != null && zone instanceof ZonePersonal zonePersonal) {
                     Citizen citizenCurrent = null;
                     if (zonePersonal.getOwnerID() != -1) {
                         LivingEntity le = World.getLivingEntityByID(zonePersonal.getOwnerID());
@@ -1286,8 +1277,7 @@ public final class TaskManager implements Externalizable {
 
                 if (groupID >= 0 && groupID < SoldierGroups.MAX_GROUPS) {
                     Zone zone = Zone.getZone(zoneID);
-                    if (zone != null && zone instanceof ZoneBarracks) {
-                        ZoneBarracks zoneBarracks = (ZoneBarracks) zone;
+                    if (zone != null && zone instanceof ZoneBarracks zoneBarracks) {
                         SoldierGroupData groupCurrent = null;
                         if (zoneBarracks.getGroupID() >= 0 && zoneBarracks.getGroupID() < SoldierGroups.MAX_GROUPS) {
                             groupCurrent = Game.getWorld().getSoldierGroups().getGroup(zoneBarracks.getGroupID());
@@ -1526,7 +1516,6 @@ public final class TaskManager implements Externalizable {
                 assignHaulTasks(hmCitizensSinTarea, iLibres, iHaulers);
                 iLibres = getNumCitizens(hmCitizensSinTarea);
                 if (iLibres == 0) {
-                    return;
                 }
             }
         }

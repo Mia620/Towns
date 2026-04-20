@@ -104,7 +104,7 @@ public class PrefixSuffixManager {
                 }
             }
         } catch (Exception e) {
-            Log.log(Log.LEVEL_ERROR, Messages.getString("PrefixSuffixManager.0") + e.toString() + "]", "PrefixSuffixManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            Log.log(Log.LEVEL_ERROR, Messages.getString("PrefixSuffixManager.0") + e + "]", "PrefixSuffixManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             Game.exit();
         }
     }

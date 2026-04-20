@@ -1442,13 +1442,12 @@ public class ItemManagerItem {
     }
 
     public String getEatString() {
-        StringBuffer buffer = new StringBuffer();
-        buffer.append(Messages.getString("ItemManagerItem.5")); //$NON-NLS-1$
-        buffer.append(getFoodFillPCT());
-        buffer.append("% "); //$NON-NLS-1$
-        buffer.append(Messages.getString("ItemManagerItem.8")); //$NON-NLS-1$
-        buffer.append(getFoodEatTime());
-        return buffer.toString().trim();
+        String buffer = Messages.getString("ItemManagerItem.5") + //$NON-NLS-1$
+                getFoodFillPCT() +
+                "% " + //$NON-NLS-1$
+                Messages.getString("ItemManagerItem.8") + //$NON-NLS-1$
+                getFoodEatTime();
+        return buffer.trim();
     }
 
     public String getMilitaryString() {

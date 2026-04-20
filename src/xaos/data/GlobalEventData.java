@@ -14,7 +14,7 @@ public class GlobalEventData implements Externalizable {
 
     private static final long serialVersionUID = 1943236493343125044L;
 
-    private static Tile TILE_EVENT = new Tile("icon_events");
+    private static final Tile TILE_EVENT = new Tile("icon_events");
     private static Tile icon; // Toma el valor del icono del primer evento (o "icon_events", "icon_eventsON");
     private boolean shadows;
     private boolean halfShadows;

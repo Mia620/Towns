@@ -71,7 +71,7 @@ public class EffectManagerItem {
         effectData.setOnHitPCT(Utils.launchDice(getOnHitPCT()));
         effectData.setOnRangedHitPCT(Utils.launchDice(getOnRangedHitPCT()));
         if (getGraphicChange() != null) {
-            effectData.setGraphicChange(new String(getGraphicChange()));
+            effectData.setGraphicChange(getGraphicChange());
         }
         effectData.setCastCooldownMAX(Utils.launchDice(getCastCooldown()));
         effectData.setCastCooldown(0);
@@ -117,7 +117,7 @@ public class EffectManagerItem {
     }
 
     public void setDamagePCT(String damagePCT) {
-        if (damagePCT == null || damagePCT.trim().toString().length() == 0) {
+        if (damagePCT == null || damagePCT.trim().length() == 0) {
             this.damagePCT = "100"; //$NON-NLS-1$
         } else {
             this.damagePCT = damagePCT;
@@ -129,7 +129,7 @@ public class EffectManagerItem {
     }
 
     public void setDefensePCT(String defensePCT) {
-        if (defensePCT == null || defensePCT.trim().toString().length() == 0) {
+        if (defensePCT == null || defensePCT.trim().length() == 0) {
             this.defensePCT = "100"; //$NON-NLS-1$
         } else {
             this.defensePCT = defensePCT;
@@ -141,7 +141,7 @@ public class EffectManagerItem {
     }
 
     public void setAttackPCT(String attackPCT) {
-        if (attackPCT == null || attackPCT.trim().toString().length() == 0) {
+        if (attackPCT == null || attackPCT.trim().length() == 0) {
             this.attackPCT = "100"; //$NON-NLS-1$
         } else {
             this.attackPCT = attackPCT;
@@ -153,7 +153,7 @@ public class EffectManagerItem {
     }
 
     public void setAttackSpeedPCT(String attackSpeedPCT) {
-        if (attackSpeedPCT == null || attackSpeedPCT.trim().toString().length() == 0) {
+        if (attackSpeedPCT == null || attackSpeedPCT.trim().length() == 0) {
             this.attackSpeedPCT = "100"; //$NON-NLS-1$
         } else {
             this.attackSpeedPCT = attackSpeedPCT;
@@ -173,7 +173,7 @@ public class EffectManagerItem {
     }
 
     public void setHealthPointsPCT(String healthPointsPCT) {
-        if (healthPointsPCT == null || healthPointsPCT.trim().toString().length() == 0) {
+        if (healthPointsPCT == null || healthPointsPCT.trim().length() == 0) {
             this.healthPointsPCT = "100"; //$NON-NLS-1$
         } else {
             this.healthPointsPCT = healthPointsPCT;
@@ -185,7 +185,7 @@ public class EffectManagerItem {
     }
 
     public void setLOSPCT(String lOSPCT) {
-        if (lOSPCT == null || lOSPCT.trim().toString().length() == 0) {
+        if (lOSPCT == null || lOSPCT.trim().length() == 0) {
             this.LOSPCT = "100"; //$NON-NLS-1$
         } else {
             this.LOSPCT = lOSPCT;
@@ -197,7 +197,7 @@ public class EffectManagerItem {
     }
 
     public void setSpeedPCT(String speedPCT) {
-        if (speedPCT == null || speedPCT.trim().toString().length() == 0) {
+        if (speedPCT == null || speedPCT.trim().length() == 0) {
             this.speedPCT = "100"; //$NON-NLS-1$
         } else {
             this.speedPCT = speedPCT;
@@ -277,7 +277,7 @@ public class EffectManagerItem {
     }
 
     public void setOnHitPCT(String onHitPCT) {
-        if (onHitPCT == null || onHitPCT.trim().toString().length() == 0) {
+        if (onHitPCT == null || onHitPCT.trim().length() == 0) {
             this.onHitPCT = "0"; //$NON-NLS-1$
         } else {
             this.onHitPCT = onHitPCT;
@@ -301,7 +301,7 @@ public class EffectManagerItem {
     }
 
     public void setOnRangedHitPCT(String onRangedHitPCT) {
-        if (onRangedHitPCT == null || onRangedHitPCT.trim().toString().length() == 0) {
+        if (onRangedHitPCT == null || onRangedHitPCT.trim().length() == 0) {
             this.onRangedHitPCT = "0"; //$NON-NLS-1$
         } else {
             this.onRangedHitPCT = onRangedHitPCT;
@@ -421,11 +421,7 @@ public class EffectManagerItem {
     }
 
     public void setMessageWhenGain(String sMessageWhenGain) {
-        if (sMessageWhenGain != null && sMessageWhenGain.equals("false")) {
-            setMessageWhenGain(false);
-        } else {
-            setMessageWhenGain(true);
-        }
+        setMessageWhenGain(sMessageWhenGain == null || !sMessageWhenGain.equals("false"));
     }
 
     public boolean isMessageWhenVanish() {
@@ -437,11 +433,7 @@ public class EffectManagerItem {
     }
 
     public void setMessageWhenVanish(String sMessageWhenVanish) {
-        if (sMessageWhenVanish != null && sMessageWhenVanish.equals("false")) {
-            setMessageWhenVanish(false);
-        } else {
-            setMessageWhenVanish(true);
-        }
+        setMessageWhenVanish(sMessageWhenVanish == null || !sMessageWhenVanish.equals("false"));
     }
 
     public String getHappy() {

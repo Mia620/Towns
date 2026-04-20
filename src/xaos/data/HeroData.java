@@ -81,7 +81,7 @@ public class HeroData implements Externalizable {
                     sBuffer.append(", "); //$NON-NLS-1$
                 }
             }
-            heroFriend = (Hero) World.getLivingEntityByID(alFriends.get(alFriends.size() - 1).intValue());
+            heroFriend = World.getLivingEntityByID(alFriends.get(alFriends.size() - 1).intValue());
             if (heroFriend != null) {
                 sBuffer.append(heroFriend.getLivingEntityData().getName());
             }

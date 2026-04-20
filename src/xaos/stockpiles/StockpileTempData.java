@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class StockpileTempData {
 
-    private ArrayList<String> alElements; // iniheader del item
-    private ArrayList<Boolean> alElementsStatus; // Status, true enabled, false disabled
+    private final ArrayList<String> alElements; // iniheader del item
+    private final ArrayList<Boolean> alElementsStatus; // Status, true enabled, false disabled
 
     public StockpileTempData() {
         alElements = new ArrayList<String>();
@@ -14,7 +14,7 @@ public class StockpileTempData {
 
     public void addElement(String sElement, boolean bStatus) {
         alElements.add(sElement);
-        alElementsStatus.add(new Boolean(bStatus));
+        alElementsStatus.add(Boolean.valueOf(bStatus));
     }
 
     public ArrayList<String> getAlElements() {

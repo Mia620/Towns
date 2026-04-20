@@ -21,7 +21,7 @@ public class Projectile extends Tile implements Externalizable {
     public final static int DIRECTION_SOUTH = 4;
     public final static int DIRECTION_WEST = 8;
     private static final long serialVersionUID = -5065819692431962137L;
-    private static byte locations[][][];
+    private static byte[][][] locations;
 
     private Point3DShort coordinates = Point3DShort.getPoolInstance(-1, -1, -1);
     private int damage;
@@ -188,11 +188,7 @@ public class Projectile extends Tile implements Externalizable {
                 return true;
             }
             setCoordinates(nextPoint);
-            if (checkHit()) {
-                return true;
-            }
-
-            return false;
+            return checkHit();
         }
 
         LivingEntity.doHit(getAttacker(), getVictim(), false, ItemManager.getItem(attackerWeapon), damage, maxDistance, false);

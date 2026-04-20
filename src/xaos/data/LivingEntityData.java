@@ -299,15 +299,13 @@ public class LivingEntityData implements Externalizable {
         int level = 0;
         LivingEntityManagerItem lemi = LivingEntityManager.getItem(le.getIniHeader());
         if (lemi.getType() == LivingEntity.TYPE_HERO) {
-            if (le instanceof Hero) { // Per evitar problemes amb el mod del bluesteel
-                Hero hero = (Hero) le;
+            if (le instanceof Hero hero) { // Per evitar problemes amb el mod del bluesteel
                 if (hero.getHeroData() != null) {
                     level = hero.getHeroData().getLevel();
                 }
             }
         } else if (lemi.getType() == LivingEntity.TYPE_CITIZEN) {
-            if (le instanceof Citizen) { // Per evitar problemes amb el mod del bluesteel
-                Citizen citizen = (Citizen) le;
+            if (le instanceof Citizen citizen) { // Per evitar problemes amb el mod del bluesteel
                 if (citizen.getSoldierData() != null && citizen.getSoldierData().isSoldier()) {
                     level = citizen.getSoldierData().getLevel();
                 }

@@ -38,8 +38,6 @@ public class EffectData implements Externalizable {
 
     private int happy;
 
-    ;
-
     public EffectData() {
     }
 

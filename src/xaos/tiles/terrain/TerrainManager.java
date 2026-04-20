@@ -260,7 +260,7 @@ public class TerrainManager {
                 }
             }
         } catch (Exception e) {
-            Log.log(Log.LEVEL_ERROR, Messages.getString("TerrainManager.0") + e.toString() + "]", "TerrainManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            Log.log(Log.LEVEL_ERROR, Messages.getString("TerrainManager.0") + e + "]", "TerrainManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             Game.exit();
         }
     }

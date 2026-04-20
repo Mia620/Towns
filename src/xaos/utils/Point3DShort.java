@@ -32,7 +32,7 @@ public class Point3DShort implements Externalizable {
     }
 
     public static Point3DShort getPoolInstance(Point3DShort p3ds) {
-        return getPoolInstance((short) p3ds.x, (short) p3ds.y, (short) p3ds.z);
+        return getPoolInstance(p3ds.x, p3ds.y, p3ds.z);
     }
 
     public static Point3DShort getPoolInstance(short x, short y, short z) {

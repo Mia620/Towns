@@ -154,7 +154,7 @@ public class Type implements Externalizable {
                 }
             }
         } catch (Exception e) {
-            Log.log(Log.LEVEL_ERROR, Messages.getString("Type.3") + e.toString() + "]", "Type"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            Log.log(Log.LEVEL_ERROR, Messages.getString("Type.3") + e + "]", "Type"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             Game.exit();
         }
     }

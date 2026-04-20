@@ -1192,7 +1192,7 @@ public class Hero extends LivingEntity implements Externalizable {
                         int iMaxDistance = Utils.MAX_DISTANCE;
                         Point3DShort p3dNear = null;
                         for (int i = 0; i < zones.size(); i++) {
-                            zone = (Zone) zones.get(i);
+                            zone = zones.get(i);
                             if (ZoneManager.getItem(zone.getIniHeader()).getType() == ZoneManagerItem.TYPE_DINING) {
                                 Point3DShort p3d = Zone.getFreeSleepItemAtRandom(zone, iCurrentASZID);
                                 if (p3d == null) {

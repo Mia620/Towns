@@ -362,24 +362,24 @@ public final class UIPanel {
     public static Point tradePanelPoint = new Point(0, 0);
     public static Point tradePanelClosePoint = new Point(0, 0);
     public static Tile tileScrollUp = new Tile("scrollup"); //$NON-NLS-1$
-    public static final boolean tileScrollUpButtonAlpha[][] = UtilsGL.generateAlpha(tileScrollUp);
+    public static final boolean[][] tileScrollUpButtonAlpha = UtilsGL.generateAlpha(tileScrollUp);
     public static Tile tileScrollUpDisabled = new Tile("scrollup_disabled"); //$NON-NLS-1$
     public static Tile tileScrollDown = new Tile("scrolldown"); //$NON-NLS-1$
-    public static final boolean tileScrollDownButtonAlpha[][] = UtilsGL.generateAlpha(tileScrollDown);
+    public static final boolean[][] tileScrollDownButtonAlpha = UtilsGL.generateAlpha(tileScrollDown);
     public static Tile tileScrollDownDisabled = new Tile("scrolldown_disabled"); //$NON-NLS-1$
     public static Point matsPanelClosePoint = new Point(0, 0);
     public static Point matsPanelSubPanelPoint = new Point(0, 0);
     public static Point pilePanelClosePoint = new Point(0, 0);
     public static Tile tileConfigCopy = new Tile("configcopy"); //$NON-NLS-1$
-    public static final boolean tileConfigCopyButtonAlpha[][] = UtilsGL.generateAlpha(tileConfigCopy);
+    public static final boolean[][] tileConfigCopyButtonAlpha = UtilsGL.generateAlpha(tileConfigCopy);
     public static Tile tileConfigLock = new Tile("configlock"); //$NON-NLS-1$
-    public static final boolean tileConfigLockButtonAlpha[][] = UtilsGL.generateAlpha(tileConfigLock);
+    public static final boolean[][] tileConfigLockButtonAlpha = UtilsGL.generateAlpha(tileConfigLock);
     public static Tile tileConfigLockLocked = new Tile("configlocklocked"); //$NON-NLS-1$
-    public static final boolean tileConfigLockLockedButtonAlpha[][] = UtilsGL.generateAlpha(tileConfigLockLocked);
+    public static final boolean[][] tileConfigLockLockedButtonAlpha = UtilsGL.generateAlpha(tileConfigLockLocked);
     public static Tile tileConfigLockAll = new Tile("configlockall"); //$NON-NLS-1$
-    public static final boolean tileConfigLockAllButtonAlpha[][] = UtilsGL.generateAlpha(tileConfigLockAll);
+    public static final boolean[][] tileConfigLockAllButtonAlpha = UtilsGL.generateAlpha(tileConfigLockAll);
     public static Tile tileConfigUnlockAll = new Tile("configunlockall"); //$NON-NLS-1$
-    public static final boolean tileConfigUnlockAllButtonAlpha[][] = UtilsGL.generateAlpha(tileConfigUnlockAll);
+    public static final boolean[][] tileConfigUnlockAllButtonAlpha = UtilsGL.generateAlpha(tileConfigUnlockAll);
     public static Point professionsPanelClosePoint = new Point(0, 0);
     public static Point livingsPanelClosePoint = new Point(0, 0);
     public static Point messagesPanelPoint = new Point(0, 0);
@@ -388,7 +388,7 @@ public final class UIPanel {
     public static Point messagesPanelClosePoint = new Point(0, 0);
     // Close panels
     public static Tile tileButtonClose = new Tile("panel_close"); //$NON-NLS-1$
-    public static final boolean tileButtonCloseAlpha[][] = UtilsGL.generateAlpha(tileButtonClose);
+    public static final boolean[][] tileButtonCloseAlpha = UtilsGL.generateAlpha(tileButtonClose);
     public static Tile tileButtonCloseDisabled = new Tile("panel_close_disabled"); //$NON-NLS-1$
     public static Tile tileIconTutorial;
     /*
@@ -403,13 +403,13 @@ public final class UIPanel {
      * Images panel
      */
     public static ImagesPanel imagesPanel = null;
-    private static Tile BACK_TILE = new Tile("ui_back"); //$NON-NLS-1$
+    private static final Tile BACK_TILE = new Tile("ui_back"); //$NON-NLS-1$
     private static int BOTTOM_SUBPANEL_WIDTH;
     private static int BOTTOM_SUBPANEL_HEIGHT;
     private static int BOTTOM_SUBPANEL_NUM_ITEMS_X;
     private static int BOTTOM_SUBPANEL_NUM_ITEMS_Y;
-    private static int BOTTOM_SUBITEM_WIDTH = 64;
-    private static int BOTTOM_SUBITEM_HEIGHT = 64;
+    private static final int BOTTOM_SUBITEM_WIDTH = 64;
+    private static final int BOTTOM_SUBITEM_HEIGHT = 64;
     private static int PRODUCTION_PANEL_NUM_ITEMS_X;
     private static int PRODUCTION_PANEL_NUM_ITEMS_Y;
     private static int PRIORITIES_PANEL_NUM_ITEMS;
@@ -440,46 +440,46 @@ public final class UIPanel {
     private static Tile tileBottomScrollRight;
     private static Tile tileBottomScrollRightON;
     private static Tile tileBottomPanel;
-    private static boolean tileBottomItemAlpha[][];
-    private static boolean tileBottomScrollLeftAlpha[][];
-    private static boolean tileBottomScrollRightAlpha[][];
-    private static boolean tileBottomPanelAlpha[][];
+    private static boolean[][] tileBottomItemAlpha;
+    private static boolean[][] tileBottomScrollLeftAlpha;
+    private static boolean[][] tileBottomScrollRightAlpha;
+    private static boolean[][] tileBottomPanelAlpha;
     // Open/close bottom
     private static Tile tileOpenBottomMenu;
-    private static boolean tileOpenBottomMenuAlpha[][];
+    private static boolean[][] tileOpenBottomMenuAlpha;
     private static Tile tileOpenBottomMenuON;
-    private static boolean tileOpenBottomMenuONAlpha[][];
-    private static Point tileOpenCloseBottomMenuPoint = new Point(0, 0);
+    private static boolean[][] tileOpenBottomMenuONAlpha;
+    private static final Point tileOpenCloseBottomMenuPoint = new Point(0, 0);
     // BOTTOM subpanel
     private static ArrayList<Point> bottomSubPanelItemsPosition; // Array de BOTTOM_SUBPANEL_NUM_ITEMS_X x BOTTOM_SUBPANEL_NUM_ITEMS_Y posiciones con las coordenadas de los subitems
-    private static Point bottomSubPanelPoint = new Point(0, 0);
+    private static final Point bottomSubPanelPoint = new Point(0, 0);
     private static Tile tileBottomSubItem;
     private static Tile[] tileBottomSubPanel;
     private static SmartMenu bottomSubPanelMenu;
-    private static boolean tileBottomSubItemAlpha[][];
+    private static boolean[][] tileBottomSubItemAlpha;
     private static Tile tileMinimapPanel;
-    private static boolean tileMinimapPanelAlpha[][];
+    private static boolean[][] tileMinimapPanelAlpha;
     // PRODUCTION panel
     private static Tile[] tileProductionPanel;
-    private static Point productionPanelPoint = new Point(0, 0);
+    private static final Point productionPanelPoint = new Point(0, 0);
     private static boolean productionPanelActive = false;
     private static boolean productionPanelLocked = false;
     private static SmartMenu productionPanelMenu;
-    private static ArrayList<Point> productionPanelItemsPosition = new ArrayList<Point>();
+    private static final ArrayList<Point> productionPanelItemsPosition = new ArrayList<Point>();
     private static Tile tileProductionPanelPlusIcon;
-    private static boolean tileProductionPanelPlusIconAlpha[][];
-    private static ArrayList<Point> productionPanelItemsPlusRegularPosition = new ArrayList<Point>();
-    private static ArrayList<Point> productionPanelItemsPlusAutomatedPosition = new ArrayList<Point>();
+    private static boolean[][] tileProductionPanelPlusIconAlpha;
+    private static final ArrayList<Point> productionPanelItemsPlusRegularPosition = new ArrayList<Point>();
+    private static final ArrayList<Point> productionPanelItemsPlusAutomatedPosition = new ArrayList<Point>();
     private static Tile tileProductionPanelMinusIcon;
-    private static boolean tileProductionPanelMinusIconAlpha[][];
-    private static ArrayList<Point> productionPanelItemsMinusRegularPosition = new ArrayList<Point>();
-    private static ArrayList<Point> productionPanelItemsMinusAutomatedPosition = new ArrayList<Point>();
+    private static boolean[][] tileProductionPanelMinusIconAlpha;
+    private static final ArrayList<Point> productionPanelItemsMinusRegularPosition = new ArrayList<Point>();
+    private static final ArrayList<Point> productionPanelItemsMinusAutomatedPosition = new ArrayList<Point>();
     // Open/close production
     private static Tile tileOpenProductionPanel;
-    private static boolean tileOpenProductionPanelAlpha[][];
+    private static boolean[][] tileOpenProductionPanelAlpha;
     private static Tile tileOpenProductionPanelON;
-    private static boolean tileOpenProductionPanelONAlpha[][];
-    private static Point tileOpenCloseProductionPanelPoint = new Point(0, 0);
+    private static boolean[][] tileOpenProductionPanelONAlpha;
+    private static final Point tileOpenCloseProductionPanelPoint = new Point(0, 0);
     // TRADE panel
     private static Tile[] tileTradePanel;
     private static TradePanel tradePanel;
@@ -487,66 +487,66 @@ public final class UIPanel {
     private static boolean tradePanelActivePausedBefore = false;
     // PRIORITIES panel
     private static Tile[] tilePrioritiesPanel;
-    private static Point prioritiesPanelPoint = new Point(0, 0);
+    private static final Point prioritiesPanelPoint = new Point(0, 0);
     private static boolean prioritiesPanelActive = false;
     private static ArrayList<Point> prioritiesPanelItemsPosition;
     private static Tile tilePrioritiesPanelUpIcon;
-    private static boolean tilePrioritiesPanelUpIconAlpha[][];
+    private static boolean[][] tilePrioritiesPanelUpIconAlpha;
     private static ArrayList<Point> prioritiesPanelItemsUpPosition;
     private static Tile tilePrioritiesPanelDownIcon;
-    private static boolean tilePrioritiesPanelDownIconAlpha[][];
+    private static boolean[][] tilePrioritiesPanelDownIconAlpha;
     private static ArrayList<Point> prioritiesPanelItemsDownPosition;
     // MATS panel
     private static Tile[] tileMatsPanel;
     private static Tile[] tileMatsPanelSubPanel;
-    private static Point matsPanelPoint = new Point(0, 0);
+    private static final Point matsPanelPoint = new Point(0, 0);
     private static int matsPanelActive = -1;
-    private static Point matsPanelIconScrollUpPoint = new Point(0, 0);
-    private static Point matsPanelIconScrollDownPoint = new Point(0, 0);
+    private static final Point matsPanelIconScrollUpPoint = new Point(0, 0);
+    private static final Point matsPanelIconScrollDownPoint = new Point(0, 0);
     private static Tile[] matsPanelTiles;
     private static Tile[] matsPanelTilesON;
     private static Point[] matsPanelIconPoints;
     private static Point[] matsPanelItemPoints;
-    private static Point matsPanelPagesPositionPoint = new Point(0, 0);
+    private static final Point matsPanelPagesPositionPoint = new Point(0, 0);
     private static int[] matsNumPages;
     private static int[] matsIndexPages;
     private static int matsLastGroup = -1;
     // PILE panel
-    private static Point pilePanelPoint = new Point(0, 0);
+    private static final Point pilePanelPoint = new Point(0, 0);
     private static int pilePanelPileContainerIDActive = -1;
     private static boolean pilePanelIsContainer = false;
     private static boolean pilePanelIsLocked = false;
-    private static Point pilePanelIconScrollUpPoint = new Point(0, 0);
-    private static Point pilePanelIconScrollDownPoint = new Point(0, 0);
-    private static Point pilePanelIconConfigCopyPoint = new Point(0, 0);
-    private static Point pilePanelIconConfigLockPoint = new Point(0, 0);
-    private static Point pilePanelIconConfigUnlockAllPoint = new Point(0, 0);
-    private static Point pilePanelIconConfigLockAllPoint = new Point(0, 0);
+    private static final Point pilePanelIconScrollUpPoint = new Point(0, 0);
+    private static final Point pilePanelIconScrollDownPoint = new Point(0, 0);
+    private static final Point pilePanelIconConfigCopyPoint = new Point(0, 0);
+    private static final Point pilePanelIconConfigLockPoint = new Point(0, 0);
+    private static final Point pilePanelIconConfigUnlockAllPoint = new Point(0, 0);
+    private static final Point pilePanelIconConfigLockAllPoint = new Point(0, 0);
     private static Point[] pilePanelItemPoints;
-    private static Point pilePanelPagesPositionPoint = new Point(0, 0);
+    private static final Point pilePanelPagesPositionPoint = new Point(0, 0);
     private static SmartMenu menuPile = null;
     private static int pilePanelPageIndex = -1;
     private static int pilePanelMaxPages = -1;
     // PROFESSIONS panel
-    private static Point professionsPanelPoint = new Point(0, 0);
+    private static final Point professionsPanelPoint = new Point(0, 0);
     private static int professionsPanelCitizenOrGroupIDActive = -1;
     private static boolean professionsPanelIsCitizen = true;
-    private static Point professionsPanelIconScrollUpPoint = new Point(0, 0);
-    private static Point professionsPanelIconScrollDownPoint = new Point(0, 0);
+    private static final Point professionsPanelIconScrollUpPoint = new Point(0, 0);
+    private static final Point professionsPanelIconScrollDownPoint = new Point(0, 0);
     private static Point[] professionsPanelItemPoints;
-    private static Point professionsPanelPagesPositionPoint = new Point(0, 0);
+    private static final Point professionsPanelPagesPositionPoint = new Point(0, 0);
     private static SmartMenu menuProfessions = null;
     private static int professionsPanelPageIndex = -1;
     private static int professionsPanelMaxPages = -1;
     // LIVINGS PANEL
     private static Tile[] tileLivingsPanel;
-    private static Point livingsPanelPoint = new Point(0, 0);
+    private static final Point livingsPanelPoint = new Point(0, 0);
     private static int livingsPanelActive = LIVINGS_PANEL_TYPE_NONE;
     private static int livingsPanelCitizensGroupActive = -1;
     private static int livingsPanelSoldiersGroupActive = -1;
-    private static Point livingsPanelIconScrollUpPoint = new Point(0, 0);
-    private static Point livingsPanelIconScrollDownPoint = new Point(0, 0);
-    private static Point livingsPanelPagesPoint = new Point(0, 0);
+    private static final Point livingsPanelIconScrollUpPoint = new Point(0, 0);
+    private static final Point livingsPanelIconScrollDownPoint = new Point(0, 0);
+    private static final Point livingsPanelPagesPoint = new Point(0, 0);
     private static Point[] livingsPanelRowPoints;
     private static Point[] livingsPanelRowHeadPoints;
     private static Point[] livingsPanelRowBodyPoints;
@@ -561,7 +561,7 @@ public final class UIPanel {
     private static Point[] livingsPanelRowAutoequipPoints;
     private static Tile tileLivingsRowAutoequip;
     private static Tile tileLivingsRowAutoequipON;
-    private static boolean tileLivingsRowAutoequipAlpha[][];
+    private static boolean[][] tileLivingsRowAutoequipAlpha;
     private static Point[] livingsPanelRowProfessionPoints;
     private static Point[] livingsPanelRowJobsGroupsPoints;
     private static Point[] livingsPanelRowConvertCivilianSoldierPoints;
@@ -582,75 +582,75 @@ public final class UIPanel {
     private static Tile tileLivingsRowConvertSoldierPatrolON;
     private static Tile tileLivingsRowConvertSoldierBoss;
     private static Tile tileLivingsRowConvertSoldierBossON;
-    private static boolean tileLivingsRowProfessionAlpha[][];
-    private static boolean tileLivingsRowJobsGroupsAlpha[][];
-    private static boolean tileLivingsRowConvertSoldierAlpha[][];
-    private static boolean tileLivingsRowConvertCivilianAlpha[][];
-    private static boolean tileLivingsRowConvertSoldierGuardAlpha[][];
-    private static boolean tileLivingsRowConvertSoldierPatrolAlpha[][];
-    private static boolean tileLivingsRowConvertSoldierBossAlpha[][];
+    private static boolean[][] tileLivingsRowProfessionAlpha;
+    private static boolean[][] tileLivingsRowJobsGroupsAlpha;
+    private static boolean[][] tileLivingsRowConvertSoldierAlpha;
+    private static boolean[][] tileLivingsRowConvertCivilianAlpha;
+    private static boolean[][] tileLivingsRowConvertSoldierGuardAlpha;
+    private static boolean[][] tileLivingsRowConvertSoldierPatrolAlpha;
+    private static boolean[][] tileLivingsRowConvertSoldierBossAlpha;
     private static Point[] livingsPanelRowGroupPoints;
     private static Tile tileLivingsRowGroupAdd;
     private static Tile tileLivingsRowGroupAddON;
-    private static boolean tileLivingsRowGroupAddAlpha[][];
+    private static boolean[][] tileLivingsRowGroupAddAlpha;
     private static Tile tileLivingsRowGroupRemove;
     private static Tile tileLivingsRowGroupRemoveON;
-    private static boolean tileLivingsRowGroupRemoveAlpha[][];
-    private static Point livingsPanelIconRestrictUpPoint = new Point(0, 0);
-    private static Point livingsPanelIconRestrictDownPoint = new Point(0, 0);
+    private static boolean[][] tileLivingsRowGroupRemoveAlpha;
+    private static final Point livingsPanelIconRestrictUpPoint = new Point(0, 0);
+    private static final Point livingsPanelIconRestrictDownPoint = new Point(0, 0);
     // LIVINGS GROUP PANEL data
     private static Tile[] tileLivingsGroupPanel;
-    private static Point livingsGroupPanelPoint = new Point(0, 0);
-    private static Point livingsSingleGroupPanelPoint = new Point(0, 0);
-    private static Point livingsGroupPanelFirstIconPoint = new Point(0, 0);
+    private static final Point livingsGroupPanelPoint = new Point(0, 0);
+    private static final Point livingsSingleGroupPanelPoint = new Point(0, 0);
+    private static final Point livingsGroupPanelFirstIconPoint = new Point(0, 0);
     private static int livingsGroupPanelIconsSeparation = Tile.TERRAIN_ICON_WIDTH; // Esto se cambiar� seguro, no tiene nada que ver, es por si acaso
     private static Tile tileLivingsGroup;
     private static Tile tileLivingsGroupON;
     private static Tile tileLivingsGroupGreen;
-    private static boolean tileLivingsGroupAlpha[][];
+    private static boolean[][] tileLivingsGroupAlpha;
     private static Tile tileLivingsNoGroup;
     private static Tile tileLivingsNoGroupON;
     private static Tile tileLivingsNoGroupGreen;
-    private static boolean tileLivingsNoGroupAlpha[][];
+    private static boolean[][] tileLivingsNoGroupAlpha;
     private static Tile tileLivingsNoJobGroup;
     private static Tile tileLivingsNoJobGroupON;
     private static Tile tileLivingsNoJobGroupGreen;
-    private static boolean tileLivingsNoJobGroupAlpha[][];
+    private static boolean[][] tileLivingsNoJobGroupAlpha;
     private static Tile tileLivingsJobGroup;
     private static Tile tileLivingsJobGroupON;
     private static Tile tileLivingsJobGroupGreen;
-    private static boolean tileLivingsJobGroupAlpha[][];
-    private static Point livingsSingleGroupRenamePoint = new Point(0, 0);
+    private static boolean[][] tileLivingsJobGroupAlpha;
+    private static final Point livingsSingleGroupRenamePoint = new Point(0, 0);
     private static Tile tileLivingsSingleGroupRename;
     private static Tile tileLivingsSingleGroupRenameON;
-    private static boolean tileLivingsSingleGroupRenameAlpha[][];
+    private static boolean[][] tileLivingsSingleGroupRenameAlpha;
     private static Tile tileLivingsSingleJobGroupRename;
     private static Tile tileLivingsSingleJobGroupRenameON;
-    private static boolean tileLivingsSingleJobGroupRenameAlpha[][];
-    private static Point livingsSingleGroupGuardPoint = new Point(0, 0);
+    private static boolean[][] tileLivingsSingleJobGroupRenameAlpha;
+    private static final Point livingsSingleGroupGuardPoint = new Point(0, 0);
     private static Tile tileLivingsSingleGroupGuard;
     private static Tile tileLivingsSingleGroupGuardON;
-    private static boolean tileLivingsSingleGroupGuardAlpha[][];
-    private static Point livingsSingleGroupPatrolPoint = new Point(0, 0);
+    private static boolean[][] tileLivingsSingleGroupGuardAlpha;
+    private static final Point livingsSingleGroupPatrolPoint = new Point(0, 0);
     private static Tile tileLivingsSingleGroupPatrol;
     private static Tile tileLivingsSingleGroupPatrolON;
-    private static boolean tileLivingsSingleGroupPatrolAlpha[][];
-    private static Point livingsSingleGroupBossPoint = new Point(0, 0);
+    private static boolean[][] tileLivingsSingleGroupPatrolAlpha;
+    private static final Point livingsSingleGroupBossPoint = new Point(0, 0);
     private static Tile tileLivingsSingleGroupBoss;
     private static Tile tileLivingsSingleGroupBossON;
-    private static boolean tileLivingsSingleGroupBossAlpha[][];
-    private static Point livingsSingleGroupDisbandPoint = new Point(0, 0);
+    private static boolean[][] tileLivingsSingleGroupBossAlpha;
+    private static final Point livingsSingleGroupDisbandPoint = new Point(0, 0);
     private static Tile tileLivingsSingleGroupDisband;
     private static Tile tileLivingsSingleGroupDisbandON;
-    private static boolean tileLivingsSingleGroupDisbandAlpha[][];
+    private static boolean[][] tileLivingsSingleGroupDisbandAlpha;
     private static Tile tileLivingsSingleJobGroupDisband;
     private static Tile tileLivingsSingleJobGroupDisbandON;
-    private static boolean tileLivingsSingleJobGroupDisbandAlpha[][];
-    private static Point livingsSingleGroupAutoequipPoint = new Point(0, 0);
-    private static Point livingsSingleGroupChangeJobsPoint = new Point(0, 0);
+    private static boolean[][] tileLivingsSingleJobGroupDisbandAlpha;
+    private static final Point livingsSingleGroupAutoequipPoint = new Point(0, 0);
+    private static final Point livingsSingleGroupChangeJobsPoint = new Point(0, 0);
     private static Tile tileLivingsSingleGroupChangeJobs;
     private static Tile tileLivingsSingleGroupChangeJobsON;
-    private static boolean tileLivingsSingleGroupChangeJobsAlpha[][];
+    private static boolean[][] tileLivingsSingleGroupChangeJobsAlpha;
     // LIVINGS PANEL data
     private static int[] livingsDataIndexPages;
     private static int[] livingsDataIndexPagesCitizenGroups;
@@ -666,11 +666,11 @@ public final class UIPanel {
     private static Tile[] messagePanelTilesON;
     private static ArrayList<boolean[][]> messagePanelTilesAlpha;
     private static Tile[] tileMessagesPanelSubPanel;
-    private static Point messagePanelIconScrollUpPoint = new Point(0, 0);
-    private static Point messagePanelIconScrollDownPoint = new Point(0, 0);
-    private static Point messagePanelPagesPositionPoint = new Point(0, 0);
+    private static final Point messagePanelIconScrollUpPoint = new Point(0, 0);
+    private static final Point messagePanelIconScrollDownPoint = new Point(0, 0);
+    private static final Point messagePanelPagesPositionPoint = new Point(0, 0);
     // MENU panel (right)
-    private static Point menuPanelPoint = new Point(0, 0);
+    private static final Point menuPanelPoint = new Point(0, 0);
     private static ArrayList<Point> menuPanelItemsPosition;
     private static Tile[] tileMenuPanel;
     private static SmartMenu menuPanelMenu = null;
@@ -678,106 +678,106 @@ public final class UIPanel {
     private static boolean menuPanelLocked = false;
     // Open/close right menu
     private static Tile tileOpenRightMenu;
-    private static boolean tileOpenRightMenuAlpha[][];
+    private static boolean[][] tileOpenRightMenuAlpha;
     private static Tile tileOpenRightMenuON;
-    private static boolean tileOpenRightMenuONAlpha[][];
-    private static Point tileOpenCloseRightMenuPoint = new Point(0, 0);
+    private static boolean[][] tileOpenRightMenuONAlpha;
+    private static final Point tileOpenCloseRightMenuPoint = new Point(0, 0);
     // MINI-ICONS
-    private static boolean tileIconNextMiniAlpha[][];
-    private static boolean tileIconPreviousMiniAlpha[][];
-    private static Point iconLevelUpPoint = new Point(0, 0);
+    private static boolean[][] tileIconNextMiniAlpha;
+    private static boolean[][] tileIconPreviousMiniAlpha;
+    private static final Point iconLevelUpPoint = new Point(0, 0);
     private static Tile tileIconLevelUp;
-    private static boolean tileIconLevelUpAlpha[][];
-    private static Point iconLevelDownPoint = new Point(0, 0);
+    private static boolean[][] tileIconLevelUpAlpha;
+    private static final Point iconLevelDownPoint = new Point(0, 0);
     private static Tile tileIconLevelDown;
-    private static boolean tileIconLevelDownAlpha[][];
-    private static Point iconLevelPoint = new Point(0, 0);
+    private static boolean[][] tileIconLevelDownAlpha;
+    private static final Point iconLevelPoint = new Point(0, 0);
     private static Tile tileIconLevel;
-    private static boolean tileIconLevelAlpha[][];
+    private static boolean[][] tileIconLevelAlpha;
     // ICONS
     private static Tile tileIconPriorities;
     private static Tile tileIconPrioritiesON;
-    private static boolean tileIconPrioritiesAlpha[][];
-    private static Point iconPrioritiesPoint = new Point(0, 0);
+    private static boolean[][] tileIconPrioritiesAlpha;
+    private static final Point iconPrioritiesPoint = new Point(0, 0);
     private static Tile tileIconMats;
     private static Tile tileIconMatsON;
-    private static boolean tileIconMatsAlpha[][];
-    private static Point iconMatsPoint = new Point(0, 0);
+    private static boolean[][] tileIconMatsAlpha;
+    private static final Point iconMatsPoint = new Point(0, 0);
     private static Tile tileIconPause;
-    private static boolean tileIconPauseResumeAlpha[][];
+    private static boolean[][] tileIconPauseResumeAlpha;
     private static Tile tileIconResume;
-    private static Point iconPauseResumePoint = new Point(0, 0);
+    private static final Point iconPauseResumePoint = new Point(0, 0);
     private static Tile tileIconIncreaseSpeed;
     private static Tile tileIconIncreaseSpeedON;
-    private static boolean tileIconIncreaseSpeedAlpha[][];
-    private static Point iconIncreaseSpeedPoint = new Point(0, 0);
+    private static boolean[][] tileIconIncreaseSpeedAlpha;
+    private static final Point iconIncreaseSpeedPoint = new Point(0, 0);
     private static Tile tileIconLowerSpeed;
     private static Tile tileIconLowerSpeedON;
-    private static boolean tileIconLowerSpeedAlpha[][];
-    private static Point iconLowerSpeedPoint = new Point(0, 0);
+    private static boolean[][] tileIconLowerSpeedAlpha;
+    private static final Point iconLowerSpeedPoint = new Point(0, 0);
     private static Tile tileIconSettings;
-    private static boolean tileIconSettingsAlpha[][];
-    private static Point iconSettingsPoint = new Point(0, 0);
+    private static boolean[][] tileIconSettingsAlpha;
+    private static final Point iconSettingsPoint = new Point(0, 0);
     private static Tile tileIconGrid;
     private static Tile tileIconGridON;
-    private static boolean tileIconGridAlpha[][];
-    private static Point iconGridPoint = new Point(0, 0);
+    private static boolean[][] tileIconGridAlpha;
+    private static final Point iconGridPoint = new Point(0, 0);
     private static Tile tileIconMiniblocks;
     private static Tile tileIconMiniblocksON;
-    private static boolean tileIconMiniblocksAlpha[][];
-    private static Point iconMiniblocksPoint = new Point(0, 0);
+    private static boolean[][] tileIconMiniblocksAlpha;
+    private static final Point iconMiniblocksPoint = new Point(0, 0);
     private static Tile tileIconFlatMouse;
     private static Tile tileIconFlatMouseON;
-    private static boolean tileIconFlatMouseAlpha[][];
-    private static Point iconFlatMousePoint = new Point(0, 0);
+    private static boolean[][] tileIconFlatMouseAlpha;
+    private static final Point iconFlatMousePoint = new Point(0, 0);
     private static Tile tileIcon3DMouse;
     private static Tile tileIcon3DMouseON;
-    private static boolean tileIcon3DMouseAlpha[][];
-    private static Point icon3DMousePoint = new Point(0, 0);
-    private static Point iconEventsPoint = new Point(0, 0);
+    private static boolean[][] tileIcon3DMouseAlpha;
+    private static final Point icon3DMousePoint = new Point(0, 0);
+    private static final Point iconEventsPoint = new Point(0, 0);
     // private static Point iconGodsPoint = new Point (0, 0);
     // private static Tile tileIconGods;
-    private static Point iconTutorialPoint = new Point(0, 0);
+    private static final Point iconTutorialPoint = new Point(0, 0);
     // INFO
     private static Tile tileIconNumCitizens;
-    private static Point iconNumCitizensBackgroundPoint = new Point(0, 0);
-    private static Point iconNumCitizensPoint = new Point(0, 0);
-    private static Point iconCitizenNextPoint = new Point(0, 0);
+    private static final Point iconNumCitizensBackgroundPoint = new Point(0, 0);
+    private static final Point iconNumCitizensPoint = new Point(0, 0);
+    private static final Point iconCitizenNextPoint = new Point(0, 0);
     private static Tile tileIconCitizenNext;
     private static Tile tileIconCitizenNextON;
-    private static Point iconCitizenPreviousPoint = new Point(0, 0);
+    private static final Point iconCitizenPreviousPoint = new Point(0, 0);
     private static Tile tileIconCitizenPrevious;
     private static Tile tileIconCitizenPreviousON;
     private static Tile tileIconNumSoldiers;
-    private static Point iconNumSoldiersBackgroundPoint = new Point(0, 0);
-    private static Point iconNumSoldiersPoint = new Point(0, 0);
-    private static Point iconSoldierNextPoint = new Point(0, 0);
+    private static final Point iconNumSoldiersBackgroundPoint = new Point(0, 0);
+    private static final Point iconNumSoldiersPoint = new Point(0, 0);
+    private static final Point iconSoldierNextPoint = new Point(0, 0);
     private static Tile tileIconSoldierNext;
     private static Tile tileIconSoldierNextON;
-    private static Point iconSoldierPreviousPoint = new Point(0, 0);
+    private static final Point iconSoldierPreviousPoint = new Point(0, 0);
     private static Tile tileIconSoldierPrevious;
     private static Tile tileIconSoldierPreviousON;
     private static Tile tileIconNumHeroes;
-    private static Point iconNumHeroesBackgroundPoint = new Point(0, 0);
-    private static Point iconNumHeroesPoint = new Point(0, 0);
-    private static Point iconHeroNextPoint = new Point(0, 0);
+    private static final Point iconNumHeroesBackgroundPoint = new Point(0, 0);
+    private static final Point iconNumHeroesPoint = new Point(0, 0);
+    private static final Point iconHeroNextPoint = new Point(0, 0);
     private static Tile tileIconHeroNext;
     private static Tile tileIconHeroNextON;
-    private static Point iconHeroPreviousPoint = new Point(0, 0);
+    private static final Point iconHeroPreviousPoint = new Point(0, 0);
     private static Tile tileIconHeroPrevious;
     private static Tile tileIconHeroPreviousON;
     private static Tile tileIconCaravan;
     private static Tile tileIconCaravanON;
-    private static Point iconCaravanBackgroundPoint = new Point(0, 0);
-    private static Point iconCaravanPoint = new Point(0, 0);
+    private static final Point iconCaravanBackgroundPoint = new Point(0, 0);
+    private static final Point iconCaravanPoint = new Point(0, 0);
     private static Tile tileInfoPanel;
-    private static boolean tileInfoPanelAlpha[][];
-    private static Point infoPanelPoint = new Point(0, 0);
+    private static boolean[][] tileInfoPanelAlpha;
+    private static final Point infoPanelPoint = new Point(0, 0);
     private static Tile tileDatePanel;
-    private static boolean tileDatePanelAlpha[][];
-    private static Point datePanelPoint = new Point(0, 0);
+    private static boolean[][] tileDatePanelAlpha;
+    private static final Point datePanelPoint = new Point(0, 0);
     private static Tile tileIconCoins;
-    private static Point tileIconCoinsPoint = new Point(0, 0);
+    private static final Point tileIconCoinsPoint = new Point(0, 0);
     // Menu Blinks
     private static boolean checkBlinkBottom = false;
     private static boolean checkBlinkRight = false;
@@ -1270,11 +1270,7 @@ public final class UIPanel {
     }
 
     public static boolean isMouseOnAnIcon(int x, int y, Point point, Tile tile) {
-        if ((y >= point.y && y < (point.y + tile.getTileHeight())) && (x >= point.x && x < (point.x + tile.getTileWidth()))) {
-            return true;
-        }
-
-        return false;
+        return (y >= point.y && y < (point.y + tile.getTileHeight())) && (x >= point.x && x < (point.x + tile.getTileWidth()));
     }
 
     public static boolean isMouseOnAnIcon(int x, int y, Point point, Tile tile, boolean[][] alpha) {
@@ -1298,11 +1294,7 @@ public final class UIPanel {
     }
 
     private static boolean isMouseCloseToIcon(int x, int y, Point point, Tile tile, int closeFactor) {
-        if ((y >= (point.y - closeFactor) && y < (point.y + tile.getTileHeight() + closeFactor)) && (x >= (point.x - closeFactor) && x < (point.x + tile.getTileWidth() + closeFactor))) {
-            return true;
-        }
-
-        return false;
+        return (y >= (point.y - closeFactor) && y < (point.y + tile.getTileHeight() + closeFactor)) && (x >= (point.x - closeFactor) && x < (point.x + tile.getTileWidth() + closeFactor));
     }
 
     private static boolean isMouseOnBottomPanel(int x, int y) {
@@ -2337,7 +2329,7 @@ public final class UIPanel {
         /*
          * Coins icon point
          */
-        tileIconCoinsPoint.setLocation(renderWidth / 2, 0 + tileIconCoins.getTileHeightOffset());
+        tileIconCoinsPoint.setLocation(renderWidth / 2, tileIconCoins.getTileHeightOffset());
 
         /*
          * Info panel
@@ -6612,11 +6604,7 @@ public final class UIPanel {
     }
 
     private boolean isMouseOnBottomSubPanel(int x, int y) {
-        if (x >= bottomSubPanelPoint.x && x < (bottomSubPanelPoint.x + BOTTOM_SUBPANEL_WIDTH) && y >= bottomSubPanelPoint.y && y < (bottomSubPanelPoint.y + BOTTOM_SUBPANEL_HEIGHT)) {
-            return true;
-        }
-
-        return false;
+        return x >= bottomSubPanelPoint.x && x < (bottomSubPanelPoint.x + BOTTOM_SUBPANEL_WIDTH) && y >= bottomSubPanelPoint.y && y < (bottomSubPanelPoint.y + BOTTOM_SUBPANEL_HEIGHT);
     }
 
     /**
@@ -6718,11 +6706,7 @@ public final class UIPanel {
     }
 
     private boolean isMouseOnMenuPanel(int x, int y) {
-        if (x >= menuPanelPoint.x && x < (menuPanelPoint.x + MENU_PANEL_WIDTH) && y >= menuPanelPoint.y && y < (menuPanelPoint.y + MENU_PANEL_HEIGHT)) {
-            return true;
-        }
-
-        return false;
+        return x >= menuPanelPoint.x && x < (menuPanelPoint.x + MENU_PANEL_WIDTH) && y >= menuPanelPoint.y && y < (menuPanelPoint.y + MENU_PANEL_HEIGHT);
     }
 
     private int isMouseOnMenuItems(int x, int y) {
@@ -9190,7 +9174,6 @@ public final class UIPanel {
         // MINIMAP
         if (iPanel == MOUSE_MINIMAP) {
             MiniMapPanel.mousePressed(x - minimapPanelX, y - minimapPanelY, mouseButton);
-            return;
         }
     }
 

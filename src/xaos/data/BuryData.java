@@ -216,7 +216,7 @@ public class BuryData implements Externalizable {
             Point3DShort p3ds;
             Integer iIniHeader;
             while (it.hasNext()) {
-                p3ds = (Point3DShort) it.next();
+                p3ds = it.next();
                 iIniHeader = hash.get(p3ds);
                 if (iIniHeader != null) {
                     out.writeObject(p3ds);

@@ -58,8 +58,8 @@ public class Cell implements Externalizable {
     private static final long serialVersionUID = -3099620916063413505L;
     public static int MAX_ASTAR_ZONE_ID = 0;
     public static HashMap<Integer, Integer> HASH_ASTAR_ZONE_RELATIONS = new HashMap<Integer, Integer>();
-    private static int[][] depths = new int[World.MAP_WIDTH][World.MAP_HEIGHT];
-    private static int[] neighborIDs = new int[27]; // Ser� 13 o 26, pongo 27 para poder poner el -1 al final
+    private static final int[][] depths = new int[World.MAP_WIDTH][World.MAP_HEIGHT];
+    private static final int[] neighborIDs = new int[27]; // Ser� 13 o 26, pongo 27 para poder poner el -1 al final
     private static int neighborIDsIndex;
     private int flags;
 
@@ -291,12 +291,12 @@ public class Cell implements Externalizable {
             // Buscamos el connector que toca
             if (bInteriors) {
                 // Si tiene interiors y no existen miraremos el _NSEW (sin min�sculas), si tampoco existe miraremos el iniHeader normal
-                boolean bOK = item.setTileSetCoordinatesReturn(item.getIniHeader() + sbConnectors.toString(), item.getIniHeader() + "_NSEW"); //$NON-NLS-1$
+                boolean bOK = item.setTileSetCoordinatesReturn(item.getIniHeader() + sbConnectors, item.getIniHeader() + "_NSEW"); //$NON-NLS-1$
                 if (!bOK) {
                     item.setTileSetCoordinates(item.getIniHeader(), item.getIniHeader());
                 }
             } else {
-                item.setTileSetCoordinates(item.getIniHeader() + sbConnectors.toString(), item.getIniHeader());
+                item.setTileSetCoordinates(item.getIniHeader() + sbConnectors, item.getIniHeader());
             }
 
             item.setTileSetTexCoordinates();
@@ -354,7 +354,7 @@ public class Cell implements Externalizable {
 
         if (sbConnectors.toString().length() > 1) {
             // Buscamos el connector que toca
-            item.setTileSetCoordinates(item.getIniHeader() + sbConnectors.toString(), item.getIniHeader());
+            item.setTileSetCoordinates(item.getIniHeader() + sbConnectors, item.getIniHeader());
             item.setTileSetTexCoordinates();
             if (imi.isDoor()) {
                 item.refreshDoorTile();
@@ -695,7 +695,7 @@ public class Cell implements Externalizable {
     public static void generateDepths() {
         for (int x = 0; x < World.MAP_WIDTH; x++) {
             for (int y = 0; y < World.MAP_HEIGHT; y++) {
-                depths[x][y] = y * World.MAP_HEIGHT * 1 + (World.MAP_WIDTH - 1 - x) * 1;
+                depths[x][y] = y * World.MAP_HEIGHT + (World.MAP_WIDTH - 1 - x);
             }
         }
     }
@@ -728,9 +728,7 @@ public class Cell implements Externalizable {
     public static boolean isDiggable(Cell cell) {
         if (cell.getCoordinates().z < (World.MAP_DEPTH - 2) && !cell.isDigged() && cell.isDiscovered() && !cell.hasStockPile() && !cell.hasZone()) {
             if (!cell.getTerrain().hasFluids() && cell.isMined()) {
-                if (cell.isEmpty()) {
-                    return true;
-                }
+                return cell.isEmpty();
             }
         }
 
@@ -792,9 +790,7 @@ public class Cell implements Externalizable {
 
         if (x < (World.MAP_WIDTH - 1) && y > 0 && z < (World.MAP_DEPTH - 1)) {
             cellTmp = cells[x + 1][y - 1][z + 1];
-            if (cellTmp.hasBuilding()) {
-                return true;
-            }
+            return cellTmp.hasBuilding();
         }
 
         return false;
@@ -1295,8 +1291,7 @@ public class Cell implements Externalizable {
         if (entity == null || (this.entity != null)) {
             // Se va a borrar la celda (o se va a meter algo encima de otro algo), restamos el townvalue de lo que hubiera
             // Tambi�n eliminamos el item actual de la lista de hauling
-            if (this.entity != null && this.entity instanceof Item) {
-                Item cellItem = (Item) this.entity;
+            if (this.entity != null && this.entity instanceof Item cellItem) {
                 ItemManagerItem imi = ItemManager.getItem(this.entity.getIniHeader());
                 World.setTownValue(World.getTownValue() - PricesManager.getPrice(cellItem));
 
@@ -2113,7 +2108,7 @@ public class Cell implements Externalizable {
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         if (Game.SAVEGAME_LOADING_VERSION <= Game.SAVEGAME_V10b) {
-            flags = (int) in.readShort();
+            flags = in.readShort();
         } else {
             flags = in.readInt();
         }

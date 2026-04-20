@@ -118,9 +118,7 @@ public class Building extends Entity implements Externalizable {
             } else {
                 // Over terrain!
                 if (bmi.getMustBeBuiltOver() != null && bmi.getMustBeBuiltOver().size() > 0) {
-                    if (!bmi.getMustBeBuiltOver().contains(cellUnder.getTerrain().getTerrainID())) {
-                        return false;
-                    }
+                    return bmi.getMustBeBuiltOver().contains(cellUnder.getTerrain().getTerrainID());
                 }
             }
         } else {

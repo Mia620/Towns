@@ -26,14 +26,14 @@ public final class Log {
 
         switch (type) {
             case LEVEL_DEBUG:
-                System.out.println(sMessage.toString());
+                System.out.println(sMessage);
                 break;
             case LEVEL_ERROR:
-                System.err.println(sMessage.toString());
+                System.err.println(sMessage);
                 File f = new File("error.log"); //$NON-NLS-1$
                 try {
                     FileOutputStream fos = new FileOutputStream(f, true);
-                    fos.write(("\r\n" + sMessage.toString()).getBytes()); //$NON-NLS-1$
+                    fos.write(("\r\n" + sMessage).getBytes()); //$NON-NLS-1$
                     fos.close();
                 } catch (Exception e) {
                     System.err.println(Messages.getString("Log.4")); //$NON-NLS-1$

@@ -7,6 +7,7 @@ import org.w3c.dom.NodeList;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class UtilsServer {
@@ -51,7 +52,7 @@ public class UtilsServer {
             }
         } catch (Exception e) {
             // log the error
-            Log.log(Log.LEVEL_DEBUG, Messages.getString("UtilsServer.21") + " [" + e.toString() + "]", "UtilsServer"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+            Log.log(Log.LEVEL_DEBUG, Messages.getString("UtilsServer.21") + " [" + e + "]", "UtilsServer"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
         }
 
         return Messages.getString("UtilsServer.1") + " [" + serverURL + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -150,7 +151,7 @@ public class UtilsServer {
             }
         } catch (Exception e) {
             // log the error
-            Log.log(Log.LEVEL_DEBUG, Messages.getString("UtilsServer.21") + " [" + e.toString() + "]", "UtilsServer"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+            Log.log(Log.LEVEL_DEBUG, Messages.getString("UtilsServer.21") + " [" + e + "]", "UtilsServer"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
         }
 
         return null;
@@ -177,7 +178,7 @@ public class UtilsServer {
         } catch (Exception e) {
         }
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(iStream, "UTF-8")); //$NON-NLS-1$
+        BufferedReader br = new BufferedReader(new InputStreamReader(iStream, StandardCharsets.UTF_8)); //$NON-NLS-1$
         String inputLine;
 
         while ((inputLine = br.readLine()) != null) {

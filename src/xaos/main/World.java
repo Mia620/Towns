@@ -89,7 +89,7 @@ public final class World implements Externalizable {
     private static ArrayList<Building> buildings;
     private static HashMap<Integer, Item> items;
     private static HashMap<Integer, ArrayList<String>> itemsText;
-    private static ArrayList<Integer> fallItemList = new ArrayList<Integer>();
+    private static final ArrayList<Integer> fallItemList = new ArrayList<Integer>();
     private static HashMap<Integer, LivingEntity> livingsDiscovered = new HashMap<Integer, LivingEntity>();
     private static HashMap<Integer, LivingEntity> livingsUndiscovered = new HashMap<Integer, LivingEntity>();
     private static String sCoins;
@@ -115,7 +115,7 @@ public final class World implements Externalizable {
     private static CitExclamation tileCitizenExclamation;
     private static boolean recheckASZID; // Sirve para saber cuando recheckear los zone ID
     private static int recheckASZIDCounter; // Sirve para saber cuando recheckear los zone ID
-    private transient static int maxDemoDays;
+    private static int maxDemoDays;
     private CitizenGroups citizenGroups = new CitizenGroups();
     private SoldierGroups soldierGroups = new SoldierGroups();
     private ArrayList<Point3DShort> exploringHotPoints = new ArrayList<Point3DShort>();
@@ -1667,9 +1667,7 @@ public final class World implements Externalizable {
         }
 
         if (emi.getMinPopulation() != 0) {
-            if ((World.getNumCitizens() + World.getNumSoldiers()) < emi.getMinPopulation()) {
-                return false;
-            }
+            return (World.getNumCitizens() + World.getNumSoldiers()) >= emi.getMinPopulation();
         }
 
         return true;
@@ -1916,12 +1914,12 @@ public final class World implements Externalizable {
         if (MapGenerator.STARTING_X != -1 && MapGenerator.STARTING_Y != -1) {
             p3d = Point3DShort.getPoolInstance(MapGenerator.STARTING_X, MapGenerator.STARTING_Y, MapGenerator.STARTING_LEVEL);
         } else {
-            p3d = Point3DShort.getPoolInstance((short) Utils.getRandomBetween(0, World.MAP_WIDTH - 0), (short) Utils.getRandomBetween(0, World.MAP_HEIGHT - 1), MapGenerator.STARTING_LEVEL);
+            p3d = Point3DShort.getPoolInstance((short) Utils.getRandomBetween(0, World.MAP_WIDTH), (short) Utils.getRandomBetween(0, World.MAP_HEIGHT - 1), MapGenerator.STARTING_LEVEL);
         }
         trys = 10000;
         while (!validStartingPoint(p3d) && trys > 0) {
             // p3d = new Point3D (Utils.getRandomBetween (0, World.MAP_WIDTH - 0), Utils.getRandomBetween (0, World.MAP_HEIGHT - 1), World.MAP_NUM_LEVELS_OUTSIDE - outsideIndex);
-            p3d = Point3DShort.getPoolInstance((short) Utils.getRandomBetween(0, World.MAP_WIDTH - 0), (short) Utils.getRandomBetween(0, World.MAP_HEIGHT - 1), MapGenerator.STARTING_LEVEL);
+            p3d = Point3DShort.getPoolInstance((short) Utils.getRandomBetween(0, World.MAP_WIDTH), (short) Utils.getRandomBetween(0, World.MAP_HEIGHT - 1), MapGenerator.STARTING_LEVEL);
             trys--;
         }
 
@@ -3800,7 +3798,7 @@ public final class World implements Externalizable {
 
         // Si llega aqu� es que el agua no se va para abajo ni arriba
         // Obtenemos los puntos donde puede moverse
-        short bPoints[] = new short[8]; // N,S,E,W,NE,NW,SE,SW
+        short[] bPoints = new short[8]; // N,S,E,W,NE,NW,SE,SW
 
         bPoints[0] = checkFluidMovementCells(cell, p3d.x, p3d.y - 1, p3d.z); // N
         bPoints[1] = checkFluidMovementCells(cell, p3d.x, p3d.y + 1, p3d.z); // S

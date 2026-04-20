@@ -488,9 +488,7 @@ public class Terrain implements Externalizable {
         // Se cumplen los prerequisitos, s�lo nos falta mirar que aqu� o arriba haya escalera (S�LO AQU�, ARRIBA YA NO APLICA)
         Item item = cell.getItem();
         if (item != null && item.isOperative() && item.isLocked()) {
-            if (ItemManager.getItem(item.getIniHeader()).isZoneMergerUp()) {
-                return true;
-            }
+            return ItemManager.getItem(item.getIniHeader()).isZoneMergerUp();
         }
 
         // item = cellUp.getItem ();
@@ -547,9 +545,7 @@ public class Terrain implements Externalizable {
         // }
         Item item = cell.getItem();
         if (item != null && item.isOperative() && item.isLocked()) {
-            if (ItemManager.getItem(cell.getEntity().getIniHeader()).isZoneMergerUp()) {
-                return true;
-            }
+            return ItemManager.getItem(cell.getEntity().getIniHeader()).isZoneMergerUp();
         }
 
         return false;

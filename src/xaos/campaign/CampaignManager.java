@@ -106,7 +106,7 @@ public class CampaignManager {
                 }
             }
         } catch (Exception e) {
-            Log.log(Log.LEVEL_ERROR, Messages.getString("CampaignManager.0") + " [" + e.toString() + "]", "CampaignManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+            Log.log(Log.LEVEL_ERROR, Messages.getString("CampaignManager.0") + " [" + e + "]", "CampaignManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
             Game.exit();
         }
     }

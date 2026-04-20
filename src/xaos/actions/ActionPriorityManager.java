@@ -118,7 +118,7 @@ public class ActionPriorityManager {
                 }
             }
         } catch (Exception e) {
-            Log.log(Log.LEVEL_ERROR, Messages.getString("ActionManager.0") + sXMLName + "] [" + e.toString() + "]", "ActionPriorityManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+            Log.log(Log.LEVEL_ERROR, Messages.getString("ActionManager.0") + sXMLName + "] [" + e + "]", "ActionPriorityManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
             Game.exit();
         }
     }

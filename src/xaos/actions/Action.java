@@ -115,9 +115,7 @@ public class Action implements Externalizable {
     }
 
     public String toString() {
-        StringBuffer buffer = new StringBuffer("Action\n");
-        buffer.append("ID " + id + " turns " + turns + " terrain " + terrainPoint + " destPoint " + destinationPoint + " entityID " + entityID + "\n");
-        return buffer.toString();
+        return "Action\n" + "ID " + id + " turns " + turns + " terrain " + terrainPoint + " destPoint " + destinationPoint + " entityID " + entityID + "\n";
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {

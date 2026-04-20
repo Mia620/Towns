@@ -341,11 +341,7 @@ public final class Utils {
         if (imi.isWall()) {
             return true;
         }
-        if (imi.isDoor() && !item.isDoorStatus(Item.FLAG_WALL_CONNECTOR_STATUS_UNLOCKED_AND_OPENED)) {
-            return true;
-        }
-
-        return false;
+        return imi.isDoor() && !item.isDoorStatus(Item.FLAG_WALL_CONNECTOR_STATUS_UNLOCKED_AND_OPENED);
     }
 
     /**
@@ -888,7 +884,7 @@ public final class Utils {
                         return launchDice(iNumber, Integer.parseInt(sStr.substring(iIndexD + 1, (iIndexPlus + 1 - iIndexD)).trim()), Integer.parseInt(sStr.substring(iIndexPlus + 1)));
                     }
                 } catch (Exception e) {
-                    Log.log(Log.LEVEL_ERROR, Messages.getString("Utils.0") + sStr + "] [" + e.toString() + "]", "Utils"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                    Log.log(Log.LEVEL_ERROR, Messages.getString("Utils.0") + sStr + "] [" + e + "]", "Utils"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                     return 0;
                 }
             } else {
@@ -900,11 +896,11 @@ public final class Utils {
                         if (sStr.charAt(0) == '+') {
                             return launchDice(0, 0, Integer.parseInt(sStr.substring(1)));
                         } else {
-                            return launchDice(0, 0, Integer.parseInt(sStr.substring(0)));
+                            return launchDice(0, 0, Integer.parseInt(sStr));
                         }
                     }
                 } catch (Exception e) {
-                    Log.log(Log.LEVEL_ERROR, Messages.getString("Utils.0") + sStr + "] [" + e.toString() + "]", "Utils"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                    Log.log(Log.LEVEL_ERROR, Messages.getString("Utils.0") + sStr + "] [" + e + "]", "Utils"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                     return 0;
                 }
             }
@@ -970,12 +966,12 @@ public final class Utils {
                             int iAdd = Integer.parseInt(sStr.substring(1));
                             return new Point(iAdd, iAdd);
                         } else {
-                            int iAdd = Integer.parseInt(sStr.substring(0));
+                            int iAdd = Integer.parseInt(sStr);
                             return new Point(iAdd, iAdd);
                         }
                     }
                 } catch (Exception e) {
-                    Log.log(Log.LEVEL_ERROR, Messages.getString("Utils.3") + sStr + "] [" + e.toString() + "]", "Utils"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                    Log.log(Log.LEVEL_ERROR, Messages.getString("Utils.3") + sStr + "] [" + e + "]", "Utils"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                     return new Point(0, 0);
                 }
             }
@@ -1062,7 +1058,7 @@ public final class Utils {
                     return new ColorGL(null);
                 }
             } catch (Exception e) {
-                Log.log(Log.LEVEL_ERROR, Messages.getString("Utils.6") + sColor + "] [" + e.toString() + "]", "Utils"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                Log.log(Log.LEVEL_ERROR, Messages.getString("Utils.6") + sColor + "] [" + e + "]", "Utils"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                 return new ColorGL(null);
             }
         }
@@ -1091,10 +1087,10 @@ public final class Utils {
         String sSaveFolder = Game.getUserFolder() + Game.getFileSeparator() + Game.SAVE_FOLDER1 + Game.getFileSeparator();
         String sDestFileName = Game.getSavegameName() + ".zip"; //$NON-NLS-1$
 
-        String sTemporaryFileName = Long.toString(System.currentTimeMillis()) + ".zip"; //$NON-NLS-1$
+        String sTemporaryFileName = System.currentTimeMillis() + ".zip"; //$NON-NLS-1$
         File fTmp = new File(sSaveFolder + sTemporaryFileName);
         while (fTmp.exists()) {
-            sTemporaryFileName = Long.toString(System.currentTimeMillis()) + ".zip"; //$NON-NLS-1$
+            sTemporaryFileName = System.currentTimeMillis() + ".zip"; //$NON-NLS-1$
             fTmp = new File(sSaveFolder + sTemporaryFileName);
         }
         try {
@@ -1396,11 +1392,11 @@ public final class Utils {
             Game.getWorld().refreshTransients();
         } catch (Exception e) {
             e.printStackTrace();
-            Log.log(Log.LEVEL_ERROR, Messages.getString("Utils.23") + e.toString() + "]", "Utils"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            Log.log(Log.LEVEL_ERROR, Messages.getString("Utils.23") + e + "]", "Utils"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             if (e.getMessage() != null) {
                 throw new Exception(Messages.getString("Utils.23") + e.getMessage() + "]"); //$NON-NLS-1$ //$NON-NLS-2$
             } else {
-                throw new Exception(Messages.getString("Utils.23") + e.toString() + "]"); //$NON-NLS-1$ //$NON-NLS-2$
+                throw new Exception(Messages.getString("Utils.23") + e + "]"); //$NON-NLS-1$ //$NON-NLS-2$
             }
         }
     }
@@ -1422,10 +1418,10 @@ public final class Utils {
         String sBuryFolder = Game.getUserFolder() + Game.getFileSeparator() + Game.BURY_FOLDER1 + Game.getFileSeparator();
         String sDestFileName = "b_" + Game.getSavegameName() + ".zip"; //$NON-NLS-1$ //$NON-NLS-2$
 
-        String sTemporaryFileName = Long.toString(System.currentTimeMillis()) + ".zip"; //$NON-NLS-1$
+        String sTemporaryFileName = System.currentTimeMillis() + ".zip"; //$NON-NLS-1$
         File fTmp = new File(sBuryFolder + sTemporaryFileName);
         while (fTmp.exists()) {
-            sTemporaryFileName = Long.toString(System.currentTimeMillis()) + ".zip"; //$NON-NLS-1$
+            sTemporaryFileName = System.currentTimeMillis() + ".zip"; //$NON-NLS-1$
             fTmp = new File(sBuryFolder + sTemporaryFileName);
         }
 
@@ -1527,7 +1523,7 @@ public final class Utils {
                 Log.log(Log.LEVEL_ERROR, Messages.getString("Utils.17"), "Utils"); //$NON-NLS-1$ //$NON-NLS-2$
             }
         } catch (Exception e) {
-            Log.log(Log.LEVEL_ERROR, Messages.getString("BuryData.1") + " [" + e.toString() + "]", "Utils"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+            Log.log(Log.LEVEL_ERROR, Messages.getString("BuryData.1") + " [" + e + "]", "Utils"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
         }
 
         return bd;
@@ -1790,7 +1786,7 @@ public final class Utils {
             pw.setProperty(MainProperties.SERVERS, Game.getServersString());
             pw.store(fSave);
         } catch (Exception e) {
-            Log.log(Log.LEVEL_ERROR, Messages.getString("Utils.13") + e.toString() + "]", "Utils"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            Log.log(Log.LEVEL_ERROR, Messages.getString("Utils.13") + e + "]", "Utils"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         }
     }
 

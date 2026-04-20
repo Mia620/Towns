@@ -30,9 +30,9 @@ public class TradePanel {
     public static int MAX_VERTICAL_BUTTONS;
 
     public static Tile tileTradeButton = new Tile("trade_button"); //$NON-NLS-1$
-    public static final boolean tileTradeButtonAlpha[][] = UtilsGL.generateAlpha(tileTradeButton);
+    public static final boolean[][] tileTradeButtonAlpha = UtilsGL.generateAlpha(tileTradeButton);
     public static Tile tileTradeConfirm = new Tile("trade_confirm"); //$NON-NLS-1$
-    public static final boolean tileTradeConfirmAlpha[][] = UtilsGL.generateAlpha(tileTradeConfirm);
+    public static final boolean[][] tileTradeConfirmAlpha = UtilsGL.generateAlpha(tileTradeConfirm);
     public static Tile tileTradeConfirmDisabled = new Tile("trade_confirm_disabled"); //$NON-NLS-1$
     public static Tile tileTradeBuy = new Tile("trade_buy"); //$NON-NLS-1$
     public static Tile tileTradeSell = new Tile("trade_sell"); //$NON-NLS-1$
@@ -679,16 +679,12 @@ public class TradePanel {
         int iCostoins = cost;
         if (caravanData.getMenuCaravanToBuy().getItems().size() > 0 || caravanData.getMenuTownToSell().getItems().size() > 0) {
             // Hay items en las listas, miramos si el pueblo puede permitirse el gasto
+            // Venta, miramos si la caravana tiene suficiente pasta
+            // Compra/venta justa o el pueblo/caravana tiene pasta suficiente
             if (iCostoins > 0 && iCostoins > iWorldCoins) {
                 // Compra, miramos si el pueblo tiene suficiente pasta
                 setTransactionReady(false);
-            } else if (iCostoins < 0 && Math.abs(iCostoins) > caravanData.getCoins()) {
-                // Venta, miramos si la caravana tiene suficiente pasta
-                setTransactionReady(false);
-            } else {
-                // Compra/venta justa o el pueblo/caravana tiene pasta suficiente
-                setTransactionReady(true);
-            }
+            } else setTransactionReady(iCostoins >= 0 || Math.abs(iCostoins) <= caravanData.getCoins());
         } else {
             setTransactionReady(false);
         }

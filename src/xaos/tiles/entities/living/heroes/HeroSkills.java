@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 public class HeroSkills {
 
-    private ArrayList<String> skills;
-    private ArrayList<Integer> levels;
+    private final ArrayList<String> skills;
+    private final ArrayList<Integer> levels;
 
     public HeroSkills(String sSkills, String sLevels) throws Exception {
         this.skills = Utils.getArray(sSkills);

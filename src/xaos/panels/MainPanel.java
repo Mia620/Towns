@@ -58,13 +58,13 @@ public final class MainPanel {
     public static boolean bMiniBlocksON;
     public static boolean bHideUION;
     public static int itemBuildFace = Item.FACE_WEST;
-    private static Tile GRID_TILE = new Tile("grid"); //$NON-NLS-1$
-    private static Tile GRID_NOT_ALLOWED_TILE = new Tile("gridNA"); //$NON-NLS-1$
-    private static Tile MOUSE_3D_TILE = new Tile("mouseCursor3D"); //$NON-NLS-1$
-    private static Tile MOUSE_ARROW_WEST = new Tile("mouseArrowWest"); //$NON-NLS-1$
-    private static Tile MOUSE_ARROW_NORTH = new Tile("mouseArrowNorth"); //$NON-NLS-1$
-    private static Tile MOUSE_ARROW_EAST = new Tile("mouseArrowEast"); //$NON-NLS-1$
-    private static Tile MOUSE_ARROW_SOUTH = new Tile("mouseArrowSouth"); //$NON-NLS-1$
+    private static final Tile GRID_TILE = new Tile("grid"); //$NON-NLS-1$
+    private static final Tile GRID_NOT_ALLOWED_TILE = new Tile("gridNA"); //$NON-NLS-1$
+    private static final Tile MOUSE_3D_TILE = new Tile("mouseCursor3D"); //$NON-NLS-1$
+    private static final Tile MOUSE_ARROW_WEST = new Tile("mouseArrowWest"); //$NON-NLS-1$
+    private static final Tile MOUSE_ARROW_NORTH = new Tile("mouseArrowNorth"); //$NON-NLS-1$
+    private static final Tile MOUSE_ARROW_EAST = new Tile("mouseArrowEast"); //$NON-NLS-1$
+    private static final Tile MOUSE_ARROW_SOUTH = new Tile("mouseArrowSouth"); //$NON-NLS-1$
     // M�ximo de tiles a pintar
     private static int maxTilesWidthHeight;
     private static int maxTilesX;
@@ -77,7 +77,7 @@ public final class MainPanel {
     private static boolean bCheckBlinkCells = false;
 
     // LOCKED WALLCONNECTOR
-    private static Tile lockedConnectorTile = new Tile("lockedconnector"); //$NON-NLS-1$
+    private static final Tile lockedConnectorTile = new Tile("lockedconnector"); //$NON-NLS-1$
 
 
     public MainPanel() {
@@ -1261,7 +1261,7 @@ public final class MainPanel {
 
     private static int renderItems(Cell cell, Item item, int iXGeneral, int iYGeneral, int currentTextureID, Point3D pointTileMouse, float fColorShadowLight, int iDepth, int zLevelOffset) {
         if (item != null) {
-            Tile tile = (Tile) item;
+            Tile tile = item;
             boolean bFlatNearMouse = false;
 
             tile.updateAnimation(item.isFacingNorth() || item.isFacingEast());
@@ -1366,7 +1366,6 @@ public final class MainPanel {
                 int addDepth = (item.getTileHeight() > 2 * Tile.TERRAIN_ICON_HEIGHT) ? (item.getTileHeight() - (2 * Tile.TERRAIN_ICON_HEIGHT)) / Tile.TERRAIN_ICON_HEIGHT : 0;
                 if (addDepth > 0) {
                     iDepth = Math.max(iDepth, Cell.getDepth(cell.getCoordinates().x, cell.getCoordinates().y, cell.getCoordinates().z) + addDepth);
-                    ;
                 } else {
                     // Item road, sumamos 1
                     if (ItemManager.getItem(item.getIniHeader()).getFloorWalkSpeed() != 100) {
@@ -1909,10 +1908,10 @@ public final class MainPanel {
                             Citizen cit = (Citizen) World.getLivingEntityByID(iCitID);
                             if (cit != null) {
                                 // Tiene!
-                                StringBuffer sb = new StringBuffer(Messages.getString("Zone.6")); //$NON-NLS-1$
-                                sb.append(cit.getCitizenData().getFullName());
-                                sb.append(Messages.getString("Zone.7")); //$NON-NLS-1$
-                                sMessage = sb.toString();
+                                //$NON-NLS-1$
+                                String sb = Messages.getString("Zone.6") + cit.getCitizenData().getFullName() +
+                                        Messages.getString("Zone.7"); //$NON-NLS-1$
+                                sMessage = sb;
                             }
                         }
                     } else if (zmi.getType() == ZoneManagerItem.TYPE_HERO_ROOM) {
@@ -1922,10 +1921,10 @@ public final class MainPanel {
                             Hero hero = (Hero) World.getLivingEntityByID(iHeroID);
                             if (hero != null) {
                                 // Tiene!
-                                StringBuffer sb = new StringBuffer(Messages.getString("Zone.6")); //$NON-NLS-1$
-                                sb.append(hero.getCitizenData().getFullName());
-                                sb.append(Messages.getString("Zone.7")); //$NON-NLS-1$
-                                sMessage = sb.toString();
+                                //$NON-NLS-1$
+                                String sb = Messages.getString("Zone.6") + hero.getCitizenData().getFullName() +
+                                        Messages.getString("Zone.7"); //$NON-NLS-1$
+                                sMessage = sb;
                             }
                         }
                     } else if (zmi.getType() == ZoneManagerItem.TYPE_BARRACKS) {
@@ -1935,10 +1934,10 @@ public final class MainPanel {
                             if (iGroupID >= 0 && iGroupID < SoldierGroups.MAX_GROUPS) {
                                 // Tiene
                                 SoldierGroupData sgd = Game.getWorld().getSoldierGroups().getGroup(iGroupID);
-                                StringBuffer sb = new StringBuffer(Messages.getString("Zone.8")); //$NON-NLS-1$
-                                sb.append(sgd.getName());
-                                sb.append(Messages.getString("Zone.9")); //$NON-NLS-1$
-                                sMessage = sb.toString();
+                                //$NON-NLS-1$
+                                String sb = Messages.getString("Zone.8") + sgd.getName() +
+                                        Messages.getString("Zone.9"); //$NON-NLS-1$
+                                sMessage = sb;
                             }
                         }
                     }
@@ -2168,7 +2167,7 @@ public final class MainPanel {
                             alColor.add(ColorGL.GRAY);
                             bNeedABlank = false;
                         }
-                        alMessages.add(Messages.getString("LivingEntity.7") + sBuffer.toString()); //$NON-NLS-1$
+                        alMessages.add(Messages.getString("LivingEntity.7") + sBuffer); //$NON-NLS-1$
                         alColor.add(ColorGL.ORANGE);
                     }
                 }

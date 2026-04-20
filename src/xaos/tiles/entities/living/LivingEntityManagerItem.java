@@ -130,7 +130,7 @@ public class LivingEntityManagerItem {
     }
 
     public LivingEntityManagerItem(LivingEntityManagerItem lemi) {
-        this.iniHeader = new String(lemi.getIniHeader());
+        this.iniHeader = lemi.getIniHeader();
         this.type = lemi.getType();
         this.level = lemi.getLevel();
 

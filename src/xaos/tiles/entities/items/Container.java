@@ -567,11 +567,7 @@ public class Container implements Externalizable {
         // imiInside = ItemManager.getItem (itemsInside.get (i).getIniHeader ());
         // iCurrentSize += imiInside.getStackableSize ();
         // }
-        if (!getType().contains(item.getIniHeader())) {
-            return false;
-        }
-
-        return true;
+        return getType().contains(item.getIniHeader());
     }
 
     public boolean containsAny(ArrayList<String> alHeaders) {

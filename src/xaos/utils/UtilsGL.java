@@ -132,7 +132,7 @@ public final class UtilsGL {
         GL11.glLoadIdentity();
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glLoadIdentity();
-        GL11.glOrtho(0, UtilsGL.getWidth(), UtilsGL.getHeight(), 0, -((World.MAP_WIDTH * World.MAP_HEIGHT * 1) + 68), 1);
+        GL11.glOrtho(0, UtilsGL.getWidth(), UtilsGL.getHeight(), 0, -((World.MAP_WIDTH * World.MAP_HEIGHT) + 68), 1);
 
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glLoadIdentity();
@@ -275,7 +275,7 @@ public final class UtilsGL {
     // Log.log(Log.LEVEL_ERROR, "No native cursor support.", UtilsGL.class.getCanonicalName());
     // }
     // }
-    public static final void glBegin(final int mode) {
+    public static void glBegin(final int mode) {
         if (ATI_begin) {
             glEnd();
         } else {
@@ -286,7 +286,7 @@ public final class UtilsGL {
     }
 
 
-    public static final void glEnd() {
+    public static void glEnd() {
         if (ATI_begin) {
             if (!ATI_drawed) {
                 Tile tile = World.getTileRedCross();
@@ -422,7 +422,7 @@ public final class UtilsGL {
 
         int[] aiMessage = new int[sMessage.length()];
         for (int i = 0; i < sMessage.length(); i++) {
-            aiMessage[i] = (int) sMessage.charAt(i);
+            aiMessage[i] = sMessage.charAt(i);
         }
 
         int xOffset = x;
@@ -452,7 +452,7 @@ public final class UtilsGL {
 
         int[] aiMessage = new int[sMessage.length()];
         for (int i = 0; i < sMessage.length(); i++) {
-            aiMessage[i] = (int) sMessage.charAt(i);
+            aiMessage[i] = sMessage.charAt(i);
         }
 
         int xOffset = x;
@@ -599,7 +599,7 @@ public final class UtilsGL {
             }
         } catch (IOException e) {
             // e.printStackTrace();
-            Log.log(Log.LEVEL_DEBUG, "Fast decoding of image [" + imageFile + "] failed: " + e.toString(), "UtilsGL");
+            Log.log(Log.LEVEL_DEBUG, "Fast decoding of image [" + imageFile + "] failed: " + e, "UtilsGL");
             // return null;
         }
 
@@ -608,7 +608,7 @@ public final class UtilsGL {
             try {
                 imageData = loadImageDataImageIO(Towns.getPropertiesString("GRAPHICS_FOLDER") + System.getProperty("file.separator") + imageFile, imageFile);
             } catch (IOException e) {
-                Log.log(Log.LEVEL_ERROR, "ImageIO decoding of image [" + imageFile + "] failed: " + e.toString(), "UtilsGL");
+                Log.log(Log.LEVEL_ERROR, "ImageIO decoding of image [" + imageFile + "] failed: " + e, "UtilsGL");
             }
         }
 
@@ -695,8 +695,7 @@ public final class UtilsGL {
         }
 
         if (image != null) {
-            if (image instanceof TextureData && !reload) {
-                TextureData texture = (TextureData) image;
+            if (image instanceof TextureData texture && !reload) {
                 return texture;
             } else {
                 TextureData texture;
@@ -794,7 +793,7 @@ public final class UtilsGL {
     public static int reloadTexture(float[] textureFloats, int ID, float textureMode, int width, int height, int format) {
         FloatBuffer buffer = BufferUtils.createFloatBuffer(textureFloats.length);
         buffer.put(textureFloats);
-        buffer = (FloatBuffer) buffer.rewind();
+        buffer = buffer.rewind();
 
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, ID);
         GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, 0, 0, width, height, format, GL11.GL_FLOAT, buffer);
@@ -950,9 +949,8 @@ public final class UtilsGL {
             int iXIndex = Tile.TERRAIN_ICON_WIDTH * tile.getTileSetX();
             int iYIndex = Tile.TERRAIN_ICON_HEIGHT * tile.getTileSetY();
             for (int x = 0; x < tile.getTileWidth(); x++) {
-                for (int y = 0; y < tile.getTileHeight(); y++) {
-                    alphaArray[x][y] = alphaStored[iXIndex + x][iYIndex + y];
-                }
+                if (tile.getTileHeight() >= 0)
+                    System.arraycopy(alphaStored[iXIndex + x], iYIndex + 0, alphaArray[x], 0, tile.getTileHeight());
             }
 
         } else {

@@ -36,7 +36,7 @@ import java.util.HashMap;
 public class EventData implements Externalizable {
 
     private static final long serialVersionUID = 8911321568004507866L;
-    private static HashMap<String, ArrayList<Point3D>> hmSeedsIDs = new HashMap<String, ArrayList<Point3D>>();
+    private static final HashMap<String, ArrayList<Point3D>> hmSeedsIDs = new HashMap<String, ArrayList<Point3D>>();
     private String eventID;
     private int order;
     private int turns;
@@ -503,12 +503,8 @@ public class EventData implements Externalizable {
             setTurns(getTurns() - 1);
         }
 
-        if (turns <= 0) {
-            // Se acab�
-            return true;
-        }
-
-        return false;
+        // Se acab�
+        return turns <= 0;
     }
 
     /**

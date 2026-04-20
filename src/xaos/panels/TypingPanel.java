@@ -42,7 +42,7 @@ public class TypingPanel {
     private static Point titlePoint = new Point(0, 0);
     private static Point oldTextPoint = new Point(0, 0);
     private static Point newTextPoint = new Point(0, 0);
-    private static Point subTitlePoint = new Point(0, 0);
+    private static final Point subTitlePoint = new Point(0, 0);
     private static Point confirmPoint = new Point(0, 0);
 
     // Tiles
@@ -55,7 +55,7 @@ public class TypingPanel {
     public TypingPanel(int renderWidth, int renderHeight, String title, String oldText, int type, int parameter) {
         setTitle(title);
         setOldText(oldText);
-        setNewText(new String());
+        setNewText("");
         setSubTitle(null);
 
         TYPING_TYPE = type;

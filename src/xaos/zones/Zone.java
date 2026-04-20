@@ -74,17 +74,11 @@ public class Zone implements Externalizable {
 
         if (expandZone == null) {
             // Zona nueva, no puede haber otra zona ah� (a no ser que tenga neighbors)
-            if (cell.hasZone()) {
-                return false;
-            }
+            return !cell.hasZone();
         } else {
             // Expandiendo zona, la casilla debe ser igual a una de la zona anterior
-            if (!expandZone.getPoints().contains(cell.getCoordinates())) {
-                return false;
-            }
+            return expandZone.getPoints().contains(cell.getCoordinates());
         }
-
-        return true;
     }
 
     private static boolean checkZoneNeighbors(ZoneManagerItem zmi, int xIni, int yIni, int xEnd, int yEnd, int z) {
@@ -219,9 +213,7 @@ public class Zone implements Externalizable {
 
             } else {
                 // Tiene vecinos, la zona es buena si alguno de los puntos toca a una zona "neighbor"
-                if (!checkZoneNeighbors(zmi, xIni, yIni, xEnd, yEnd, z)) {
-                    return false;
-                }
+                return checkZoneNeighbors(zmi, xIni, yIni, xEnd, yEnd, z);
             }
         } else {
             // EXPAND ZONE
@@ -377,7 +369,6 @@ public class Zone implements Externalizable {
                     }
                 } else if (zmi.getType() == ZoneManagerItem.TYPE_BARRACKS) {
                     SoldierGroupData sgd;
-                    ;
                     for (int j = 0; j < SoldierGroups.MAX_GROUPS; j++) {
                         sgd = Game.getWorld().getSoldierGroups().getGroup(j);
                         if (sgd.getZoneID() == iID) {

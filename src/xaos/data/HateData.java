@@ -182,43 +182,33 @@ public class HateData {
                 return true;
             } else if (getCitizens().size() > 0) {
                 // Odia s�lo a algunos citizens, miramos si el de la celda es odiado
-                if (getCitizens().contains(le.getIniHeader())) {
-                    return true;
-                }
+                return getCitizens().contains(le.getIniHeader());
             }
         } else if (lemi.getType() == LivingEntity.TYPE_FRIENDLY) {
             if (isAllFriendlies()) {
                 return true;
             } else if (getFriendlies().size() > 0) {
-                if (getFriendlies().contains(le.getIniHeader())) {
-                    return true;
-                }
+                return getFriendlies().contains(le.getIniHeader());
             }
         } else if (lemi.getType() == LivingEntity.TYPE_ENEMY) {
             if (isAllEnemies()) {
                 return true;
             } else if (getEnemies().size() > 0) {
-                if (getEnemies().contains(le.getIniHeader())) {
-                    return true;
-                }
+                return getEnemies().contains(le.getIniHeader());
             }
         } else if (lemi.getType() == LivingEntity.TYPE_HERO) {
             if (isAllHeros()) {
                 return true;
             } else if (getHeros().size() > 0) {
                 // Odia s�lo a algunos heros, miramos si el de la celda es odiado
-                if (getHeros().contains(le.getIniHeader())) {
-                    return true;
-                }
+                return getHeros().contains(le.getIniHeader());
             }
         } else if (lemi.getType() == LivingEntity.TYPE_ALLY) {
             if (isAllAllies()) {
                 return true;
             } else if (getAllies().size() > 0) {
                 // Odia s�lo a algunos allies, miramos si el de la celda es odiado
-                if (getAllies().contains(le.getIniHeader())) {
-                    return true;
-                }
+                return getAllies().contains(le.getIniHeader());
             }
         }
 

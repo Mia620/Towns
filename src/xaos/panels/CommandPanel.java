@@ -903,15 +903,15 @@ public final class CommandPanel {
                 try {
                     Utils.save(true);
                 } catch (Exception ex) {
-                    Log.log(Log.LEVEL_ERROR, Messages.getString("CommandPanel.38") + ex.toString() + "]", "CommandPanel"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                    MessagesPanel.addMessage(MessagesPanel.TYPE_SYSTEM, Messages.getString("CommandPanel.38") + ex.toString() + "]", ColorGL.RED); //$NON-NLS-1$ //$NON-NLS-2$
+                    Log.log(Log.LEVEL_ERROR, Messages.getString("CommandPanel.38") + ex + "]", "CommandPanel"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                    MessagesPanel.addMessage(MessagesPanel.TYPE_SYSTEM, Messages.getString("CommandPanel.38") + ex + "]", ColorGL.RED); //$NON-NLS-1$ //$NON-NLS-2$
                 }
             } else if (sCommand.equals(COMMAND_SAVE_NO_MISSIONDATA)) {
                 try {
                     Utils.save(false);
                 } catch (Exception ex) {
-                    Log.log(Log.LEVEL_ERROR, Messages.getString("CommandPanel.38") + ex.toString() + "]", "CommandPanel"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                    MessagesPanel.addMessage(MessagesPanel.TYPE_SYSTEM, Messages.getString("CommandPanel.38") + ex.toString() + "]", ColorGL.RED); //$NON-NLS-1$ //$NON-NLS-2$
+                    Log.log(Log.LEVEL_ERROR, Messages.getString("CommandPanel.38") + ex + "]", "CommandPanel"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                    MessagesPanel.addMessage(MessagesPanel.TYPE_SYSTEM, Messages.getString("CommandPanel.38") + ex + "]", ColorGL.RED); //$NON-NLS-1$ //$NON-NLS-2$
                 }
             } else if (sCommand.equals(COMMAND_ITEM_TEXT_ADD)) {
                 if (UIPanel.typingPanel == null) {
@@ -945,8 +945,8 @@ public final class CommandPanel {
                     Utils.saveBury();
                     MessagesPanel.addMessage(MessagesPanel.TYPE_SYSTEM, Messages.getString("CommandPanel.9")); //$NON-NLS-1$
                 } catch (Exception ex) {
-                    Log.log(Log.LEVEL_ERROR, Messages.getString("CommandPanel.8") + " [" + ex.toString() + "]", "CommandPanel"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-                    MessagesPanel.addMessage(MessagesPanel.TYPE_SYSTEM, Messages.getString("CommandPanel.8") + " [" + ex.toString() + "]", ColorGL.RED); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                    Log.log(Log.LEVEL_ERROR, Messages.getString("CommandPanel.8") + " [" + ex + "]", "CommandPanel"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                    MessagesPanel.addMessage(MessagesPanel.TYPE_SYSTEM, Messages.getString("CommandPanel.8") + " [" + ex + "]", ColorGL.RED); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 }
             } else if (sCommand.equals(COMMAND_EXIT_GAME)) {
                 Game.exit();
@@ -1023,11 +1023,7 @@ public final class CommandPanel {
                 MainMenuPanel.loadingGame = true;
                 Game.getPanelMainMenu().render();
                 Display.update();
-                if (sParameter2 != null) {
-                    Game.continueGame(sParameter, sParameter2);
-                } else {
-                    Game.continueGame(sParameter, null);
-                }
+                Game.continueGame(sParameter, sParameter2);
             } else if (sCommand.equals(COMMAND_MM_DELETEGAME)) {
                 Utils.deleteSavegame(sParameter);
                 Game.getPanelMainMenu().createMenu();

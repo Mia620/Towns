@@ -54,9 +54,7 @@ public class DungeonGenerator {
 
         // Copia
         for (int x = 0; x < World.MAP_WIDTH; x++) {
-            for (int y = 0; y < World.MAP_HEIGHT; y++) {
-                cellsCopia[x][y] = cellsMain[x][y];
-            }
+            System.arraycopy(cellsMain[x], 0, cellsCopia[x], 0, World.MAP_HEIGHT);
         }
 
         // Aut�mata (5 iteraciones)
@@ -72,9 +70,7 @@ public class DungeonGenerator {
 
             // Copia
             for (int x = 0; x < World.MAP_WIDTH; x++) {
-                for (int y = 0; y < World.MAP_HEIGHT; y++) {
-                    cellsCopia[x][y] = cellsMain[x][y];
-                }
+                System.arraycopy(cellsMain[x], 0, cellsCopia[x], 0, World.MAP_HEIGHT);
             }
         }
 

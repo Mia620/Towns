@@ -126,9 +126,9 @@ public final class Game {
     private static int volumeMusic = 10;
     private static int volumeFX = 10;
     private static int pathfindingCPULevel;
-    private static ArrayList<String> alModsLoaded = new ArrayList<String>();
-    private static ArrayList<String> alServers = new ArrayList<String>();
-    private static ArrayList<String> alServerNames = new ArrayList<String>();
+    private static final ArrayList<String> alModsLoaded = new ArrayList<String>();
+    private static final ArrayList<String> alServers = new ArrayList<String>();
+    private static final ArrayList<String> alServerNames = new ArrayList<String>();
     private static int serverToUse;
 
     private static String savegameName;
@@ -351,14 +351,12 @@ public final class Game {
                 Game.exitToMainMenu();
                 getPanelMainMenu().setErrorToShow(e.getMessage());
                 getPanelMainMenu().createMenu();
-                return;
             }
         } else {
             Log.log(Log.LEVEL_ERROR, Messages.getString("Game.1") + " [" + savegameName + ".zip]", "Game"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
             Game.exitToMainMenu();
             getPanelMainMenu().setErrorToShow(Messages.getString("Game.1") + " [" + savegameName + ".zip]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             getPanelMainMenu().createMenu();
-            return;
         }
     }
 
@@ -834,7 +832,7 @@ public final class Game {
     }
 
 
-    public final static World getWorld() {
+    public static World getWorld() {
         return world;
     }
 

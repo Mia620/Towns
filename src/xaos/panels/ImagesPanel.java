@@ -33,9 +33,9 @@ public class ImagesPanel {
     // Points
     private static Point panelPoint = new Point(0, 0);
     private static Point closeButtonPoint = new Point(0, 0);
-    private static Point nextImagePoint = new Point(0, 0);
-    private static Point previousImagePoint = new Point(0, 0);
-    private static Point nextMissionPoint = new Point(0, 0);
+    private static final Point nextImagePoint = new Point(0, 0);
+    private static final Point previousImagePoint = new Point(0, 0);
+    private static final Point nextMissionPoint = new Point(0, 0);
 
     // Tiles
     private static Tile[] tilePanel;
@@ -46,7 +46,7 @@ public class ImagesPanel {
     private static Tile tileNextMission;
 
     // Images
-    private static HashMap<String, TextureData> hashImageTextureData = new HashMap<String, TextureData>();
+    private static final HashMap<String, TextureData> hashImageTextureData = new HashMap<String, TextureData>();
 
     // Flow indexes
     private static int currentFlowIndex = 0;
@@ -57,7 +57,7 @@ public class ImagesPanel {
     private static Tile currentTile = null;
 
     // Texts
-    private static ArrayList<String> alTexts = new ArrayList<String>();
+    private static final ArrayList<String> alTexts = new ArrayList<String>();
 
 
     public ImagesPanel(int renderWidth, int renderHeight, MissionData missionData) {
@@ -185,7 +185,7 @@ public class ImagesPanel {
 
             // Blank line
             if ((i + 1) < texts.size()) {
-                alTexts.add(new String());
+                alTexts.add("");
             }
         }
     }
@@ -194,7 +194,7 @@ public class ImagesPanel {
     private static void parseTutorialText(String sText) {
         int iMaxChars = UtilFont.getMaxCharsByWidth(sText, MAX_TEXT_WIDTH - UtilFont.MAX_WIDTH);
         if (sText.length() > iMaxChars) {
-            alTexts.add(new String(sText.substring(0, iMaxChars)));
+            alTexts.add(sText.substring(0, iMaxChars));
             parseTutorialText(sText.substring(iMaxChars).trim());
         } else {
             alTexts.add(sText);

@@ -294,9 +294,7 @@ public class Item extends Entity implements Externalizable {
         if (checkPiles && cell.hasStockPile()) {
             Stockpile pile = Stockpile.getStockpile(x, y, z);
             if (pile != null) {
-                if (!pile.itemAllowed(imi.getIniHeader())) {
-                    return false;
-                }
+                return pile.itemAllowed(imi.getIniHeader());
             }
         }
 
@@ -973,12 +971,9 @@ public class Item extends Entity implements Externalizable {
         // }
         // }
         //
-        if (p3dMin != null) {
-            return p3dMin;
-        }
+        return p3dMin;
 
         // Si llega aqu� es que en el mundo hay items pero ninguno nos sirve, salimos de la tarea
-        return null;
     }
 
     /**
@@ -1967,7 +1962,7 @@ public class Item extends Entity implements Externalizable {
                         // Ok, no hay suficientes vecinos, toca meter uno
                         switch (Utils.getRandomBetween(1, 8)) {
                             case 1:
-                                newChild((short) (getX() - 1), (short) (getY() - 1), (short) getZ(), imi.getSpawn(), bItem);
+                                newChild((short) (getX() - 1), (short) (getY() - 1), getZ(), imi.getSpawn(), bItem);
                                 break;
                             case 2:
                                 newChild((short) (getX() - 1), getY(), getZ(), imi.getSpawn(), bItem);

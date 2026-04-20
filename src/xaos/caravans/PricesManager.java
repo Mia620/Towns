@@ -97,7 +97,7 @@ public class PricesManager {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Log.log(Log.LEVEL_ERROR, "Error reading prices.xml [" + e.toString() + "]", "PricesManager");
+            Log.log(Log.LEVEL_ERROR, "Error reading prices.xml [" + e + "]", "PricesManager");
             Game.exit();
         }
     }
@@ -160,8 +160,7 @@ public class PricesManager {
             return 0;
         }
 
-        if (item instanceof MilitaryItem) {
-            MilitaryItem mi = (MilitaryItem) item;
+        if (item instanceof MilitaryItem mi) {
             int baseValue = ItemManager.getItem(item.getIniHeader()).getValue();
 
             baseValue += mi.getAttackModifier() / getAttackPrice();

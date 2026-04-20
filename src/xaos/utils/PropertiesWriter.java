@@ -23,10 +23,10 @@ public class PropertiesWriter {
     }
 
     public <T> void setProperty(Property<T> property, T value) {
-        if (property.getPropertyFile() != file) {
-            throw new IllegalArgumentException("property " + property.getKey() + " is not part of " + file);
+        if (property.propertyFile() != file) {
+            throw new IllegalArgumentException("property " + property.key() + " is not part of " + file);
         }
-        map.put(new PropertiesEntryKey(property.getKey()), property.getPropertyWrapper().unwrap(value));
+        map.put(new PropertiesEntryKey(property.key()), property.propertyWrapper().unwrap(value));
     }
 
     public void setProperty(String key, String value) {
@@ -44,15 +44,13 @@ public class PropertiesWriter {
             int counter = 0;
             for (Entry<EntryKey, String> entry : map.entrySet()) {
                 EntryKey entryKey = entry.getKey();
-                if (entryKey instanceof SectionEntryKey) {
-                    SectionEntryKey sectionEntryKey = (SectionEntryKey) entryKey;
+                if (entryKey instanceof SectionEntryKey sectionEntryKey) {
                     if (counter > 0) {
                         pw.append("\n");
                     }
-                    pw.append("# ").append(sectionEntryKey.getSectionHeading()).append("\n");
-                } else if (entryKey instanceof PropertiesEntryKey) {
-                    PropertiesEntryKey propertiesEntryKey = (PropertiesEntryKey) entryKey;
-                    pw.append(propertiesEntryKey.getKey()).append(" = ").append(entry.getValue()).append("\n");
+                    pw.append("# ").append(sectionEntryKey.sectionHeading()).append("\n");
+                } else if (entryKey instanceof PropertiesEntryKey propertiesEntryKey) {
+                    pw.append(propertiesEntryKey.key()).append(" = ").append(entry.getValue()).append("\n");
                 }
                 counter++;
             }
@@ -63,32 +61,14 @@ public class PropertiesWriter {
         }
     }
 
-    private static interface EntryKey {
+    private interface EntryKey {
 
     }
 
-    private static class PropertiesEntryKey implements EntryKey {
-        private final String key;
-
-        public PropertiesEntryKey(String key) {
-            this.key = key;
-        }
-
-        public String getKey() {
-            return key;
-        }
+    private record PropertiesEntryKey(String key) implements EntryKey {
     }
 
-    private static class SectionEntryKey implements EntryKey {
-        private final String sectionHeading;
-
-        public SectionEntryKey(String sectionHeading) {
-            this.sectionHeading = sectionHeading;
-        }
-
-        public String getSectionHeading() {
-            return sectionHeading;
-        }
+    private record SectionEntryKey(String sectionHeading) implements EntryKey {
     }
 
 

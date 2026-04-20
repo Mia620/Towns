@@ -152,11 +152,8 @@ public class EventManagerItem {
         if (sSpawnAtRandom == null || sSpawnAtRandom.trim().length() == 0) {
             setSpawnAtRandom(true);
         } else {
-            if (sSpawnAtRandom.equalsIgnoreCase("FALSE")) { //$NON-NLS-1$
-                setSpawnAtRandom(false);
-            } else {
-                setSpawnAtRandom(true);
-            }
+            //$NON-NLS-1$
+            setSpawnAtRandom(!sSpawnAtRandom.equalsIgnoreCase("FALSE"));
         }
     }
 

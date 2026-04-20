@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 public final class AStarQueueItem {
 
-    public static short openListIndexes[][][];
-    private static boolean closedList[][][];
+    public static short[][][] openListIndexes;
+    private static boolean[][][] closedList;
     private int livingEntityID;
     private int livingEntityType;
     private Point3DShort startPoint;
@@ -435,16 +435,16 @@ public final class AStarQueueItem {
                 if (isIniToEnd()) {
                     // De inicial a final, hay que girar el resultado
                     while (nodo.getPadre() != null) {
-                        alReturn.add(0, (Point3DShort) nodo);
+                        alReturn.add(0, nodo);
                         nodo = nodo.getPadre();
                     }
                 } else {
                     // De final a inicial, el resultado es ok
                     while (nodo.getPadre() != null) {
-                        alReturn.add((Point3DShort) nodo);
+                        alReturn.add(nodo);
                         nodo = nodo.getPadre();
                     }
-                    alReturn.add((Point3DShort) nodo);
+                    alReturn.add(nodo);
                 }
 
                 // Los nodos que queden en la lista abierta se van para el pool

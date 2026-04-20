@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class Types {
 
-    private static HashMap<String, Type> list = new HashMap<String, Type>();
+    private static final HashMap<String, Type> list = new HashMap<String, Type>();
 
     public static Type getType(String typeName) {
         return getType(typeName, true);

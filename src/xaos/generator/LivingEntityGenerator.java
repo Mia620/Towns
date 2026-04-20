@@ -52,9 +52,7 @@ public class LivingEntityGenerator extends Generator {
             }
         }
         if (lemi.getHabitatHeightMax() != -1) {
-            if (z >= (World.MAP_NUM_LEVELS_OUTSIDE - lemi.getHabitatHeightMin())) {
-                return false;
-            }
+            return z < (World.MAP_NUM_LEVELS_OUTSIDE - lemi.getHabitatHeightMin());
         }
 
         return true;

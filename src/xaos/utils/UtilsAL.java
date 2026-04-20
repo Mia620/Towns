@@ -192,7 +192,7 @@ public final class UtilsAL {
         String sKey;
         while (itAudios.hasNext()) {
             sKey = itAudios.next();
-            if (sKey != null && isMusic(sKey)) {
+            if (isMusic(sKey)) {
                 audio = hmAudio.get(sKey);
                 if (audio != null && audio.isPlaying()) {
                     audio.stop();

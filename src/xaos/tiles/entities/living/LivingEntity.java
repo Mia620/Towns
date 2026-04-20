@@ -1155,9 +1155,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
                 ItemManagerItem imi = ItemManager.getItem(item.getIniHeader());
 
                 // Items tipo "wall" no se puede, locked doors tampoco
-                if (imi.isWall() || (imi.isDoor() && item.isDoorStatus(Item.FLAG_WALL_CONNECTOR_STATUS_LOCKED_AND_CLOSED))) {
-                    return false;
-                }
+                return !imi.isWall() && (!imi.isDoor() || !item.isDoorStatus(Item.FLAG_WALL_CONNECTOR_STATUS_LOCKED_AND_CLOSED));
             }
         }
 
@@ -1223,7 +1221,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
                         }
                     }
 
-                    sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, Messages.getString("LivingEntity.7") + sBuffer.toString(), null, null, null, null, null, Color.ORANGE)); //$NON-NLS-1$
+                    sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, Messages.getString("LivingEntity.7") + sBuffer, null, null, null, null, null, Color.ORANGE)); //$NON-NLS-1$
                 }
 
                 // Actions
@@ -1417,7 +1415,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
             try {
                 return Integer.parseInt(sValue.substring(0, iIndex));
             } catch (Exception e) {
-                Log.log(Log.LEVEL_ERROR, Messages.getString("LivingEntity.0") + sValue + "][" + e.toString() + "]", getClass().toString()); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+                Log.log(Log.LEVEL_ERROR, Messages.getString("LivingEntity.0") + sValue + "][" + e + "]", getClass().toString()); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
                 return 0;
             }
         } else {
@@ -1425,7 +1423,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
             try {
                 return Integer.parseInt(sValue.substring(iIndex + 1));
             } catch (Exception e) {
-                Log.log(Log.LEVEL_ERROR, Messages.getString("LivingEntity.3") + sValue + "][" + e.toString() + "]", getClass().toString()); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+                Log.log(Log.LEVEL_ERROR, Messages.getString("LivingEntity.3") + sValue + "][" + e + "]", getClass().toString()); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
                 return 0;
             }
         }
@@ -2638,11 +2636,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
     }
 
     public void delete() {
-        if (getMaxAge() > 0 && getAge() >= getMaxAge()) {
-            delete(false);
-        } else {
-            delete(true);
-        }
+        delete(getMaxAge() <= 0 || getAge() < getMaxAge());
     }
 
     public void delete(boolean dead) {

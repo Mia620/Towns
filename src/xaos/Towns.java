@@ -100,9 +100,9 @@ public final class Towns {
     }
 
     public static <T> T getProperty(Property<T> property, T defaultValue) {
-        final String rawValue = getPropertiesString(property.getPropertyFile(), property.getKey());
+        final String rawValue = getPropertiesString(property.propertyFile(), property.key());
         if (rawValue != null) {
-            final T value = property.getPropertyWrapper().wrap(rawValue);
+            final T value = property.propertyWrapper().wrap(rawValue);
             if (value != null) {
                 return value;
             }

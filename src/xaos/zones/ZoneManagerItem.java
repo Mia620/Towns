@@ -14,13 +14,13 @@ public class ZoneManagerItem {
     public static int TYPE_HERO_ROOM = 5;
     public static int TYPE_SOCIAL = 6;
     public static int TYPE_BARRACKS = 7;
-    private static String TYPE_STR_DINING = "DINING"; //$NON-NLS-1$
-    private static String TYPE_STR_HOSPITAL = "HOSPITAL"; //$NON-NLS-1$
-    private static String TYPE_STR_PERSONAL = "PERSONAL"; //$NON-NLS-1$
-    private static String TYPE_STR_WORKSHOP = "WORKSHOP"; //$NON-NLS-1$
-    private static String TYPE_STR_HEROROOM = "HEROROOM"; //$NON-NLS-1$
-    private static String TYPE_STR_SOCIAL = "SOCIAL"; //$NON-NLS-1$
-    private static String TYPE_STR_BARRACKS = "BARRACKS"; //$NON-NLS-1$
+    private static final String TYPE_STR_DINING = "DINING"; //$NON-NLS-1$
+    private static final String TYPE_STR_HOSPITAL = "HOSPITAL"; //$NON-NLS-1$
+    private static final String TYPE_STR_PERSONAL = "PERSONAL"; //$NON-NLS-1$
+    private static final String TYPE_STR_WORKSHOP = "WORKSHOP"; //$NON-NLS-1$
+    private static final String TYPE_STR_HEROROOM = "HEROROOM"; //$NON-NLS-1$
+    private static final String TYPE_STR_SOCIAL = "SOCIAL"; //$NON-NLS-1$
+    private static final String TYPE_STR_BARRACKS = "BARRACKS"; //$NON-NLS-1$
     private String iniHeader;
     private String name;
     private int type; // Tipo (personal, hospital, comedor, workshop, ...)

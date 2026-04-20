@@ -298,9 +298,7 @@ public class Stockpile implements Externalizable {
             if (z < (World.MAP_DEPTH - 1)) {
                 Item itemUnder = World.getCell(x, y, z + 1).getItem();
                 if (itemUnder != null) {
-                    if (!ItemManager.getItem(itemUnder.getIniHeader()).isBase()) {
-                        return false;
-                    }
+                    return ItemManager.getItem(itemUnder.getIniHeader()).isBase();
                 } else {
                     return false;
                 }

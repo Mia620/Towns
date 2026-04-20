@@ -128,7 +128,6 @@ public final class AStarBinaryHeap extends ArrayList<AStarNodo> {
             // Miramos si este elemento es menor que el de arriba (su padre)
             int iIndex = iPosition + 1;
             int iIndexPadre = iIndex / 2 - 1;
-            ;
             AStarNodo aux = get(iIndexPadre);
             while (iIndexPadre >= 0 && aux.getF() > nodo.getF()) {
                 // Swap (OJO!! Usamos el set del super)

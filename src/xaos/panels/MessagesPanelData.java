@@ -17,7 +17,6 @@ public final class MessagesPanelData implements Externalizable {
     private ColorGL color;
     private Point3DShort view;
     private int entityID;
-    ;
     private int width;
 
     public MessagesPanelData() {

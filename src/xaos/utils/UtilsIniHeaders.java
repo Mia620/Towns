@@ -8,8 +8,8 @@ public class UtilsIniHeaders {
 
     private static final long serialVersionUID = 8132377885335964294L;
 
-    private static HashMap<String, Integer> hmIniHeaders = new HashMap<String, Integer>();
-    private static ArrayList<String> alStringIniHeaders = new ArrayList<String>();
+    private static final HashMap<String, Integer> hmIniHeaders = new HashMap<String, Integer>();
+    private static final ArrayList<String> alStringIniHeaders = new ArrayList<String>();
     private static int MAX_INI_HEADER = 0;
 
     public static int getIntIniHeader(String iniHeader) {
@@ -131,7 +131,7 @@ public class UtilsIniHeaders {
         for (int i = 0; i < alArray.size(); i++) {
             String[] aints = new String[alArray.get(i).length];
             for (int j = 0; j < alArray.get(i).length; j++) {
-                aints[j] = new String(getStringIniHeader(alArray.get(i)[j]));
+                aints[j] = getStringIniHeader(alArray.get(i)[j]);
             }
             alReturn.add(aints);
         }
@@ -146,14 +146,14 @@ public class UtilsIniHeaders {
 
         ArrayList<String> alReturn = new ArrayList<String>(alArray.size());
         for (int j = 0; j < alArray.size(); j++) {
-            alReturn.add(new String(getStringIniHeader(alArray.get(j))));
+            alReturn.add(getStringIniHeader(alArray.get(j)));
         }
 
         return alReturn;
     }
 
     /**
-     * Indica si el ID pasado está en la lista, y devuelve la posición. -1 en
+     * Indica si el ID pasado estï¿½ en la lista, y devuelve la posiciï¿½n. -1 en
      * caso de no encontrarlo
      *
      * @return

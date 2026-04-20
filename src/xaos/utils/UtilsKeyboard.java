@@ -45,8 +45,8 @@ public final class UtilsKeyboard {
     public final static int FN_TOGGLE_HIDE_UI = 34;
     public final static int FN_SCREENSHOT = 35;
     public final static int FN_TOGGLE_ITEM_BUILD_FACE = 36;
-    public static final String EMPTY_STRING = new String();
-    private final static String FNSTRINGS[] = {
+    public static final String EMPTY_STRING = "";
+    private final static String[] FNSTRINGS = {
             "FN_UP", //$NON-NLS-1$
             "FN_DOWN", //$NON-NLS-1$
             "FN_LEFT", //$NON-NLS-1$
@@ -85,7 +85,7 @@ public final class UtilsKeyboard {
             "FN_SCREENSHOT", //$NON-NLS-1$
             "FN_ITEM_BUILD_FACE" //$NON-NLS-1$
     };
-    private final static String FNHUMANSTRINGS[] = {
+    private final static String[] FNHUMANSTRINGS = {
             "UtilsKeyboard.0", //$NON-NLS-1$
             "UtilsKeyboard.1", //$NON-NLS-1$
             "UtilsKeyboard.2", //$NON-NLS-1$
@@ -124,7 +124,7 @@ public final class UtilsKeyboard {
             "UtilsKeyboard.18", //$NON-NLS-1$
             "UtilsKeyboard.19" //$NON-NLS-1$
     };
-    private static int[][] shortcuts = new int[FNSTRINGS.length][2];
+    private static final int[][] shortcuts = new int[FNSTRINGS.length][2];
 
     public static void loadShortcuts() {
         for (int i = 0; i < FNSTRINGS.length; i++) {
@@ -275,10 +275,6 @@ public final class UtilsKeyboard {
             return true;
         }
 
-        if (shortcuts[fn][1] != Keyboard.KEY_NONE && Keyboard.isKeyDown(shortcuts[fn][1])) {
-            return true;
-        }
-
-        return false;
+        return shortcuts[fn][1] != Keyboard.KEY_NONE && Keyboard.isKeyDown(shortcuts[fn][1]);
     }
 }

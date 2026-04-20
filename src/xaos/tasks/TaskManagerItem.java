@@ -50,12 +50,11 @@ public final class TaskManagerItem implements Externalizable {
     }
 
     public String toString() {
-        StringBuffer buffer = new StringBuffer("Task\n");
-        buffer.append(task.toString());
-        buffer.append("\n Cits: ");
-        buffer.append(listCitizens.size());
-        buffer.append("\n");
-        return buffer.toString();
+        String buffer = "Task\n" + task.toString() +
+                "\n Cits: " +
+                listCitizens.size() +
+                "\n";
+        return buffer;
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {

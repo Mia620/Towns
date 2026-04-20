@@ -628,7 +628,6 @@ public final class Task implements Externalizable {
             } else {
                 Log.log(Log.LEVEL_ERROR, Messages.getString("Task.36") + getParameter() + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
                 Game.deleteCurrentTask();
-                return;
             }
         }
     }
@@ -1247,10 +1246,7 @@ public final class Task implements Externalizable {
                 Log.log(Log.LEVEL_ERROR, Messages.getString("Task.30") + getParameter() + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
             } else {
                 // Miramos si se puede poner el item en todas las casillas (s�lo 1, he borrado el width/height)
-                boolean bAvailableForBuilding = true;
-                if (!Item.isCellAvailableForItem(imi, x0, y0, z, true, true)) {
-                    bAvailableForBuilding = false;
-                }
+                boolean bAvailableForBuilding = Item.isCellAvailableForItem(imi, x0, y0, z, true, true);
                 if (bAvailableForBuilding) {
                     if (imi.canBeBuiltOnHoles()) {
                         // Miramos si hay alg�n ASZID distinto de -1
