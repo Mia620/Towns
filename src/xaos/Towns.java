@@ -12,11 +12,9 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import xaos.main.Game;
-import xaos.utils.JNASteamAPI;
 import xaos.utils.Log;
 import xaos.utils.Messages;
 
-import com.sun.jna.Native;
 import xaos.property.Property;
 
 public final class Towns {
@@ -25,23 +23,7 @@ public final class Towns {
     public static Properties propertiesMain;
     public static Properties propertiesGraphics;
 
-    public static boolean loadSteamAPI(String sLibName) {
-        try {
-            JNASteamAPI steamAPI = (JNASteamAPI) Native.loadLibrary(sLibName, JNASteamAPI.class);
-            steamAPI.SteamAPI_Init();
-            return true;
-        } catch (Throwable t) {
-        }
-
-        return false;
-    }
-
     public static void main(String[] args) {
-//		if (true) System.exit (0);
-        // Steam
-        if (!loadSteamAPI("steam_api")) {
-            loadSteamAPI("steam_api64");
-        }
 
         // Lanzamos la ventana principal
         try {
