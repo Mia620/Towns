@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="save4">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/data/campaigns/c2/m1/save.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
