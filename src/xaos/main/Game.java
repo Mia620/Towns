@@ -55,6 +55,7 @@ import java.io.File;
 import java.nio.ByteBuffer;
 import java.nio.file.FileSystems;
 import java.util.*;
+import java.util.regex.Pattern;
 
 
 public final class Game {
@@ -187,49 +188,35 @@ public final class Game {
         FPS_MAINMENU = Towns.getPropertiesInt("FPS_MAINMENU", FPS_MAINMENU); //$NON-NLS-1$
         FPS_INGAME = Towns.getPropertiesInt("FPS_INGAME", FPS_INGAME); //$NON-NLS-1$
 
-        // window size
-        int desktopWidth = Display.getDesktopDisplayMode().getWidth();
-        int desktopHeight = Display.getDesktopDisplayMode().getHeight();
+        {
+            // window size
+            var desktopWidth = Display.getDesktopDisplayMode().getWidth();
+            var desktopHeight = Display.getDesktopDisplayMode().getHeight();
 
-        final int configuredWidth = Towns.getProperty(MainProperties.WINDOW_WIDTH, (desktopWidth * 2) / 3);
-        final int configuredHeight = Towns.getProperty(MainProperties.WINDOW_HEIGHT, (desktopHeight * 2) / 3);
-        final boolean fullscreen = Towns.getProperty(MainProperties.FULLSCREEN, false);
+            var configuredWidth = Towns.getProperty(MainProperties.WINDOW_WIDTH, (desktopWidth * 2) / 3);
+            var configuredHeight = Towns.getProperty(MainProperties.WINDOW_HEIGHT, (desktopHeight * 2) / 3);
+            var fullscreen = Towns.getProperty(MainProperties.FULLSCREEN, false);
 
-        int width = Math.clamp(configuredWidth, MIN_DISPLAY_WIDTH, desktopWidth);
-        int height = Math.clamp(configuredHeight, MIN_DISPLAY_HEIGHT, desktopHeight);
+            var width = Math.clamp(configuredWidth, MIN_DISPLAY_WIDTH, desktopWidth);
+            var height = Math.clamp(configuredHeight, MIN_DISPLAY_HEIGHT, desktopHeight);
 
-        // Inicializamos OpenGL
-        UtilsGL.initGL(width, height, fullscreen);
-        UtilsAL.initAL(Game.getVolumeMusic(), Game.getVolumeFX());
+            // Inicializamos OpenGL
+            UtilsGL.initGL(width, height, fullscreen);
 
-        // OpenGL 1.3 or better
-        String sVersion = GL11.glGetString(GL11.GL_VERSION);
-        if (sVersion == null || sVersion.isEmpty()) {
-            Log.log(Log.LEVEL_ERROR, "OpenGL version not available", "Game"); //$NON-NLS-1$ //$NON-NLS-2$
-        } else {
-            StringTokenizer tokenizer = new StringTokenizer(sVersion, "."); //$NON-NLS-1$
-            int iMajor = -1, iMinor = -1;
-            if (tokenizer.hasMoreTokens()) {
-                try {
-                    iMajor = Integer.parseInt(tokenizer.nextToken());
-                    if (tokenizer.hasMoreTokens()) {
-                        try {
-                            iMinor = Integer.parseInt(tokenizer.nextToken());
-                        } catch (Exception e) {
-                        }
-                    }
-                } catch (Exception e) {
-                }
-            }
+            // OpenGL 1.3 or better
+            var pattern = Pattern.compile("^.*?([1-9]+)\\.([0-9]+)\\.([0-9]+)?[\\s\\w\\.\\d]*$");
+            var matcher = pattern.matcher(GL11.glGetString(GL11.GL_VERSION));
 
-            if (iMajor != -1 && iMinor != -1) {
-                if (iMajor > 1) {
+            if (matcher.find()) {
+                if (Integer.parseInt(matcher.group(1)) > 1) {
                     OPENGL_13_AVAILABLE = true;
-                } else if (iMajor == 1) {
-                    OPENGL_13_AVAILABLE = (iMinor >= 3);
+                } else {
+                    OPENGL_13_AVAILABLE = (Integer.parseInt(matcher.group(2)) >= 3);
                 }
             }
         }
+
+        UtilsAL.initAL(Game.getVolumeMusic(), Game.getVolumeFX());
 
         // Depths
         Cell.generateDepths();
@@ -482,7 +469,7 @@ public final class Game {
         // Evaporation
         Point3DShort p3ds;
         while (!World.fluidEvaporation.isEmpty()) {
-            p3ds = World.fluidEvaporation.remove(World.fluidEvaporation.size() - 1);
+            p3ds = World.fluidEvaporation.removeLast();
             Point3DShort.returnToPool(p3ds);
         }
         for (Cell[][] cell : cells) {
@@ -741,9 +728,9 @@ public final class Game {
                     Integer iHeader;
                     ArrayList<String> alTexts;
                     while (!alPoints.isEmpty()) {
-                        p3dsAux = alPoints.remove(0);
-                        iHeader = alHeaderIDs.remove(0);
-                        alTexts = alHeaderTexts.remove(0);
+                        p3dsAux = alPoints.removeFirst();
+                        iHeader = alHeaderIDs.removeFirst();
+                        alTexts = alHeaderTexts.removeFirst();
                         p3dsAux.x += (short) iXMove;
                         p3dsAux.y += (short) iYMove;
 
