@@ -207,13 +207,16 @@ public final class Game {
             var pattern = Pattern.compile("^.*?([1-9]+)\\.([0-9]+)\\.([0-9]+)?[\\s\\w\\.\\d]*$");
             var matcher = pattern.matcher(GL11.glGetString(GL11.GL_VERSION));
 
-            if (matcher.find()) {
-                if (Integer.parseInt(matcher.group(1)) > 1) {
+            if (matcher.find()) { // Finds (Major).(Minor).(Patch)
+                if (Integer.parseInt(matcher.group(1)) > 1) { // Major
                     OPENGL_13_AVAILABLE = true;
                 } else {
-                    OPENGL_13_AVAILABLE = (Integer.parseInt(matcher.group(2)) >= 3);
+                    OPENGL_13_AVAILABLE = (Integer.parseInt(matcher.group(2)) >= 3); // Minor
                 }
             }
+
+            // Cargamos las texturas
+            loadAllIniTextures();
         }
 
         UtilsAL.initAL(Game.getVolumeMusic(), Game.getVolumeFX());
@@ -230,9 +233,6 @@ public final class Game {
             panelCommand = new CommandPanel(UtilsGL.getWidth() - World.MAP_WIDTH, World.MAP_HEIGHT, World.MAP_WIDTH, UtilsGL.getHeight() - World.MAP_HEIGHT, Game.getWorld().getCampaignID(), Game.getWorld().getMissionID());
         }
         panelMessages = new MessagesPanel(UIPanel.MESSAGES_PANEL_WIDTH, UIPanel.MESSAGES_PANEL_HEIGHT);
-
-        // Cargamos las texturas
-        loadAllIniTextures();
 
         // Esto aqu�, despu�s de cargar las texturas, que si no empieza el contador del SMP logo a bajar antes de tiempo
         panelMainMenu = new MainMenuPanel(0, 0, UtilsGL.getWidth(), UtilsGL.getHeight());

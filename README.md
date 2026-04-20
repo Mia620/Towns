@@ -25,7 +25,7 @@ This repository is the result of that decision.
 
 # Code License
 
-The source code is released under the GNU GPL v3 license.
+The source code is released under the [GNU GPL v3 license][LICENSE].
 
 In simple terms:
 
@@ -64,7 +64,6 @@ If you build something interesting, feel free to share it on the Discord server.
 It's also the place to discuss ideas, mods, and the future of Towns with other contributors.
 
 [[Discord invite link](https://discord.gg/wAW28PkrwF)]
-
 
 
 Thanks to everyone who has been part of this project.
