@@ -195,8 +195,8 @@ public final class Game {
         final int configuredHeight = Towns.getProperty(MainProperties.WINDOW_HEIGHT, (desktopHeight * 2) / 3);
         final boolean fullscreen = Towns.getProperty(MainProperties.FULLSCREEN, false);
 
-        int width = Math.max(MIN_DISPLAY_WIDTH, Math.min(desktopWidth, configuredWidth));
-        int height = Math.max(MIN_DISPLAY_HEIGHT, Math.min(desktopWidth, configuredHeight));
+        int width = Math.clamp(configuredWidth, MIN_DISPLAY_WIDTH, desktopWidth);
+        int height = Math.clamp(configuredHeight, MIN_DISPLAY_HEIGHT, desktopHeight);
 
         // Inicializamos OpenGL
         UtilsGL.initGL(width, height, fullscreen);
