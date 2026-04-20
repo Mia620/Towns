@@ -22,7 +22,7 @@ public class Tile implements Externalizable {
     private static final long serialVersionUID = -8129072708038216803L;
     private static final float TEXTURE_ICON_WIDTH = 0.25f / 4f;
     private static final float TEXTURE_ICON_HEIGHT = 0.125f / 4f;
-    private int iID;
+    private Integer iID;
     private transient int textureID;
 
     private transient ColorGL colorMiniMap;

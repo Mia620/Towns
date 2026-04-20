@@ -45,7 +45,7 @@ public final class TaskManagerItem implements Externalizable {
         listCitizens.add(citizenID);
     }
 
-    public void removeCitizen(int citizenID) {
+    public void removeCitizen(Integer citizenID) {
         listCitizens.remove(citizenID);
     }
 
