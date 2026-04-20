@@ -572,13 +572,11 @@ public class Stockpile implements Externalizable {
                     sItemName = imi.getName();
                     if (alElementsStatus.get(j)) {
                         smAux = new SmartMenu(SmartMenu.TYPE_ITEM, sItemName, null, CommandPanel.COMMAND_STOCKPILE_DISABLE_ITEM, alElements.get(j), null, p3d.toPoint3D(), Color.GREEN);
-                        smAux.setIcon(imi.getIniHeader());
-                        smSubMenu.addItem(smAux);
                     } else {
                         smAux = new SmartMenu(SmartMenu.TYPE_ITEM, sItemName, null, CommandPanel.COMMAND_STOCKPILE_ENABLE_ITEM, alElements.get(j), null, p3d.toPoint3D(), Color.ORANGE);
-                        smAux.setIcon(imi.getIniHeader());
-                        smSubMenu.addItem(smAux);
                     }
+                    smAux.setIcon(imi.getIniHeader());
+                    smSubMenu.addItem(smAux);
                 }
             }
             smAux = new SmartMenu(SmartMenu.TYPE_ITEM, Messages.getString("Building.4"), null, CommandPanel.COMMAND_BACK, null); //$NON-NLS-1$
@@ -596,13 +594,11 @@ public class Stockpile implements Externalizable {
                 sItemName = imi.getName();
                 if (elementsWithoutSubtype.getAlElementsStatus().get(j)) {
                     smAux = new SmartMenu(SmartMenu.TYPE_ITEM, sItemName, null, CommandPanel.COMMAND_STOCKPILE_DISABLE_ITEM, elementsWithoutSubtype.getAlElements().get(j), null, p3d.toPoint3D(), Color.GREEN);
-                    smAux.setIcon(imi.getIniHeader());
-                    smReturn.addItem(smAux);
                 } else {
                     smAux = new SmartMenu(SmartMenu.TYPE_ITEM, sItemName, null, CommandPanel.COMMAND_STOCKPILE_ENABLE_ITEM, elementsWithoutSubtype.getAlElements().get(j), null, p3d.toPoint3D(), Color.ORANGE);
-                    smAux.setIcon(imi.getIniHeader());
-                    smReturn.addItem(smAux);
                 }
+                smAux.setIcon(imi.getIniHeader());
+                smReturn.addItem(smAux);
             }
         }
 

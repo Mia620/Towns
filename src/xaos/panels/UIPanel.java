@@ -4579,18 +4579,15 @@ public final class UIPanel {
                             UtilsGL.setColorRed();
                         }
                         drawTile(tileLivingsRowAutoequipON, livingsPanelRowAutoequipPoints[i]);
-                        if (tutorialFlow != null && tutorialFlow.isBlinkMiniLivingsAutoequip()) {
-                            UtilsGL.unsetColor();
-                        }
                     } else {
                         iCurrentTexture = UtilsGL.setTexture(tileLivingsRowAutoequip, iCurrentTexture);
                         if (tutorialFlow != null && tutorialFlow.isBlinkMiniLivingsAutoequip()) {
                             UtilsGL.setColorRed();
                         }
                         drawTile(tileLivingsRowAutoequip, livingsPanelRowAutoequipPoints[i]);
-                        if (tutorialFlow != null && tutorialFlow.isBlinkMiniLivingsAutoequip()) {
-                            UtilsGL.unsetColor();
-                        }
+                    }
+                    if (tutorialFlow != null && tutorialFlow.isBlinkMiniLivingsAutoequip()) {
+                        UtilsGL.unsetColor();
                     }
                 }
 
@@ -4602,18 +4599,15 @@ public final class UIPanel {
                             UtilsGL.setColorRed();
                         }
                         drawTile(tileLivingsRowConvertSoldierON, livingsPanelRowConvertCivilianSoldierPoints[i]);
-                        if (tutorialFlow != null && tutorialFlow.isBlinkMiniLivingsConvertSoldier()) {
-                            UtilsGL.unsetColor();
-                        }
                     } else {
                         iCurrentTexture = UtilsGL.setTexture(tileLivingsRowConvertSoldier, iCurrentTexture);
                         if (tutorialFlow != null && tutorialFlow.isBlinkMiniLivingsConvertSoldier()) {
                             UtilsGL.setColorRed();
                         }
                         drawTile(tileLivingsRowConvertSoldier, livingsPanelRowConvertCivilianSoldierPoints[i]);
-                        if (tutorialFlow != null && tutorialFlow.isBlinkMiniLivingsConvertSoldier()) {
-                            UtilsGL.unsetColor();
-                        }
+                    }
+                    if (tutorialFlow != null && tutorialFlow.isBlinkMiniLivingsConvertSoldier()) {
+                        UtilsGL.unsetColor();
                     }
                     if (livingsPanelCitizensGroupActive == -1) {
                         if (pItem != null && pItem.x == MOUSE_LIVINGS_PANEL_BUTTONS_ROWS_PROFESSIONS && pItem.y == i) {
@@ -4642,18 +4636,15 @@ public final class UIPanel {
                             UtilsGL.setColorRed();
                         }
                         drawTile(tileLivingsRowJobsGroupsON, livingsPanelRowJobsGroupsPoints[i]);
-                        if (tutorialFlow != null && tutorialFlow.isBlinkMiniLivingsGroup()) {
-                            UtilsGL.unsetColor();
-                        }
                     } else {
                         iCurrentTexture = UtilsGL.setTexture(tileLivingsRowJobsGroups, iCurrentTexture);
                         if (tutorialFlow != null && tutorialFlow.isBlinkMiniLivingsGroup()) {
                             UtilsGL.setColorRed();
                         }
                         drawTile(tileLivingsRowJobsGroups, livingsPanelRowJobsGroupsPoints[i]);
-                        if (tutorialFlow != null && tutorialFlow.isBlinkMiniLivingsGroup()) {
-                            UtilsGL.unsetColor();
-                        }
+                    }
+                    if (tutorialFlow != null && tutorialFlow.isBlinkMiniLivingsGroup()) {
+                        UtilsGL.unsetColor();
                     }
                 } else if (getLivingsPanelActive() == LIVINGS_PANEL_TYPE_SOLDIERS) {
                     if (pItem != null && pItem.x == MOUSE_LIVINGS_PANEL_BUTTONS_ROWS_CONVERT_CIVILIAN && pItem.y == i) {
@@ -4662,18 +4653,15 @@ public final class UIPanel {
                             UtilsGL.setColorRed();
                         }
                         drawTile(tileLivingsRowConvertCivilianON, livingsPanelRowConvertCivilianSoldierPoints[i]);
-                        if (tutorialFlow != null && tutorialFlow.isBlinkMiniLivingsConvertCivilian()) {
-                            UtilsGL.unsetColor();
-                        }
                     } else {
                         iCurrentTexture = UtilsGL.setTexture(tileLivingsRowConvertCivilian, iCurrentTexture);
                         if (tutorialFlow != null && tutorialFlow.isBlinkMiniLivingsConvertCivilian()) {
                             UtilsGL.setColorRed();
                         }
                         drawTile(tileLivingsRowConvertCivilian, livingsPanelRowConvertCivilianSoldierPoints[i]);
-                        if (tutorialFlow != null && tutorialFlow.isBlinkMiniLivingsConvertCivilian()) {
-                            UtilsGL.unsetColor();
-                        }
+                    }
+                    if (tutorialFlow != null && tutorialFlow.isBlinkMiniLivingsConvertCivilian()) {
+                        UtilsGL.unsetColor();
                     }
 
                     // Soldier type
@@ -4686,18 +4674,15 @@ public final class UIPanel {
                                 UtilsGL.setColorRed();
                             }
                             drawTile(tileLivingsRowConvertSoldierGuardON, livingsPanelRowConvertSoldierGuardPoints[i]);
-                            if (tutorialFlow != null && tutorialFlow.isBlinkMiniLivingsGuard()) {
-                                UtilsGL.unsetColor();
-                            }
                         } else {
                             iCurrentTexture = UtilsGL.setTexture(tileLivingsRowConvertSoldierGuard, iCurrentTexture);
                             if (tutorialFlow != null && tutorialFlow.isBlinkMiniLivingsGuard()) {
                                 UtilsGL.setColorRed();
                             }
                             drawTile(tileLivingsRowConvertSoldierGuard, livingsPanelRowConvertSoldierGuardPoints[i]);
-                            if (tutorialFlow != null && tutorialFlow.isBlinkMiniLivingsGuard()) {
-                                UtilsGL.unsetColor();
-                            }
+                        }
+                        if (tutorialFlow != null && tutorialFlow.isBlinkMiniLivingsGuard()) {
+                            UtilsGL.unsetColor();
                         }
                         if (soldierState == SoldierData.STATE_PATROL || (pItem != null && pItem.x == MOUSE_LIVINGS_PANEL_BUTTONS_ROWS_CONVERT_SOLDIER_PATROL && pItem.y == i)) {
                             iCurrentTexture = UtilsGL.setTexture(tileLivingsRowConvertSoldierPatrolON, iCurrentTexture);
@@ -4705,18 +4690,15 @@ public final class UIPanel {
                                 UtilsGL.setColorRed();
                             }
                             drawTile(tileLivingsRowConvertSoldierPatrolON, livingsPanelRowConvertSoldierPatrolPoints[i]);
-                            if (tutorialFlow != null && tutorialFlow.isBlinkMiniLivingsPatrol()) {
-                                UtilsGL.unsetColor();
-                            }
                         } else {
                             iCurrentTexture = UtilsGL.setTexture(tileLivingsRowConvertSoldierPatrol, iCurrentTexture);
                             if (tutorialFlow != null && tutorialFlow.isBlinkMiniLivingsPatrol()) {
                                 UtilsGL.setColorRed();
                             }
                             drawTile(tileLivingsRowConvertSoldierPatrol, livingsPanelRowConvertSoldierPatrolPoints[i]);
-                            if (tutorialFlow != null && tutorialFlow.isBlinkMiniLivingsPatrol()) {
-                                UtilsGL.unsetColor();
-                            }
+                        }
+                        if (tutorialFlow != null && tutorialFlow.isBlinkMiniLivingsPatrol()) {
+                            UtilsGL.unsetColor();
                         }
                         if (soldierState == SoldierData.STATE_BOSS_AROUND || (pItem != null && pItem.x == MOUSE_LIVINGS_PANEL_BUTTONS_ROWS_CONVERT_SOLDIER_BOSS && pItem.y == i)) {
                             iCurrentTexture = UtilsGL.setTexture(tileLivingsRowConvertSoldierBossON, iCurrentTexture);
@@ -4724,18 +4706,15 @@ public final class UIPanel {
                                 UtilsGL.setColorRed();
                             }
                             drawTile(tileLivingsRowConvertSoldierBossON, livingsPanelRowConvertSoldierBossPoints[i]);
-                            if (tutorialFlow != null && tutorialFlow.isBlinkMiniLivingsBoss()) {
-                                UtilsGL.unsetColor();
-                            }
                         } else {
                             iCurrentTexture = UtilsGL.setTexture(tileLivingsRowConvertSoldierBoss, iCurrentTexture);
                             if (tutorialFlow != null && tutorialFlow.isBlinkMiniLivingsBoss()) {
                                 UtilsGL.setColorRed();
                             }
                             drawTile(tileLivingsRowConvertSoldierBoss, livingsPanelRowConvertSoldierBossPoints[i]);
-                            if (tutorialFlow != null && tutorialFlow.isBlinkMiniLivingsBoss()) {
-                                UtilsGL.unsetColor();
-                            }
+                        }
+                        if (tutorialFlow != null && tutorialFlow.isBlinkMiniLivingsBoss()) {
+                            UtilsGL.unsetColor();
                         }
 
                         if (soldierState == SoldierData.STATE_IN_A_GROUP || (pItem != null && pItem.x == MOUSE_LIVINGS_PANEL_BUTTONS_ROWS_SGROUP_ADD && pItem.y == i)) {
@@ -5910,17 +5889,14 @@ public final class UIPanel {
 
                                 // Ancho
                                 iAux = UtilFont.getWidth(emi.getName()) + emi.getIcon().getTileWidth();
-                                if (iAux > tooltipWidth) {
-                                    tooltipWidth = iAux;
-                                }
                             } else {
                                 tooltipHeight += UtilFont.MAX_HEIGHT + 2;
 
                                 // Ancho
                                 iAux = UtilFont.getWidth(emi.getName());
-                                if (iAux > tooltipWidth) {
-                                    tooltipWidth = iAux;
-                                }
+                            }
+                            if (iAux > tooltipWidth) {
+                                tooltipWidth = iAux;
                             }
                         }
                     }

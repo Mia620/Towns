@@ -98,12 +98,9 @@ public class BuildingManagerItem {
             }
 
             // Entrance en la primera casilla
-            StringBuilder sBuffer = new StringBuilder();
-            sBuffer.append(Building.GROUND_ENTRANCE);
-            // Las dem�s 0 -> No transitable
-            sBuffer.append(String.valueOf(Building.GROUND_NON_TRANSITABLE).repeat(Math.max(0, (getHeight() * getWidth()) - 1)));
-
-            this.groundData = sBuffer.toString();
+            this.groundData = Building.GROUND_ENTRANCE +
+                    // Las dem�s 0 -> No transitable
+                    String.valueOf(Building.GROUND_NON_TRANSITABLE).repeat(Math.max(0, (getHeight() * getWidth()) - 1));
         } else {
             this.groundData = groundData;
         }

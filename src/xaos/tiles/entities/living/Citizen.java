@@ -800,12 +800,11 @@ public class Citizen extends LivingEntity implements Externalizable {
                         setCarrying(null);
 
                         UtilsAL.play(UtilsAL.SOURCE_FX_BUILDING, z);
-                        return;
                     } else {
                         // No estamos ah�, nos movemos
                         setDestination(hp.getHotPoint());
-                        return;
                     }
+                    return;
                 } else {
                     // Soltamos el material
                     dropCarryingItem();
@@ -892,12 +891,11 @@ public class Citizen extends LivingEntity implements Externalizable {
 
                             setCarryingLiving(null);
 
-                            return;
                         } else {
                             // No estamos ah�, nos movemos
                             setDestination(hp.getHotPoint());
-                            return;
                         }
+                        return;
                     } else {
                         // Soltamos el living
                         dropCarryingItem();
@@ -1513,7 +1511,6 @@ public class Citizen extends LivingEntity implements Externalizable {
                     cell.setEntity(getCarrying());
                     setCarrying(null);
                 }
-                return true;
             } else {
                 // Drop normal
                 getCarrying().init(getX(), getY(), getZ());
@@ -1522,8 +1519,8 @@ public class Citizen extends LivingEntity implements Externalizable {
                 getCarrying().setLocked(imi.isLocked());
                 cell.setEntity(getCarrying());
                 setCarrying(null);
-                return true;
             }
+            return true;
         }
 
         return false;
@@ -2126,12 +2123,9 @@ public class Citizen extends LivingEntity implements Externalizable {
                                     }
                                 }
 
-                                getCurrentTask().setParameter2(null);
-                                getCurrentTask().setPointIni((Point3D) null);
-                            } else {
-                                getCurrentTask().setParameter2(null);
-                                getCurrentTask().setPointIni((Point3D) null);
                             }
+                            getCurrentTask().setParameter2(null);
+                            getCurrentTask().setPointIni((Point3D) null);
                         } else {
                             if (imi.getLocation() == getCurrentTask().getPointIni().x) {
                                 entity.delete(); // Lo borramos
@@ -2461,14 +2455,12 @@ public class Citizen extends LivingEntity implements Externalizable {
                                 equip(item);
 
                                 // Tarea finalizada ok
-                                getCurrentTask().setFinished(true);
-                                Game.getWorld().getTaskManager().removeCitizen(this);
                             } else {
                                 // No puede equiparse
                                 MessagesPanel.addMessage(MessagesPanel.TYPE_ANNOUNCEMENT, getCitizenData().getFullName() + Messages.getString("Citizen.1"), ColorGL.ORANGE, getCoordinates(), getID()); //$NON-NLS-1$
-                                getCurrentTask().setFinished(true);
-                                Game.getWorld().getTaskManager().removeCitizen(this);
                             }
+                            getCurrentTask().setFinished(true);
+                            Game.getWorld().getTaskManager().removeCitizen(this);
                         } else {
                             // No puede equiparse
                             MessagesPanel.addMessage(MessagesPanel.TYPE_ANNOUNCEMENT, getCitizenData().getFullName() + Messages.getString("Citizen.1"), ColorGL.ORANGE, getCoordinates(), getID()); //$NON-NLS-1$

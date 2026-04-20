@@ -380,7 +380,7 @@ public class SmartMenu implements Externalizable {
                     ActionManagerItem ami = ActionManager.getItem(sParameter);
                     if (ami != null && ami.getQueue() != null) {
                         ArrayList<QueueItem> alQueue = ami.getQueue();
-                        String sName;
+                        StringBuilder sName;
                         for (QueueItem queueItem : alQueue) {
                             if (queueItem.getType() == QueueItem.TYPE_MOVE || queueItem.getType() == QueueItem.TYPE_PICK) {
                                 ArrayList<String> alList = Utils.getArray(queueItem.getValue());
@@ -390,10 +390,10 @@ public class SmartMenu implements Externalizable {
                                     for (String s : alList) {
                                         imi = ItemManager.getItem(s);
                                         if (imi != null && imi.getName() != null) {
-                                            sName = imi.getName();
+                                            sName = new StringBuilder(imi.getName());
 
-                                            if (!alListNames.contains(sName)) {
-                                                alListNames.add(sName);
+                                            if (!alListNames.contains(sName.toString())) {
+                                                alListNames.add(sName.toString());
                                             }
                                         }
                                     }
@@ -402,18 +402,18 @@ public class SmartMenu implements Externalizable {
                                     // Creamos el name gordo
                                     for (int ite = 0; ite < alListNames.size(); ite++) {
                                         if (ite == 0) {
-                                            sName = alListNames.get(ite);
+                                            sName = new StringBuilder(alListNames.get(ite));
                                         } else {
-                                            sName += Messages.getString("SmartMenu.3") + alListNames.get(ite); //$NON-NLS-1$
+                                            sName.append(Messages.getString("SmartMenu.3")).append(alListNames.get(ite)); //$NON-NLS-1$
                                         }
                                     }
                                     if (sName != null) {
                                         if (queueItem.getType() == QueueItem.TYPE_MOVE) {
-                                            if (!alMessagesBuilding.contains(sName)) {
-                                                alMessagesBuilding.add(sName);
+                                            if (!alMessagesBuilding.contains(sName.toString())) {
+                                                alMessagesBuilding.add(sName.toString());
                                             }
                                         } else {
-                                            alMessagesPrerequisites.add(sName);
+                                            alMessagesPrerequisites.add(sName.toString());
                                         }
                                     }
                                 }
@@ -425,10 +425,10 @@ public class SmartMenu implements Externalizable {
                                     for (String s : alList) {
                                         lemi = LivingEntityManager.getItem(s);
                                         if (lemi != null && lemi.getName() != null) {
-                                            sName = lemi.getName();
+                                            sName = new StringBuilder(lemi.getName());
 
-                                            if (!alListNames.contains(sName)) {
-                                                alListNames.add(sName);
+                                            if (!alListNames.contains(sName.toString())) {
+                                                alListNames.add(sName.toString());
                                             }
                                         }
                                     }
@@ -437,13 +437,13 @@ public class SmartMenu implements Externalizable {
                                     // Creamos el name gordo
                                     for (int ite = 0; ite < alListNames.size(); ite++) {
                                         if (ite == 0) {
-                                            sName = alListNames.get(ite);
+                                            sName = new StringBuilder(alListNames.get(ite));
                                         } else {
-                                            sName += Messages.getString("SmartMenu.3") + alListNames.get(ite); //$NON-NLS-1$
+                                            sName.append(Messages.getString("SmartMenu.3")).append(alListNames.get(ite)); //$NON-NLS-1$
                                         }
                                     }
                                     if (sName != null) {
-                                        alMessagesPrerequisites.add(sName);
+                                        alMessagesPrerequisites.add(sName.toString());
                                     }
                                 }
                             } else if (queueItem.getType() == QueueItem.TYPE_CREATE_ITEM) {
@@ -571,16 +571,16 @@ public class SmartMenu implements Externalizable {
                         ArrayList<int[]> alPrerequisites = bmi.getPrerequisites();
                         if (alPrerequisites != null) {
                             for (int[] aItems : alPrerequisites) {
-                                String sName = null;
+                                StringBuilder sName = null;
                                 for (int ite = 0; ite < aItems.length; ite++) {
                                     if (ite == 0) {
-                                        sName = ItemManager.getItem(UtilsIniHeaders.getStringIniHeader(aItems[ite])).getName();
+                                        sName = new StringBuilder(ItemManager.getItem(UtilsIniHeaders.getStringIniHeader(aItems[ite])).getName());
                                     } else {
-                                        sName += Messages.getString("SmartMenu.3") + ItemManager.getItem(UtilsIniHeaders.getStringIniHeader(aItems[ite])).getName(); //$NON-NLS-1$
+                                        sName.append(Messages.getString("SmartMenu.3")).append(ItemManager.getItem(UtilsIniHeaders.getStringIniHeader(aItems[ite])).getName()); //$NON-NLS-1$
                                     }
                                 }
                                 if (sName != null) {
-                                    alMessages.add(sName);
+                                    alMessages.add(sName.toString());
                                     alColor.add(COLOR_PREREQUISITES);
                                 }
                             }
@@ -588,16 +588,16 @@ public class SmartMenu implements Externalizable {
                         alPrerequisites = bmi.getPrerequisitesFriendly();
                         if (alPrerequisites != null) {
                             for (int[] aLivings : alPrerequisites) {
-                                String sName = null;
+                                StringBuilder sName = null;
                                 for (int liv = 0; liv < aLivings.length; liv++) {
                                     if (liv == 0) {
-                                        sName = LivingEntityManager.getItem(UtilsIniHeaders.getStringIniHeader(aLivings[liv])).getName();
+                                        sName = new StringBuilder(LivingEntityManager.getItem(UtilsIniHeaders.getStringIniHeader(aLivings[liv])).getName());
                                     } else {
-                                        sName += Messages.getString("SmartMenu.3") + LivingEntityManager.getItem(UtilsIniHeaders.getStringIniHeader(aLivings[liv])).getName(); //$NON-NLS-1$
+                                        sName.append(Messages.getString("SmartMenu.3")).append(LivingEntityManager.getItem(UtilsIniHeaders.getStringIniHeader(aLivings[liv])).getName()); //$NON-NLS-1$
                                     }
                                 }
                                 if (sName != null) {
-                                    alMessages.add(sName);
+                                    alMessages.add(sName.toString());
                                     alColor.add(COLOR_PREREQUISITES);
                                 }
                             }

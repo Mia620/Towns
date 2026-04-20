@@ -885,7 +885,7 @@ public final class World implements Externalizable {
         if (bSiegeType == SiegeData.SIEGE_ROBBERY) {
             boolean bSiege = false;
             int[] aiSteal = lemi.getSteal();
-            if (aiSteal != null && aiSteal.length > 0) {
+            if (aiSteal != null) {
                 for (int j : aiSteal) {
                     // Miramos que haya items de estos en el mundo
                     if (Item.getNumItemsTotal(UtilsIniHeaders.getStringIniHeader(j), World.MAP_DEPTH - 1) > 0) {
@@ -906,7 +906,7 @@ public final class World implements Externalizable {
             if (!bSiege) {
                 // Miramos livings
                 aiSteal = lemi.getStealLivings();
-                if (aiSteal != null && aiSteal.length > 0) {
+                if (aiSteal != null) {
                     for (int j : aiSteal) {
                         // Miramos que haya livings de estos en el mundo
                         if (LivingEntity.getNumLivings(UtilsIniHeaders.getStringIniHeader(j), true) > 0) {
@@ -2770,7 +2770,7 @@ public final class World implements Externalizable {
                             ZoneHeroRoom zoneHero = (ZoneHeroRoom) getZones().get(z);
                             if (!zoneHero.getPoints().isEmpty()) {
                                 // Comprobamos la altura m�nima
-                                if (!zoneHero.getPoints().isEmpty() && zoneHero.getPoints().get(0).z > (MAP_NUM_LEVELS_OUTSIDE - prerequisite.getValueInt())) {
+                                if (zoneHero.getPoints().get(0).z > (MAP_NUM_LEVELS_OUTSIDE - prerequisite.getValueInt())) {
                                     continue;
                                 }
 
@@ -2914,11 +2914,10 @@ public final class World implements Externalizable {
                 }
 
                 // Si llega aqu� es que el item no existe
-                return false;
             } else {
                 Log.log(Log.LEVEL_ERROR, Messages.getString("World.24") + " [" + sItem + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                return false;
             }
+            return false;
         }
 
         return true;

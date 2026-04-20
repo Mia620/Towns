@@ -196,7 +196,6 @@ public final class Towns {
         return switch (propertyFile) {
             case PROPERTY_FILE_MAIN -> propertiesMain.getProperty(sProperty);
             case PROPERTY_FILE_GRAPHICS -> propertiesGraphics.getProperty(sProperty);
-            default -> null;
         };
     }
 

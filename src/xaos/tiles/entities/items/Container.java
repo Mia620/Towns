@@ -130,13 +130,11 @@ public class Container implements Externalizable {
                     sItemName = imi.getName();
                     if (alElementsStatus.get(j)) {
                         smAux = new SmartMenu(SmartMenu.TYPE_ITEM, sItemName, null, CommandPanel.COMMAND_CONTAINER_DISABLE_ITEM, Integer.toString(iContainerID), alElements.get(j), null, Color.GREEN);
-                        smAux.setIcon(imi.getIniHeader());
-                        smSubMenu.addItem(smAux);
                     } else {
                         smAux = new SmartMenu(SmartMenu.TYPE_ITEM, sItemName, null, CommandPanel.COMMAND_CONTAINER_ENABLE_ITEM, Integer.toString(iContainerID), alElements.get(j), null, Color.ORANGE);
-                        smAux.setIcon(imi.getIniHeader());
-                        smSubMenu.addItem(smAux);
                     }
+                    smAux.setIcon(imi.getIniHeader());
+                    smSubMenu.addItem(smAux);
                 }
             }
 
@@ -154,13 +152,11 @@ public class Container implements Externalizable {
                 sItemName = imi.getName();
                 if (elementsWithoutSubtype.getAlElementsStatus().get(j)) {
                     smAux = new SmartMenu(SmartMenu.TYPE_ITEM, sItemName, null, CommandPanel.COMMAND_CONTAINER_DISABLE_ITEM, Integer.toString(iContainerID), elementsWithoutSubtype.getAlElements().get(j), null, Color.GREEN);
-                    smAux.setIcon(imi.getIniHeader());
-                    smContainerMenu.addItem(smAux);
                 } else {
                     smAux = new SmartMenu(SmartMenu.TYPE_ITEM, sItemName, null, CommandPanel.COMMAND_CONTAINER_ENABLE_ITEM, Integer.toString(iContainerID), elementsWithoutSubtype.getAlElements().get(j), null, Color.ORANGE);
-                    smAux.setIcon(imi.getIniHeader());
-                    smContainerMenu.addItem(smAux);
                 }
+                smAux.setIcon(imi.getIniHeader());
+                smContainerMenu.addItem(smAux);
             }
         }
 

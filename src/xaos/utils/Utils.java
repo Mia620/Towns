@@ -963,11 +963,11 @@ public final class Utils {
                         int iMinus = -Integer.parseInt(sStr.substring(1));
                         return new Point(iMinus, iMinus);
                     } else {
-                        if (sStr.charAt(0) == '+') {
-                            int iAdd = Integer.parseInt(sStr.substring(1));
+                        if (sStr.charAt(0) != '+') {
+                            int iAdd = Integer.parseInt(sStr);
                             return new Point(iAdd, iAdd);
                         } else {
-                            int iAdd = Integer.parseInt(sStr);
+                            int iAdd = Integer.parseInt(sStr.substring(1));
                             return new Point(iAdd, iAdd);
                         }
                     }

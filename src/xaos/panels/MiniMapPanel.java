@@ -203,10 +203,8 @@ public final class MiniMapPanel {
                             }
                             fColor -= 8f;
                         }
-                        return null;
-                    } else {
-                        return null;
                     }
+                    return null;
                 } else if (cell.hasStockPile()) {
                     return World.getTileStockpile().getColorMiniMap();
                 } else {

@@ -229,14 +229,14 @@ public class Building extends Entity implements Externalizable {
                     if (building.getPrerequisites() != null) {
                         for (int i = 0; i < building.getPrerequisites().size(); i++) {
                             int iNumInWorld = 0;
-                            String sMats = null;
+                            StringBuilder sMats = null;
                             for (int j = 0; j < building.getPrerequisites().get(i).length; j++) {
                                 iNumInWorld += Item.getNumItems(building.getPrerequisites().get(i)[j], false, Game.getWorld().getRestrictHaulEquippingLevel());
 
                                 if (j == 0) {
-                                    sMats = ItemManager.getItem(UtilsIniHeaders.getStringIniHeader(building.getPrerequisites().get(i)[j])).getName();
+                                    sMats = new StringBuilder(ItemManager.getItem(UtilsIniHeaders.getStringIniHeader(building.getPrerequisites().get(i)[j])).getName());
                                 } else {
-                                    sMats += Messages.getString("SmartMenu.3") + ItemManager.getItem(UtilsIniHeaders.getStringIniHeader(building.getPrerequisites().get(i)[j])).getName();
+                                    sMats.append(Messages.getString("SmartMenu.3")).append(ItemManager.getItem(UtilsIniHeaders.getStringIniHeader(building.getPrerequisites().get(i)[j])).getName());
                                 }
                             }
 
@@ -253,15 +253,15 @@ public class Building extends Entity implements Externalizable {
                     if (building.getPrerequisitesLiving() != null) {
                         for (int i = 0; i < building.getPrerequisitesLiving().size(); i++) {
                             int iNumInWorld = 0;
-                            String sMats = null;
+                            StringBuilder sMats = null;
 
                             for (int j = 0; j < building.getPrerequisitesLiving().get(i).length; j++) {
                                 iNumInWorld += LivingEntity.getNumLivings(UtilsIniHeaders.getStringIniHeader(building.getPrerequisitesLiving().get(i)[j]), true);
 
                                 if (j == 0) {
-                                    sMats = LivingEntityManager.getItem(UtilsIniHeaders.getStringIniHeader(building.getPrerequisitesLiving().get(i)[j])).getName();
+                                    sMats = new StringBuilder(LivingEntityManager.getItem(UtilsIniHeaders.getStringIniHeader(building.getPrerequisitesLiving().get(i)[j])).getName());
                                 } else {
-                                    sMats += Messages.getString("SmartMenu.3") + LivingEntityManager.getItem(UtilsIniHeaders.getStringIniHeader(building.getPrerequisitesLiving().get(i)[j])).getName();
+                                    sMats.append(Messages.getString("SmartMenu.3")).append(LivingEntityManager.getItem(UtilsIniHeaders.getStringIniHeader(building.getPrerequisitesLiving().get(i)[j])).getName());
                                 }
                             }
 

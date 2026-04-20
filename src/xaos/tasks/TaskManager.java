@@ -2150,10 +2150,10 @@ public final class TaskManager implements Externalizable {
                         if (!action.isSilent()) {
                             ArrayList<String> moveItems = Utils.getArray(sMoveMissing);
                             if (!moveItems.isEmpty()) {
-                                String sName = ItemManager.getItem(moveItems.get(0)).getName();
+                                StringBuilder sName = new StringBuilder(ItemManager.getItem(moveItems.get(0)).getName());
                                 for (int i = 1; i < moveItems.size(); i++) {
-                                    sName += Messages.getString("TaskManager.9"); //$NON-NLS-1$
-                                    sName += ItemManager.getItem(moveItems.get(i)).getName();
+                                    sName.append(Messages.getString("TaskManager.9")); //$NON-NLS-1$
+                                    sName.append(ItemManager.getItem(moveItems.get(i)).getName());
                                 }
                                 MessagesPanel.addMessage(MessagesPanel.TYPE_ANNOUNCEMENT, ami.getName() + Messages.getString("TaskManager.5") + sName + Messages.getString("TaskManager.2"), ColorGL.RED); //$NON-NLS-1$ //$NON-NLS-2$
                             }
