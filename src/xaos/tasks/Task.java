@@ -374,14 +374,19 @@ public final class Task implements Externalizable {
         return task;
     }
 
-    public void setTask(TASK task) {
+    public void setTask(TASK nTask) {
+        task = nTask;
 
-        if (task == Task.TASK.MINE || task == Task.TASK.MINE_LADDER || task == Task.TASK.DIG || task == Task.TASK.CANCEL_ORDER || task == Task.TASK.STOCKPILE || task == Task.TASK.CREATE_ZONE || task == Task.TASK.EXPAND_ZONE || task == Task.TASK.CREATE_AND_PLACE_ROW || task == Task.TASK.QUEUE_AND_PLACE_ROW || task == Task.TASK.QUEUE_AND_PLACE_AREA || task == Task.TASK.CUSTOM_ACTION) {
-            setState(STATE_CREATING_INIZONE);
-        } else if (task == Task.TASK.BUILD || task == Task.TASK.CREATE_AND_PLACE || task == Task.TASK.QUEUE_AND_PLACE) {
-            setState(STATE_CREATING_SINGLEPOINT);
-        } else {
-            setState(STATE_CREATED);
+        switch (task) {
+            case Task.TASK.MINE, Task.TASK.MINE_LADDER, Task.TASK.DIG, Task.TASK.CANCEL_ORDER, Task.TASK.STOCKPILE, Task.TASK.CREATE_ZONE, Task.TASK.EXPAND_ZONE, Task.TASK.CREATE_AND_PLACE_ROW, Task.TASK.QUEUE_AND_PLACE_ROW, Task.TASK.QUEUE_AND_PLACE_AREA, Task.TASK.CUSTOM_ACTION:
+                setState(STATE_CREATING_INIZONE);
+                break;
+            case Task.TASK.BUILD, Task.TASK.CREATE_AND_PLACE, Task.TASK.QUEUE_AND_PLACE:
+                setState(STATE_CREATING_SINGLEPOINT);
+                break;
+            default:
+                setState(STATE_CREATED);
+                break;
         }
     }
 
