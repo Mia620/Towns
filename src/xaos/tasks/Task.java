@@ -542,7 +542,7 @@ public final class Task implements Externalizable {
 
     public void setPoint(Point3D point) {
         boolean bCheckShift = false;
-        TYPE iOldTask = getType(); // Esto es para que el mine con el shift no se jorobe
+        TYPE iOldTask = this.getType(); // Esto es para que el mine con el shift no se jorobe
         switch (state) {
             case STATE.CREATING_INIZONE:
                 setPointIni(point);
@@ -1261,7 +1261,7 @@ public final class Task implements Externalizable {
                 if (!bItemEnElMundo) {
                     if (bAvailableForBuilding) {
                         // Aqu� distinguimos entre tarea QUEUE o tarea normal de toda la vida
-                        if (getType() == TYPE.QUEUE_AND_PLACE) {
+                        if (this.getType() == TYPE.QUEUE_AND_PLACE) {
                             // QUEUE
                             Action action = new Action(getParameter());
                             action.setDestinationPoint(Point3DShort.getPoolInstance(x0, y0, z));
@@ -1306,7 +1306,7 @@ public final class Task implements Externalizable {
                                     // Miramos accesingpoints ya que se construye desde casillas adyacentes
                                     if (ItemManager.getItem(imi.getIniHeader()).canBeBuiltOnHoles()) {
                                         int iBuildingASZID = World.getCell(p3dBuildingAux).getAstarZoneID();
-                                        ArrayList<Point3DShort> alPoints = getAccesingPointsMatchingASZI(x0, y0, z, iBuildingASZID, getType());
+                                        ArrayList<Point3DShort> alPoints = getAccesingPointsMatchingASZI(x0, y0, z, iBuildingASZID, this.getType());
                                         if (!alPoints.isEmpty()) {
                                             // Edificio de guais y en la zona del item, miramos la distancia
                                             int iDistanceAux = Utils.getDistance(x0, y0, z, p3dBuildingAux);
@@ -1369,7 +1369,7 @@ public final class Task implements Externalizable {
                 }
 
             }
-        } else if (getType() == TYPE.CREATE_AND_PLACE_ROW) {
+        } else if (this.getType() == TYPE.CREATE_AND_PLACE_ROW) {
             // Por cada punto de la fila (row) crearemos una tarea de create_and_place
             // Miramos si la fila es horizontal o vertical
             boolean bHorizontal = (x1 - x0) >= (y1 - y0);
@@ -1399,7 +1399,7 @@ public final class Task implements Externalizable {
             if (bToggle3D) {
                 MainPanel.toggle3DMouse();
             }
-        } else if (getType() == TYPE.QUEUE_AND_PLACE_ROW) {
+        } else if (this.getType() == TYPE.QUEUE_AND_PLACE_ROW) {
             // Por cada punto de la fila (row) crearemos una tarea de queue_and_place
             // Miramos si la fila es horizontal o vertical
             boolean bHorizontal = (x1 - x0) >= (y1 - y0);
@@ -1429,7 +1429,7 @@ public final class Task implements Externalizable {
             if (bToggle3D) {
                 MainPanel.toggle3DMouse();
             }
-        } else if (getType() == TYPE.QUEUE_AND_PLACE_AREA) {
+        } else if (this.getType() == TYPE.QUEUE_AND_PLACE_AREA) {
             // Por cada punto de la fila (row) y columna (col) crearemos una tarea de queue_and_place
 
             boolean bToggle3D = false;
@@ -1477,7 +1477,7 @@ public final class Task implements Externalizable {
      * @param maxCitizens M�ximo de aldeanos
      */
     public void setMaxCitizens(int maxCitizens) {
-        if (maxCitizens > 1 && getType() == TYPE.BUILD) {
+        if (maxCitizens > 1 && this.getType() == TYPE.BUILD) {
             this.maxCitizens = 1;
         } else {
             this.maxCitizens = maxCitizens;
@@ -1539,7 +1539,7 @@ public final class Task implements Externalizable {
      * @return el punto indicado ir para realizar la tarea
      */
     public HotPoint getHotPoint(int hotPointIndex) {
-        return getHotPoints().get(hotPointIndex);
+        return this.getHotPoints().get(hotPointIndex);
     }
 
     public ArrayList<HotPoint> getHotPoints() {
