@@ -1,5 +1,4 @@
 # Mia's Notes
-- Missing files have been added from the official game assets
 - Entire repo has been updated for Gradle and has been automatically reformatted, optimized, and cleaned up with
 IntelliJ.
 - Compiled game seems to work to the best of my testing, though it was minimal
