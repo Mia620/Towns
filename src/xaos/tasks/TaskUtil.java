@@ -134,26 +134,28 @@ public class TaskUtil {
     }
 
     public static void checkCancelTask(ArrayList<HotPoint> hotPoints, ArrayList<TaskManagerItem> alTasks) {
-        ArrayList<HotPoint> alPoints;
         Point3DShort p3dCancel, p3dTask;
-        Task task;
+
         for (TaskManagerItem alTask : alTasks) {
-            task = alTask.getTask();
+            var task = alTask.getTask();
+
             switch (task.getType()) {
                 case Task.TYPE.MINE, Task.TYPE.MINE_LADDER:
                     // Tarea mine/dig
                     // Miramos los puntos
-                    alPoints = task.getHotPoints();
-                    for (int p = 0; p < alPoints.size(); p++) {
-                        if (!alPoints.get(p).isFinished()) {
-                            p3dTask = alPoints.get(p).getPoint();
 
+                    // This task
+                    for (HotPoint alPoints : task.getHotPoints()) {
+                        if (!alPoints.isFinished()) {
+                            p3dTask = alPoints.getPoint();
+
+                            // Tasks to Look at
                             for (HotPoint hotPoint : hotPoints) {
                                 p3dCancel = hotPoint.getPoint();
 
                                 if (p3dCancel.equals(p3dTask)) {
                                     // Punto encontrado, lo marcamos como finished
-                                    Game.getWorld().getTaskManager().setHotPointFinished(task, p);
+                                    Game.getWorld().getTaskManager().setHotPointFinished(task, hotPoint);
                                     // Quitamos el flag de tarea de la celda
                                     World.getCell(p3dCancel).setFlagOrders(false);
                                     // El aldeano ya mirar� si el hp est� acabado y se quitar� de la tarea

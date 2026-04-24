@@ -56,6 +56,8 @@ public final class TaskManager implements Externalizable {
         BUILD
     }
 
+    // Synchronized variables cant be final due to Externalizable
+
     private ArrayList<TaskManagerItem> taskItems;
     private ArrayList<TaskManagerItem> taskItemsTemp; // Se usa este array para meter las tareas y que no se coloquen as�ncronamente en el "bueno"
     private ArrayList<Action> customActions;
@@ -91,10 +93,6 @@ public final class TaskManager implements Externalizable {
         return taskItems;
     }
 
-    public void setTaskItems(ArrayList<TaskManagerItem> taskItems) {
-        this.taskItems = taskItems;
-    }
-
     public ArrayList<TaskManagerItem> getTaskItemsTemp() {
         return taskItemsTemp;
     }
@@ -107,10 +105,6 @@ public final class TaskManager implements Externalizable {
 
     public ArrayList<Action> getCustomActions() {
         return customActions;
-    }
-
-    public void setCustomActions(ArrayList<Action> customActions) {
-        this.customActions = customActions;
     }
 
     public ArrayList<Action> getCustomActionsTemp() {
@@ -3068,13 +3062,11 @@ public final class TaskManager implements Externalizable {
      * @return
      */
     private int getNumCitizens(HashMap<Integer, ArrayList<Citizen>> hmCitizensSinTarea) {
-        Iterator<Integer> iterator = hmCitizensSinTarea.keySet().iterator();
-        Integer iZoneID;
         int iLibres = 0;
-        while (iterator.hasNext()) {
-            iZoneID = iterator.next();
-            if (hmCitizensSinTarea.get(iZoneID) != null) {
-                iLibres += hmCitizensSinTarea.get(iZoneID).size();
+
+        for (var hmCitizens : hmCitizensSinTarea.values()) {
+            if (hmCitizens != null) {
+                iLibres += hmCitizens.size();
             }
         }
 
@@ -3088,19 +3080,16 @@ public final class TaskManager implements Externalizable {
      * @return
      */
     private int getNumCitizensHaul(HashMap<Integer, ArrayList<Citizen>> hmCitizensSinTarea) {
-        Iterator<Integer> iterator = hmCitizensSinTarea.keySet().iterator();
-        Integer iZoneID;
         int iLibres = 0;
-        ArrayList<Citizen> alCits;
         int iHaulID = UtilsIniHeaders.getIntIniHeader(ActionPriorityManager.PRIORITY_HAUL);
-        while (iterator.hasNext()) {
-            iZoneID = iterator.next();
-            alCits = hmCitizensSinTarea.get(iZoneID);
+
+        for (var hmCitizens : hmCitizensSinTarea.entrySet()) {
+            var iZoneID = hmCitizens.getKey();
+            var alCits = hmCitizens.getValue();
+
             if (alCits != null) {
                 // Contamos los que puedan hacer haul
-                Citizen cit;
-                for (Citizen alCit : alCits) {
-                    cit = alCit;
+                for (Citizen cit : alCits) {
                     if (cit != null && cit.getCitizenData() != null && !cit.getCitizenData().containsDeniedJob(iHaulID)) {
                         iLibres++;
                     }
@@ -3129,22 +3118,22 @@ public final class TaskManager implements Externalizable {
      * pasado
      *
      * @param p3d         Punto
-     * @param alCits      Lista de Citiens
+     * @param citizens      Lista de Citiens
      * @param sPriorityID ID de la prioridad, si se le pasa buscar� aldeanos que
      *                    no tengan esa priority (job) denegada
      * @return el �ndice, dentro del array, del aldeano m�s cercano al punto
      * pasado, -1 en caso de no encontrarse
      */
-    private int getClosestCitizen(Point3DShort p3d, ArrayList<Citizen> alCits, String sPriorityID) {
-        if (alCits == null || alCits.isEmpty()) {
+    private int getClosestCitizen(Point3DShort p3d, ArrayList<Citizen> citizens, String sPriorityID) {
+        if (citizens == null || citizens.isEmpty()) {
             return -1;
         }
 
-        if (alCits.size() == 1) {
+        if (citizens.size() == 1) {
             if (sPriorityID == null) {
                 return 0;
             } else {
-                if (alCits.get(0).getCitizenData().containsDeniedJob(sPriorityID)) {
+                if (citizens.getFirst().getCitizenData().containsDeniedJob(sPriorityID)) {
                     return -1;
                 } else {
                     return 0;
@@ -3155,11 +3144,13 @@ public final class TaskManager implements Externalizable {
         if (sPriorityID == null) {
             Game.iError = 866;
             // Pillamos el primer aldeano como base
-            int iHeur = Utils.getDistance(alCits.get(0).getCoordinates(), p3d);
+            int iHeur = Utils.getDistance(citizens.getFirst().getCoordinates(), p3d);
             int iHeurTemp;
             int iIndex = 0;
-            for (int c = 1; c < alCits.size(); c++) {
-                iHeurTemp = Utils.getDistance(alCits.get(c).getCoordinates(), p3d);
+
+            for (int c = 1; c < citizens.size(); c++) {
+                iHeurTemp = Utils.getDistance(citizens.get(c).getCoordinates(), p3d);
+
                 if (iHeurTemp < iHeur) {
                     iIndex = c;
                     iHeur = iHeurTemp;
@@ -3172,9 +3163,10 @@ public final class TaskManager implements Externalizable {
             Game.iError = 868;
             int iIndexConJob = -1;
             int iIniHeaderJob = UtilsIniHeaders.getIntIniHeader(sPriorityID);
+
             // Pillamos el primer aldeano como base que no tenga el job denegado
-            for (int i = 0; i < alCits.size(); i++) {
-                if (!alCits.get(i).getCitizenData().containsDeniedJob(iIniHeaderJob)) {
+            for (int i = 0; i < citizens.size(); i++) {
+                if (!citizens.get(i).getCitizenData().containsDeniedJob(iIniHeaderJob)) {
                     iIndexConJob = i;
                     break;
                 }
@@ -3185,12 +3177,14 @@ public final class TaskManager implements Externalizable {
             }
 
             // Tenemos el primer aldeano que puede hacer el job
-            int iHeur = Utils.getDistance(alCits.get(iIndexConJob).getCoordinates(), p3d);
+            int iHeur = Utils.getDistance(citizens.get(iIndexConJob).getCoordinates(), p3d);
             int iHeurTemp;
             int iIndex = iIndexConJob;
-            for (int c = (iIndexConJob + 1); c < alCits.size(); c++) {
-                if (!alCits.get(c).getCitizenData().containsDeniedJob(iIniHeaderJob)) {
-                    iHeurTemp = Utils.getDistance(alCits.get(c).getCoordinates(), p3d);
+
+            for (int c = (iIndexConJob + 1); c < citizens.size(); c++) {
+                if (!citizens.get(c).getCitizenData().containsDeniedJob(iIniHeaderJob)) {
+                    iHeurTemp = Utils.getDistance(citizens.get(c).getCoordinates(), p3d);
+
                     if (iHeurTemp < iHeur) {
                         iIndex = c;
                         iHeur = iHeurTemp;
@@ -3228,14 +3222,24 @@ public final class TaskManager implements Externalizable {
      * @return true si hay m�s hotpoints por hacer
      */
     public boolean setHotPointFinished(Task task, int hotPointIndex) {
-        task.getHotPoints().get(hotPointIndex).setFinished(true);
+        return this.setHotPointFinished(task, task.getHotPoints().get(hotPointIndex));
+    }
+
+    /**
+     * Same as `setHotpointFinished` but allows passing the HotPoint directly
+     *
+     * @param task      Task
+     * @param aHotPoint HotPoint
+     * @return true si hay m�s hotpoints por hacer
+     */
+    public boolean setHotPointFinished(Task task, HotPoint aHotPoint) {
+        aHotPoint.setFinished(true);
 
         task.setMaxCitizens(task.getMaxCitizens() - 1);
 
         // Miramos si quedan hotpoints
-        int hpSize = task.getHotPoints().size();
-        for (int i = 0; i < hpSize; i++) {
-            if (!task.getHotPoints().get(i).isFinished()) {
+        for (HotPoint hotPoint : task.getHotPoints()) {
+            if (!hotPoint.isFinished()) {
                 // Encontramos un HP NO acabado, devolvemos true para indicar que a�n quedan cosas por hacer
                 return true;
             }
