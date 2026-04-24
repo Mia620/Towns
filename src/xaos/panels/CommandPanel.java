@@ -903,14 +903,14 @@ public final class CommandPanel {
                 try {
                     Utils.save(true);
                 } catch (Exception ex) {
-                    Log.log(Log.LEVEL.ERROR, Messages.getString("CommandPanel.38") + ex + "]", "CommandPanel"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                    Log.error(Messages.getString("CommandPanel.38") + ex + "]", "CommandPanel"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                     MessagesPanel.addMessage(MessagesPanel.TYPE_SYSTEM, Messages.getString("CommandPanel.38") + ex + "]", ColorGL.RED); //$NON-NLS-1$ //$NON-NLS-2$
                 }
             } else if (sCommand.equals(COMMAND_SAVE_NO_MISSIONDATA)) {
                 try {
                     Utils.save(false);
                 } catch (Exception ex) {
-                    Log.log(Log.LEVEL.ERROR, Messages.getString("CommandPanel.38") + ex + "]", "CommandPanel"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                    Log.error(Messages.getString("CommandPanel.38") + ex + "]", "CommandPanel"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                     MessagesPanel.addMessage(MessagesPanel.TYPE_SYSTEM, Messages.getString("CommandPanel.38") + ex + "]", ColorGL.RED); //$NON-NLS-1$ //$NON-NLS-2$
                 }
             } else if (sCommand.equals(COMMAND_ITEM_TEXT_ADD)) {
@@ -945,7 +945,7 @@ public final class CommandPanel {
                     Utils.saveBury();
                     MessagesPanel.addMessage(MessagesPanel.TYPE_SYSTEM, Messages.getString("CommandPanel.9")); //$NON-NLS-1$
                 } catch (Exception ex) {
-                    Log.log(Log.LEVEL.ERROR, Messages.getString("CommandPanel.8") + " [" + ex + "]", "CommandPanel"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                    Log.error(Messages.getString("CommandPanel.8") + " [" + ex + "]", "CommandPanel"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                     MessagesPanel.addMessage(MessagesPanel.TYPE_SYSTEM, Messages.getString("CommandPanel.8") + " [" + ex + "]", ColorGL.RED); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 }
             } else if (sCommand.equals(COMMAND_EXIT_GAME)) {
@@ -1238,10 +1238,10 @@ public final class CommandPanel {
 //						}
                         }
                         default ->
-                                Log.log(Log.LEVEL.ERROR, Messages.getString("CommandPanel.6") + sCommand + "] [" + sParameter + "]", "CommandPannel"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                                Log.error(Messages.getString("CommandPanel.6") + sCommand + "] [" + sParameter + "]", "CommandPannel"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                     }
                 } else {
-                    Log.log(Log.LEVEL.ERROR, Messages.getString("CommandPanel.6") + sCommand + "] [" + sParameter + "]", "CommandPannel"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                    Log.error(Messages.getString("CommandPanel.6") + sCommand + "] [" + sParameter + "]", "CommandPannel"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                 }
             }
         }

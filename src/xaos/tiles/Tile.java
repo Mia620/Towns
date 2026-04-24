@@ -105,7 +105,7 @@ public class Tile implements Externalizable {
         if (texture == null) {
             texture = UtilsGL.loadTexture(Towns.getPropertiesString(PropertyFile.PROPERTY_FILE_GRAPHICS, "[" + sIniHeader2 + "]TEXTURE_FILE"), GL11.GL_REPLACE); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             if (texture == null) {
-                Log.log(Log.LEVEL.ERROR, Messages.getString("Tile.6") + sIniHeader + Messages.getString("Tile.7") + sIniHeader2 + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                Log.error(Messages.getString("Tile.6") + sIniHeader + Messages.getString("Tile.7") + sIniHeader2 + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 Game.exit();
             }
         }

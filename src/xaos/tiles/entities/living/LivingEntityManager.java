@@ -72,7 +72,7 @@ public class LivingEntityManager {
                 if (lemi.getStealLivings() != null && lemi.getStealLivings().length > 0) {
                     for (int i = 0; i < lemi.getStealLivings().length; i++) {
                         if (hmLivingEntities.get(UtilsIniHeaders.getStringIniHeader(lemi.getStealLivings()[i])) == null) {
-                            Log.log(Log.LEVEL.ERROR, "Wrong stealLivings" + " [" + UtilsIniHeaders.getStringIniHeader(lemi.getStealLivings()[i]) + "]", "LivingEntityManager");
+                            Log.error("Wrong stealLivings" + " [" + UtilsIniHeaders.getStringIniHeader(lemi.getStealLivings()[i]) + "]", "LivingEntityManager");
                             Game.exit();
                         }
                     }
@@ -858,7 +858,7 @@ public class LivingEntityManager {
                 }
             }
         } catch (Exception e) {
-            Log.log(Log.LEVEL.ERROR, Messages.getString("LivingEntityManager.11") + sXMLName + Messages.getString("LivingEntityManager.12") + e + "]", "LivingEntityManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+            Log.error(Messages.getString("LivingEntityManager.11") + sXMLName + Messages.getString("LivingEntityManager.12") + e + "]", "LivingEntityManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
             Game.exit();
         }
     }

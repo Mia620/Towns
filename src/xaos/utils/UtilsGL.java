@@ -113,7 +113,7 @@ public final class UtilsGL {
 
             setNativeCursor();
         } catch (Exception e) {
-            Log.log(Log.LEVEL.ERROR, e.toString(), "UtilsGL"); //$NON-NLS-1$
+            Log.error(e.toString(), "UtilsGL"); //$NON-NLS-1$
             Game.exit();
         }
 
@@ -174,7 +174,7 @@ public final class UtilsGL {
                 Display.setDisplayModeAndFullscreen(fullscreenDisplayMode);
             }
         } catch (LWJGLException e) {
-            Log.log(Log.LEVEL.ERROR, e.toString(), "UtilsGL"); //$NON-NLS-1$
+            Log.error(e.toString(), "UtilsGL"); //$NON-NLS-1$
             Game.exit();
         }
     }
@@ -217,7 +217,7 @@ public final class UtilsGL {
         try {
             Mouse.setNativeCursor(new Cursor(imageCursor.getWidth(), imageCursor.getHeight(), 0, 15, 1, intBuffer, null));
         } catch (LWJGLException e) {
-            Log.log(Log.LEVEL.ERROR, "No native cursor support.", UtilsGL.class.getCanonicalName());
+            Log.error("No native cursor support.", UtilsGL.class.getCanonicalName());
         }
     }
 
@@ -273,7 +273,7 @@ public final class UtilsGL {
     // try {
     // Mouse.setNativeCursor(new Cursor(16, 16, 0, 15, 1, intbuf, null));
     // } catch (LWJGLException e) {
-    // Log.log(Log.LEVEL.ERROR, "No native cursor support.", UtilsGL.class.getCanonicalName());
+    // Log.error("No native cursor support.", UtilsGL.class.getCanonicalName());
     // }
     // }
     public static void glBegin(final int mode) {
@@ -600,7 +600,7 @@ public final class UtilsGL {
             }
         } catch (IOException e) {
             // e.printStackTrace();
-            Log.log(Log.LEVEL.DEBUG, "Fast decoding of image [" + imageFile + "] failed: " + e, "UtilsGL");
+            Log.debug("Fast decoding of image [" + imageFile + "] failed: " + e, "UtilsGL");
             // return null;
         }
 
@@ -609,7 +609,7 @@ public final class UtilsGL {
             try {
                 imageData = loadImageDataImageIO(Towns.getPropertiesString("GRAPHICS_FOLDER") + FileSystems.getDefault().getSeparator() + imageFile, imageFile);
             } catch (IOException e) {
-                Log.log(Log.LEVEL.ERROR, "ImageIO decoding of image [" + imageFile + "] failed: " + e, "UtilsGL");
+                Log.error("ImageIO decoding of image [" + imageFile + "] failed: " + e, "UtilsGL");
             }
         }
 
@@ -617,7 +617,7 @@ public final class UtilsGL {
             imageData.clearPixels();
             cachedImages.put(imageFile, imageData);
         } else {
-            Log.log(Log.LEVEL.ERROR, "Failed to load image " + imageFile, "UtilsGL");
+            Log.error("Failed to load image " + imageFile, "UtilsGL");
         }
 
         return imageData;

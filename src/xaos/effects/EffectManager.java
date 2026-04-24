@@ -51,7 +51,7 @@ public class EffectManager {
             if (emi.getAfterEffects() != null && !emi.getAfterEffects().isEmpty()) {
                 for (int e = 0; e < emi.getAfterEffects().size(); e++) {
                     if (!effectList.containsKey(emi.getAfterEffects().get(e))) {
-                        Log.log(Log.LEVEL.ERROR, Messages.getString("EffectManager.2") + emi.getAfterEffects().get(e) + "]", "EffectManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                        Log.error(Messages.getString("EffectManager.2") + emi.getAfterEffects().get(e) + "]", "EffectManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                         Game.exit();
                     }
                 }
@@ -60,7 +60,7 @@ public class EffectManager {
             if (emi.getOnHitEffects() != null && !emi.getOnHitEffects().isEmpty()) {
                 for (int e = 0; e < emi.getOnHitEffects().size(); e++) {
                     if (!effectList.containsKey(emi.getOnHitEffects().get(e))) {
-                        Log.log(Log.LEVEL.ERROR, Messages.getString("EffectManager.3") + emi.getOnHitEffects().get(e) + "]", "EffectManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                        Log.error(Messages.getString("EffectManager.3") + emi.getOnHitEffects().get(e) + "]", "EffectManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                         Game.exit();
                     }
                 }
@@ -69,7 +69,7 @@ public class EffectManager {
             if (emi.getOnRangedHitEffects() != null && !emi.getOnRangedHitEffects().isEmpty()) {
                 for (int e = 0; e < emi.getOnRangedHitEffects().size(); e++) {
                     if (!effectList.containsKey(emi.getOnRangedHitEffects().get(e))) {
-                        Log.log(Log.LEVEL.ERROR, Messages.getString("EffectManager.4") + emi.getOnRangedHitEffects().get(e) + "]", "EffectManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                        Log.error(Messages.getString("EffectManager.4") + emi.getOnRangedHitEffects().get(e) + "]", "EffectManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                         Game.exit();
                     }
                 }
@@ -78,7 +78,7 @@ public class EffectManager {
             if (emi.getEffectsImmune() != null && !emi.getEffectsImmune().isEmpty()) {
                 for (int e = 0; e < emi.getEffectsImmune().size(); e++) {
                     if (!effectList.containsKey(emi.getEffectsImmune().get(e))) {
-                        Log.log(Log.LEVEL.ERROR, Messages.getString("EffectManager.1") + emi.getEffectsImmune().get(e) + "]", "EffectManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                        Log.error(Messages.getString("EffectManager.1") + emi.getEffectsImmune().get(e) + "]", "EffectManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                         Game.exit();
                     }
                 }
@@ -87,7 +87,7 @@ public class EffectManager {
             if (emi.getEffectsPrerequisite() != null && !emi.getEffectsPrerequisite().isEmpty()) {
                 for (int e = 0; e < emi.getEffectsPrerequisite().size(); e++) {
                     if (!effectList.containsKey(emi.getEffectsPrerequisite().get(e))) {
-                        Log.log(Log.LEVEL.ERROR, Messages.getString("EffectManager.7") + " [" + emi.getEffectsPrerequisite().get(e) + "]", "EffectManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                        Log.error(Messages.getString("EffectManager.7") + " [" + emi.getEffectsPrerequisite().get(e) + "]", "EffectManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                         Game.exit();
                     }
                 }
@@ -96,7 +96,7 @@ public class EffectManager {
             if (emi.getCastEffects() != null && !emi.getCastEffects().isEmpty()) {
                 for (int e = 0; e < emi.getCastEffects().size(); e++) {
                     if (!effectList.containsKey(emi.getCastEffects().get(e))) {
-                        Log.log(Log.LEVEL.ERROR, Messages.getString("EffectManager.5") + emi.getCastEffects().get(e) + "]", "EffectManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                        Log.error(Messages.getString("EffectManager.5") + emi.getCastEffects().get(e) + "]", "EffectManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                         Game.exit();
                     }
                 }
@@ -347,7 +347,7 @@ public class EffectManager {
                 }
             }
         } catch (Exception e) {
-            Log.log(Log.LEVEL.ERROR, Messages.getString("EffectManager.0") + e + "]", "EffectManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            Log.error(Messages.getString("EffectManager.0") + e + "]", "EffectManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             Game.exit();
         }
     }

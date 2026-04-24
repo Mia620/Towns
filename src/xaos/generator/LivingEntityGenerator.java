@@ -35,7 +35,7 @@ public class LivingEntityGenerator extends Generator {
             if (item.getName() == LivingEntityGeneratorItem.ITEM_ADD) {
                 addLivingEntity(item, cells);
             } else {
-                Log.log(Log.LEVEL.ERROR, Messages.getString("LivingEntityGenerator.0") + item.getName() + Messages.getString("ItemGenerator.1") + XML_FILE + "]", "LivingEntityGenerator"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                Log.error(Messages.getString("LivingEntityGenerator.0") + item.getName() + Messages.getString("ItemGenerator.1") + XML_FILE + "]", "LivingEntityGenerator"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
             }
         }
     }
@@ -84,13 +84,13 @@ public class LivingEntityGenerator extends Generator {
 
         // Todo cargado, procedemos
         if (entity == null || entity.isEmpty()) {
-            Log.log(Log.LEVEL.ERROR, Messages.getString("LivingEntityGenerator.4"), "LivingEntityGenerator"); //$NON-NLS-1$ //$NON-NLS-2$
+            Log.error(Messages.getString("LivingEntityGenerator.4"), "LivingEntityGenerator"); //$NON-NLS-1$ //$NON-NLS-2$
             return;
         }
 
         LivingEntityManagerItem lemi = LivingEntityManager.getItem(entity);
         if (lemi == null) {
-            Log.log(Log.LEVEL.ERROR, Messages.getString("LivingEntityGenerator.5") + " [" + entity + "]", "LivingEntityGenerator"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+            Log.error(Messages.getString("LivingEntityGenerator.5") + " [" + entity + "]", "LivingEntityGenerator"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
             return;
         }
 
@@ -105,7 +105,7 @@ public class LivingEntityGenerator extends Generator {
             z = Utils.launchDice(level);
 
             if (x < 0 || x >= World.MAP_WIDTH || y < 0 || y >= World.MAP_WIDTH || z < 0 || z >= World.MAP_DEPTH) {
-                Log.log(Log.LEVEL.ERROR, Messages.getString("LivingEntityGenerator.2") + lemi.getIniHeader() + "]", "LivingEntityGenerator"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                Log.error(Messages.getString("LivingEntityGenerator.2") + lemi.getIniHeader() + "]", "LivingEntityGenerator"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 tryes = 200;
                 qtty--;
                 continue;

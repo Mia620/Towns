@@ -104,7 +104,7 @@ public class TerrainManager {
             if (tmi.getLadderItem() != null) {
                 // El item tiene que existir
                 if (ItemManager.getItem(tmi.getLadderItem()) == null) {
-                    Log.log(Log.LEVEL.ERROR, Messages.getString("TerrainManager.1") + tmi.getLadderItem() + "]", "TerrainManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                    Log.error(Messages.getString("TerrainManager.1") + tmi.getLadderItem() + "]", "TerrainManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                     Game.exit();
                 }
             }
@@ -261,7 +261,7 @@ public class TerrainManager {
                 }
             }
         } catch (Exception e) {
-            Log.log(Log.LEVEL.ERROR, Messages.getString("TerrainManager.0") + e + "]", "TerrainManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            Log.error(Messages.getString("TerrainManager.0") + e + "]", "TerrainManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             Game.exit();
         }
     }

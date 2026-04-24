@@ -51,13 +51,13 @@ public class ActionManager {
             priorityID = itemList.get(sAux).getPriorityID();
 
             if (priorityID == null) {
-                Log.log(Log.LEVEL.ERROR, Messages.getString("ActionManagerItem.4") + sAux + "]", "ActionManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                Log.error(Messages.getString("ActionManagerItem.4") + sAux + "]", "ActionManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 Game.exit();
             }
 
             if (priorityID != null) {
                 if (ActionPriorityManager.getItem(priorityID) == null) {
-                    Log.log(Log.LEVEL.ERROR, Messages.getString("ActionManagerItem.2") + sAux + "] [" + priorityID + "]", "ActionManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                    Log.error(Messages.getString("ActionManagerItem.2") + sAux + "] [" + priorityID + "]", "ActionManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                     Game.exit();
                 }
             }
@@ -101,7 +101,7 @@ public class ActionManager {
 
                     boolean bExists = itemList.containsKey(sID);
                     if (bLoadingMain && bExists) {
-                        Log.log(Log.LEVEL.ERROR, Messages.getString("ActionManager.1") + sID + "]", "ActionManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                        Log.error(Messages.getString("ActionManager.1") + sID + "]", "ActionManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                     }
                     // Mod cambiando valores de un item que ya existe?
                     boolean bModChangingValues = (bExists && !bLoadingMain);
@@ -201,9 +201,9 @@ public class ActionManager {
             }
         } catch (Exception e) {
             if (sID != null) {
-                Log.log(Log.LEVEL.ERROR, Messages.getString("ActionManager.0") + sPath + "] [" + sID + "][" + e.getMessage() + "]", "ActionManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+                Log.error(Messages.getString("ActionManager.0") + sPath + "] [" + sID + "][" + e.getMessage() + "]", "ActionManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
             } else {
-                Log.log(Log.LEVEL.ERROR, Messages.getString("ActionManager.0") + sPath + "] [" + e.getMessage() + "]", "ActionManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                Log.error(Messages.getString("ActionManager.0") + sPath + "] [" + e.getMessage() + "]", "ActionManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
             }
             Game.exit();
         }

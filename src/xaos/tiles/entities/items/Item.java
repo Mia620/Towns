@@ -1939,7 +1939,7 @@ public class Item extends Entity implements Externalizable {
                     if (!bItem) {
                         if (LivingEntityManager.getItem(imi.getSpawn()) == null) {
                             // Miramos que sea living, sino, error y pafuera
-                            Log.log(Log.LEVEL.ERROR, Messages.getString("Item.9") + imi.getSpawn() + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
+                            Log.error(Messages.getString("Item.9") + imi.getSpawn() + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
                             return false;
                         }
                     }

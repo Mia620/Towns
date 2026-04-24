@@ -689,7 +689,7 @@ public class Hero extends LivingEntity implements Externalizable {
                     }
                 } else {
                     // Raro, no existe su zona, se la quitamos
-                    Log.log(Log.LEVEL.ERROR, Messages.getString("Citizen.28"), getClass().toString()); //$NON-NLS-1$
+                    Log.error(Messages.getString("Citizen.28"), getClass().toString()); //$NON-NLS-1$
                     getCitizenData().setZoneID(0);
                 }
             }

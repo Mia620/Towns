@@ -95,7 +95,7 @@ public class MatsPanelData {
                     // ID
                     sAux = UtilsXML.getChildValue(node.getChildNodes(), "id"); //$NON-NLS-1$
                     if (sAux == null || sAux.trim().isEmpty()) {
-                        Log.log(Log.LEVEL.ERROR, Messages.getString("MatsPanelData.5"), "MatsPanelData"); //$NON-NLS-1$ //$NON-NLS-2$
+                        Log.error(Messages.getString("MatsPanelData.5"), "MatsPanelData"); //$NON-NLS-1$ //$NON-NLS-2$
                         Game.exit();
                     }
 
@@ -118,7 +118,7 @@ public class MatsPanelData {
                         }
                     } else {
                         if (sAux == null || sAux.trim().isEmpty()) {
-                            Log.log(Log.LEVEL.ERROR, Messages.getString("MatsPanelData.0"), "MatsPanelData"); //$NON-NLS-1$ //$NON-NLS-2$
+                            Log.error(Messages.getString("MatsPanelData.0"), "MatsPanelData"); //$NON-NLS-1$ //$NON-NLS-2$
                             Game.exit();
                         }
                         nameGroups.add(sAux);
@@ -134,7 +134,7 @@ public class MatsPanelData {
                         }
                     } else {
                         if (sAux == null || sAux.trim().isEmpty()) {
-                            Log.log(Log.LEVEL.ERROR, Messages.getString("MatsPanelData.2"), "MatsPanelData"); //$NON-NLS-1$ //$NON-NLS-2$
+                            Log.error(Messages.getString("MatsPanelData.2"), "MatsPanelData"); //$NON-NLS-1$ //$NON-NLS-2$
                             Game.exit();
                         }
                         iconGroups.add(sAux);
@@ -146,7 +146,7 @@ public class MatsPanelData {
                     ArrayList<String> alTypes = Utils.getArray(UtilsXML.getChildValue(node.getChildNodes(), "types")); //$NON-NLS-1$
                     if (alTypes == null || alTypes.isEmpty()) {
                         if (!bModChangingValues) {
-                            Log.log(Log.LEVEL.ERROR, Messages.getString("MatsPanelData.4"), "MatsPanelData"); //$NON-NLS-1$ //$NON-NLS-2$
+                            Log.error(Messages.getString("MatsPanelData.4"), "MatsPanelData"); //$NON-NLS-1$ //$NON-NLS-2$
                             Game.exit();
                         }
                     }
@@ -159,7 +159,7 @@ public class MatsPanelData {
                             alItems.addAll(ItemManager.getItemsByType(alType));
                         }
                         if (alItems.isEmpty()) {
-                            Log.log(Log.LEVEL.ERROR, Messages.getString("MatsPanelData.6"), "MatsPanelData"); //$NON-NLS-1$ //$NON-NLS-2$
+                            Log.error(Messages.getString("MatsPanelData.6"), "MatsPanelData"); //$NON-NLS-1$ //$NON-NLS-2$
                             Game.exit();
                         }
                         // Ordenamos alfab�ticamente
@@ -201,12 +201,12 @@ public class MatsPanelData {
                 }
             }
         } catch (Exception e) {
-            Log.log(Log.LEVEL.ERROR, Messages.getString("MatsPanelData.8") + e + "]", "MatsPanelData"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            Log.error(Messages.getString("MatsPanelData.8") + e + "]", "MatsPanelData"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             Game.exit();
         }
 
         if (numGroups == 0) {
-            Log.log(Log.LEVEL.ERROR, Messages.getString("MatsPanelData.11"), "MatsPanelData"); //$NON-NLS-1$ //$NON-NLS-2$
+            Log.error(Messages.getString("MatsPanelData.11"), "MatsPanelData"); //$NON-NLS-1$ //$NON-NLS-2$
             Game.exit();
         }
     }

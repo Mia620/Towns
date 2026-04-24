@@ -111,7 +111,7 @@ public class SmartMenu implements Externalizable {
                 readXMLItem(doc, doc.getDocumentElement().getChildNodes(), menuInicial, i == 0);
             }
         } catch (Exception e) {
-            Log.log(Log.LEVEL.ERROR, Messages.getString("SmartMenu.1") + sFilename + Messages.getString("SmartMenu.2") + e + "]", "SmartMenu"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+            Log.error(Messages.getString("SmartMenu.1") + sFilename + Messages.getString("SmartMenu.2") + e + "]", "SmartMenu"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
             Game.exit();
         }
 
@@ -155,7 +155,7 @@ public class SmartMenu implements Externalizable {
                     // Code
                     Node code = map.getNamedItem("code"); //$NON-NLS-1$
                     if (code == null) {
-                        Log.log(Log.LEVEL.ERROR, Messages.getString("SmartMenu.7"), "SmartMenu"); //$NON-NLS-1$ //$NON-NLS-2$
+                        Log.error(Messages.getString("SmartMenu.7"), "SmartMenu"); //$NON-NLS-1$ //$NON-NLS-2$
                         Game.exit();
                     } else if (code.getNodeValue() != null && code.getNodeValue().equalsIgnoreCase("BLANKLINE")) { //$NON-NLS-1$
                         // Linea en blanco
@@ -222,11 +222,11 @@ public class SmartMenu implements Externalizable {
                                     }
                                 }
                                 if (sName == null || sName.trim().isEmpty()) {
-                                    Log.log(Log.LEVEL.ERROR, Messages.getString("SmartMenu.0") + parameter.getNodeValue() + "]", Messages.getString("SmartMenu.5")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                                    Log.error(Messages.getString("SmartMenu.0") + parameter.getNodeValue() + "]", Messages.getString("SmartMenu.5")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                                     Game.exit();
                                 }
                             } else {
-                                Log.log(Log.LEVEL.ERROR, Messages.getString("SmartMenu.4"), "SmartMenu"); //$NON-NLS-1$ //$NON-NLS-2$
+                                Log.error(Messages.getString("SmartMenu.4"), "SmartMenu"); //$NON-NLS-1$ //$NON-NLS-2$
                                 Game.exit();
                             }
                         }

@@ -18,13 +18,13 @@ public class UtilsServer {
         try {
             sXML = getUrlSource(serverURL);
             if (sXML == null || sXML.trim().isEmpty()) {
-                Log.log(Log.LEVEL.DEBUG, Messages.getString("UtilsServer.0"), "UtilsServer"); //$NON-NLS-1$ //$NON-NLS-2$
+                Log.debug(Messages.getString("UtilsServer.0"), "UtilsServer"); //$NON-NLS-1$ //$NON-NLS-2$
                 return null;
             }
 
             Document doc = UtilsXML.loadXMLFileFromString(sXML);
             if (doc == null || doc.getDocumentElement() == null || doc.getDocumentElement().getChildNodes() == null) {
-                Log.log(Log.LEVEL.DEBUG, Messages.getString("UtilsServer.2"), "UtilsServer"); //$NON-NLS-1$ //$NON-NLS-2$
+                Log.debug(Messages.getString("UtilsServer.2"), "UtilsServer"); //$NON-NLS-1$ //$NON-NLS-2$
                 return null;
             }
 
@@ -52,7 +52,7 @@ public class UtilsServer {
             }
         } catch (Exception e) {
             // log the error
-            Log.log(Log.LEVEL.DEBUG, Messages.getString("UtilsServer.21") + " [" + e + "]", "UtilsServer"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+            Log.debug(Messages.getString("UtilsServer.21") + " [" + e + "]", "UtilsServer"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
         }
 
         return Messages.getString("UtilsServer.1") + " [" + serverURL + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -64,13 +64,13 @@ public class UtilsServer {
         try {
             sXML = getUrlSource(serverURL);
             if (sXML == null || sXML.trim().isEmpty()) {
-                Log.log(Log.LEVEL.DEBUG, Messages.getString("UtilsServer.0"), "UtilsServer"); //$NON-NLS-1$ //$NON-NLS-2$
+                Log.debug(Messages.getString("UtilsServer.0"), "UtilsServer"); //$NON-NLS-1$ //$NON-NLS-2$
                 return null;
             }
 
             Document doc = UtilsXML.loadXMLFileFromString(sXML);
             if (doc == null || doc.getDocumentElement() == null || doc.getDocumentElement().getChildNodes() == null) {
-                Log.log(Log.LEVEL.DEBUG, Messages.getString("UtilsServer.2"), "UtilsServer"); //$NON-NLS-1$ //$NON-NLS-2$
+                Log.debug(Messages.getString("UtilsServer.2"), "UtilsServer"); //$NON-NLS-1$ //$NON-NLS-2$
                 return null;
             }
 
@@ -130,7 +130,7 @@ public class UtilsServer {
                 // Reemplazamos los __ID__ de la URL por el fileID
                 int iIndexID = sDownloadURL.indexOf("__ID__"); //$NON-NLS-1$
                 if (iIndexID == -1) {
-                    Log.log(Log.LEVEL.DEBUG, Messages.getString("UtilsServer.13"), "UtilsServer"); //$NON-NLS-1$ //$NON-NLS-2$
+                    Log.debug(Messages.getString("UtilsServer.13"), "UtilsServer"); //$NON-NLS-1$ //$NON-NLS-2$
                 } else {
                     while (iIndexID != -1) {
                         sDownloadURL = sDownloadURL.substring(0, iIndexID) + alIDs.get(iIndexRandom) + sDownloadURL.substring(iIndexID + "__ID__".length()); //$NON-NLS-1$
@@ -140,18 +140,18 @@ public class UtilsServer {
                     if (downloadBuryFile(sDownloadURL, buryFolder + File.separator + alNames.get(iIndexRandom))) {
                         return alNames.get(iIndexRandom);
                     } else {
-                        Log.log(Log.LEVEL.DEBUG, Messages.getString("UtilsServer.17"), "UtilsServer"); //$NON-NLS-1$ //$NON-NLS-2$
+                        Log.debug(Messages.getString("UtilsServer.17"), "UtilsServer"); //$NON-NLS-1$ //$NON-NLS-2$
                     }
 
                 }
             } else {
                 if (sDownloadURL == null) {
-                    Log.log(Log.LEVEL.DEBUG, Messages.getString("UtilsServer.19"), "UtilsServer"); //$NON-NLS-1$ //$NON-NLS-2$
+                    Log.debug(Messages.getString("UtilsServer.19"), "UtilsServer"); //$NON-NLS-1$ //$NON-NLS-2$
                 }
             }
         } catch (Exception e) {
             // log the error
-            Log.log(Log.LEVEL.DEBUG, Messages.getString("UtilsServer.21") + " [" + e + "]", "UtilsServer"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+            Log.debug(Messages.getString("UtilsServer.21") + " [" + e + "]", "UtilsServer"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
         }
 
         return null;

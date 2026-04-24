@@ -712,7 +712,7 @@ public class EventData implements Externalizable {
 
         // Comprobamos que tenemos todos los datos
         if (bd.type == null || bd.type.trim().isEmpty()) {
-            Log.log(Log.LEVEL.ERROR, Messages.getString("MapGenerator.18"), "MapGenerator"); //$NON-NLS-1$ //$NON-NLS-2$
+            Log.error(Messages.getString("MapGenerator.18"), "MapGenerator"); //$NON-NLS-1$ //$NON-NLS-2$
             return;
         }
 
@@ -727,17 +727,17 @@ public class EventData implements Externalizable {
         }
 
         if (bd.level == -1) {
-            Log.log(Log.LEVEL.ERROR, Messages.getString("MapGenerator.20"), "MapGenerator"); //$NON-NLS-1$ //$NON-NLS-2$
+            Log.error(Messages.getString("MapGenerator.20"), "MapGenerator"); //$NON-NLS-1$ //$NON-NLS-2$
             return;
         }
 
         if ((bd.level + bd.depth) > World.MAP_DEPTH) {
-            Log.log(Log.LEVEL.ERROR, "Bezier. (level + depth) > MAX_DEPTH", "MapGenerator"); //$NON-NLS-1$ //$NON-NLS-2$
+            Log.error("Bezier. (level + depth) > MAX_DEPTH", "MapGenerator"); //$NON-NLS-1$ //$NON-NLS-2$
             return;
         }
 
         if (bd.point1xmin == -1 || bd.point1xmax == -1 || bd.point1ymin == -1 || bd.point1ymax == -1 || bd.point2xmin == -1 || bd.point2xmax == -1 || bd.point2ymin == -1 || bd.point2ymax == -1 || bd.controlpoint1xmin == -1 || bd.controlpoint1xmax == -1 || bd.controlpoint1ymin == -1 || bd.controlpoint1ymax == -1 || bd.controlpoint2xmin == -1 || bd.controlpoint2xmax == -1 || bd.controlpoint2ymin == -1 || bd.controlpoint2ymax == -1) {
-            Log.log(Log.LEVEL.ERROR, Messages.getString("MapGenerator.26"), "MapGenerator"); //$NON-NLS-1$ //$NON-NLS-2$
+            Log.error(Messages.getString("MapGenerator.26"), "MapGenerator"); //$NON-NLS-1$ //$NON-NLS-2$
             return;
         }
 
@@ -895,7 +895,7 @@ public class EventData implements Externalizable {
         }
 
         if (sd.type == null || sd.type.trim().isEmpty()) {
-            Log.log(Log.LEVEL.ERROR, Messages.getString("MapGenerator.13"), "MapGenerator"); //$NON-NLS-1$ //$NON-NLS-2$
+            Log.error(Messages.getString("MapGenerator.13"), "MapGenerator"); //$NON-NLS-1$ //$NON-NLS-2$
             return;
         }
 
@@ -1040,7 +1040,7 @@ public class EventData implements Externalizable {
         if (iSpecialType == MapGeneratorItem.SPECIAL_INT_NONE) {
             TerrainManagerItem tmi = TerrainManager.getItem(sd.type);
             if (tmi == null) {
-                Log.log(Log.LEVEL.ERROR, Messages.getString("MapGenerator.5") + sd.type + "]", "MapGenerator"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                Log.error(Messages.getString("MapGenerator.5") + sd.type + "]", "MapGenerator"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 return;
             }
             iTerrainID = tmi.getTerrainID();
@@ -1281,7 +1281,7 @@ public class EventData implements Externalizable {
         }
 
         if (cd.destination == null || cd.destination.isEmpty() || (cd.iHeightMin > cd.iHeightMax && cd.iHeightMax != -1)) {
-            Log.log(Log.LEVEL.ERROR, Messages.getString("MapGenerator.3"), "MapGenerator"); //$NON-NLS-1$ //$NON-NLS-2$
+            Log.error(Messages.getString("MapGenerator.3"), "MapGenerator"); //$NON-NLS-1$ //$NON-NLS-2$
             return;
         }
 
@@ -1293,7 +1293,7 @@ public class EventData implements Externalizable {
             if (tmi != null) {
                 iSourceTerrainID = tmi.getTerrainID();
             } else {
-                Log.log(Log.LEVEL.ERROR, Messages.getString("MapGenerator.5") + cd.source + "]", "MapGenerator"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                Log.error(Messages.getString("MapGenerator.5") + cd.source + "]", "MapGenerator"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 return;
             }
         }
@@ -1303,7 +1303,7 @@ public class EventData implements Externalizable {
         if (iSpecialType == MapGeneratorItem.SPECIAL_INT_NONE && cd.terrain != null) {
             TerrainManagerItem tmi = TerrainManager.getItem(cd.terrain);
             if (tmi == null) {
-                Log.log(Log.LEVEL.ERROR, Messages.getString("MapGenerator.5") + cd.terrain + "]", "MapGenerator"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                Log.error(Messages.getString("MapGenerator.5") + cd.terrain + "]", "MapGenerator"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             } else {
                 iTerrainTerrainID = tmi.getTerrainID();
             }

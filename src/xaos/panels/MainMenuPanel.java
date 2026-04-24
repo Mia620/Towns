@@ -62,14 +62,14 @@ public final class MainMenuPanel implements Runnable {
 
         TextureData textureSMPLogo = UtilsGL.loadTexture(Towns.getPropertiesString(PropertyFile.PROPERTY_FILE_GRAPHICS, "SMP_LOGO_FILE"), GL11.GL_MODULATE); //$NON-NLS-1$
         if (textureSMPLogo == null) {
-            Log.log(Log.LEVEL.ERROR, Messages.getString("MainMenuPanel.21"), getClass().getName()); //$NON-NLS-1$
+            Log.error(Messages.getString("MainMenuPanel.21"), getClass().getName()); //$NON-NLS-1$
             Game.exit();
         }
         TEXTURE_SMP_LOGO_ID = textureSMPLogo.getTextureID();
 
         TextureData textureLoading = UtilsGL.loadTexture(Towns.getPropertiesString(PropertyFile.PROPERTY_FILE_GRAPHICS, "LOADING_FILE"), GL11.GL_REPLACE); //$NON-NLS-1$
         if (textureLoading == null) {
-            Log.log(Log.LEVEL.ERROR, Messages.getString("MainMenuPanel.24"), getClass().getName()); //$NON-NLS-1$
+            Log.error(Messages.getString("MainMenuPanel.24"), getClass().getName()); //$NON-NLS-1$
             Game.exit();
         }
         TEXTURE_LOADING_ID = textureLoading.getTextureID();
@@ -79,7 +79,7 @@ public final class MainMenuPanel implements Runnable {
 
         textureLoading = UtilsGL.loadTexture(Towns.getPropertiesString(PropertyFile.PROPERTY_FILE_GRAPHICS, "TOWNS_LOGO_FILE"), GL11.GL_REPLACE); //$NON-NLS-1$ //$NON-NLS-2$
         if (textureLoading == null) {
-            Log.log(Log.LEVEL.ERROR, Messages.getString("MainMenuPanel.25"), getClass().getName()); //$NON-NLS-1$
+            Log.error(Messages.getString("MainMenuPanel.25"), getClass().getName()); //$NON-NLS-1$
             Game.exit();
         }
 
@@ -107,7 +107,7 @@ public final class MainMenuPanel implements Runnable {
     public void loadMenuTexture(boolean bUnload) {
         final TextureData textureMainMenu = UtilsGL.loadTexture(Towns.getPropertiesString(PropertyFile.PROPERTY_FILE_GRAPHICS, "MAINMENU_BG_FILE"), GL11.GL_REPLACE, true); //$NON-NLS-1$
         if (textureMainMenu == null) {
-            Log.log(Log.LEVEL.ERROR, Messages.getString("MainMenuPanel.0"), getClass().getName()); //$NON-NLS-1$
+            Log.error(Messages.getString("MainMenuPanel.0"), getClass().getName()); //$NON-NLS-1$
             Game.exit();
         }
         TEXTURE_MAIN_MENU_ID = textureMainMenu.getTextureID(); //$NON-NLS-1$ //$NON-NLS-2$

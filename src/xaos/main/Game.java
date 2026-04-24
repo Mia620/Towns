@@ -150,7 +150,7 @@ public final class Game {
             fUserFolder = Utils.createUserFolder(System.getProperty("user.home")); //$NON-NLS-1$
         }
         if (fUserFolder == null) {
-            Log.log(Log.LEVEL.ERROR, Messages.getString("Game.7"), getClass().toString()); //$NON-NLS-1$
+            Log.error(Messages.getString("Game.7"), getClass().toString()); //$NON-NLS-1$
             exit();
         }
         userFolder = fUserFolder.getAbsolutePath();
@@ -341,7 +341,7 @@ public final class Game {
                 getPanelMainMenu().createMenu();
             }
         } else {
-            Log.log(Log.LEVEL.ERROR, Messages.getString("Game.1") + " [" + savegameName + ".zip]", "Game"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+            Log.error(Messages.getString("Game.1") + " [" + savegameName + ".zip]", "Game"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
             Game.exitToMainMenu();
             getPanelMainMenu().setErrorToShow(Messages.getString("Game.1") + " [" + savegameName + ".zip]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             getPanelMainMenu().createMenu();
@@ -399,7 +399,7 @@ public final class Game {
         CommandPanel.initialize(sCampaignID, sMissionID);
         if (TownsProperties.DEBUG_MODE) {
             sLog += (System.currentTimeMillis() - lTime) + "ms)"; //$NON-NLS-1$
-            Log.log(Log.LEVEL.DEBUG, sLog, "Game"); //$NON-NLS-1$
+            Log.debug(sLog, "Game"); //$NON-NLS-1$
         }
 
         // Events
@@ -420,7 +420,7 @@ public final class Game {
         Building.loadBuildings();
         if (TownsProperties.DEBUG_MODE) {
             sLog += (System.currentTimeMillis() - lTime) + "ms)"; //$NON-NLS-1$
-            Log.log(Log.LEVEL.DEBUG, sLog, "Game"); //$NON-NLS-1$
+            Log.debug(sLog, "Game"); //$NON-NLS-1$
             sLog = Messages.getString("Game.12") + " ("; //$NON-NLS-1$ //$NON-NLS-2$
             lTime = System.currentTimeMillis();
         }
@@ -430,7 +430,7 @@ public final class Game {
         LivingEntity.loadLivings();
         if (TownsProperties.DEBUG_MODE) {
             sLog += (System.currentTimeMillis() - lTime) + "ms)"; //$NON-NLS-1$
-            Log.log(Log.LEVEL.DEBUG, sLog, "Game"); //$NON-NLS-1$
+            Log.debug(sLog, "Game"); //$NON-NLS-1$
             sLog = Messages.getString("Game.10") + " ("; //$NON-NLS-1$ //$NON-NLS-2$
             lTime = System.currentTimeMillis();
         }
@@ -443,7 +443,7 @@ public final class Game {
 
         if (TownsProperties.DEBUG_MODE) {
             sLog += (System.currentTimeMillis() - lTime) + "ms)"; //$NON-NLS-1$
-            Log.log(Log.LEVEL.DEBUG, sLog, "Game"); //$NON-NLS-1$
+            Log.debug(sLog, "Game"); //$NON-NLS-1$
         }
 
         // Set ALL A* zone IDs
@@ -462,7 +462,7 @@ public final class Game {
             getWorld().moveFluidsPreNewGame();
             if (TownsProperties.DEBUG_MODE) {
                 sLog += (System.currentTimeMillis() - lTime) + "ms)"; //$NON-NLS-1$
-                Log.log(Log.LEVEL.DEBUG, sLog, "Game"); //$NON-NLS-1$
+                Log.debug(sLog, "Game"); //$NON-NLS-1$
             }
         }
 
@@ -527,7 +527,7 @@ public final class Game {
 
             if (TownsProperties.DEBUG_MODE) {
                 sLog += (System.currentTimeMillis() - lTime) + "ms)"; //$NON-NLS-1$
-                Log.log(Log.LEVEL.DEBUG, sLog, "Game"); //$NON-NLS-1$
+                Log.debug(sLog, "Game"); //$NON-NLS-1$
             }
         }
 
@@ -563,7 +563,7 @@ public final class Game {
 
                 if (missionData == null) {
                     if (bNewGame) {
-                        Log.log(Log.LEVEL.ERROR, Messages.getString("Game.14") + " [" + sCampaignID + "][" + sMissionID + "]", "Game"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+                        Log.debug(Messages.getString("Game.14") + " [" + sCampaignID + "][" + sMissionID + "]", "Game"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
                         Game.exit();
                         // } else {
                         // // Cargando una partida y no encuentra la campa�a, ponemos todo vac�o y pacasa
@@ -1319,7 +1319,7 @@ public final class Game {
 
             ImageIO.write(image, format, file);
         } catch (Exception e) {
-            Log.log(Log.LEVEL.ERROR, Messages.getString("Game.17") + " [" + file.getName() + "]", "Game"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+            Log.debug(Messages.getString("Game.17") + " [" + file.getName() + "]", "Game"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
         }
     }
 
@@ -2158,7 +2158,7 @@ public final class Game {
                 try {
                     Display.setDisplayMode(new DisplayMode(iWidth, iHeight));
                 } catch (LWJGLException ex) {
-                    Log.log(Log.LEVEL.ERROR, "Problem encountered when setting the display mode: " + ex, "Game");
+                    Log.error("Problem encountered when setting the display mode: " + ex, "Game");
                 }
             }
 

@@ -98,7 +98,7 @@ public class PricesManager {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Log.log(Log.LEVEL.ERROR, "Error reading prices.xml [" + e + "]", "PricesManager");
+            Log.error("Error reading prices.xml [" + e + "]", "PricesManager");
             Game.exit();
         }
     }

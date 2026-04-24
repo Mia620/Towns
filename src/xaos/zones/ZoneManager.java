@@ -121,7 +121,7 @@ public class ZoneManager {
                 }
             }
         } catch (Exception e) {
-            Log.log(Log.LEVEL.ERROR, Messages.getString("ZoneManager.0") + " [" + e + "]", "ZoneManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+            Log.error(Messages.getString("ZoneManager.0") + " [" + e + "]", "ZoneManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
             Game.exit();
         }
     }

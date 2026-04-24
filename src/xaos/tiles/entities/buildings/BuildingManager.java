@@ -196,7 +196,7 @@ public class BuildingManager {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Log.log(Log.LEVEL.ERROR, Messages.getString("BuildingManager.5") + sXMLName + Messages.getString("BuildingManager.6") + e + "]", "BuildingManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+            Log.error(Messages.getString("BuildingManager.5") + sXMLName + Messages.getString("BuildingManager.6") + e + "]", "BuildingManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
             Game.exit();
         }
     }

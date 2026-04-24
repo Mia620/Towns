@@ -115,7 +115,7 @@ public final class UtilFont {
             }
 
         } catch (Exception e) {
-            Log.log(Log.LEVEL.ERROR, Messages.getString("UtilFont.0") + " " + e, "UtilFont"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            Log.error(Messages.getString("UtilFont.0") + " " + e, "UtilFont"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             Game.exit();
         }
     }

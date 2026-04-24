@@ -137,7 +137,7 @@ public class Type implements Externalizable {
                     }
 
                     if (bLoadingMain && typeNames.containsKey(sTypeID)) {
-                        Log.log(Log.LEVEL.ERROR, Messages.getString("Type.0") + sTypeID + "]", "Type"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                        Log.error(Messages.getString("Type.0") + sTypeID + "]", "Type"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                     }
                     sName = UtilsXML.getChildValue(nodeList, sTypeID);
 
@@ -155,7 +155,7 @@ public class Type implements Externalizable {
                 }
             }
         } catch (Exception e) {
-            Log.log(Log.LEVEL.ERROR, Messages.getString("Type.3") + e + "]", "Type"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            Log.error(Messages.getString("Type.3") + e + "]", "Type"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             Game.exit();
         }
     }

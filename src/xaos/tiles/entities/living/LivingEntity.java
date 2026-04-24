@@ -154,7 +154,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
                 if (item instanceof MilitaryItem) {
                     equip((MilitaryItem) item);
                 } else {
-                    Log.log(Log.LEVEL.ERROR, Messages.getString("LivingEntity.6") + lemi.getEquip().get(i) + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
+                    Log.error(Messages.getString("LivingEntity.6") + lemi.getEquip().get(i) + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
                 }
             }
         }
@@ -1415,7 +1415,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
             try {
                 return Integer.parseInt(sValue.substring(0, iIndex));
             } catch (Exception e) {
-                Log.log(Log.LEVEL.ERROR, Messages.getString("LivingEntity.0") + sValue + "][" + e + "]", getClass().toString()); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+                Log.error(Messages.getString("LivingEntity.0") + sValue + "][" + e + "]", getClass().toString()); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
                 return 0;
             }
         } else {
@@ -1423,7 +1423,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
             try {
                 return Integer.parseInt(sValue.substring(iIndex + 1));
             } catch (Exception e) {
-                Log.log(Log.LEVEL.ERROR, Messages.getString("LivingEntity.3") + sValue + "][" + e + "]", getClass().toString()); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+                Log.error(Messages.getString("LivingEntity.3") + sValue + "][" + e + "]", getClass().toString()); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
                 return 0;
             }
         }
