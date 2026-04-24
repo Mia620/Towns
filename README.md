@@ -15,6 +15,7 @@ This repository is the result of that decision.
 - Full source code of the game
 - Basic game data (.ini files, .xml files)
 
+
 # Code License
 
 The source code is released under the [GNU GPL v3 license][LICENSE].
@@ -28,11 +29,23 @@ In simple terms:
 See the [LICENSE][] file for the full text.
 
 
+# Original Assets License Notice
+
+The original game assets (including graphics, audio, and other media) used by this project are not covered by the same license as the source code.
+
+These assets remain the property of their respective authors and may be subject to separate usage and distribution restrictions. Therefore:
+
+- They must NOT be included in public forks of this repository
+
+This repository only contains code and/or assets that are safe and legal to redistribute under its license.
+
+
 # Contributions & Forks
 
 You are welcome to fork the project, experiment, or create your own versions.
 
 I don’t guarantee reviewing pull requests or maintaining the project, but I’d genuinely enjoy seeing what comes out of it.
+
 
 # Community
 If you build something interesting, feel free to share it on the Discord server.
