@@ -336,60 +336,60 @@ public final class CommandPanel {
                     executeCommand(COMMAND_EXIT_TO_MAIN_MENU, null, null, null, null, 0);
                 }
             } else if (sCommand.equals(COMMAND_MINE)) {
-                Game.createTask(Task.TASK.MINE);
+                Game.createTask(Task.TYPE.MINE);
                 Game.getCurrentTask().setTile(tile, iconType);
                 if (p3dDirect != null) {
                     Game.getCurrentTask().setPoint(p3dDirect);
                     Game.getCurrentTask().setPoint(p3dDirect);
                 }
             } else if (sCommand.equals(COMMAND_MINE_LADDER)) {
-                Game.createTask(Task.TASK.MINE_LADDER);
+                Game.createTask(Task.TYPE.MINE_LADDER);
                 Game.getCurrentTask().setTile(tile, iconType);
                 if (p3dDirect != null) {
                     Game.getCurrentTask().setPoint(p3dDirect);
                     Game.getCurrentTask().setPoint(p3dDirect);
                 }
             } else if (sCommand.equals(COMMAND_DIG)) {
-                Game.createTask(Task.TASK.DIG);
+                Game.createTask(Task.TYPE.DIG);
                 Game.getCurrentTask().setTile(tile, iconType);
                 if (p3dDirect != null) {
                     Game.getCurrentTask().setPoint(p3dDirect);
                     Game.getCurrentTask().setPoint(p3dDirect);
                 }
             } else if (sCommand.equals(COMMAND_CANCEL_ORDER)) {
-                Game.createTask(Task.TASK.CANCEL_ORDER);
+                Game.createTask(Task.TYPE.CANCEL_ORDER);
                 Game.getCurrentTask().setTile(tile, iconType);
                 if (p3dDirect != null) {
                     Game.getCurrentTask().setPoint(p3dDirect);
                     Game.getCurrentTask().setPoint(p3dDirect);
                 }
             } else if (sCommand.equals(COMMAND_WEAR)) {
-                Task task = new Task(Task.TASK.WEAR);
+                Task task = new Task(Task.TYPE.WEAR);
                 task.setTile(tile, iconType);
                 task.setPointIni(p3dDirect);
                 task.setParameter(sParameter);
                 task.setParameter2(sParameter2);
                 Game.getWorld().getTaskManager().addTask(task);
             } else if (sCommand.equals(COMMAND_AUTOEQUIP)) {
-                Task task = new Task(Task.TASK.AUTOEQUIP);
+                Task task = new Task(Task.TYPE.AUTOEQUIP);
                 task.setTile(tile, iconType);
                 task.setParameter(sParameter);
                 Game.getWorld().getTaskManager().addTask(task);
             } else if (sCommand.equals(COMMAND_WEAR_OFF)) {
-                Task task = new Task(Task.TASK.WEAR_OFF);
+                Task task = new Task(Task.TYPE.WEAR_OFF);
                 task.setTile(tile, iconType);
                 task.setPointIni(p3dDirect);
                 Game.getWorld().getTaskManager().addTask(task);
             } else if (sCommand.equals(COMMAND_BUILD)) {
-                Game.createTask(Task.TASK.BUILD, sParameter);
+                Game.createTask(Task.TYPE.BUILD, sParameter);
                 Game.getCurrentTask().setTile(tile, iconType);
             } else if (sCommand.equals(COMMAND_TURN_OFF_NONSTOP)) {
-                Task task = new Task(Task.TASK.TURN_OFF_NON_STOP);
+                Task task = new Task(Task.TYPE.TURN_OFF_NON_STOP);
                 task.setTile(tile, iconType);
                 task.setPointIni(p3dDirect);
                 Game.getWorld().getTaskManager().addTask(task);
             } else if (sCommand.equals(COMMAND_CUSTOM_ACTION)) {
-                Game.createTask(Task.TASK.CUSTOM_ACTION);
+                Game.createTask(Task.TYPE.CUSTOM_ACTION);
                 Game.getCurrentTask().setTile(tile, iconType);
                 Game.getCurrentTask().setParameter(sParameter);
                 Game.getCurrentTask().setParameter2(sParameter2);
@@ -398,30 +398,30 @@ public final class CommandPanel {
                     Game.getCurrentTask().setPoint(p3dDirect);
                 }
             } else if (sCommand.equals(COMMAND_TURN_ON_NONSTOP)) {
-                Task task = new Task(Task.TASK.TURN_ON_NON_STOP);
+                Task task = new Task(Task.TYPE.TURN_ON_NON_STOP);
                 task.setTile(tile, iconType);
                 task.setPointIni(p3dDirect);
                 Game.getWorld().getTaskManager().addTask(task);
             } else if (sCommand.equals(COMMAND_REMOVE_BUILDING_TASK)) {
-                Task task = new Task(Task.TASK.REMOVE_BUILDING_TASK);
+                Task task = new Task(Task.TYPE.REMOVE_BUILDING_TASK);
                 task.setTile(tile, iconType);
                 task.setPointIni(p3dDirect);
                 task.setParameter(sParameter);
                 task.setParameter2(sParameter2);
                 Game.getWorld().getTaskManager().addTask(task);
             } else if (sCommand.equals(COMMAND_DESTROY_BUILDING)) {
-                Task task = new Task(Task.TASK.DESTROY_BUILDING);
+                Task task = new Task(Task.TYPE.DESTROY_BUILDING);
                 task.setTile(tile, iconType);
                 task.setPointIni(p3dDirect);
                 Game.getWorld().getTaskManager().addTask(task);
             } else if (sCommand.equals(COMMAND_QUEUE)) {
-                Task task = new Task(Task.TASK.QUEUE);
+                Task task = new Task(Task.TYPE.QUEUE);
                 task.setTile(tile, iconType);
                 task.setParameter(sParameter);
                 task.setParameter2(sParameter2);
                 Game.getWorld().getTaskManager().addTask(task);
             } else if (sCommand.equals(COMMAND_QUEUE_AND_PLACE)) {
-                Game.createTask(Task.TASK.QUEUE_AND_PLACE, sParameter);
+                Game.createTask(Task.TYPE.QUEUE_AND_PLACE, sParameter);
                 if (tile != null) {
                     Game.getCurrentTask().setTile(tile, iconType);
                 } else {
@@ -431,54 +431,54 @@ public final class CommandPanel {
                     }
                 }
             } else if (sCommand.equals(COMMAND_QUEUE_AND_PLACE_ROW)) {
-                Game.createTask(Task.TASK.QUEUE_AND_PLACE_ROW, sParameter);
+                Game.createTask(Task.TYPE.QUEUE_AND_PLACE_ROW, sParameter);
                 Game.getCurrentTask().setTile(tile, iconType);
             } else if (sCommand.equals(COMMAND_QUEUE_AND_PLACE_AREA)) {
-                Game.createTask(Task.TASK.QUEUE_AND_PLACE_AREA, sParameter);
+                Game.createTask(Task.TYPE.QUEUE_AND_PLACE_AREA, sParameter);
                 Game.getCurrentTask().setTile(tile, iconType);
             } else if (sCommand.equals(COMMAND_CREATE)) {
-                Task task = new Task(Task.TASK.CREATE);
+                Task task = new Task(Task.TYPE.CREATE);
                 task.setTile(tile, iconType);
                 task.setParameter(sParameter);
                 Game.getWorld().getTaskManager().addTask(task);
             } else if (sCommand.equals(COMMAND_CREATE_IN_A_BUILDING)) {
-                Task task = new Task(Task.TASK.CREATE_IN_A_BUILDING);
+                Task task = new Task(Task.TYPE.CREATE_IN_A_BUILDING);
                 task.setTile(tile, iconType);
                 task.setParameter(sParameter);
                 task.setPointIni(p3dDirect);
                 Game.getWorld().getTaskManager().addTask(task);
             } else if (sCommand.equals(COMMAND_CREATE_AND_PLACE)) {
-                Game.createTask(Task.TASK.CREATE_AND_PLACE, sParameter);
+                Game.createTask(Task.TYPE.CREATE_AND_PLACE, sParameter);
                 Game.getCurrentTask().setTile(tile, iconType);
             } else if (sCommand.equals(COMMAND_CREATE_AND_PLACE_ROW)) {
-                Game.createTask(Task.TASK.CREATE_AND_PLACE_ROW, sParameter);
+                Game.createTask(Task.TYPE.CREATE_AND_PLACE_ROW, sParameter);
                 Game.getCurrentTask().setTile(tile, iconType);
             } else if (sCommand.equals(COMMAND_DESTROY_ENTITY)) {
-                Task task = new Task(Task.TASK.DESTROY_ENTITY);
+                Task task = new Task(Task.TYPE.DESTROY_ENTITY);
                 task.setTile(tile, iconType);
                 task.setParameter(sParameter);
                 task.setPointIni(p3dDirect);
                 Game.getWorld().getTaskManager().addTask(task);
             } else if (sCommand.equals(COMMAND_LOCK)) {
-                Task task = new Task(Task.TASK.LOCK);
+                Task task = new Task(Task.TYPE.LOCK);
                 task.setTile(tile, iconType);
                 task.setParameter(sParameter);
                 Game.getWorld().getTaskManager().addTask(task);
             } else if (sCommand.equals(COMMAND_UNLOCK_OPEN)) {
-                Task task = new Task(Task.TASK.UNLOCK_OPEN);
+                Task task = new Task(Task.TYPE.UNLOCK_OPEN);
                 task.setTile(tile, iconType);
                 task.setParameter(sParameter);
                 Game.getWorld().getTaskManager().addTask(task);
             } else if (sCommand.equals(COMMAND_UNLOCK_CLOSE)) {
-                Task task = new Task(Task.TASK.UNLOCK_CLOSE);
+                Task task = new Task(Task.TYPE.UNLOCK_CLOSE);
                 task.setTile(tile, iconType);
                 task.setParameter(sParameter);
                 Game.getWorld().getTaskManager().addTask(task);
             } else if (sCommand.equals(COMMAND_STOCKPILE)) {
-                Game.createTask(Task.TASK.STOCKPILE, sParameter);
+                Game.createTask(Task.TYPE.STOCKPILE, sParameter);
                 Game.getCurrentTask().setTile(tile, iconType);
             } else if (sCommand.equals(COMMAND_DELETE_STOCKPILE)) {
-                Task task = new Task(Task.TASK.DELETE_STOCKPILE);
+                Task task = new Task(Task.TYPE.DELETE_STOCKPILE);
                 task.setTile(tile, iconType);
                 task.setParameter(sParameter);
                 Game.getWorld().getTaskManager().addTask(task);
@@ -687,45 +687,45 @@ public final class CommandPanel {
                     }
                 }
             } else if (sCommand.equals(COMMAND_CONVERT_TO_CIVILIAN)) {
-                Task task = new Task(Task.TASK.CONVERT_TO_CIVILIAN);
+                Task task = new Task(Task.TYPE.CONVERT_TO_CIVILIAN);
                 task.setTile(tile, iconType);
                 task.setParameter(sParameter);
                 Game.getWorld().getTaskManager().addTask(task);
             } else if (sCommand.equals(COMMAND_CONVERT_TO_SOLDIER)) {
-                Task task = new Task(Task.TASK.CONVERT_TO_SOLIDER);
+                Task task = new Task(Task.TYPE.CONVERT_TO_SOLIDER);
                 task.setTile(tile, iconType);
                 task.setParameter(sParameter);
                 Game.getWorld().getTaskManager().addTask(task);
             } else if (sCommand.equals(COMMAND_SOLIDER_SET_STATE)) {
-                Task task = new Task(Task.TASK.SOLIDER_SET_STATE);
+                Task task = new Task(Task.TYPE.SOLIDER_SET_STATE);
                 task.setTile(tile, iconType);
                 task.setParameter(sParameter);
                 task.setParameter2(sParameter2);
                 task.setPointIni(p3dDirect);
                 Game.getWorld().getTaskManager().addTask(task);
             } else if (sCommand.equals(COMMAND_ADD_PATROL_POINT)) {
-                Task task = new Task(Task.TASK.SOLIDER_ADD_PATROL_POINT);
+                Task task = new Task(Task.TYPE.SOLIDER_ADD_PATROL_POINT);
                 task.setTile(tile, iconType);
                 task.setParameter(sParameter);
                 task.setParameter2(sParameter2);
                 task.setPointIni(p3dDirect);
                 Game.getWorld().getTaskManager().addTask(task);
             } else if (sCommand.equals(COMMAND_ADD_PATROL_POINT_GROUP)) {
-                Task task = new Task(Task.TASK.SOLIDER_ADD_PATROL_POINT_GROUP);
+                Task task = new Task(Task.TYPE.SOLIDER_ADD_PATROL_POINT_GROUP);
                 task.setTile(tile, iconType);
                 task.setParameter(sParameter);
                 task.setParameter2(sParameter2);
                 task.setPointIni(p3dDirect);
                 Game.getWorld().getTaskManager().addTask(task);
             } else if (sCommand.equals(COMMAND_REMOVE_PATROL_POINT)) {
-                Task task = new Task(Task.TASK.SOLIDER_REMOVE_PATROL_POINT);
+                Task task = new Task(Task.TYPE.SOLIDER_REMOVE_PATROL_POINT);
                 task.setTile(tile, iconType);
                 task.setParameter(sParameter);
                 task.setParameter2(sParameter2);
                 task.setPointIni(p3dDirect);
                 Game.getWorld().getTaskManager().addTask(task);
             } else if (sCommand.equals(COMMAND_REMOVE_PATROL_POINT_GROUP)) {
-                Task task = new Task(Task.TASK.SOLIDER_REMOVE_PATROL_POINT_GROUP);
+                Task task = new Task(Task.TYPE.SOLIDER_REMOVE_PATROL_POINT_GROUP);
                 task.setTile(tile, iconType);
                 task.setParameter(sParameter);
                 task.setParameter2(sParameter2);
@@ -762,25 +762,25 @@ public final class CommandPanel {
                     }
                 }
             } else if (sCommand.equals(COMMAND_CREATE_ZONE)) {
-                Game.createTask(Task.TASK.CREATE_ZONE, sParameter);
+                Game.createTask(Task.TYPE.CREATE_ZONE, sParameter);
                 Game.getCurrentTask().setTile(tile, iconType);
             } else if (sCommand.equals(COMMAND_DELETE_ZONE)) {
-                Task task = new Task(Task.TASK.DELETE_ZONE);
+                Task task = new Task(Task.TYPE.DELETE_ZONE);
                 task.setTile(tile, iconType);
                 task.setParameter(sParameter);
                 Game.getWorld().getTaskManager().addTask(task);
             } else if (sCommand.equals(COMMAND_EXPAND_ZONE)) {
-                Game.createTask(Task.TASK.EXPAND_ZONE, sParameter);
+                Game.createTask(Task.TYPE.EXPAND_ZONE, sParameter);
                 Game.getCurrentTask().setTile(tile, iconType);
             } else if (sCommand.equals(COMMAND_CHANGE_OWNER)) {
-                Task task = new Task(Task.TASK.CHANGE_OWNER);
+                Task task = new Task(Task.TYPE.CHANGE_OWNER);
                 task.setTile(tile, iconType);
                 task.setParameter(sParameter);
                 task.setParameter2(sParameter2);
                 task.setPointIni(p3dDirect);
                 Game.getWorld().getTaskManager().addTask(task);
             } else if (sCommand.equals(COMMAND_CHANGE_OWNER_GROUP)) {
-                Task task = new Task(Task.TASK.CHANGE_OWNER_GROUP);
+                Task task = new Task(Task.TYPE.CHANGE_OWNER_GROUP);
                 task.setTile(tile, iconType);
                 task.setParameter(sParameter);
                 task.setParameter2(sParameter2);
@@ -791,7 +791,7 @@ public final class CommandPanel {
                 // As� que buscamos las coordenadas actuales de la living
                 LivingEntity le = World.getLivingEntityByID(Integer.parseInt(sParameter2));
                 if (le != null) {
-                    Game.createTask(Task.TASK.CUSTOM_ACTION);
+                    Game.createTask(Task.TYPE.CUSTOM_ACTION);
                     Game.getCurrentTask().setTile(tile, iconType);
                     Game.getCurrentTask().setParameter(sParameter);
                     Game.getCurrentTask().setParameter2(sParameter2);
@@ -803,7 +803,7 @@ public final class CommandPanel {
                 // As� que buscamos las coordenadas actuales de la living
                 Item it = Item.getItemByID(Integer.parseInt(sParameter2));
                 if (it != null) {
-                    Game.createTask(Task.TASK.CUSTOM_ACTION);
+                    Game.createTask(Task.TYPE.CUSTOM_ACTION);
                     Game.getCurrentTask().setTile(tile, iconType);
                     Game.getCurrentTask().setParameter(sParameter);
                     Game.getCurrentTask().setParameter2(sParameter2);
@@ -839,20 +839,20 @@ public final class CommandPanel {
                     Game.updateTutorialFlow(TutorialTrigger.TYPE_INT_ICONHIT, TutorialTrigger.ICON_INT_LEVELUP, null);
                 }
             } else if (sCommand.equals(COMMAND_TERRAIN_CHANGE)) {
-                Task task = new Task(Task.TASK.TERRAIN_CHANGE);
+                Task task = new Task(Task.TYPE.TERRAIN_CHANGE);
                 task.setTile(tile, iconType);
                 task.setParameter(sParameter);
                 task.setPointIni(p3dDirect);
                 Game.getWorld().getTaskManager().addTask(task);
             } else if (sCommand.equals(COMMAND_TERRAIN_ADD_FLUID)) {
-                Task task = new Task(Task.TASK.TERRAIN_ADD_FLUID);
+                Task task = new Task(Task.TYPE.TERRAIN_ADD_FLUID);
                 task.setTile(tile, iconType);
                 task.setParameter(sParameter);
                 task.setParameter2(sParameter2);
                 task.setPointIni(p3dDirect);
                 Game.getWorld().getTaskManager().addTask(task);
             } else if (sCommand.equals(COMMAND_TERRAIN_REMOVE_FLUID)) {
-                Task task = new Task(Task.TASK.TERRAIN_REMOVE_FLUID);
+                Task task = new Task(Task.TYPE.TERRAIN_REMOVE_FLUID);
                 task.setTile(tile, iconType);
                 task.setPointIni(p3dDirect);
                 Game.getWorld().getTaskManager().addTask(task);

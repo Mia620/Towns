@@ -5,6 +5,8 @@ IntelliJ.
 - Compiled game seems to work to the best of my testing, though it was minimal
 
 
+I remembered why I dislike Java 
+
 # Towns
 Repository for the [Towns game][]
 

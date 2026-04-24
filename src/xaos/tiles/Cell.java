@@ -2099,7 +2099,7 @@ public class Cell implements Externalizable {
             // Buildings
             if (getBuildingCoordinates() != null) {
                 // Tarea de petar edificio
-                Task task = new Task(Task.TASK.DESTROY_BUILDING);
+                Task task = new Task(Task.TYPE.DESTROY_BUILDING);
                 task.setPointIni(getBuildingCoordinates().toPoint3D());
                 Game.getWorld().getTaskManager().addTask(task);
             }

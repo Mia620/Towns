@@ -717,8 +717,8 @@ public final class TaskManager implements Externalizable {
         Cell cell;
         for (TaskManagerItem taskItem : taskItems) {
             item = taskItem;
-            Task.TASK iTaskType = item.getTask().getTask();
-            if (!item.getTask().isFinished() && (iTaskType == Task.TASK.MINE || iTaskType == Task.TASK.MINE_LADDER)) {
+            Task.TYPE iTaskType = item.getTask().getType();
+            if (!item.getTask().isFinished() && (iTaskType == Task.TYPE.MINE || iTaskType == Task.TYPE.MINE_LADDER)) {
                 ArrayList<HotPoint> alHotpoints = item.getTask().getHotPoints();
                 if (alHotpoints != null && !alHotpoints.isEmpty()) {
                     for (HotPoint alHotpoint : alHotpoints) {
@@ -789,7 +789,7 @@ public final class TaskManager implements Externalizable {
         TaskManagerItem item;
         for (int i = (taskItems.size() - 1); i >= 0; i--) {
             item = taskItems.get(i);
-            if (item.getTask().getTask() == Task.TASK.DESTROY_BUILDING) {
+            if (item.getTask().getType() == Task.TYPE.DESTROY_BUILDING) {
                 // DESTROY BUILDING
 
                 Building building = Building.getBuilding(item.getTask().getPointIni());
@@ -800,7 +800,7 @@ public final class TaskManager implements Externalizable {
                     TaskManagerItem itemAux;
                     for (TaskManagerItem taskItem : taskItems) {
                         itemAux = taskItem;
-                        if (itemAux.getTask().getTask() == Task.TASK.BUILD) {
+                        if (itemAux.getTask().getType() == Task.TYPE.BUILD) {
                             if (itemAux.getTask().getHotPoint(0).getHotPoint().equals(item.getTask().getPointIni())) {
                                 itemAux.getTask().setFinished(true);
                                 break;
@@ -809,12 +809,12 @@ public final class TaskManager implements Externalizable {
                     }
                 }
                 item.getTask().setFinished(true);
-            } else if (item.getTask().getTask() == Task.TASK.TURN_OFF_NON_STOP || item.getTask().getTask() == Task.TASK.TURN_ON_NON_STOP) {
+            } else if (item.getTask().getType() == Task.TYPE.TURN_OFF_NON_STOP || item.getTask().getType() == Task.TYPE.TURN_ON_NON_STOP) {
                 // TURN ON/OFF NON_STOP
 
                 Building building = Building.getBuilding(item.getTask().getPointIni());
                 if (building != null) {
-                    building.setNonStop(item.getTask().getTask() == Task.TASK.TURN_ON_NON_STOP);
+                    building.setNonStop(item.getTask().getType() == Task.TYPE.TURN_ON_NON_STOP);
                 }
                 item.getTask().setFinished(true);
                 // POPO } else if (item.getTask ().getTask () == Task.TASK_TERRAIN_RAISE) {
@@ -825,7 +825,7 @@ public final class TaskManager implements Externalizable {
                 // POPO // TERRAIN LOWER
                 // POPO Terrain.lower (World.getCells (), item.getTask ().getPointIni (), true);
                 // POPO item.getTask ().setFinished (true);
-            } else if (item.getTask().getTask() == Task.TASK.TERRAIN_CHANGE) {
+            } else if (item.getTask().getType() == Task.TYPE.TERRAIN_CHANGE) {
                 // TERRAIN CHANGE
                 Cell cell = World.getCell(item.getTask().getPointIni());
                 // int id = Terrain.getTileHeightID (item.getTask ().getPointIni ().x, item.getTask ().getPointIni ().y, item.getTask ().getPointIni ().z);
@@ -838,7 +838,7 @@ public final class TaskManager implements Externalizable {
                 cell.getTerrain().setTerrainID(tmi.getTerrainID());
                 cell.getTerrain().setTerrainTileID((tmi.getTerrainID() * TerrainManager.SLOPES_INIHEADER.length) + iAdd);
                 item.getTask().setFinished(true);
-            } else if (item.getTask().getTask() == Task.TASK.TERRAIN_ADD_FLUID) {
+            } else if (item.getTask().getType() == Task.TYPE.TERRAIN_ADD_FLUID) {
                 // TERRAIN ADD FLUID
                 Cell cell = World.getCell(item.getTask().getPointIni());
                 int iFluidType = Integer.parseInt(item.getTask().getParameter());
@@ -860,7 +860,7 @@ public final class TaskManager implements Externalizable {
                 World.setRecheckASZID(true);
 
                 item.getTask().setFinished(true);
-            } else if (item.getTask().getTask() == Task.TASK.TERRAIN_REMOVE_FLUID) {
+            } else if (item.getTask().getType() == Task.TYPE.TERRAIN_REMOVE_FLUID) {
                 // TERRAIN REMOVE FLUID
                 Point3D p3d = item.getTask().getPointIni();
                 Cell cell = World.getCell(p3d);
@@ -874,7 +874,7 @@ public final class TaskManager implements Externalizable {
 
                 Cell.mergeZoneID(p3d.x, p3d.y, p3d.z, false);
                 item.getTask().setFinished(true);
-            } else if (item.getTask().getTask() == Task.TASK.DESTROY_ENTITY) {
+            } else if (item.getTask().getType() == Task.TYPE.DESTROY_ENTITY) {
                 // DESTROY ENTITY
 
                 Cell cell = World.getCell(item.getTask().getPointIni());
@@ -882,7 +882,7 @@ public final class TaskManager implements Externalizable {
                     cell.getEntity().delete();
                 }
                 item.getTask().setFinished(true);
-            } else if (item.getTask().getTask() == Task.TASK.CREATE) {
+            } else if (item.getTask().getType() == Task.TYPE.CREATE) {
                 // CREAR UN ITEM SIN ESPECIFICAR EDIFICIO
                 // Primero miramos en qu� edificio se puede construir el item
                 String sItemIniHeader = item.getTask().getParameter();
@@ -939,7 +939,7 @@ public final class TaskManager implements Externalizable {
                 }
 
                 item.getTask().setFinished(true);
-            } else if (item.getTask().getTask() == Task.TASK.QUEUE) {
+            } else if (item.getTask().getType() == Task.TYPE.QUEUE) {
                 // CREAR UNA COLA DE TAREAS
 
                 ActionManagerItem ami = ActionManager.getItem(item.getTask().getParameter());
@@ -952,7 +952,7 @@ public final class TaskManager implements Externalizable {
                 }
 
                 item.getTask().setFinished(true);
-            } else if (item.getTask().getTask() == Task.TASK.CREATE_IN_A_BUILDING) {
+            } else if (item.getTask().getType() == Task.TYPE.CREATE_IN_A_BUILDING) {
                 // PONER UN ITEM EN LA COLA DE UN EDIFICIO
                 // Obtenemos el edificio
                 Building building = Building.getBuilding(item.getTask().getPointIni());
@@ -967,7 +967,7 @@ public final class TaskManager implements Externalizable {
                     building.addItem(it);
                 }
                 item.getTask().setFinished(true);
-            } else if (item.getTask().getTask() == Task.TASK.REMOVE_BUILDING_TASK) {
+            } else if (item.getTask().getType() == Task.TYPE.REMOVE_BUILDING_TASK) {
                 // QUITAR UNA TAREA DE UN EDIFICIO
                 // Obtenemos el edificio
                 Building building = Building.getBuilding(item.getTask().getPointIni());
@@ -985,7 +985,7 @@ public final class TaskManager implements Externalizable {
                     }
                 }
                 item.getTask().setFinished(true);
-            } else if (item.getTask().getTask() == Task.TASK.DELETE_STOCKPILE) {
+            } else if (item.getTask().getType() == Task.TYPE.DELETE_STOCKPILE) {
                 // DELETE STOCKPILE
 
                 Stockpile.deleteStockpile(Integer.parseInt(item.getTask().getParameter()));
@@ -1000,7 +1000,7 @@ public final class TaskManager implements Externalizable {
 //
 //				//Stockpile.disableAll (Integer.parseInt (item.getTask ().getParameter ()), item.getTask ().getParameter2 ());
 //				item.getTask ().setFinished (true);
-            } else if (item.getTask().getTask() == Task.TASK.LOCK) {
+            } else if (item.getTask().getType() == Task.TYPE.LOCK) {
                 // LOCK ITEM
                 Integer itemID = Integer.valueOf(item.getTask().getParameter());
                 Item itemToLock = World.getItems().get(itemID);
@@ -1008,7 +1008,7 @@ public final class TaskManager implements Externalizable {
                     itemToLock.setWallConnectorStatus(Item.FLAG_WALL_CONNECTOR_STATUS_LOCKED_AND_CLOSED, true);
                 }
                 item.getTask().setFinished(true);
-            } else if (item.getTask().getTask() == Task.TASK.UNLOCK_OPEN) {
+            } else if (item.getTask().getType() == Task.TYPE.UNLOCK_OPEN) {
                 // UNLOCK ITEM, OPEN
                 Integer itemID = Integer.valueOf(item.getTask().getParameter());
                 Item itemToUnlock = World.getItems().get(itemID);
@@ -1016,7 +1016,7 @@ public final class TaskManager implements Externalizable {
                     itemToUnlock.setWallConnectorStatus(Item.FLAG_WALL_CONNECTOR_STATUS_UNLOCKED_AND_OPENED, true);
                 }
                 item.getTask().setFinished(true);
-            } else if (item.getTask().getTask() == Task.TASK.UNLOCK_CLOSE) {
+            } else if (item.getTask().getType() == Task.TYPE.UNLOCK_CLOSE) {
                 // UNLOCK ITEM, CLOSE
                 Integer itemID = Integer.valueOf(item.getTask().getParameter());
                 Item itemToUnlock = World.getItems().get(itemID);
@@ -1024,7 +1024,7 @@ public final class TaskManager implements Externalizable {
                     itemToUnlock.setWallConnectorStatus(Item.FLAG_WALL_CONNECTOR_STATUS_UNLOCKED_AND_CLOSED, true);
                 }
                 item.getTask().setFinished(true);
-            } else if (item.getTask().getTask() == Task.TASK.DELETE_ZONE) {
+            } else if (item.getTask().getType() == Task.TYPE.DELETE_ZONE) {
                 // DELETE ZONE
 
                 Zone.deleteZone(Integer.parseInt(item.getTask().getParameter()));
@@ -1080,14 +1080,14 @@ public final class TaskManager implements Externalizable {
 //					container.enableItem (item.getTask ().getParameter2 ());
 //				}
 //				item.getTask ().setFinished (true);
-            } else if (item.getTask().getTask() == Task.TASK.CONVERT_TO_CIVILIAN || item.getTask().getTask() == Task.TASK.CONVERT_TO_SOLIDER) {
+            } else if (item.getTask().getType() == Task.TYPE.CONVERT_TO_CIVILIAN || item.getTask().getType() == Task.TYPE.CONVERT_TO_SOLIDER) {
                 // CONVERTIR UN SOLDADO EN CIVIL O VICEVERSA
                 int citID = Integer.parseInt(item.getTask().getParameter());
 
                 // Puede convertir, lo hacemos
                 Citizen citizen = (Citizen) World.getLivingEntityByID(citID);
-                if (citizen != null && ((citizen.getSoldierData().isSoldier() && item.getTask().getTask() == Task.TASK.CONVERT_TO_CIVILIAN) || (!citizen.getSoldierData().isSoldier() && item.getTask().getTask() == Task.TASK.CONVERT_TO_SOLIDER))) {
-                    if (item.getTask().getTask() == Task.TASK.CONVERT_TO_SOLIDER) {
+                if (citizen != null && ((citizen.getSoldierData().isSoldier() && item.getTask().getType() == Task.TYPE.CONVERT_TO_CIVILIAN) || (!citizen.getSoldierData().isSoldier() && item.getTask().getType() == Task.TYPE.CONVERT_TO_SOLIDER))) {
+                    if (item.getTask().getType() == Task.TYPE.CONVERT_TO_SOLIDER) {
                         // Convertir a soldado, seteamos su soldier data
                         citizen.getSoldierData().setState(SoldierData.STATE_GUARD, -1, citizen.getID());
 
@@ -1117,7 +1117,7 @@ public final class TaskManager implements Externalizable {
                 }
 
                 item.getTask().setFinished(true);
-            } else if (item.getTask().getTask() == Task.TASK.SOLIDER_SET_STATE) {
+            } else if (item.getTask().getType() == Task.TYPE.SOLIDER_SET_STATE) {
                 // CAMBIAR EL ESTADO DE UN SOLDIER
                 int citID = Integer.parseInt(item.getTask().getParameter());
 
@@ -1143,7 +1143,7 @@ public final class TaskManager implements Externalizable {
                 }
 
                 item.getTask().setFinished(true);
-            } else if (item.getTask().getTask() == Task.TASK.SOLIDER_ADD_PATROL_POINT) {
+            } else if (item.getTask().getType() == Task.TYPE.SOLIDER_ADD_PATROL_POINT) {
                 // A�ADIR PUNTO DE PATROL A UN SOLDADO PATROL
                 int citID = Integer.parseInt(item.getTask().getParameter());
                 Citizen citizen = (Citizen) World.getLivingEntityByID(citID);
@@ -1157,7 +1157,7 @@ public final class TaskManager implements Externalizable {
                 }
 
                 item.getTask().setFinished(true);
-            } else if (item.getTask().getTask() == Task.TASK.SOLIDER_ADD_PATROL_POINT_GROUP) {
+            } else if (item.getTask().getType() == Task.TYPE.SOLIDER_ADD_PATROL_POINT_GROUP) {
                 // A�ADIR PUNTO DE PATROL A UN GRUPO PATROL
                 Point3DShort p3dPatrol = item.getTask().getPointIni().toPoint3DShort();
                 if (p3dPatrol != null && World.getCell(p3dPatrol).getAstarZoneID() != -1) {
@@ -1170,7 +1170,7 @@ public final class TaskManager implements Externalizable {
                 }
 
                 item.getTask().setFinished(true);
-            } else if (item.getTask().getTask() == Task.TASK.SOLIDER_REMOVE_PATROL_POINT) {
+            } else if (item.getTask().getType() == Task.TYPE.SOLIDER_REMOVE_PATROL_POINT) {
                 // ELIMINAR PUNTO DE PATROL A UN SOLDADO PATROL
                 int citID = Integer.parseInt(item.getTask().getParameter());
                 Citizen citizen = (Citizen) World.getLivingEntityByID(citID);
@@ -1183,7 +1183,7 @@ public final class TaskManager implements Externalizable {
                 }
 
                 item.getTask().setFinished(true);
-            } else if (item.getTask().getTask() == Task.TASK.SOLIDER_REMOVE_PATROL_POINT_GROUP) {
+            } else if (item.getTask().getType() == Task.TYPE.SOLIDER_REMOVE_PATROL_POINT_GROUP) {
                 // ELIMINAR PUNTO DE PATROL A UN GRUPO PATROL
                 Point3DShort p3dPatrol = item.getTask().getPointIni().toPoint3DShort();
                 int groupID = Integer.parseInt(item.getTask().getParameter());
@@ -1192,7 +1192,7 @@ public final class TaskManager implements Externalizable {
                 sgd.removePatrolPoint(p3dPatrol);
 
                 item.getTask().setFinished(true);
-            } else if (item.getTask().getTask() == Task.TASK.CHANGE_OWNER) {
+            } else if (item.getTask().getType() == Task.TYPE.CHANGE_OWNER) {
                 // Cambiar el propietario de la zona personal
                 int zoneID = Integer.parseInt(item.getTask().getParameter());
                 int citizenID = Integer.parseInt(item.getTask().getParameter2());
@@ -1255,7 +1255,7 @@ public final class TaskManager implements Externalizable {
                 }
 
                 item.getTask().setFinished(true);
-            } else if (item.getTask().getTask() == Task.TASK.CHANGE_OWNER_GROUP) {
+            } else if (item.getTask().getType() == Task.TYPE.CHANGE_OWNER_GROUP) {
                 // Cambiar el GRUPO propietario de la zona
                 int zoneID = Integer.parseInt(item.getTask().getParameter());
                 int groupID = Integer.parseInt(item.getTask().getParameter2());
@@ -1395,7 +1395,7 @@ public final class TaskManager implements Externalizable {
         }
 
         // Ahora van las tareas "normales"
-        assignNormalTasks(hmCitizensSinTarea, citizens, TYPE.OTHER, null);
+        assignNormalTasks(hmCitizensSinTarea, citizens, TaskManager.TYPE.OTHER, null);
 
         Game.iError = 670;
         // Nos hemos "pulido" todas las tareas, miramos si quedan aldeanos libres para las tareas mine/dig, move_caravan, build_building, feed_animals, custom y de haul
@@ -1415,7 +1415,7 @@ public final class TaskManager implements Externalizable {
         boolean bHaulers = true;
         while (iPriorityIndex < ActionPriorityManager.getPrioritiesListSize()) {
             if (iPriorityIndex == iMineDigPriority) {
-                assignNormalTasks(hmCitizensSinTarea, citizens, TYPE.MINE_DIG, ActionPriorityManager.PRIORITY_MINE_DIG);
+                assignNormalTasks(hmCitizensSinTarea, citizens, TaskManager.TYPE.MINE_DIG, ActionPriorityManager.PRIORITY_MINE_DIG);
                 iMineDigPriority = -2; // Esto servir� para saber que ya la hemos tratado
                 iLibres = getNumCitizens(hmCitizensSinTarea);
             } else if (iPriorityIndex == iHaulPriority) {
@@ -1428,15 +1428,15 @@ public final class TaskManager implements Externalizable {
                 }
                 iHaulPriority = -2; // Esto servir� para saber que ya la hemos tratado
             } else if (iPriorityIndex == iFeedAnimalsPriority) {
-                assignNormalTasks(hmCitizensSinTarea, citizens, TYPE.FEED_ANIMALS, ActionPriorityManager.PRIORITY_FEED_ANIMALS);
+                assignNormalTasks(hmCitizensSinTarea, citizens, TaskManager.TYPE.FEED_ANIMALS, ActionPriorityManager.PRIORITY_FEED_ANIMALS);
                 iFeedAnimalsPriority = -2; // Esto servir� para saber que ya la hemos tratado
                 iLibres = getNumCitizens(hmCitizensSinTarea);
             } else if (iPriorityIndex == iTradingPriority) {
-                assignNormalTasks(hmCitizensSinTarea, citizens, TYPE.MOVE_TO_CARAVAN, ActionPriorityManager.PRIORITY_TRADING);
+                assignNormalTasks(hmCitizensSinTarea, citizens, TaskManager.TYPE.MOVE_TO_CARAVAN, ActionPriorityManager.PRIORITY_TRADING);
                 iTradingPriority = -2; // Esto servir� para saber que ya la hemos tratado
                 iLibres = getNumCitizens(hmCitizensSinTarea);
             } else if (iPriorityIndex == iBuildingsPriority) {
-                assignNormalTasks(hmCitizensSinTarea, citizens, TYPE.BUILD, ActionPriorityManager.PRIORITY_BUILD_BUILDINGS);
+                assignNormalTasks(hmCitizensSinTarea, citizens, TaskManager.TYPE.BUILD, ActionPriorityManager.PRIORITY_BUILD_BUILDINGS);
                 iBuildingsPriority = -2; // Esto servir� para saber que ya la hemos tratado
                 iLibres = getNumCitizens(hmCitizensSinTarea);
             } else {
@@ -1457,7 +1457,7 @@ public final class TaskManager implements Externalizable {
         // Si llega aqu� es que tenemos m�s aldeanos
         // Vamos a tratar las cosas por si queda algo
         if (iMineDigPriority != -2) {
-            assignNormalTasks(hmCitizensSinTarea, citizens, TYPE.MINE_DIG, ActionPriorityManager.PRIORITY_MINE_DIG);
+            assignNormalTasks(hmCitizensSinTarea, citizens, TaskManager.TYPE.MINE_DIG, ActionPriorityManager.PRIORITY_MINE_DIG);
             iLibres = getNumCitizens(hmCitizensSinTarea);
             if (iLibres == 0) {
                 return;
@@ -1465,7 +1465,7 @@ public final class TaskManager implements Externalizable {
         }
 
         if (iFeedAnimalsPriority != -2) {
-            assignNormalTasks(hmCitizensSinTarea, citizens, TYPE.FEED_ANIMALS, ActionPriorityManager.PRIORITY_FEED_ANIMALS);
+            assignNormalTasks(hmCitizensSinTarea, citizens, TaskManager.TYPE.FEED_ANIMALS, ActionPriorityManager.PRIORITY_FEED_ANIMALS);
             iLibres = getNumCitizens(hmCitizensSinTarea);
             if (iLibres == 0) {
                 return;
@@ -1473,7 +1473,7 @@ public final class TaskManager implements Externalizable {
         }
 
         if (iTradingPriority != -2) {
-            assignNormalTasks(hmCitizensSinTarea, citizens, TYPE.MOVE_TO_CARAVAN, ActionPriorityManager.PRIORITY_TRADING);
+            assignNormalTasks(hmCitizensSinTarea, citizens, TaskManager.TYPE.MOVE_TO_CARAVAN, ActionPriorityManager.PRIORITY_TRADING);
             iLibres = getNumCitizens(hmCitizensSinTarea);
             if (iLibres == 0) {
                 return;
@@ -1481,7 +1481,7 @@ public final class TaskManager implements Externalizable {
         }
 
         if (iBuildingsPriority != -2) {
-            assignNormalTasks(hmCitizensSinTarea, citizens, TYPE.BUILD, ActionPriorityManager.PRIORITY_BUILD_BUILDINGS);
+            assignNormalTasks(hmCitizensSinTarea, citizens, TaskManager.TYPE.BUILD, ActionPriorityManager.PRIORITY_BUILD_BUILDINGS);
             iLibres = getNumCitizens(hmCitizensSinTarea);
             if (iLibres == 0) {
                 return;
@@ -1530,31 +1530,31 @@ public final class TaskManager implements Externalizable {
             item = taskItem;
 
             // Las tareas de equiparse ya est�n tratadas
-            if (item.getTask().getTask() == Task.TASK.WEAR || item.getTask().getTask() == Task.TASK.WEAR_OFF || item.getTask().getTask() == Task.TASK.AUTOEQUIP) {
+            if (item.getTask().getType() == Task.TYPE.WEAR || item.getTask().getType() == Task.TYPE.WEAR_OFF || item.getTask().getType() == Task.TYPE.AUTOEQUIP) {
                 continue;
             }
 
-            if (iTaskType == TYPE.OTHER) {
+            if (iTaskType == TaskManager.TYPE.OTHER) {
                 // Miramos que sea una tarea distinta
-                if (item.getTask().getTask() == Task.TASK.MINE || item.getTask().getTask() == Task.TASK.MINE_LADDER || item.getTask().getTask() == Task.TASK.BUILD || item.getTask().getTask() == Task.TASK.FOOD_NEEDED || item.getTask().getTask() == Task.TASK.MOVE_TO_CARAVAN) {
+                if (item.getTask().getType() == Task.TYPE.MINE || item.getTask().getType() == Task.TYPE.MINE_LADDER || item.getTask().getType() == Task.TYPE.BUILD || item.getTask().getType() == Task.TYPE.FOOD_NEEDED || item.getTask().getType() == Task.TYPE.MOVE_TO_CARAVAN) {
                     continue;
                 }
             } else {
                 // Miramos s�lo las tareas del tipo pasado
-                if (iTaskType == TYPE.MINE_DIG) {
-                    if (item.getTask().getTask() != Task.TASK.MINE && item.getTask().getTask() != Task.TASK.MINE_LADDER) {
+                if (iTaskType == TaskManager.TYPE.MINE_DIG) {
+                    if (item.getTask().getType() != Task.TYPE.MINE && item.getTask().getType() != Task.TYPE.MINE_LADDER) {
                         continue;
                     }
-                } else if (iTaskType == TYPE.BUILD) {
-                    if (item.getTask().getTask() != Task.TASK.BUILD) {
+                } else if (iTaskType == TaskManager.TYPE.BUILD) {
+                    if (item.getTask().getType() != Task.TYPE.BUILD) {
                         continue;
                     }
-                } else if (iTaskType == TYPE.FEED_ANIMALS) {
-                    if (item.getTask().getTask() != Task.TASK.FOOD_NEEDED) {
+                } else if (iTaskType == TaskManager.TYPE.FEED_ANIMALS) {
+                    if (item.getTask().getType() != Task.TYPE.FOOD_NEEDED) {
                         continue;
                     }
-                } else if (iTaskType == TYPE.MOVE_TO_CARAVAN) {
-                    if (item.getTask().getTask() != Task.TASK.MOVE_TO_CARAVAN) {
+                } else if (iTaskType == TaskManager.TYPE.MOVE_TO_CARAVAN) {
+                    if (item.getTask().getType() != Task.TYPE.MOVE_TO_CARAVAN) {
                         continue;
                     }
                 }
@@ -1562,7 +1562,7 @@ public final class TaskManager implements Externalizable {
 
             // Miramos si es tarea de construcci�n, en ese caso no asignamos aldeano si no hay items (o livings) en el mundo
             //System.out.println (item.getTask ().getParameter () + ", " + item.getTask ().getParameter2 ());
-            if (item.getTask().getTask() == Task.TASK.BUILD) {
+            if (item.getTask().getType() == Task.TYPE.BUILD) {
                 Game.iError = 6671;
                 // Tarea de construcci�n, miramos prerequisitos
                 HotPoint hp = item.getTask().getHotPoint(0); // Punto 0.... las tareas de construcci�n s�lo tienen 1
@@ -1628,7 +1628,7 @@ public final class TaskManager implements Externalizable {
                         // continue;
                     }
                 }
-            } else if (item.getTask().getTask() == Task.TASK.MOVE_TO_CARAVAN) {
+            } else if (item.getTask().getType() == Task.TYPE.MOVE_TO_CARAVAN) {
                 Game.iError = 66711;
                 if (iCurrentCaravanTasks >= MAX_CARAVAN_TASKS) {
                     continue;
@@ -1673,7 +1673,7 @@ public final class TaskManager implements Externalizable {
                     // Si llega aqu� es que todo es ok
                     iCurrentCaravanTasks++;
                 }
-            } else if (item.getTask().getTask() == Task.TASK.FOOD_NEEDED) {
+            } else if (item.getTask().getType() == Task.TYPE.FOOD_NEEDED) {
                 Game.iError = 66712;
 
                 if (item.getTask().getParameter() == null) {
@@ -1782,7 +1782,7 @@ public final class TaskManager implements Externalizable {
                         hPoint3D = hotPoint.getHotPoint();
 
                         // Para evitar stucks raros primero miramos esta casuistica (haul con hotpoint distinto de pointini)
-                        if (item.getTask().getTask() == Task.TASK.HAUL || item.getTask().getTask() == Task.TASK.MOVE_AND_LOCK || item.getTask().getTask() == Task.TASK.PUT_IN_CONTAINER) {
+                        if (item.getTask().getType() == Task.TYPE.HAUL || item.getTask().getType() == Task.TYPE.MOVE_AND_LOCK || item.getTask().getType() == Task.TYPE.PUT_IN_CONTAINER) {
                             if (!hPoint3D.equals(item.getTask().getPointIni()) || (World.getCell(hPoint3D).getAstarZoneID() == -1)) {
                                 item.getTask().setFinished(true);
                                 continue fortasks;
@@ -2381,7 +2381,7 @@ public final class TaskManager implements Externalizable {
                     // Aldeanos encontrados, le metemos la custom action
                     int iIndexCit = getClosestCitizen(p3dDestination, alCits, ami.getPriorityID());
                     if (iIndexCit != -1) {
-                        Task task = new Task(Task.TASK.CUSTOM_ACTION);
+                        Task task = new Task(Task.TYPE.CUSTOM_ACTION);
                         task.setParameter(action.getId());
 
                         citizen = alCits.remove(iIndexCit);
@@ -2441,7 +2441,7 @@ public final class TaskManager implements Externalizable {
 
                 for (Integer integer : citizens) {
                     citizen = (Citizen) World.getLivingEntityByID(integer);
-                    if (citizen.getCurrentTask() != null && (citizen.getCurrentTask().getTask() == Task.TASK.CREATE_AND_PLACE)) {
+                    if (citizen.getCurrentTask() != null && (citizen.getCurrentTask().getType() == Task.TYPE.CREATE_AND_PLACE)) {
                         // Citizen con tarea de create, miramos si es en este edificio
                         if (p3dEntrance.equals(citizen.getCurrentTask().getPointIni())) {
                             // Existe un aldeano operando en el edificio, seguimos con el siguiente edificio
@@ -2464,7 +2464,7 @@ public final class TaskManager implements Externalizable {
                 if (iIndexCit != -1) {
                     // Todo OK
                     // Creamos la tarea
-                    Task task = new Task(Task.TASK.CREATE_AND_PLACE);
+                    Task task = new Task(Task.TYPE.CREATE_AND_PLACE);
                     task.setPointIni(p3dEntrance);
                     task.setPointEnd(p3dEntrance);
                     task.setParameter(building.getItemQueue().get(0).getIniHeader());
@@ -2497,8 +2497,8 @@ public final class TaskManager implements Externalizable {
         Task task;
         for (TaskManagerItem taskItem : taskItems) {
             task = taskItem.getTask();
-            if (task.getTask() == Task.TASK.WEAR) {
-                Game.iError = Task.TASK.WEAR.ordinal();
+            if (task.getType() == Task.TYPE.WEAR) {
+                Game.iError = Task.TYPE.WEAR.ordinal();
                 // Tarea de equiparse, buscamos al aldeano, nos da igual si est� ocupado o no
                 // Comprobamos tambi�n que est� en la zona del item
 
@@ -2537,7 +2537,7 @@ public final class TaskManager implements Externalizable {
                         } else {
                             Game.iError = 920;
                             // No ocioso, si no est� comiendo ni durmiendo ni equip�ndose lo sacamos de su tarea y le metemos la nueva
-                            if (citizen.getCurrentTask() == null || (citizen.getCurrentTask().getTask() != Task.TASK.EAT && citizen.getCurrentTask().getTask() != Task.TASK.SLEEP && citizen.getCurrentTask().getTask() != Task.TASK.WEAR && citizen.getCurrentTask().getTask() != Task.TASK.WEAR_OFF && citizen.getCurrentTask().getTask() != Task.TASK.AUTOEQUIP && citizen.getCurrentTask().getTask() != Task.TASK.DROP && citizen.getCurrentTask().getTask() != Task.TASK.HEAL)) {
+                            if (citizen.getCurrentTask() == null || (citizen.getCurrentTask().getType() != Task.TYPE.EAT && citizen.getCurrentTask().getType() != Task.TYPE.SLEEP && citizen.getCurrentTask().getType() != Task.TYPE.WEAR && citizen.getCurrentTask().getType() != Task.TYPE.WEAR_OFF && citizen.getCurrentTask().getType() != Task.TYPE.AUTOEQUIP && citizen.getCurrentTask().getType() != Task.TYPE.DROP && citizen.getCurrentTask().getType() != Task.TYPE.HEAL)) {
                                 removeCitizen(citizen);
                                 citizen.setCurrentTask(task);
                             }
@@ -2549,8 +2549,8 @@ public final class TaskManager implements Externalizable {
                         MessagesPanel.addMessage(MessagesPanel.TYPE_ANNOUNCEMENT, citizen.getCitizenData().getFullName() + Messages.getString("TaskManager.0"), ColorGL.ORANGE); //$NON-NLS-1$
                     }
                 }
-            } else if (task.getTask() == Task.TASK.WEAR_OFF) {
-                Game.iError = Task.TASK.WEAR_OFF.ordinal();
+            } else if (task.getType() == Task.TYPE.WEAR_OFF) {
+                Game.iError = Task.TYPE.WEAR_OFF.ordinal();
                 // Tarea de desequiparse, buscamos al aldeano, nos da igual si est� ocupado o no
                 // Si que miramos que no tenga carrying
                 // Truquito el pointini.x marca el ID de aldeano, el pointini.y marca el location del item
@@ -2575,7 +2575,7 @@ public final class TaskManager implements Externalizable {
                         }
                     } else {
                         // No ocioso, si no est� comiendo ni bebiendo ni desequip�ndose lo sacamos de su tarea y le metemos la nueva
-                        if (citizen.getCurrentTask() == null || (citizen.getCurrentTask().getTask() != Task.TASK.EAT && citizen.getCurrentTask().getTask() != Task.TASK.SLEEP && citizen.getCurrentTask().getTask() != Task.TASK.WEAR && citizen.getCurrentTask().getTask() != Task.TASK.WEAR_OFF && citizen.getCurrentTask().getTask() != Task.TASK.AUTOEQUIP && citizen.getCurrentTask().getTask() != Task.TASK.DROP && citizen.getCurrentTask().getTask() != Task.TASK.HEAL)) {
+                        if (citizen.getCurrentTask() == null || (citizen.getCurrentTask().getType() != Task.TYPE.EAT && citizen.getCurrentTask().getType() != Task.TYPE.SLEEP && citizen.getCurrentTask().getType() != Task.TYPE.WEAR && citizen.getCurrentTask().getType() != Task.TYPE.WEAR_OFF && citizen.getCurrentTask().getType() != Task.TYPE.AUTOEQUIP && citizen.getCurrentTask().getType() != Task.TYPE.DROP && citizen.getCurrentTask().getType() != Task.TYPE.HEAL)) {
                             if (citizen.getCarrying() == null) {
                                 removeCitizen(citizen);
                                 citizen.setCurrentTask(task);
@@ -2583,8 +2583,8 @@ public final class TaskManager implements Externalizable {
                         }
                     }
                 }
-            } else if (task.getTask() == Task.TASK.AUTOEQUIP) {
-                Game.iError = Task.TASK.AUTOEQUIP.ordinal();
+            } else if (task.getType() == Task.TYPE.AUTOEQUIP) {
+                Game.iError = Task.TYPE.AUTOEQUIP.ordinal();
                 // Tarea virtual de autoequip, buscamos al aldeano, nos da igual si est� ocupado o no
 
                 int iCitID = Integer.parseInt(task.getParameter());
@@ -2609,7 +2609,7 @@ public final class TaskManager implements Externalizable {
                         }
                     } else {
                         // No ocioso, si no est� comiendo ni durmiendo ni cur�ndose ni equip�ndose lo sacamos de su tarea y le metemos la nueva
-                        if (citizen.getCurrentTask() == null || (citizen.getCurrentTask().getTask() != Task.TASK.EAT && citizen.getCurrentTask().getTask() != Task.TASK.SLEEP && citizen.getCurrentTask().getTask() != Task.TASK.WEAR && citizen.getCurrentTask().getTask() != Task.TASK.WEAR_OFF && citizen.getCurrentTask().getTask() != Task.TASK.AUTOEQUIP && citizen.getCurrentTask().getTask() != Task.TASK.DROP && citizen.getCurrentTask().getTask() != Task.TASK.HEAL)) {
+                        if (citizen.getCurrentTask() == null || (citizen.getCurrentTask().getType() != Task.TYPE.EAT && citizen.getCurrentTask().getType() != Task.TYPE.SLEEP && citizen.getCurrentTask().getType() != Task.TYPE.WEAR && citizen.getCurrentTask().getType() != Task.TYPE.WEAR_OFF && citizen.getCurrentTask().getType() != Task.TYPE.AUTOEQUIP && citizen.getCurrentTask().getType() != Task.TYPE.DROP && citizen.getCurrentTask().getType() != Task.TYPE.HEAL)) {
                             removeCitizen(citizen);
                             citizen.setCurrentTask(task);
                         }
@@ -2650,7 +2650,7 @@ public final class TaskManager implements Externalizable {
                         boolean bCitizenConMismaTarea = false;
                         for (Integer integer : citizens) {
                             citizen = (Citizen) World.getLivingEntityByID(integer);
-                            if (citizen.getCurrentTask() != null && citizen.getCurrentTask().getTask() == Task.TASK.REMOVE_FROM_CONTAINER) {
+                            if (citizen.getCurrentTask() != null && citizen.getCurrentTask().getType() == Task.TYPE.REMOVE_FROM_CONTAINER) {
                                 // Aldeano con tarea similar, miramos si es la misma
                                 if (Integer.parseInt(citizen.getCurrentTask().getParameter()) == container.getItemID()) {
                                     // Misma tarea, saltamos
@@ -2663,7 +2663,7 @@ public final class TaskManager implements Externalizable {
                         if (!bCitizenConMismaTarea) {
                             // Si nadie tiene la tarea se la metemos al aldeano m�s cerca del container
                             // Creamos la tarea
-                            Task task = new Task(Task.TASK.REMOVE_FROM_CONTAINER);
+                            Task task = new Task(Task.TYPE.REMOVE_FROM_CONTAINER);
                             task.setParameter(Integer.toString(container.getItemID()));
 
                             // Buscamos el aldeano m�s cercano al container
@@ -2800,7 +2800,7 @@ public final class TaskManager implements Externalizable {
                     boolean bCitizenConMismoHaul = false;
                     for (Integer element : citizens) {
                         citizen = (Citizen) World.getLivingEntityByID(element);
-                        if (citizen.getCurrentTask() != null && (citizen.getCurrentTask().getTask() == Task.TASK.HAUL || citizen.getCurrentTask().getTask() == Task.TASK.PUT_IN_CONTAINER)) {
+                        if (citizen.getCurrentTask() != null && (citizen.getCurrentTask().getType() == Task.TYPE.HAUL || citizen.getCurrentTask().getType() == Task.TYPE.PUT_IN_CONTAINER)) {
                             // Citizen con tarea de haul/putInContainer, miramos si es la misma
                             if (item.getCoordinates().equals(citizen.getCurrentTask().getPointIni()) /* && item.getIniHeader ().equals (citizen.getCurrentTask ().getParameter ()) */) {
                                 // Ya lo est� moviendo alguien
@@ -2834,7 +2834,7 @@ public final class TaskManager implements Externalizable {
                                         boolean bCitizenHauling = false;
                                         for (Integer integer : citizens) {
                                             citizen = (Citizen) World.getLivingEntityByID(integer);
-                                            if (citizen.getCurrentTask() != null && (citizen.getCurrentTask().getTask() == Task.TASK.HAUL || citizen.getCurrentTask().getTask() == Task.TASK.PUT_IN_CONTAINER)) {
+                                            if (citizen.getCurrentTask() != null && (citizen.getCurrentTask().getType() == Task.TYPE.HAUL || citizen.getCurrentTask().getType() == Task.TYPE.PUT_IN_CONTAINER)) {
                                                 // Citizen con tarea de mover en container, miramos si est� llevando algo a esa casilla
                                                 if (itemContainer.getCoordinates().equals(citizen.getCurrentTask().getPointEnd())) {
                                                     // Ya lo est� moviendo alguien
@@ -2849,7 +2849,7 @@ public final class TaskManager implements Externalizable {
                                                 bContainerEncontrado = true;
 
                                                 // Creamos la tarea
-                                                Task task = new Task(Task.TASK.PUT_IN_CONTAINER);
+                                                Task task = new Task(Task.TYPE.PUT_IN_CONTAINER);
                                                 task.setPointIni(item.getCoordinates());
                                                 task.setPointEnd(itemContainer.getCoordinates());
                                                 task.setParameter(item.getIniHeader());
@@ -2895,7 +2895,7 @@ public final class TaskManager implements Externalizable {
                                         boolean bCitizenHauling = false;
                                         for (Integer integer : citizens) {
                                             citizen = (Citizen) World.getLivingEntityByID(integer);
-                                            if (citizen.getCurrentTask() != null && (citizen.getCurrentTask().getTask() == Task.TASK.HAUL || citizen.getCurrentTask().getTask() == Task.TASK.PUT_IN_CONTAINER)) {
+                                            if (citizen.getCurrentTask() != null && (citizen.getCurrentTask().getType() == Task.TYPE.HAUL || citizen.getCurrentTask().getType() == Task.TYPE.PUT_IN_CONTAINER)) {
                                                 // Citizen con tarea de haul, miramos si est� llevando algo a esa casilla
                                                 if (point.equals(citizen.getCurrentTask().getPointEnd())) {
                                                     // Ya lo est� moviendo alguien
@@ -2910,7 +2910,7 @@ public final class TaskManager implements Externalizable {
                                             if (iIndexCit != -1) {
                                                 bStockEncontrada = true;
                                                 // Creamos la tarea
-                                                Task task = new Task(Task.TASK.HAUL);
+                                                Task task = new Task(Task.TYPE.HAUL);
                                                 task.setPointIni(item.getCoordinates());
                                                 task.setPointEnd(point);
                                                 task.setParameter(item.getIniHeader());
@@ -2954,7 +2954,7 @@ public final class TaskManager implements Externalizable {
                                                     int iIndexCit = getClosestCitizen(item.getCoordinates(), alCits, ActionPriorityManager.PRIORITY_HAUL);
 
                                                     if (iIndexCit != -1) {
-                                                        Task task = new Task(Task.TASK.HAUL);
+                                                        Task task = new Task(Task.TYPE.HAUL);
                                                         task.setPointIni(item.getCoordinates());
                                                         task.setPointEnd(new Point3D(x, y, item.getZ()));
                                                         task.setParameter(item.getIniHeader());
@@ -3015,7 +3015,7 @@ public final class TaskManager implements Externalizable {
                                                                     int iIndexCit = getClosestCitizen(item.getCoordinates(), alCits, ActionPriorityManager.PRIORITY_HAUL);
 
                                                                     if (iIndexCit != -1) {
-                                                                        Task task = new Task(Task.TASK.HAUL);
+                                                                        Task task = new Task(Task.TYPE.HAUL);
                                                                         task.setPointIni(item.getCoordinates());
                                                                         task.setPointEnd(new Point3D(x, y, le.getZ()));
                                                                         task.setParameter(item.getIniHeader());

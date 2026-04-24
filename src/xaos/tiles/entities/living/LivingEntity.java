@@ -3362,7 +3362,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
                 // Ha LLEGADO a 0, creamos la tarea de comer, y lo ponemos a -1 (ya que nunca vale 0, s�lo cuando el living no come)
                 setFoodNeededTurns(-1);
 
-                Task taskFood = new Task(Task.TASK.FOOD_NEEDED);
+                Task taskFood = new Task(Task.TYPE.FOOD_NEEDED);
                 taskFood.setPointIni(getCoordinates());
                 taskFood.setPointEnd(getCoordinates());
                 taskFood.setParameter(Integer.toString(getID()));
@@ -3466,7 +3466,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
                     if (cd.getHappinessIdleCounter() <= 0) {
                         if (Game.getWorld().getTurn() % (World.TIME_MODIFIER_HOUR / 2) == 0) {
                             // S�lo restamos happiness si realmente est� idle, no cuando come o duerme
-                            if (cit.getCurrentTask() == null || cit.getCurrentTask().getTask() == Task.TASK.NO_TASK) {
+                            if (cit.getCurrentTask() == null || cit.getCurrentTask().getType() == Task.TYPE.NO_TASK) {
                                 cd.setHappiness(cd.getHappiness() - 1);
                             }
                         }
@@ -3712,7 +3712,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
 
                     if (!bWallConector) {
                         boolean bCamina = false;
-                        if (lemi.getType() != TYPE_CITIZEN || (((Citizen) this).getCurrentTask() == null || ((Citizen) this).getCurrentTask().getTask() != Task.TASK.HEAL)) {
+                        if (lemi.getType() != TYPE_CITIZEN || (((Citizen) this).getCurrentTask() == null || ((Citizen) this).getCurrentTask().getType() != Task.TYPE.HEAL)) {
                             // No hay enemigo, miramos si tenemos enemigo en una casilla al lado (esto evita lo de citizen y enemigo corriendo arriba y abajo sin tocarse)
                             FocusData fd = null;
                             if (lemi.getType() == TYPE_HERO && (getLivingEntityData().getHealthPointsMAXCurrent() / 3) > getLivingEntityData().getHealthPoints()) {
@@ -3771,7 +3771,7 @@ public abstract class LivingEntity extends Entity implements Externalizable {
                                         // Se acaba de mover, si es un citizen con tarea de drop y puede soltar el item, lo soltamos aqu� mismo
                                         if (lemi.getType() == TYPE_CITIZEN) {
                                             Citizen cit = (Citizen) this;
-                                            if (cit.getCurrentTask() != null && cit.getCurrentTask().getTask() == Task.TASK.DROP) {
+                                            if (cit.getCurrentTask() != null && cit.getCurrentTask().getType() == Task.TYPE.DROP) {
                                                 if (cit.getCurrentTask().getParameter() == null || !cit.getCurrentTask().getParameter().equals("P")) {
                                                     Cell cell = World.getCell(point);
                                                     if (cit.checkCellToDrop(cell)) {

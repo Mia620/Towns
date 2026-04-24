@@ -880,21 +880,21 @@ public final class Game {
     }
 
 
-    public static void createTask(Task.TASK task) {
+    public static void createTask(Task.TYPE task) {
         setCurrentState(STATE_CREATING_TASK);
         currentTask = new Task(task);
     }
 
 
-    public static void createTask(Task.TASK taskID, String sParameter) {
+    public static void createTask(Task.TYPE taskID, String sParameter) {
         createTask(taskID);
         currentTask.setParameter(sParameter);
     }
 
 
     public static void taskCreated() {
-        if (getCurrentTask() != null && getCurrentTask().getTask() == Task.TASK.DIG) {
-            getCurrentTask().setTask(Task.TASK.MINE);
+        if (getCurrentTask() != null && getCurrentTask().getType() == Task.TYPE.DIG) {
+            getCurrentTask().setTask(Task.TYPE.MINE);
         }
         world.getTaskManager().addTask(getCurrentTask());
         setCurrentState(Game.STATE_NO_STATE);

@@ -38,12 +38,12 @@ import java.io.ObjectOutput;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-import static xaos.tasks.Task.TASK.*;
+import static xaos.tasks.Task.TYPE.NO_TASK;
 
 public final class Task implements Externalizable {
 
     // Tipos de tarea
-    public enum TASK {
+    public enum TYPE {
         NO_TASK, // Sin tarea
         DIG, // Tarea de digar (mine abajo)
         MINE, // Tarea de minar
@@ -140,7 +140,7 @@ public final class Task implements Externalizable {
     private static final long serialVersionUID = -1621427522490649314L;
     public static int ID_INDEX = 0;
     private int id; // ID
-    private TASK task = NO_TASK; // Tipo de tarea (minar, construir, ...)
+    private TYPE task = NO_TASK; // Tipo de tarea (minar, construir, ...)
     private int state; // Estado actual en la creaci�n de la misma (ej: marcando punto inicial de la zona, ...)
     private Point3D pointIni; // Punto inicial de la zona (tambi�n se usa en el casi de tareas de un solo punto (ej: construir))
     private Point3D pointEnd; // Punto final de la zona
@@ -158,7 +158,7 @@ public final class Task implements Externalizable {
     public Task() {
     }
 
-    public Task(TASK iTask) {
+    public Task(TYPE iTask) {
         setID(ID_INDEX);
         ID_INDEX++;
         setTask(iTask);
@@ -176,7 +176,7 @@ public final class Task implements Externalizable {
             return 1;
         }
 
-        return switch (oTask.getTask()) {
+        return switch (oTask.getType()) {
             case NO_TASK, SLEEP, EAT -> 1;
             //case TASKS.DIG: // No hace falta, un aldeano nunca tendr� esta tarea
             case HAUL, PUT_IN_CONTAINER, MOVE_TO_CARAVAN, FOOD_NEEDED, CUSTOM_ACTION,
@@ -198,7 +198,7 @@ public final class Task implements Externalizable {
             return false;
         }
 
-        return switch (oTask.getTask()) {
+        return switch (oTask.getType()) {
             case NO_TASK, SLEEP, EAT -> false;
             default -> true;
         };
@@ -213,7 +213,7 @@ public final class Task implements Externalizable {
      * @param task
      * @return una lista de puntos adyacentes accesibles
      */
-    public static ArrayList<Point3DShort> getAccesingPoints(int x, int y, int z, TASK task) {
+    public static ArrayList<Point3DShort> getAccesingPoints(int x, int y, int z, TYPE task) {
         ArrayList<Point3DShort> places = new ArrayList<>();
         if (x > 0) {
             if (y > 0) {
@@ -330,11 +330,11 @@ public final class Task implements Externalizable {
      * @para aszi
      * @para task
      */
-    public static ArrayList<Point3DShort> getAccesingPointsMatchingASZI(Point3DShort p3d, int aszi, TASK task) {
+    public static ArrayList<Point3DShort> getAccesingPointsMatchingASZI(Point3DShort p3d, int aszi, TYPE task) {
         return getAccesingPointsMatchingASZI(p3d.x, p3d.y, p3d.z, aszi, task);
     }
 
-    public static ArrayList<Point3DShort> getAccesingPointsMatchingASZI(Point3D p3d, int aszi, TASK task) {
+    public static ArrayList<Point3DShort> getAccesingPointsMatchingASZI(Point3D p3d, int aszi, TYPE task) {
         return getAccesingPointsMatchingASZI(p3d.x, p3d.y, p3d.z, aszi, task);
     }
 
@@ -349,7 +349,7 @@ public final class Task implements Externalizable {
      * pasada
      * @para aszi
      */
-    public static ArrayList<Point3DShort> getAccesingPointsMatchingASZI(int x, int y, int z, int aszi, TASK task) {
+    public static ArrayList<Point3DShort> getAccesingPointsMatchingASZI(int x, int y, int z, int aszi, TYPE task) {
         ArrayList<Point3DShort> places = getAccesingPoints(x, y, z, task);
         ArrayList<Point3DShort> placesOK = new ArrayList<>();
 
@@ -370,18 +370,20 @@ public final class Task implements Externalizable {
         this.id = id;
     }
 
-    public TASK getTask() {
+    public TYPE getType() {
         return task;
     }
 
-    public void setTask(TASK nTask) {
+    public void setTask(TYPE nTask) {
         task = nTask;
 
         switch (task) {
-            case Task.TASK.MINE, Task.TASK.MINE_LADDER, Task.TASK.DIG, Task.TASK.CANCEL_ORDER, Task.TASK.STOCKPILE, Task.TASK.CREATE_ZONE, Task.TASK.EXPAND_ZONE, Task.TASK.CREATE_AND_PLACE_ROW, Task.TASK.QUEUE_AND_PLACE_ROW, Task.TASK.QUEUE_AND_PLACE_AREA, Task.TASK.CUSTOM_ACTION:
+            case TYPE.MINE, TYPE.MINE_LADDER, TYPE.DIG, TYPE.CANCEL_ORDER, TYPE.STOCKPILE, TYPE.CREATE_ZONE,
+                 TYPE.EXPAND_ZONE, TYPE.CREATE_AND_PLACE_ROW, TYPE.QUEUE_AND_PLACE_ROW, TYPE.QUEUE_AND_PLACE_AREA,
+                 TYPE.CUSTOM_ACTION:
                 setState(STATE_CREATING_INIZONE);
                 break;
-            case Task.TASK.BUILD, Task.TASK.CREATE_AND_PLACE, Task.TASK.QUEUE_AND_PLACE:
+            case TYPE.BUILD, TYPE.CREATE_AND_PLACE, TYPE.QUEUE_AND_PLACE:
                 setState(STATE_CREATING_SINGLEPOINT);
                 break;
             default:
@@ -539,7 +541,7 @@ public final class Task implements Externalizable {
 
     public void setPoint(Point3D point) {
         boolean bCheckShift = false;
-        TASK iOldTask = getTask(); // Esto es para que el dig/mine con el shift no se jorobe
+        TYPE iOldTask = getType(); // Esto es para que el dig/mine con el shift no se jorobe
         if (state == STATE_CREATING_INIZONE) {
             setPointIni(point);
             setState(STATE_CREATING_ENDZONE);
@@ -602,29 +604,33 @@ public final class Task implements Externalizable {
     public void setParameter(String parameter) {
         this.parameter = parameter;
 
-        if (task == TASK.QUEUE_AND_PLACE || task == TASK.QUEUE_AND_PLACE_ROW || task == TASK.QUEUE_AND_PLACE_AREA) {
-            // Tarea queue and place, metemos en el parameter el item a crear (para el dibujado mientras lo coloca) y la queueID en el parameter2
-            ActionManagerItem ami = ActionManager.getItem(getParameter());
-            if (ami == null) {
-                Log.log(Log.LEVEL_ERROR, Messages.getString("Task.34") + getParameter() + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
-                Game.deleteCurrentTask();
-                return;
-            }
-            ArrayList<QueueItem> alQueue = ami.getQueue();
-            String sItem = null;
-            for (int i = alQueue.size() - 1; i >= 0; i--) {
-                if (alQueue.get(i).getType() == QueueItem.TYPE_CREATE_ITEM || alQueue.get(i).getType() == QueueItem.TYPE_CREATE_ITEM_BY_TYPE) {
-                    sItem = alQueue.get(i).getValue();
-                    break;
+        switch (task) {
+            case TYPE.QUEUE_AND_PLACE, TYPE.QUEUE_AND_PLACE_ROW, TYPE.QUEUE_AND_PLACE_AREA:
+                // Tarea queue and place, metemos en el parameter el item a crear (para el dibujado mientras lo coloca) y la queueID en el parameter2
+                ActionManagerItem ami = ActionManager.getItem(getParameter());
+                if (ami == null) {
+                    Log.log(Log.LEVEL_ERROR, Messages.getString("Task.34") + getParameter() + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
+                    Game.deleteCurrentTask();
+                    return;
                 }
-            }
+                ArrayList<QueueItem> alQueue = ami.getQueue();
+                String sItem = null;
+                for (int i = alQueue.size() - 1; i >= 0; i--) {
+                    if (alQueue.get(i).getType() == QueueItem.TYPE_CREATE_ITEM || alQueue.get(i).getType() == QueueItem.TYPE_CREATE_ITEM_BY_TYPE) {
+                        sItem = alQueue.get(i).getValue();
+                        break;
+                    }
+                }
 
-            if (sItem != null) {
-                setParameter2(sItem);
-            } else {
-                Log.log(Log.LEVEL_ERROR, Messages.getString("Task.36") + getParameter() + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
-                Game.deleteCurrentTask();
-            }
+                if (sItem != null) {
+                    setParameter2(sItem);
+                } else {
+                    Log.log(Log.LEVEL_ERROR, Messages.getString("Task.36") + getParameter() + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
+                    Game.deleteCurrentTask();
+                }
+                break;
+            default:
+                break;
         }
     }
 
@@ -650,27 +656,31 @@ public final class Task implements Externalizable {
         Task task;
         for (TaskManagerItem alTask : alTasks) {
             task = alTask.getTask();
-            if (task.getTask() == TASK.MINE || task.getTask() == TASK.MINE_LADDER) {
-                // Tarea mine/dig
-                // Miramos los puntos
-                alPoints = task.getHotPoints();
-                for (int p = 0; p < alPoints.size(); p++) {
-                    if (!alPoints.get(p).isFinished()) {
-                        p3dTask = alPoints.get(p).getHotPoint();
+            switch (task.getType()) {
+                case TYPE.MINE, TYPE.MINE_LADDER:
+                    // Tarea mine/dig
+                    // Miramos los puntos
+                    alPoints = task.getHotPoints();
+                    for (int p = 0; p < alPoints.size(); p++) {
+                        if (!alPoints.get(p).isFinished()) {
+                            p3dTask = alPoints.get(p).getHotPoint();
 
-                        for (int t = 0; t < getHotPoints().size(); t++) {
-                            p3dCancel = getHotPoints().get(t).getHotPoint();
+                            for (int t = 0; t < getHotPoints().size(); t++) {
+                                p3dCancel = getHotPoints().get(t).getHotPoint();
 
-                            if (p3dCancel.equals(p3dTask)) {
-                                // Punto encontrado, lo marcamos como finished
-                                Game.getWorld().getTaskManager().setHotPointFinished(task, p);
-                                // Quitamos el flag de tarea de la celda
-                                World.getCell(p3dCancel).setFlagOrders(false);
-                                // El aldeano ya mirar� si el hp est� acabado y se quitar� de la tarea
+                                if (p3dCancel.equals(p3dTask)) {
+                                    // Punto encontrado, lo marcamos como finished
+                                    Game.getWorld().getTaskManager().setHotPointFinished(task, p);
+                                    // Quitamos el flag de tarea de la celda
+                                    World.getCell(p3dCancel).setFlagOrders(false);
+                                    // El aldeano ya mirar� si el hp est� acabado y se quitar� de la tarea
+                                }
                             }
                         }
                     }
-                }
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -792,11 +802,14 @@ public final class Task implements Externalizable {
         }
         short z = (short) getPointIni().z;
 
+        var taskType = this.getType();
+
         Cell cell;
-        if (getTask() == TASK.MINE || getTask() == TASK.DIG || getTask() == TASK.MINE_LADDER || getTask() == TASK.CUSTOM_ACTION || getTask() == TASK.CANCEL_ORDER) {
+        if (taskType == TYPE.MINE || taskType == TYPE.DIG || taskType == TYPE.MINE_LADDER || taskType == TYPE.CUSTOM_ACTION || taskType == TYPE.CANCEL_ORDER) {
             ArrayList<ActionManagerItem> alAmis = new ArrayList<>(); // Con arrays por si se usa lo de 2 (o m�s) acciones en 1 mismo bot�n
             ArrayList<String> alParameters = new ArrayList<>(); // Con arrays por si se usa lo de 2 (o m�s) acciones en 1 mismo bot�n
-            if (getTask() == TASK.CUSTOM_ACTION) {
+
+            if (taskType == TYPE.CUSTOM_ACTION) {
                 String sParameter = getParameter();
                 if (sParameter.contains(",")) { //$NON-NLS-1$
                     StringTokenizer tokenizer = new StringTokenizer(sParameter, ","); //$NON-NLS-1$
@@ -817,16 +830,16 @@ public final class Task implements Externalizable {
                 for (short y = y0; y <= y1; y++) {
                     cell = cells[x][y][getPointIni().z];
 
-                    if (getTask() == TASK.MINE || getTask() == TASK.MINE_LADDER || getTask() == TASK.DIG) {
+                    if (taskType == TYPE.MINE || taskType == TYPE.MINE_LADDER || taskType == TYPE.DIG) {
                         // MINE: Por cada celda minable a�adimos su coordenada a los hotpoints, y alloweds adyacentes a las places
                         // DIG: Se crea tarea de mine de la celda de abajo
-                        if (getTask() == TASK.DIG) {
+                        if (taskType == TYPE.DIG) {
                             if (getPointIni().z < (World.MAP_DEPTH - 2)) {
                                 cell = cells[x][y][getPointIni().z + 1];
                             } else {
                                 continue;
                             }
-                        } else if (getTask() == Task.TASK.MINE || getTask() == Task.TASK.MINE_LADDER) {
+                        } else if (taskType == TYPE.MINE || taskType == TYPE.MINE_LADDER) {
                             if (getPointIni().z >= (World.MAP_DEPTH - 1)) {
                                 continue;
                             }
@@ -834,22 +847,24 @@ public final class Task implements Externalizable {
 
                         if (!cell.getTerrain().hasFluids() && (!cell.isMined()) || !cell.isDiscovered()) {
                             Point3DShort p3d = Point3DShort.getPoolInstance(x, y, cell.getCoordinates().z);
-                            if (!existTaskPoint(getTask(), p3d)) {
+
+                            if (!existTaskPoint(taskType, p3d)) {
                                 // Miramos desde donde se puede acceder
-                                ArrayList<Point3DShort> places = getAccesingPoints(x, y, cell.getCoordinates().z, getTask());
+                                ArrayList<Point3DShort> places = getAccesingPoints(x, y, cell.getCoordinates().z, taskType);
 
                                 addHotPoint(new HotPoint(p3d, places));
                             }
                         }
-                    } else if (getTask() == TASK.CUSTOM_ACTION) {
+                    } else if (taskType == TYPE.CUSTOM_ACTION) {
                         // CUSTOM: Depende del tipo
                         ActionManagerItem ami;
                         String sParameter;
+
                         for (int a = 0; a < alAmis.size(); a++) {
                             ami = alAmis.get(a);
                             sParameter = alParameters.get(a);
                             Entity entity = cell.getEntity();
-                            if (entity != null && entity instanceof Item && ItemManager.getItem(entity.getIniHeader()).getActions().contains(sParameter)) {
+                            if (entity instanceof Item && ItemManager.getItem(entity.getIniHeader()).getActions().contains(sParameter)) {
                                 Action action = new Action(ami.getId());
                                 action.setEntityID(entity.getID());
                                 action.setQueue(ami.getQueue());
@@ -860,6 +875,7 @@ public final class Task implements Externalizable {
                                 // Living?
                                 boolean bLiving = false;
                                 ArrayList<LivingEntity> alLivings = cell.getLivings();
+
                                 if (alLivings != null) {
                                     for (LivingEntity le : alLivings) {
                                         if (LivingEntityManager.getItem(le.getIniHeader()).getActions().contains(sParameter)) {
@@ -876,9 +892,9 @@ public final class Task implements Externalizable {
                                 if (!bLiving) {
                                     // Acci�n de terrain?
                                     if (cell.isMined() && cell.getCoordinates().z < (World.MAP_DEPTH - 1)) {
-
                                         Cell cellUnder = World.getCell(x, y, getPointIni().z + 1);
                                         TerrainManagerItem tmi = TerrainManager.getItemByID(cellUnder.getTerrain().getTerrainID());
+
                                         if (tmi.getActions().contains(sParameter)) {
                                             // Celda posible para acci�n de terrain
                                             boolean bCasillaOcupada = cell.getTerrain().hasFluids() || cell.isFlagOrders();
@@ -887,6 +903,7 @@ public final class Task implements Externalizable {
                                                     Item item = (Item) cell.getEntity();
                                                     if (item != null && item.isOperative()) {
                                                         ItemManagerItem imi = ItemManager.getItem(item.getIniHeader());
+
                                                         if (imi.isWall()) {
                                                             bCasillaOcupada = true;
                                                         }
@@ -895,6 +912,7 @@ public final class Task implements Externalizable {
                                                 if (!bCasillaOcupada) {
                                                     if (cell.hasBuilding()) {
                                                         Building building = Building.getBuilding(cell.getCoordinates());
+
                                                         if (building != null) {
                                                             bCasillaOcupada = true;
                                                         }
@@ -916,7 +934,7 @@ public final class Task implements Externalizable {
                             }
 
                         }
-                    } else if (getTask() == TASK.CANCEL_ORDER) {
+                    } else if (taskType == TYPE.CANCEL_ORDER) {
                         if (cell.isFlagOrders()) {
                             Point3DShort p3d = Point3DShort.getPoolInstance(x, y, z);
                             addHotPoint(new HotPoint(p3d, p3d));
@@ -925,7 +943,7 @@ public final class Task implements Externalizable {
                 }
             }
 
-            if (getTask() == TASK.CANCEL_ORDER) {
+            if (taskType == TYPE.CANCEL_ORDER) {
                 // Miramos si existen tareas dig/mine/custom en el manager
                 // En ese caso miramos si alguno de sus puntos se corresponde con alguno de la lista de puntos a cancelar
                 checkCancelTask(Game.getWorld().getTaskManager().getTaskItems());
@@ -947,11 +965,11 @@ public final class Task implements Externalizable {
                 setMaxCitizens(getHotPoints().size());
             }
 
-        } else if (getTask() == TASK.MOVE_TO_CARAVAN) {
+        } else if (taskType == TYPE.MOVE_TO_CARAVAN) {
             addHotPoint(new HotPoint(getPointIni().toPoint3DShort(), getPointEnd().toPoint3DShort()));
-        } else if (getTask() == TASK.FOOD_NEEDED) {
+        } else if (taskType == TYPE.FOOD_NEEDED) {
             addHotPoint(new HotPoint(getPointIni().toPoint3DShort(), getPointIni().toPoint3DShort()));
-        } else if (getTask() == TASK.BUILD) {
+        } else if (taskType == TYPE.BUILD) {
             // BUILD
             cell = cells[x0][y0][z];
 
@@ -959,10 +977,12 @@ public final class Task implements Externalizable {
             // Excepto las que no forman parte del edificio ya que ahora no tienen porque ser rectangulares
             BuildingManagerItem item = BuildingManager.getItem(getParameter());
             Building building = Building.createBuilding(item);
+
             if (building == null) {
                 Log.log(Log.LEVEL_ERROR, Messages.getString("Task.17") + getParameter() + "]", getClass().getName()); //$NON-NLS-1$ //$NON-NLS-2$
             } else {
                 boolean bAvailableForBuilding = true;
+
                 break1:
                 for (short x = x0; x < (x0 + item.getWidth()); x++) {
                     for (short y = y0; y < (y0 + item.getHeight()); y++) {
@@ -1075,10 +1095,11 @@ public final class Task implements Externalizable {
                     }
                 }
             }
-        } else if (getTask() == TASK.STOCKPILE) {
+        } else if (taskType == TYPE.STOCKPILE) {
             // STOCKPILE: Marcamos las celdas que toca como stockpile
             boolean bStockpileOK = false;
             Stockpile stockpile = new Stockpile(getParameter());
+
             for (short x = x0; x <= x1; x++) {
                 for (short y = y0; y <= y1; y++) {
                     if (Stockpile.isCellAvailableForStockpile(x, y, (short) getPointIni().z)) {
@@ -1104,10 +1125,11 @@ public final class Task implements Externalizable {
             }
 
             // No hay que hacer nada m�s, el Manager de tareas ya se encargar� de crear/asignar tareas de haul
-        } else if (getTask() == TASK.CREATE_ZONE) {
+        } else if (taskType == TYPE.CREATE_ZONE) {
             // ZONE: Marcamos las celdas que toca como zone del tipo pasado
             Zone zone;
             ZoneManagerItem zmi = ZoneManager.getItem(getParameter());
+
             if (zmi != null) {
 
                 if (zmi.getType() == ZoneManagerItem.TYPE_PERSONAL) {
@@ -1197,9 +1219,10 @@ public final class Task implements Externalizable {
             }
 
             // No hay que hacer nada m�s
-        } else if (getTask() == TASK.EXPAND_ZONE) {
+        } else if (taskType == TYPE.EXPAND_ZONE) {
             // EXPAND ZONE
             Zone zone = Zone.getZone(Integer.parseInt(getParameter()));
+
             if (zone != null) {
                 ZoneManagerItem zmi = ZoneManager.getItem(zone.getIniHeader());
                 boolean bZoneOK = Zone.areCellsAvailableForZone(zmi, x0, y0, x1, y1, getPointIni().z, zone);
@@ -1227,12 +1250,12 @@ public final class Task implements Externalizable {
             }
 
             // No hay que hacer nada m�s
-        } else if (getTask() == TASK.CREATE_AND_PLACE || getTask() == TASK.QUEUE_AND_PLACE) {
+        } else if (taskType == TYPE.CREATE_AND_PLACE || taskType == TYPE.QUEUE_AND_PLACE) {
             // CREATE: Miramos si en la casilla indicada se puede meter el item y, si no existe item, que tengamos un edificio
             cell = cells[x0][y0][z];
 
             ItemManagerItem imi;
-            if (getTask() == TASK.QUEUE_AND_PLACE) {
+            if (taskType == TYPE.QUEUE_AND_PLACE) {
                 imi = ItemManager.getItem(getParameter2());
             } else {
                 imi = ItemManager.getItem(getParameter());
@@ -1305,12 +1328,12 @@ public final class Task implements Externalizable {
                                                 // Caso especial, ladders, estos van en una casilla digada, entonces el A*ZI ser� distinto
                                                 // Hay que mirar si las casillas adyacentes (desde donde se colocar�) son accesibles
                                                 if (ItemManager.getItem(itemAux.getIniHeader()).canBeBuiltOnHoles()) {
-                                                    ArrayList<Point3DShort> alPoints = getAccesingPointsMatchingASZI(x0, y0, z, iItemASZID, getTask());
+                                                    ArrayList<Point3DShort> alPoints = getAccesingPointsMatchingASZI(x0, y0, z, iItemASZID, taskType);
                                                     if (!alPoints.isEmpty()) {
                                                         // De guais, tenemos casillas accesibles en la misma zona que el item
                                                         // Creamos una tarea de MOVE (como las haul pero persistentes)
                                                         bItemEnElMundo = true;
-                                                        Task task = new Task(TASK.MOVE_AND_LOCK);
+                                                        Task task = new Task(TYPE.MOVE_AND_LOCK);
                                                         task.setPointIni(itemAux.getCoordinates().toPoint3D());
 
                                                         task.setPointEnd(new Point3D(x0, y0, z));
@@ -1328,7 +1351,7 @@ public final class Task implements Externalizable {
                                                 } else {
                                                     // Item encontrado !!! Creamos una tarea de MOVE (como las haul pero persistentes)
                                                     bItemEnElMundo = true;
-                                                    Task task = new Task(TASK.MOVE_AND_LOCK);
+                                                    Task task = new Task(TYPE.MOVE_AND_LOCK);
                                                     task.setPointIni(itemAux.getCoordinates().toPoint3D());
                                                     task.setPointEnd(new Point3D(x0, y0, z));
 
@@ -1355,7 +1378,7 @@ public final class Task implements Externalizable {
                 if (!bItemEnElMundo) {
                     if (bAvailableForBuilding) {
                         // Aqu� distinguimos entre tarea QUEUE o tarea normal de toda la vida
-                        if (getTask() == TASK.QUEUE_AND_PLACE) {
+                        if (getType() == TYPE.QUEUE_AND_PLACE) {
                             // QUEUE
                             Action action = new Action(getParameter());
                             action.setDestinationPoint(Point3DShort.getPoolInstance(x0, y0, z));
@@ -1400,7 +1423,7 @@ public final class Task implements Externalizable {
                                     // Miramos accesingpoints ya que se construye desde casillas adyacentes
                                     if (ItemManager.getItem(imi.getIniHeader()).canBeBuiltOnHoles()) {
                                         int iBuildingASZID = World.getCell(p3dBuildingAux).getAstarZoneID();
-                                        ArrayList<Point3DShort> alPoints = getAccesingPointsMatchingASZI(x0, y0, z, iBuildingASZID, getTask());
+                                        ArrayList<Point3DShort> alPoints = getAccesingPointsMatchingASZI(x0, y0, z, iBuildingASZID, getType());
                                         if (!alPoints.isEmpty()) {
                                             // Edificio de guais y en la zona del item, miramos la distancia
                                             int iDistanceAux = Utils.getDistance(x0, y0, z, p3dBuildingAux);
@@ -1463,7 +1486,7 @@ public final class Task implements Externalizable {
                 }
 
             }
-        } else if (getTask() == TASK.CREATE_AND_PLACE_ROW) {
+        } else if (getType() == TYPE.CREATE_AND_PLACE_ROW) {
             // Por cada punto de la fila (row) crearemos una tarea de create_and_place
             // Miramos si la fila es horizontal o vertical
             boolean bHorizontal = (x1 - x0) >= (y1 - y0);
@@ -1477,14 +1500,14 @@ public final class Task implements Externalizable {
             if (bHorizontal) {
                 for (int i = x0; i <= x1; i++) {
                     // Creamos tarea de create_and_place
-                    Task taskTmp = new Task(TASK.CREATE_AND_PLACE);
+                    Task taskTmp = new Task(TYPE.CREATE_AND_PLACE);
                     taskTmp.setParameter(getParameter());
                     taskTmp.setPoint(new Point3D(i, (bYSwapped) ? y1 : y0, z));
                 }
             } else {
                 for (int i = y0; i <= y1; i++) {
                     // Creamos tarea de create_and_place
-                    Task taskTmp = new Task(TASK.CREATE_AND_PLACE);
+                    Task taskTmp = new Task(TYPE.CREATE_AND_PLACE);
                     taskTmp.setParameter(getParameter());
                     taskTmp.setPoint(new Point3D((bXSwapped) ? x1 : x0, i, z));
                 }
@@ -1493,7 +1516,7 @@ public final class Task implements Externalizable {
             if (bToggle3D) {
                 MainPanel.toggle3DMouse();
             }
-        } else if (getTask() == TASK.QUEUE_AND_PLACE_ROW) {
+        } else if (getType() == TYPE.QUEUE_AND_PLACE_ROW) {
             // Por cada punto de la fila (row) crearemos una tarea de queue_and_place
             // Miramos si la fila es horizontal o vertical
             boolean bHorizontal = (x1 - x0) >= (y1 - y0);
@@ -1507,14 +1530,14 @@ public final class Task implements Externalizable {
             if (bHorizontal) {
                 for (int i = x0; i <= x1; i++) {
                     // Creamos tarea de queue_and_place
-                    Task taskTmp = new Task(TASK.QUEUE_AND_PLACE);
+                    Task taskTmp = new Task(TYPE.QUEUE_AND_PLACE);
                     taskTmp.setParameter(getParameter());
                     taskTmp.setPoint(new Point3D(i, (bYSwapped) ? y1 : y0, z));
                 }
             } else {
                 for (int i = y0; i <= y1; i++) {
                     // Creamos tarea de create_and_place
-                    Task taskTmp = new Task(TASK.QUEUE_AND_PLACE);
+                    Task taskTmp = new Task(TYPE.QUEUE_AND_PLACE);
                     taskTmp.setParameter(getParameter());
                     taskTmp.setPoint(new Point3D((bXSwapped) ? x1 : x0, i, z));
                 }
@@ -1523,7 +1546,7 @@ public final class Task implements Externalizable {
             if (bToggle3D) {
                 MainPanel.toggle3DMouse();
             }
-        } else if (getTask() == TASK.QUEUE_AND_PLACE_AREA) {
+        } else if (getType() == TYPE.QUEUE_AND_PLACE_AREA) {
             // Por cada punto de la fila (row) y columna (col) crearemos una tarea de queue_and_place
 
             boolean bToggle3D = false;
@@ -1535,7 +1558,7 @@ public final class Task implements Externalizable {
             for (int i = x0; i <= x1; i++) {
                 for (int j = y0; j <= y1; j++) {
                     // Creamos tarea de queue_and_place
-                    Task taskTmp = new Task(TASK.QUEUE_AND_PLACE);
+                    Task taskTmp = new Task(TYPE.QUEUE_AND_PLACE);
                     taskTmp.setParameter(getParameter());
                     taskTmp.setPoint(new Point3D(i, j, z));
                 }
@@ -1571,7 +1594,7 @@ public final class Task implements Externalizable {
      * @param maxCitizens M�ximo de aldeanos
      */
     public void setMaxCitizens(int maxCitizens) {
-        if (maxCitizens > 1 && getTask() == TASK.BUILD) {
+        if (maxCitizens > 1 && getType() == TYPE.BUILD) {
             this.maxCitizens = 1;
         } else {
             this.maxCitizens = maxCitizens;
@@ -1590,7 +1613,7 @@ public final class Task implements Externalizable {
             task = ((Citizen) World.getLivingEntityByID(World.getCitizenIDs().get(i))).getCurrentTask();
             if (task != null) {
                 // Aldeano con tarea, veamos si implica el uso del item pasado
-                if (task.getTask() == TASK.HAUL || task.getTask() == TASK.MOVE_AND_LOCK || task.getTask() == TASK.PUT_IN_CONTAINER) {
+                if (task.getType() == TYPE.HAUL || task.getType() == TYPE.MOVE_AND_LOCK || task.getType() == TYPE.PUT_IN_CONTAINER) {
                     if (task.getPointIni().equals(item.getCoordinates())) {
                         return true;
                     }
@@ -1601,7 +1624,7 @@ public final class Task implements Externalizable {
             task = ((Citizen) World.getLivingEntityByID(World.getSoldierIDs().get(i))).getCurrentTask();
             if (task != null) {
                 // Aldeano con tarea, veamos si implica el uso del item pasado
-                if (task.getTask() == TASK.HAUL || task.getTask() == TASK.MOVE_AND_LOCK || task.getTask() == TASK.PUT_IN_CONTAINER) {
+                if (task.getType() == TYPE.HAUL || task.getType() == TYPE.MOVE_AND_LOCK || task.getType() == TYPE.PUT_IN_CONTAINER) {
                     if (task.getPointIni().equals(item.getCoordinates())) {
                         return true;
                     }
@@ -1613,7 +1636,7 @@ public final class Task implements Externalizable {
         ArrayList<TaskManagerItem> alTasks = Game.getWorld().getTaskManager().getTaskItems();
         for (TaskManagerItem taskManagerItem : alTasks) {
             task = taskManagerItem.getTask();
-            if (task.getTask() == TASK.HAUL || task.getTask() == TASK.MOVE_AND_LOCK || task.getTask() == TASK.PUT_IN_CONTAINER) {
+            if (task.getType() == TYPE.HAUL || task.getType() == TYPE.MOVE_AND_LOCK || task.getType() == TYPE.PUT_IN_CONTAINER) {
                 if (task.getPointIni().equals(item.getCoordinates())) {
                     return true;
                 }
@@ -1623,7 +1646,7 @@ public final class Task implements Externalizable {
         alTasks = Game.getWorld().getTaskManager().getTaskItemsTemp();
         for (TaskManagerItem alTask : alTasks) {
             task = alTask.getTask();
-            if (task.getTask() == TASK.HAUL || task.getTask() == TASK.MOVE_AND_LOCK || task.getTask() == TASK.PUT_IN_CONTAINER) {
+            if (task.getType() == TYPE.HAUL || task.getType() == TYPE.MOVE_AND_LOCK || task.getType() == TYPE.PUT_IN_CONTAINER) {
                 if (task.getPointIni().equals(item.getCoordinates())) {
                     return true;
                 }
@@ -1643,11 +1666,11 @@ public final class Task implements Externalizable {
      * @return true si para un punto de una tarea ya existe otra tarea con el
      * mismo punto
      */
-    private boolean existTaskPoint(TASK task, Point3DShort p3d) {
+    private boolean existTaskPoint(TYPE task, Point3DShort p3d) {
         ArrayList<TaskManagerItem> alTasks = Game.getWorld().getTaskManager().getTaskItems();
         ArrayList<HotPoint> alHPs;
         for (TaskManagerItem alTask : alTasks) {
-            if (alTask.getTask().getTask() == task) {
+            if (alTask.getTask().getType() == task) {
                 alHPs = alTask.getTask().getHotPoints();
                 for (HotPoint alHP : alHPs) {
                     if (alHP.getHotPoint().equals(p3d) && !alHP.isFinished()) {
@@ -1703,7 +1726,7 @@ public final class Task implements Externalizable {
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         id = in.readInt();
-        task = (TASK) in.readObject();
+        task = (TYPE) in.readObject();
         state = in.readInt();
         pointIni = (Point3D) in.readObject();
         pointEnd = (Point3D) in.readObject();

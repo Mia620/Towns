@@ -868,27 +868,27 @@ public final class MainPanel {
                 // Creando tarea de END_ZONE o de SINGLE_POINT (building)
                 int x1 = -1, y1 = -1, x2 = -1, y2 = -1;
                 if (Game.getCurrentTask().getState() == Task.STATE_CREATING_ENDZONE) {
-                    if (Game.getCurrentTask().getTask() == Task.TASK.STOCKPILE) {
+                    if (Game.getCurrentTask().getType() == Task.TYPE.STOCKPILE) {
                         stockpiling = true;
-                    } else if (Game.getCurrentTask().getTask() == Task.TASK.CREATE_ZONE) {
+                    } else if (Game.getCurrentTask().getType() == Task.TYPE.CREATE_ZONE) {
                         zoning = true;
                         zmi = ZoneManager.getItem(Game.getCurrentTask().getParameter());
-                    } else if (Game.getCurrentTask().getTask() == Task.TASK.EXPAND_ZONE) {
+                    } else if (Game.getCurrentTask().getType() == Task.TYPE.EXPAND_ZONE) {
                         zoning = true;
                         expandZone = Zone.getZone(Integer.parseInt(Game.getCurrentTask().getParameter()));
                         zmi = ZoneManager.getItem(expandZone.getIniHeader()); // Usamos el expandzone solo por "performance"
-                    } else if (Game.getCurrentTask().getTask() == Task.TASK.CREATE_AND_PLACE_ROW || Game.getCurrentTask().getTask() == Task.TASK.QUEUE_AND_PLACE_ROW) {
+                    } else if (Game.getCurrentTask().getType() == Task.TYPE.CREATE_AND_PLACE_ROW || Game.getCurrentTask().getType() == Task.TYPE.QUEUE_AND_PLACE_ROW) {
                         rowing = true;
                         bIteming = true;
-                        if (Game.getCurrentTask().getTask() == Task.TASK.QUEUE_AND_PLACE_ROW) {
+                        if (Game.getCurrentTask().getType() == Task.TYPE.QUEUE_AND_PLACE_ROW) {
                             queuing = true;
                         }
-                    } else if (Game.getCurrentTask().getTask() == Task.TASK.QUEUE_AND_PLACE_AREA) {
+                    } else if (Game.getCurrentTask().getType() == Task.TYPE.QUEUE_AND_PLACE_AREA) {
                         bIteming = true;
                         queuing = true;
-                    } else if (Game.getCurrentTask().getTask() == Task.TASK.MINE || Game.getCurrentTask().getTask() == Task.TASK.MINE_LADDER) {
+                    } else if (Game.getCurrentTask().getType() == Task.TYPE.MINE || Game.getCurrentTask().getType() == Task.TYPE.MINE_LADDER) {
                         mining = true;
-                    } else if (Game.getCurrentTask().getTask() == Task.TASK.DIG) {
+                    } else if (Game.getCurrentTask().getType() == Task.TYPE.DIG) {
                         digging = true;
                     }
                     x1 = Game.getCurrentTask().getPointIni().x;
@@ -897,19 +897,19 @@ public final class MainPanel {
                     y2 = pointTileMouse.y;
                 } else if (Game.getCurrentTask().getState() == Task.STATE_CREATING_SINGLEPOINT) {
                     // Single-point
-                    if (Game.getCurrentTask().getTask() == Task.TASK.BUILD || Game.getCurrentTask().getTask() == Task.TASK.CREATE_AND_PLACE || Game.getCurrentTask().getTask() == Task.TASK.QUEUE_AND_PLACE) {
+                    if (Game.getCurrentTask().getType() == Task.TYPE.BUILD || Game.getCurrentTask().getType() == Task.TYPE.CREATE_AND_PLACE || Game.getCurrentTask().getType() == Task.TYPE.QUEUE_AND_PLACE) {
                         // Building
-                        if (Game.getCurrentTask().getTask() == Task.TASK.BUILD) {
+                        if (Game.getCurrentTask().getType() == Task.TYPE.BUILD) {
                             bBuilding = true;
                         } else {
                             bIteming = true;
-                            if (Game.getCurrentTask().getTask() == Task.TASK.QUEUE_AND_PLACE) {
+                            if (Game.getCurrentTask().getType() == Task.TYPE.QUEUE_AND_PLACE) {
                                 queuing = true;
                             }
                         }
                         x1 = pointTileMouse.x;
                         y1 = pointTileMouse.y;
-                        if (Game.getCurrentTask().getTask() == Task.TASK.BUILD) {
+                        if (Game.getCurrentTask().getType() == Task.TYPE.BUILD) {
                             BuildingManagerItem item = BuildingManager.getItem(Game.getCurrentTask().getParameter());
                             if (item != null) {
                                 x2 = x1 + item.getWidth() - 1;
@@ -936,7 +936,7 @@ public final class MainPanel {
                         x1 = x2 = pointTileMouse.x;
                         y1 = y2 = pointTileMouse.y;
 
-                        Log.log(Log.LEVEL_ERROR, Messages.getString("MainPanel.3") + Game.getCurrentTask().getTask() + "]", "MainPanel"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                        Log.log(Log.LEVEL_ERROR, Messages.getString("MainPanel.3") + Game.getCurrentTask().getType() + "]", "MainPanel"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                     }
                 }
 

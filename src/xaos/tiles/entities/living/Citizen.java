@@ -128,7 +128,7 @@ public class Citizen extends LivingEntity implements Externalizable {
 
     private static boolean isCitizenWalkingToFood(Point3DShort p3dItem, int citID, Citizen citizen) {
         Point3DShort p3d;
-        if (citizen.getCurrentTask() != null && citizen.getCurrentTask().getTask() == Task.TASK.EAT) {
+        if (citizen.getCurrentTask() != null && citizen.getCurrentTask().getType() == Task.TYPE.EAT) {
             // Aldeano con tarea de comer
             Point3D p3dFull = citizen.getCurrentTask().getPointIni();
             if (p3dFull != null) {
@@ -242,7 +242,7 @@ public class Citizen extends LivingEntity implements Externalizable {
                             sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, "Happy idle counter " + citizen.getCitizenData().getHappinessIdleCounter(), null, null, null)); //$NON-NLS-1$
                             sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, "LOS " + citizen.getLivingEntityData().getLOSCurrent() + " / " + citizen.getLivingEntityData().getLOSBase(), null, null, null)); //$NON-NLS-1$ //$NON-NLS-2$
                             if (citizen.getCurrentTask() != null) {
-                                sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, "Task ID " + citizen.getCurrentTask().getTask(), null, null, null)); //$NON-NLS-1$
+                                sm.addItem(new SmartMenu(SmartMenu.TYPE_TEXT, "Task ID " + citizen.getCurrentTask().getType(), null, null, null)); //$NON-NLS-1$
 //								if (citizen.getCurrentTask ().getTask () == Task.TASK_MOVE_AND_LOCK) {
 //									System.out.println (citizen.getCurrentTask ().getPointIni ());
 //									System.out.println (citizen.getCurrentTask ().getPointEnd ());
@@ -554,39 +554,39 @@ public class Citizen extends LivingEntity implements Externalizable {
             // Tiene tarea
 
             // Miramos si es tarea de construcci�n
-            if (getCurrentTask().getTask() == Task.TASK.CUSTOM_ACTION) {
+            if (getCurrentTask().getType() == Task.TYPE.CUSTOM_ACTION) {
                 doCustomActionTask();
-            } else if (getCurrentTask().getTask() == Task.TASK.BUILD) {
+            } else if (getCurrentTask().getType() == Task.TYPE.BUILD) {
                 doBuildingTask();
-            } else if (getCurrentTask().getTask() == Task.TASK.HAUL) {
+            } else if (getCurrentTask().getType() == Task.TYPE.HAUL) {
                 doHaulingTask(false, false, false);
-            } else if (getCurrentTask().getTask() == Task.TASK.MOVE_AND_LOCK) {
+            } else if (getCurrentTask().getType() == Task.TYPE.MOVE_AND_LOCK) {
                 doHaulingTask(true, false, true);
-            } else if (getCurrentTask().getTask() == Task.TASK.PUT_IN_CONTAINER) {
+            } else if (getCurrentTask().getType() == Task.TYPE.PUT_IN_CONTAINER) {
                 doHaulingTask(false, true, false);
-            } else if (getCurrentTask().getTask() == Task.TASK.REMOVE_FROM_CONTAINER) {
+            } else if (getCurrentTask().getType() == Task.TYPE.REMOVE_FROM_CONTAINER) {
                 doRemoveFromContainerTask();
-            } else if (getCurrentTask().getTask() == Task.TASK.DROP) {
+            } else if (getCurrentTask().getType() == Task.TYPE.DROP) {
                 doDropTask();
-            } else if (getCurrentTask().getTask() == Task.TASK.MOVE_TO_CARAVAN) {
+            } else if (getCurrentTask().getType() == Task.TYPE.MOVE_TO_CARAVAN) {
                 doMoveToCaravan();
-            } else if (getCurrentTask().getTask() == Task.TASK.FOOD_NEEDED) {
+            } else if (getCurrentTask().getType() == Task.TYPE.FOOD_NEEDED) {
                 doFoodNeeded();
-            } else if (getCurrentTask().getTask() == Task.TASK.CREATE_AND_PLACE) {
+            } else if (getCurrentTask().getType() == Task.TYPE.CREATE_AND_PLACE) {
                 doCreateAndPlaceTask();
-            } else if (getCurrentTask().getTask() == Task.TASK.EAT) {
+            } else if (getCurrentTask().getType() == Task.TYPE.EAT) {
                 doEatTask();
-            } else if (getCurrentTask().getTask() == Task.TASK.HEAL) {
+            } else if (getCurrentTask().getType() == Task.TYPE.HEAL) {
                 doHealTask();
-            } else if (getCurrentTask().getTask() == Task.TASK.SLEEP) {
+            } else if (getCurrentTask().getType() == Task.TYPE.SLEEP) {
                 doSleepTask();
                 // } else if (getCurrentTask ().getTask () == Task.TASK.FIGHT) {
                 // doFightTask ();
-            } else if (getCurrentTask().getTask() == Task.TASK.WEAR) {
+            } else if (getCurrentTask().getType() == Task.TYPE.WEAR) {
                 doWearTask();
-            } else if (getCurrentTask().getTask() == Task.TASK.WEAR_OFF) {
+            } else if (getCurrentTask().getType() == Task.TYPE.WEAR_OFF) {
                 doWearOffTask();
-            } else if (getCurrentTask().getTask() == Task.TASK.AUTOEQUIP) {
+            } else if (getCurrentTask().getType() == Task.TYPE.AUTOEQUIP) {
                 doAutoEquipTask();
             } else {
                 doGenericTask();
@@ -699,14 +699,14 @@ public class Citizen extends LivingEntity implements Externalizable {
         // Obtenemos el punto donde actuar (el hotpoint del hotpoint)
         Point3DShort hotPoint3D = task.getHotPoint(getHotPointIndex()).getHotPoint();
         Cell cell = World.getCell(hotPoint3D);
-        if (task.getTask() == Task.TASK.MINE || task.getTask() == Task.TASK.MINE_LADDER) {
+        if (task.getType() == Task.TYPE.MINE || task.getType() == Task.TYPE.MINE_LADDER) {
             // Minar
             updatePathConstantOffsets();
             updateFacingDirection(getX(), getY(), getZ(), hotPoint3D.x, hotPoint3D.y, hotPoint3D.z);
 
             // Minamos
             if (!cell.isMined()) {
-                cell.getTerrain().mine(hotPoint3D.x, hotPoint3D.y, hotPoint3D.z, task.getTask() == Task.TASK.MINE_LADDER);
+                cell.getTerrain().mine(hotPoint3D.x, hotPoint3D.y, hotPoint3D.z, task.getType() == Task.TYPE.MINE_LADDER);
             }
 
             bReturn = cell.isMined();
@@ -728,7 +728,7 @@ public class Citizen extends LivingEntity implements Externalizable {
      * Borra la tarea actual del ciudadano y los �ndices
      */
     public void resetTaskIndexes() {
-        if (getCurrentTask() != null && getCurrentTask().getTask() == Task.TASK.CUSTOM_ACTION) {
+        if (getCurrentTask() != null && getCurrentTask().getType() == Task.TYPE.CUSTOM_ACTION) {
             boolean bFinished = true;
             // Custom action, si no est� terminada la ponemos en la lista de tareas para que lo haga otro aldeano
             if (!getCurrentTask().isFinished()) {
@@ -1353,7 +1353,7 @@ public class Citizen extends LivingEntity implements Externalizable {
                 boolean bEnDestino = false;
                 // Caso especial, bridges (o items que se ponen desde una casilla anterior al destino)
                 if (getCitizenData().getCarryingData().getCarrying() instanceof Item && ItemManager.getItem(getCitizenData().getCarryingData().getCarrying().getIniHeader()).canBeBuiltOnHoles()) {
-                    ArrayList<Point3DShort> alPoints = Task.getAccesingPointsMatchingASZI(endPoint, World.getCell(x, y, z).getAstarZoneID(), task.getTask());
+                    ArrayList<Point3DShort> alPoints = Task.getAccesingPointsMatchingASZI(endPoint, World.getCell(x, y, z).getAstarZoneID(), task.getType());
                     if (!alPoints.isEmpty()) {
                         // Miramos si estamos en alguna casilla
                         for (Point3DShort alPoint : alPoints) {
@@ -2536,7 +2536,7 @@ public class Citizen extends LivingEntity implements Externalizable {
                 boolean bEnDestino = false;
                 // Caso especial, bridges (o items que se ponen desde una casilla anterior a destino)
                 if (getCitizenData().getCarryingData().getCarrying() instanceof Item && ItemManager.getItem(getCitizenData().getCarryingData().getCarrying().getIniHeader()).canBeBuiltOnHoles()) {
-                    ArrayList<Point3DShort> alPoints = Task.getAccesingPointsMatchingASZI(getCitizenData().getCarryingData().getCarrying().getCoordinates(), World.getCell(x, y, z).getAstarZoneID(), task.getTask());
+                    ArrayList<Point3DShort> alPoints = Task.getAccesingPointsMatchingASZI(getCitizenData().getCarryingData().getCarrying().getCoordinates(), World.getCell(x, y, z).getAstarZoneID(), task.getType());
                     // Miramos si estamos en alguno de los puntos
                     for (Point3DShort alPoint : alPoints) {
                         if (getCoordinates().equals(alPoint)) {
@@ -2571,7 +2571,7 @@ public class Citizen extends LivingEntity implements Externalizable {
                     // Caso especial, puentes (o items que se ponen desde una casilla anterior a destino)
                     // Nos moveremos al primer place adyacente disponible
                     if (getCitizenData().getCarryingData().getCarrying() instanceof Item && ItemManager.getItem(getCitizenData().getCarryingData().getCarrying().getIniHeader()).canBeBuiltOnHoles()) {
-                        ArrayList<Point3DShort> alPoints = Task.getAccesingPointsMatchingASZI(getCitizenData().getCarryingData().getCarrying().getCoordinates(), World.getCell(x, y, z).getAstarZoneID(), task.getTask());
+                        ArrayList<Point3DShort> alPoints = Task.getAccesingPointsMatchingASZI(getCitizenData().getCarryingData().getCarrying().getCoordinates(), World.getCell(x, y, z).getAstarZoneID(), task.getType());
                         if (!alPoints.isEmpty()) {
                             setDestination(alPoints.get(0));
                         } else {
@@ -2625,7 +2625,7 @@ public class Citizen extends LivingEntity implements Externalizable {
                 // Caso especial, puentes (o items que se ponen en desde una casilla anterior a destino)
                 if (getCitizenData().getCarryingData().getCarrying() instanceof Item && ItemManager.getItem(getCitizenData().getCarryingData().getCarrying().getIniHeader()).canBeBuiltOnHoles()) {
                     // Iremos al primer punto accesible
-                    ArrayList<Point3DShort> alPoints = Task.getAccesingPointsMatchingASZI(getCitizenData().getCarryingData().getCarrying().getCoordinates(), World.getCell(x, y, z).getAstarZoneID(), task.getTask());
+                    ArrayList<Point3DShort> alPoints = Task.getAccesingPointsMatchingASZI(getCitizenData().getCarryingData().getCarrying().getCoordinates(), World.getCell(x, y, z).getAstarZoneID(), task.getType());
                     if (!alPoints.isEmpty()) {
                         setDestination(alPoints.get(0));
                     } else {
@@ -2806,7 +2806,7 @@ public class Citizen extends LivingEntity implements Externalizable {
         }
 
         // Creamos la tarea de DROP (se ejecutar� cuando llegue al destino)
-        Task task = new Task(Task.TASK.DROP);
+        Task task = new Task(Task.TYPE.DROP);
         if (bFound) {
             // Ponemos una marca para que no dejen el item a la primera casilla vac�a
             task.setParameter("P");
@@ -2941,7 +2941,7 @@ public class Citizen extends LivingEntity implements Externalizable {
                     boolean bEnDestino = false;
                     // Caso especial, bridges (o items que se ponen desde una casilla anterior a destino)
                     if (getCitizenData().getCarryingData().getCarrying() instanceof Item && ItemManager.getItem(getCitizenData().getCarryingData().getCarrying().getIniHeader()).canBeBuiltOnHoles()) {
-                        ArrayList<Point3DShort> alPoints = Task.getAccesingPointsMatchingASZI(destPoint, World.getCell(getCoordinates()).getAstarZoneID(), getCurrentTask().getTask());
+                        ArrayList<Point3DShort> alPoints = Task.getAccesingPointsMatchingASZI(destPoint, World.getCell(getCoordinates()).getAstarZoneID(), getCurrentTask().getType());
                         // Miramos si estamos en alguno de los puntos
                         for (Point3DShort alPoint : alPoints) {
                             if (getCoordinates().equals(alPoint)) {
@@ -2975,7 +2975,7 @@ public class Citizen extends LivingEntity implements Externalizable {
                         // Caso especial, puentes (o items que se ponen desde una casilla anterior a destino)
                         // Nos moveremos al primer place adyacente disponible
                         if (getCitizenData().getCarryingData().getCarrying() instanceof Item && ItemManager.getItem(getCitizenData().getCarryingData().getCarrying().getIniHeader()).canBeBuiltOnHoles()) {
-                            ArrayList<Point3DShort> alPoints = Task.getAccesingPointsMatchingASZI(destPoint, World.getCell(getCoordinates()).getAstarZoneID(), getCurrentTask().getTask());
+                            ArrayList<Point3DShort> alPoints = Task.getAccesingPointsMatchingASZI(destPoint, World.getCell(getCoordinates()).getAstarZoneID(), getCurrentTask().getType());
                             if (!alPoints.isEmpty()) {
                                 setDestination(alPoints.get(0));
                             } else {
@@ -3777,7 +3777,7 @@ public class Citizen extends LivingEntity implements Externalizable {
                 }
             }
 
-            if (getCurrentTask() == null || (getCurrentTask().getTask() != Task.TASK.EAT)) {
+            if (getCurrentTask() == null || (getCurrentTask().getType() != Task.TYPE.EAT)) {
                 getCitizenData().setHungryEating(getCitizenData().getHungryEating() - 1);
 
                 if (getCitizenData().getHungryEating() < -(2 * World.TIME_MODIFIER_DAY)) { // 2 dias sin comer, muere
@@ -3795,7 +3795,7 @@ public class Citizen extends LivingEntity implements Externalizable {
      */
     protected void checkEatSleep() {
         // Si no tiene tarea o tiene una tarea distinta a comer/dormir
-        if (getCurrentTask() == null || getCurrentTask().getTask() == Task.TASK.BUILD || getCurrentTask().getTask() == Task.TASK.HEAL || getCurrentTask().getTask() == Task.TASK.HAUL || getCurrentTask().getTask() == Task.TASK.MOVE_TO_CARAVAN || getCurrentTask().getTask() == Task.TASK.AUTOEQUIP) {
+        if (getCurrentTask() == null || getCurrentTask().getType() == Task.TYPE.BUILD || getCurrentTask().getType() == Task.TYPE.HEAL || getCurrentTask().getType() == Task.TYPE.HAUL || getCurrentTask().getType() == Task.TYPE.MOVE_TO_CARAVAN || getCurrentTask().getType() == Task.TYPE.AUTOEQUIP) {
             if (getCitizenData().getHungry() == 0) {
                 // Hambriento, si hay comida en el mundo (y no usada por nadie) le metemos la tarea de comer
                 if (Item.searchFood(getCoordinates(), getID()) != null) {
@@ -3809,7 +3809,7 @@ public class Citizen extends LivingEntity implements Externalizable {
                     if (getCarrying() != null) {
                         dropCarryingItem();
                     } else {
-                        setCurrentTask(new Task(Task.TASK.EAT));
+                        setCurrentTask(new Task(Task.TYPE.EAT));
                         getCitizenData().setHungryEating(0);
                     }
 
@@ -3830,7 +3830,7 @@ public class Citizen extends LivingEntity implements Externalizable {
                 }
 
                 // Le asignamos la nueva tarea
-                setCurrentTask(new Task(Task.TASK.SLEEP));
+                setCurrentTask(new Task(Task.TYPE.SLEEP));
                 setPath(null);
                 getCitizenData().setSleepSleeping(0);
                 setShowExclamationTurns(0);
@@ -3868,7 +3868,7 @@ public class Citizen extends LivingEntity implements Externalizable {
                     // }
 
                     // Le metemos la tarea de heal
-                    setCurrentTask(new Task(Task.TASK.HEAL));
+                    setCurrentTask(new Task(Task.TYPE.HEAL));
                     setPath(null);
                     getFocusData().setEntityID(-1);
                     getFocusData().setEntityType(TYPE_UNKNOWN);

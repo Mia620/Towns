@@ -260,7 +260,7 @@ public class CaravanData implements Externalizable {
             smItem = getMenuTownToSell().getItems().get(i);
             for (int q = 0; q < smItem.getDirectCoordinates().y; q++) {
                 // Nueva tarea
-                Task task = new Task(Task.TASK.MOVE_TO_CARAVAN);
+                Task task = new Task(Task.TYPE.MOVE_TO_CARAVAN);
                 task.setParameter(smItem.getParameter()); // Item iniheader
                 task.setPointIni(new Point3D(getLivingId(), smItem.getDirectCoordinates().z, -1)); // Caravan ID y itemID (caso militares)
                 task.setPointEnd(leCaravan.getCoordinates());
