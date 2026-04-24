@@ -44,4 +44,13 @@ public final class Log {
             default:
         }
     }
+
+    public static void debug(String message, String sClass) {
+        Log.log(LEVEL.DEBUG, message, sClass);
+    }
+
+    public static void error(String message, String sClass) {
+        Log.log(LEVEL.ERROR, message, sClass);
+
+    }
 }
