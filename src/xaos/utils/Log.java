@@ -1,11 +1,20 @@
 package xaos.utils;
 
-import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.text.DateFormat;
 import java.util.Calendar;
 
 public final class Log {
+    private static FileOutputStream logFile;
+
+    static {
+        try {
+            logFile = new FileOutputStream("error.log", true);
+        } catch (FileNotFoundException e) {
+            debug("Unable to open log file", e.toString());
+        }
+    }
 
     public enum LEVEL {
         DEBUG,
@@ -13,14 +22,14 @@ public final class Log {
     }
 
     public static void log(LEVEL type, String message, String sClass) {
-        Calendar cal = Calendar.getInstance();
-        DateFormat df = DateFormat.getDateTimeInstance();
         StringBuffer sMessage = new StringBuffer();
-        if (df != null) {
-            sMessage.append("["); //$NON-NLS-1$
-            sMessage.append(df.format(cal.getTime()));
-            sMessage.append("]"); //$NON-NLS-1$
-        }
+
+        // Time block
+        sMessage.append("["); //$NON-NLS-1$
+        sMessage.append(DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime()));
+        sMessage.append("]"); //$NON-NLS-1$
+
+        // Class block
         sMessage.append("["); //$NON-NLS-1$
         sMessage.append(sClass);
         sMessage.append("] "); //$NON-NLS-1$
@@ -32,11 +41,9 @@ public final class Log {
                 break;
             case ERROR:
                 System.err.println(sMessage);
-                File f = new File("error.log"); //$NON-NLS-1$
                 try {
-                    FileOutputStream fos = new FileOutputStream(f, true);
-                    fos.write(("\r\n" + sMessage).getBytes()); //$NON-NLS-1$
-                    fos.close();
+                    logFile.write(("\r\n" + sMessage).getBytes()); //$NON-NLS-1$
+                    logFile.close();
                 } catch (Exception e) {
                     System.err.println(Messages.getString("Log.4")); //$NON-NLS-1$
                 }
