@@ -609,7 +609,7 @@ public final class Task implements Externalizable {
                 // Tarea queue and place, metemos en el parameter el item a crear (para el dibujado mientras lo coloca) y la queueID en el parameter2
                 ActionManagerItem ami = ActionManager.getItem(getParameter());
                 if (ami == null) {
-                    Log.log(Log.LEVEL_ERROR, Messages.getString("Task.34") + getParameter() + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
+                    Log.log(Log.LEVEL.ERROR, Messages.getString("Task.34") + getParameter() + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
                     Game.deleteCurrentTask();
                     return;
                 }
@@ -625,7 +625,7 @@ public final class Task implements Externalizable {
                 if (sItem != null) {
                     setParameter2(sItem);
                 } else {
-                    Log.log(Log.LEVEL_ERROR, Messages.getString("Task.36") + getParameter() + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
+                    Log.log(Log.LEVEL.ERROR, Messages.getString("Task.36") + getParameter() + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
                     Game.deleteCurrentTask();
                 }
                 break;
@@ -804,7 +804,6 @@ public final class Task implements Externalizable {
 
         var taskType = this.getType();
 
-        Cell cell;
         if (taskType == TYPE.MINE || taskType == TYPE.DIG || taskType == TYPE.MINE_LADDER || taskType == TYPE.CUSTOM_ACTION || taskType == TYPE.CANCEL_ORDER) {
             ArrayList<ActionManagerItem> alAmis = new ArrayList<>(); // Con arrays por si se usa lo de 2 (o m�s) acciones en 1 mismo bot�n
             ArrayList<String> alParameters = new ArrayList<>(); // Con arrays por si se usa lo de 2 (o m�s) acciones en 1 mismo bot�n
@@ -828,7 +827,7 @@ public final class Task implements Externalizable {
             // Recorremos todas las celdas de la �rden (o �rdenes)
             for (short x = x0; x <= x1; x++) {
                 for (short y = y0; y <= y1; y++) {
-                    cell = cells[x][y][getPointIni().z];
+                    var cell = cells[x][y][getPointIni().z];
 
                     if (taskType == TYPE.MINE || taskType == TYPE.MINE_LADDER || taskType == TYPE.DIG) {
                         // MINE: Por cada celda minable a�adimos su coordenada a los hotpoints, y alloweds adyacentes a las places
@@ -971,7 +970,7 @@ public final class Task implements Externalizable {
             addHotPoint(new HotPoint(getPointIni().toPoint3DShort(), getPointIni().toPoint3DShort()));
         } else if (taskType == TYPE.BUILD) {
             // BUILD
-            cell = cells[x0][y0][z];
+            //cell = cells[x0][y0][z];
 
             // BUILD: Miramos si la celda es accesible en todas las casillas
             // Excepto las que no forman parte del edificio ya que ahora no tienen porque ser rectangulares
@@ -979,7 +978,7 @@ public final class Task implements Externalizable {
             Building building = Building.createBuilding(item);
 
             if (building == null) {
-                Log.log(Log.LEVEL_ERROR, Messages.getString("Task.17") + getParameter() + "]", getClass().getName()); //$NON-NLS-1$ //$NON-NLS-2$
+                Log.log(Log.LEVEL.ERROR, Messages.getString("Task.17") + getParameter() + "]", getClass().getName()); //$NON-NLS-1$ //$NON-NLS-2$
             } else {
                 boolean bAvailableForBuilding = true;
 
@@ -1013,7 +1012,7 @@ public final class Task implements Externalizable {
 
                     if (p3d == null) {
                         // No deber�a pasar nunca
-                        Log.log(Log.LEVEL_ERROR, Messages.getString("Task.31") + building.getIniHeader() + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
+                        Log.log(Log.LEVEL.ERROR, Messages.getString("Task.31") + building.getIniHeader() + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
                     }
                     addHotPoint(new HotPoint(p3d, p3d));
 
@@ -1057,7 +1056,7 @@ public final class Task implements Externalizable {
 
                                 if (alDrops.isEmpty()) {
                                     // No deber�a pasar
-                                    Log.log(Log.LEVEL_ERROR, Messages.getString("Task.33"), getClass().toString()); //$NON-NLS-1$
+                                    Log.log(Log.LEVEL.ERROR, Messages.getString("Task.33"), getClass().toString()); //$NON-NLS-1$
                                 } else {
                                     itemName = alDrops.get(Utils.getRandomBetween(0, alDrops.size() - 1));
                                 }
@@ -1246,13 +1245,13 @@ public final class Task implements Externalizable {
                     }
                 }
             } else {
-                Log.log(Log.LEVEL_ERROR, Messages.getString("Task.37"), getClass().toString()); //$NON-NLS-1$
+                Log.log(Log.LEVEL.ERROR, Messages.getString("Task.37"), getClass().toString()); //$NON-NLS-1$
             }
 
             // No hay que hacer nada m�s
         } else if (taskType == TYPE.CREATE_AND_PLACE || taskType == TYPE.QUEUE_AND_PLACE) {
             // CREATE: Miramos si en la casilla indicada se puede meter el item y, si no existe item, que tengamos un edificio
-            cell = cells[x0][y0][z];
+            //cell = cells[x0][y0][z];
 
             ItemManagerItem imi;
             if (taskType == TYPE.QUEUE_AND_PLACE) {
@@ -1261,7 +1260,7 @@ public final class Task implements Externalizable {
                 imi = ItemManager.getItem(getParameter());
             }
             if (imi == null) {
-                Log.log(Log.LEVEL_ERROR, Messages.getString("Task.30") + getParameter() + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
+                Log.log(Log.LEVEL.ERROR, Messages.getString("Task.30") + getParameter() + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
             } else {
                 // Miramos si se puede poner el item en todas las casillas (s�lo 1, he borrado el width/height)
                 boolean bAvailableForBuilding = Item.isCellAvailableForItem(imi, x0, y0, z, true, true);

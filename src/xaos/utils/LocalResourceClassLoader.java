@@ -21,7 +21,7 @@ public class LocalResourceClassLoader extends ClassLoader {
             try {
                 return resource.toURI().toURL();
             } catch (MalformedURLException ex) {
-                Log.log(Log.LEVEL_ERROR, "can't convert resource location to URL", "Towns");
+                Log.log(Log.LEVEL.ERROR, "can't convert resource location to URL", "Towns");
             }
         }
         return null;

@@ -936,7 +936,7 @@ public final class MainPanel {
                         x1 = x2 = pointTileMouse.x;
                         y1 = y2 = pointTileMouse.y;
 
-                        Log.log(Log.LEVEL_ERROR, Messages.getString("MainPanel.3") + Game.getCurrentTask().getType() + "]", "MainPanel"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                        Log.log(Log.LEVEL.ERROR, Messages.getString("MainPanel.3") + Game.getCurrentTask().getType() + "]", "MainPanel"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                     }
                 }
 

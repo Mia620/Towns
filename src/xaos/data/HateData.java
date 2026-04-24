@@ -73,10 +73,10 @@ public class HateData {
                             } else if (lemi.getType() == LivingEntity.TYPE_HERO) {
                                 heros.add(token);
                             } else {
-                                Log.log(Log.LEVEL_ERROR, Messages.getString("HateData.1") + token + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
+                                Log.log(Log.LEVEL.ERROR, Messages.getString("HateData.1") + token + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
                             }
                         } else {
-                            Log.log(Log.LEVEL_ERROR, Messages.getString("HateData.3") + token + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
+                            Log.log(Log.LEVEL.ERROR, Messages.getString("HateData.3") + token + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
                         }
                     }
                 }

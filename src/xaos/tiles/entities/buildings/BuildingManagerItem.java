@@ -94,7 +94,7 @@ public class BuildingManagerItem {
     public void setGroundData(String groundData) {
         if (groundData == null || groundData.isEmpty() || groundData.length() != (getWidth() * getHeight()) || groundData.indexOf(Building.GROUND_ENTRANCE) == -1) {
             if (groundData != null && !groundData.isEmpty()) {
-                Log.log(Log.LEVEL_ERROR, Messages.getString("BuildingManagerItem.0") + getIniHeader() + Messages.getString("BuildingManagerItem.1"), getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
+                Log.log(Log.LEVEL.ERROR, Messages.getString("BuildingManagerItem.0") + getIniHeader() + Messages.getString("BuildingManagerItem.1"), getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
             }
 
             // Entrance en la primera casilla

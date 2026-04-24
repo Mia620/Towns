@@ -1057,7 +1057,7 @@ public final class World implements Externalizable {
 
         if (TownsProperties.DEBUG_MODE) {
             sLog += (System.currentTimeMillis() - lTime) + "ms)"; //$NON-NLS-1$
-            Log.log(Log.LEVEL_DEBUG, sLog, getClass().toString());
+            Log.log(Log.LEVEL.DEBUG, sLog, getClass().toString());
             sLog = Messages.getString("World.21") + " ("; //$NON-NLS-1$ //$NON-NLS-2$
             lTime = System.currentTimeMillis();
         }
@@ -1068,7 +1068,7 @@ public final class World implements Externalizable {
         // Generate citizens, friendlies, enemies & projectiles
         if (TownsProperties.DEBUG_MODE) {
             sLog += (System.currentTimeMillis() - lTime) + "ms)"; //$NON-NLS-1$
-            Log.log(Log.LEVEL_DEBUG, sLog, getClass().toString());
+            Log.log(Log.LEVEL.DEBUG, sLog, getClass().toString());
             sLog = Messages.getString("World.8") + " ("; //$NON-NLS-1$ //$NON-NLS-2$
             lTime = System.currentTimeMillis();
         }
@@ -1077,7 +1077,7 @@ public final class World implements Externalizable {
         generateCitizens();
         if (TownsProperties.DEBUG_MODE) {
             sLog += (System.currentTimeMillis() - lTime) + "ms)"; //$NON-NLS-1$
-            Log.log(Log.LEVEL_DEBUG, sLog, getClass().toString());
+            Log.log(Log.LEVEL.DEBUG, sLog, getClass().toString());
             sLog = Messages.getString("World.9") + " ("; //$NON-NLS-1$ //$NON-NLS-2$
             lTime = System.currentTimeMillis();
         }
@@ -1090,7 +1090,7 @@ public final class World implements Externalizable {
         generateHeroes();
         if (TownsProperties.DEBUG_MODE) {
             sLog += (System.currentTimeMillis() - lTime) + "ms)"; //$NON-NLS-1$
-            Log.log(Log.LEVEL_DEBUG, sLog, getClass().toString());
+            Log.log(Log.LEVEL.DEBUG, sLog, getClass().toString());
             sLog = Messages.getString("World.10") + " ("; //$NON-NLS-1$ //$NON-NLS-2$
             lTime = System.currentTimeMillis();
         }
@@ -1099,7 +1099,7 @@ public final class World implements Externalizable {
         generateDungeons(sCampaignID, sMissionID);
         if (TownsProperties.DEBUG_MODE) {
             sLog += (System.currentTimeMillis() - lTime) + "ms)"; //$NON-NLS-1$
-            Log.log(Log.LEVEL_DEBUG, sLog, getClass().toString());
+            Log.log(Log.LEVEL.DEBUG, sLog, getClass().toString());
             sLog = Messages.getString("World.11") + " ("; //$NON-NLS-1$ //$NON-NLS-2$
             lTime = System.currentTimeMillis();
         }
@@ -1108,7 +1108,7 @@ public final class World implements Externalizable {
         LivingEntityGenerator.generateLivingEntities(cells, sCampaignID, sMissionID);
         if (TownsProperties.DEBUG_MODE) {
             sLog += (System.currentTimeMillis() - lTime) + "ms)"; //$NON-NLS-1$
-            Log.log(Log.LEVEL_DEBUG, sLog, getClass().toString());
+            Log.log(Log.LEVEL.DEBUG, sLog, getClass().toString());
         }
 
         projectiles = new ArrayList<>();
@@ -1159,7 +1159,7 @@ public final class World implements Externalizable {
         fluidCellsToProcess = getInitialFluidCheckPoints();
         if (TownsProperties.DEBUG_MODE) {
             sLog += (System.currentTimeMillis() - lTime) + "ms)"; //$NON-NLS-1$
-            Log.log(Log.LEVEL_DEBUG, sLog, getClass().toString());
+            Log.log(Log.LEVEL.DEBUG, sLog, getClass().toString());
         }
         fluidMovedCounter = 0;
         fluidsMoved = false;
@@ -1934,7 +1934,7 @@ public final class World implements Externalizable {
         // }
         if (trys == 0 || p3d == null) {
             // No hemos encontrado punto de inicio, no metemos aldeanos
-            Log.log(Log.LEVEL_ERROR, Messages.getString("World.4"), getClass().toString()); //$NON-NLS-1$
+            Log.log(Log.LEVEL.ERROR, Messages.getString("World.4"), getClass().toString()); //$NON-NLS-1$
             return;
         }
 
@@ -2014,7 +2014,7 @@ public final class World implements Externalizable {
                 }
 
                 if (lemi == null) {
-                    Log.log(Log.LEVEL_ERROR, Messages.getString("World.5") + monsterData.getId() + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
+                    Log.log(Log.LEVEL.ERROR, Messages.getString("World.5") + monsterData.getId() + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
                     Game.exit();
                 }
 
@@ -2753,7 +2753,7 @@ public final class World implements Externalizable {
                                 }
                             } else {
                                 // Zone sin points, muy extra�o
-                                Log.log(Log.LEVEL_ERROR, Messages.getString("World.0"), getClass().toString()); //$NON-NLS-1$
+                                Log.log(Log.LEVEL.ERROR, Messages.getString("World.0"), getClass().toString()); //$NON-NLS-1$
                             }
                         }
                     }
@@ -2792,7 +2792,7 @@ public final class World implements Externalizable {
                                 }
                             } else {
                                 // Zone sin points, muy extra�o
-                                Log.log(Log.LEVEL_ERROR, Messages.getString("World.0"), getClass().toString()); //$NON-NLS-1$
+                                Log.log(Log.LEVEL.ERROR, Messages.getString("World.0"), getClass().toString()); //$NON-NLS-1$
                             }
                         }
                     }
@@ -2915,7 +2915,7 @@ public final class World implements Externalizable {
 
                 // Si llega aqu� es que el item no existe
             } else {
-                Log.log(Log.LEVEL_ERROR, Messages.getString("World.24") + " [" + sItem + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                Log.log(Log.LEVEL.ERROR, Messages.getString("World.24") + " [" + sItem + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             }
             return false;
         }

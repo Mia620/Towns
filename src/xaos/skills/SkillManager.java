@@ -134,7 +134,7 @@ public class SkillManager {
                 }
             }
         } catch (Exception e) {
-            Log.log(Log.LEVEL_ERROR, Messages.getString("SkillManager.0") + e + "]", "SkillManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            Log.log(Log.LEVEL.ERROR, Messages.getString("SkillManager.0") + e + "]", "SkillManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             Game.exit();
         }
     }

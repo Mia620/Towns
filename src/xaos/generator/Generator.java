@@ -30,7 +30,7 @@ public class Generator {
 
             generator.setList(lista);
         } catch (Exception e) {
-            Log.log(Log.LEVEL_ERROR, Messages.getString("Generator.0") + sFile + "]", "Generator"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            Log.log(Log.LEVEL.ERROR, Messages.getString("Generator.0") + sFile + "]", "Generator"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             Game.exit();
         }
 
@@ -75,7 +75,7 @@ public class Generator {
                     // Si ya existe lo borramos
                     if (iIndexExists != -1) {
                         if (bFirst) {
-                            Log.log(Log.LEVEL_DEBUG, Messages.getString("Generator.1") + " [" + sID + "]", "Generator"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                            Log.log(Log.LEVEL.DEBUG, Messages.getString("Generator.1") + " [" + sID + "]", "Generator"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                         }
                         list.remove(iIndexExists);
                     }

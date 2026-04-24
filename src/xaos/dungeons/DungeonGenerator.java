@@ -28,7 +28,7 @@ public class DungeonGenerator {
             } else if (dungeonData.getType().equalsIgnoreCase(DungeonData.TYPE_ROOMS)) {
                 generateDungeonRooms(cells, dungeonData.getLevel());
             } else {
-                Log.log(Log.LEVEL_ERROR, Messages.getString("DungeonGenerator.1") + dungeonData.getType() + "]", "DungeonGenerator"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                Log.log(Log.LEVEL.ERROR, Messages.getString("DungeonGenerator.1") + dungeonData.getType() + "]", "DungeonGenerator"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             }
         }
     }
@@ -356,7 +356,7 @@ public class DungeonGenerator {
                 }
             } else {
                 // No es posible
-                Log.log(Log.LEVEL_ERROR, Messages.getString("DungeonGenerator.0") + k + "]", "DungeonGenerator"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                Log.log(Log.LEVEL.ERROR, Messages.getString("DungeonGenerator.0") + k + "]", "DungeonGenerator"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             }
         }
     }

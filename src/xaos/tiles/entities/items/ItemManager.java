@@ -64,7 +64,7 @@ public class ItemManager {
                 // maxAgeItem
                 if (imi.getMaxAgeItem() != null && !imi.getMaxAgeItem().isEmpty()) {
                     if (itemList.get(imi.getMaxAgeItem()) == null) {
-                        Log.log(Log.LEVEL_ERROR, Messages.getString("ItemManager.1") + imi.getMaxAgeItem() + "]", "ItemManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                        Log.log(Log.LEVEL.ERROR, Messages.getString("ItemManager.1") + imi.getMaxAgeItem() + "]", "ItemManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                         Game.exit();
                     }
                 }
@@ -73,7 +73,7 @@ public class ItemManager {
                 if (imi.getBuryItem() != null && !imi.getBuryItem().isEmpty()) {
                     for (int i = 0; i < imi.getBuryItem().size(); i++) {
                         if (itemList.get(imi.getBuryItem().get(i)) == null) {
-                            Log.log(Log.LEVEL_ERROR, Messages.getString("ItemManager.3") + " [" + imi.getBuryItem().get(i) + "]", "ItemManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                            Log.log(Log.LEVEL.ERROR, Messages.getString("ItemManager.3") + " [" + imi.getBuryItem().get(i) + "]", "ItemManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                             Game.exit();
                         }
                     }
@@ -112,7 +112,7 @@ public class ItemManager {
                 // maxAgeTerrain
                 if (imi.getMaxAgeTerrain() != null && !imi.getMaxAgeTerrain().isEmpty()) {
                     if (TerrainManager.getItem(imi.getMaxAgeTerrain()) == null) {
-                        Log.log(Log.LEVEL_ERROR, Messages.getString("ItemManager.2") + " [" + imi.getMaxAgeTerrain() + "]", "ItemManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                        Log.log(Log.LEVEL.ERROR, Messages.getString("ItemManager.2") + " [" + imi.getMaxAgeTerrain() + "]", "ItemManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                         Game.exit();
                     }
                 }
@@ -340,7 +340,7 @@ public class ItemManager {
 
                     boolean bExists = itemList.containsKey(sIniHeader);
                     if (bLoadingMain && bExists) {
-                        Log.log(Log.LEVEL_ERROR, Messages.getString("ItemManager.0") + sIniHeader + "]", "ItemManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                        Log.log(Log.LEVEL.ERROR, Messages.getString("ItemManager.0") + sIniHeader + "]", "ItemManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                     }
 
                     // Mod cambiando valores de un item que ya existe?
@@ -1019,7 +1019,7 @@ public class ItemManager {
                 }
             }
         } catch (Exception e) {
-            Log.log(Log.LEVEL_ERROR, Messages.getString("ItemManager.6") + sXMLName + Messages.getString("ItemManager.7") + e + "]", "ItemManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+            Log.log(Log.LEVEL.ERROR, Messages.getString("ItemManager.6") + sXMLName + Messages.getString("ItemManager.7") + e + "]", "ItemManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
             Game.exit();
         }
     }

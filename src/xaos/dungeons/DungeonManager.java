@@ -64,7 +64,7 @@ public class DungeonManager {
                             // Si ya existe lo borramos
                             if (iIndexExists != -1) {
                                 if (i == 0) {
-                                    Log.log(Log.LEVEL_DEBUG, Messages.getString("Generator.1") + " [" + sID + "]", "DungeonManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                                    Log.log(Log.LEVEL.DEBUG, Messages.getString("Generator.1") + " [" + sID + "]", "DungeonManager"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                                 }
                                 alDungeons.remove(iIndexExists);
                             }
@@ -93,12 +93,12 @@ public class DungeonManager {
                         }
                     }
                 } else {
-                    Log.log(Log.LEVEL_ERROR, Messages.getString("DungeonManager.0"), "DungeonManager"); //$NON-NLS-1$ //$NON-NLS-2$
+                    Log.log(Log.LEVEL.ERROR, Messages.getString("DungeonManager.0"), "DungeonManager"); //$NON-NLS-1$ //$NON-NLS-2$
                     Game.exit();
                 }
             }
         } catch (Exception e) {
-            Log.log(Log.LEVEL_ERROR, Messages.getString("DungeonManager.0"), "DungeonManager"); //$NON-NLS-1$ //$NON-NLS-2$
+            Log.log(Log.LEVEL.ERROR, Messages.getString("DungeonManager.0"), "DungeonManager"); //$NON-NLS-1$ //$NON-NLS-2$
             Game.exit();
         }
     }

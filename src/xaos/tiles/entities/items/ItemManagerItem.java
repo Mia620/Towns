@@ -411,7 +411,7 @@ public class ItemManagerItem {
             try {
                 setMaxAgeNeedsWaterRadius(Integer.parseInt(sMaxAgeNeedsWaterRadius));
             } catch (NumberFormatException nfe) {
-                Log.log(Log.LEVEL_ERROR, Messages.getString("ItemManagerItem.12") + sMaxAgeNeedsWaterRadius + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
+                Log.log(Log.LEVEL.ERROR, Messages.getString("ItemManagerItem.12") + sMaxAgeNeedsWaterRadius + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
                 setMaxAgeNeedsWaterRadius(1);
             }
         }
@@ -448,7 +448,7 @@ public class ItemManagerItem {
             try {
                 setMaxAgeNeedsItemsRadius(Integer.parseInt(sMaxAgeNeedsItemsRadius));
             } catch (NumberFormatException nfe) {
-                Log.log(Log.LEVEL_ERROR, Messages.getString("ItemManagerItem.18") + " [" + sMaxAgeNeedsItemsRadius + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                Log.log(Log.LEVEL.ERROR, Messages.getString("ItemManagerItem.18") + " [" + sMaxAgeNeedsItemsRadius + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 setMaxAgeNeedsItemsRadius(1);
             }
         }
@@ -553,7 +553,7 @@ public class ItemManagerItem {
             try {
                 setHappiness(Integer.parseInt(sHappiness));
             } catch (NumberFormatException nfe) {
-                Log.log(Log.LEVEL_ERROR, Messages.getString("ItemManagerItem.0") + sHappiness + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
+                Log.log(Log.LEVEL.ERROR, Messages.getString("ItemManagerItem.0") + sHappiness + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
                 setHappiness(0);
             }
         }
@@ -1348,7 +1348,7 @@ public class ItemManagerItem {
                     setSpeedUpPCT(1);
                 }
             } catch (NumberFormatException nfe) {
-                Log.log(Log.LEVEL_ERROR, Messages.getString("ItemManagerItem.1") + sSpeedUpPCT + Messages.getString("ItemManagerItem.3"), getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
+                Log.log(Log.LEVEL.ERROR, Messages.getString("ItemManagerItem.1") + sSpeedUpPCT + Messages.getString("ItemManagerItem.3"), getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
                 setSpeedUpPCT(100);
             }
         }

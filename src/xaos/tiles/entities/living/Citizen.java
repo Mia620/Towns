@@ -779,7 +779,7 @@ public class Citizen extends LivingEntity implements Externalizable {
 
         if (building == null) {
             // Esto no deber�a pasar nunca, tiene que haber un edificio en esa casilla
-            Log.log(Log.LEVEL_ERROR, Messages.getString("Citizen.4") + hp.getHotPoint().x + "][" + hp.getHotPoint().y + "][" + hp.getHotPoint().z + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+            Log.log(Log.LEVEL.ERROR, Messages.getString("Citizen.4") + hp.getHotPoint().x + "][" + hp.getHotPoint().y + "][" + hp.getHotPoint().z + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
             getCurrentTask().setFinished(true);
             Game.getWorld().getTaskManager().removeCitizen(this);
             return;
@@ -2928,7 +2928,7 @@ public class Citizen extends LivingEntity implements Externalizable {
                 getCurrentCustomAction().getQueue().add(0, qiPlace);
             } else {
                 getCurrentCustomAction().getQueue().remove(0);
-                Log.log(Log.LEVEL_ERROR, Messages.getString("TaskManager.11") + " [" + qi.getValue() + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                Log.log(Log.LEVEL.ERROR, Messages.getString("TaskManager.11") + " [" + qi.getValue() + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             }
         } else if (qi.getType() == QueueItem.TYPE_PLACE_ITEM) {
             getCurrentCustomAction().getQueueData().setLastQueueItem(null);
@@ -3157,7 +3157,7 @@ public class Citizen extends LivingEntity implements Externalizable {
                         UtilsAL.play(qi.getFx(), getCoordinates().z);
                     }
                 } catch (NumberFormatException nfe) {
-                    Log.log(Log.LEVEL_ERROR, Messages.getString("Citizen.33") + qi.getValue() + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
+                    Log.log(Log.LEVEL.ERROR, Messages.getString("Citizen.33") + qi.getValue() + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
                     getCurrentTask().setFinished(true);
                     Game.getWorld().getTaskManager().removeCitizen(this);
                 }
@@ -3616,7 +3616,7 @@ public class Citizen extends LivingEntity implements Externalizable {
         } else if (getSoldierData().getState() == SoldierData.STATE_IN_A_GROUP) {
         } else {
             // Soldado sin tareas de soldado??? Weird!!
-            Log.log(Log.LEVEL_ERROR, "Ding! Level up!", getClass().toString()); //$NON-NLS-1$
+            Log.log(Log.LEVEL.ERROR, "Ding! Level up!", getClass().toString()); //$NON-NLS-1$
         }
     }
 

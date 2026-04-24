@@ -3445,7 +3445,7 @@ public final class UIPanel {
             sText = Messages.getString("UIPanel.21"); //$NON-NLS-1$
         } else {
             // Nunca deber�a llegar aqu�
-            Log.log(Log.LEVEL_ERROR, "Caravan status [" + caravanData.getStatus() + "]", "UIPanel"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            Log.log(Log.LEVEL.ERROR, "Caravan status [" + caravanData.getStatus() + "]", "UIPanel"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             sText = null;
         }
 

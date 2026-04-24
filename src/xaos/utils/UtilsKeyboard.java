@@ -61,8 +61,8 @@ public final class UtilsKeyboard {
             "FN_TOGGLE_GRID", //$NON-NLS-1$
             "FN_TOGGLE_FLAT_MOUSE", //$NON-NLS-1$
             "FN_PAUSE", //$NON-NLS-1$
-            "FN_LEVEL_DOWN", //$NON-NLS-1$
-            "FN_LEVEL_UP", //$NON-NLS-1$
+            "FN_LEVEL.DOWN", //$NON-NLS-1$
+            "FN_LEVEL.UP", //$NON-NLS-1$
             "FN_NEXT_CITIZEN", //$NON-NLS-1$
             "FN_PREVIOUS_CITIZEN", //$NON-NLS-1$
             "FN_NEXT_SOLDIER", //$NON-NLS-1$

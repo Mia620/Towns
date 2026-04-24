@@ -917,7 +917,7 @@ public final class TaskManager implements Externalizable {
                             // No existe edificio para construirlo
                             BuildingManagerItem bmi = BuildingManager.getItem(sBuildingIniHeader);
                             if (bmi == null) {
-                                Log.log(Log.LEVEL_ERROR, Messages.getString("TaskManager.1") + sBuildingIniHeader + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
+                                Log.log(Log.LEVEL.ERROR, Messages.getString("TaskManager.1") + sBuildingIniHeader + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
                             } else {
                                 MessagesPanel.addMessage(MessagesPanel.TYPE_ANNOUNCEMENT, Messages.getString("TaskManager.3") + imi.getName() + Messages.getString("TaskManager.4") + bmi.getName() + Messages.getString("TaskManager.2"), ColorGL.ORANGE); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                             }
@@ -932,10 +932,10 @@ public final class TaskManager implements Externalizable {
                             building.addItem(it);
                         }
                     } else {
-                        Log.log(Log.LEVEL_ERROR, Messages.getString("TaskManager.6") + sItemIniHeader + Messages.getString("TaskManager.7"), getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
+                        Log.log(Log.LEVEL.ERROR, Messages.getString("TaskManager.6") + sItemIniHeader + Messages.getString("TaskManager.7"), getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
                     }
                 } else {
-                    Log.log(Log.LEVEL_ERROR, Messages.getString("TaskManager.8") + sItemIniHeader + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
+                    Log.log(Log.LEVEL.ERROR, Messages.getString("TaskManager.8") + sItemIniHeader + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
                 }
 
                 item.getTask().setFinished(true);
@@ -1983,7 +1983,7 @@ public final class TaskManager implements Externalizable {
                             // Tenemos el item, miramos si cabe
                             ItemManagerItem imi = ItemManager.getItem(queueItem.getValue());
                             if (imi == null) {
-                                Log.log(Log.LEVEL_ERROR, Messages.getString("TaskManager.10") + queueItem.getValue() + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
+                                Log.log(Log.LEVEL.ERROR, Messages.getString("TaskManager.10") + queueItem.getValue() + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$
                                 removeAction(iIndex, false, null);
                                 bBadAction = true;
                                 break;
@@ -2000,7 +2000,7 @@ public final class TaskManager implements Externalizable {
                             // Tenemos el item, miramos si cabe
                             ArrayList<String> alItems = ItemManager.getItemsByType(queueItem.getValue());
                             if (alItems == null || alItems.isEmpty()) {
-                                Log.log(Log.LEVEL_ERROR, Messages.getString("TaskManager.11") + " [" + queueItem.getValue() + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                                Log.log(Log.LEVEL.ERROR, Messages.getString("TaskManager.11") + " [" + queueItem.getValue() + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                                 removeAction(iIndex, false, null);
                                 bBadAction = true;
                                 break;

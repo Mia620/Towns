@@ -36,7 +36,7 @@ public final class MessagesPanel {
     public MessagesPanel(int renderWidth, int renderHeight) {
         final TextureData fontTexture = UtilsGL.loadTexture(Towns.getPropertiesString(PropertyFile.PROPERTY_FILE_GRAPHICS, "TILESET_FONT_FILE"), GL11.GL_MODULATE);
         if (fontTexture == null) {
-            Log.log(Log.LEVEL_ERROR, Messages.getString("MessagesPanel.2"), getClass().toString()); //$NON-NLS-1$
+            Log.log(Log.LEVEL.ERROR, Messages.getString("MessagesPanel.2"), getClass().toString()); //$NON-NLS-1$
             Game.exit();
         }
         Game.TEXTURE_FONT_ID = fontTexture.getTextureID(); //$NON-NLS-1$ //$NON-NLS-2$
