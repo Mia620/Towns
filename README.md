@@ -11,6 +11,8 @@ I remembered why I dislike Java
 Save games may not be compatible with offical version
 
 
+---
+
 # Towns
 Repository for the [Towns game][]
 
@@ -41,8 +43,6 @@ In simple terms:
 
 See the [LICENSE][] file for the full text.
 
-See the [LICENSE][] file for the full text.
-
 
 # Original Assets License Notice
 
@@ -69,7 +69,7 @@ If you build something interesting, feel free to share it on the Discord server.
 
 It's also the place to discuss ideas, mods, and the future of Towns with other contributors.
 
-[[Discord invite link](https://discord.gg/wAW28PkrwF)]
+[Discord invite link](https://discord.gg/wAW28PkrwF)
 
 
 Thanks to everyone who has been part of this project.
