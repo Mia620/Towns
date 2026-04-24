@@ -1043,6 +1043,26 @@ public final class World implements Externalizable {
         return le;
     }
 
+    public static ArrayList<Citizen> getCitizens() {
+        ArrayList<Citizen> citizens = new ArrayList<>();
+
+        for (Integer integer : World.getCitizenIDs()) {
+            citizens.add((Citizen) World.getLivingEntityByID(integer));
+        }
+
+        return citizens;
+    }
+
+    public static ArrayList<Citizen> getSoldiers() {
+        ArrayList<Citizen> citizens = new ArrayList<>();
+
+        for (Integer integer : World.getSoldierIDs()) {
+            citizens.add((Citizen) World.getLivingEntityByID(integer));
+        }
+
+        return citizens;
+    }
+
     public void generateAll(String sCampaignID, String sMissionID) {
         String sLog = null;
         long lTime;

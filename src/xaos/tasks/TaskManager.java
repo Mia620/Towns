@@ -197,9 +197,10 @@ public final class TaskManager implements Externalizable {
             }
         }
 
+        ;
+
         // Acciones de aldeanos
-        for (Integer integer : World.getCitizenIDs()) {
-            var citizen = (Citizen) World.getLivingEntityByID(integer);
+        for (var citizen : World.getCitizens()) {
             var action = citizen.getCurrentCustomAction();
             if (action != null && isDuplicateAction(newAction, action)) {
                 return true;
@@ -207,8 +208,7 @@ public final class TaskManager implements Externalizable {
         }
 
         // Y de soldiers (hace falta?)
-        for (Integer integer : World.getSoldierIDs()) {
-            var citizen = (Citizen) World.getLivingEntityByID(integer);
+        for (var citizen : World.getSoldiers()) {
             var action = citizen.getCurrentCustomAction();
             if (action != null && isDuplicateAction(newAction, action)) {
                 return true;
@@ -248,8 +248,7 @@ public final class TaskManager implements Externalizable {
         }
 
         // Acciones de aldeanos
-        for (Integer integer : World.getCitizenIDs()) {
-            var citizen = (Citizen) World.getLivingEntityByID(integer);
+        for (var citizen : World.getCitizens()) {
             var action = citizen.getCurrentCustomAction();
 
             if (action != null && isDuplicateActionAutomated(newAction, action)) {
@@ -258,8 +257,7 @@ public final class TaskManager implements Externalizable {
         }
 
         // Y de soldiers (hace falta?)
-        for (Integer integer : World.getSoldierIDs()) {
-            var citizen = (Citizen) World.getLivingEntityByID(integer);
+        for (var citizen : World.getSoldiers()) {
             var action = citizen.getCurrentCustomAction();
 
             if (action != null && isDuplicateActionAutomated(newAction, action)) {
@@ -334,21 +332,17 @@ public final class TaskManager implements Externalizable {
      * @param citizenID ID de aldeano
      */
     public void removeCitizen(int citizenID) {
-        for (Integer challengeCitizenID : World.getCitizenIDs()) {
-            var citizen = (Citizen) World.getLivingEntityByID(challengeCitizenID);
-
+        for (var citizen : World.getCitizens()) {
             if (citizen.getID() == citizenID) {
-                removeCitizen(citizen);
+                this.removeCitizen(citizen);
                 return;
             }
         }
 
         // soldiers?
-        for (Integer integer : World.getSoldierIDs()) {
-            var citizen = (Citizen) World.getLivingEntityByID(integer);
-
+        for (var citizen : World.getSoldiers()) {
             if (citizen.getID() == citizenID) {
-                removeCitizen(citizen);
+                this.removeCitizen(citizen);
                 return;
             }
         }
@@ -367,16 +361,16 @@ public final class TaskManager implements Externalizable {
             int iWorld = Item.getNumItems(UtilsIniHeaders.getIntIniHeader(ami.getGeneratedItem()), false, Game.getWorld().getRestrictHaulEquippingLevel());
 
             // Sumamos los carrying de ciudadanos
-            for (var citizenID : World.getCitizenIDs()) {
-                var carryingItem = ((Citizen) World.getLivingEntityByID(citizenID)).getCarrying();
+            for (var citizen : World.getCitizens()) {
+                var carryingItem = citizen.getCarrying();
 
                 if (carryingItem != null && carryingItem.getIniHeader().equals(ami.getGeneratedItem())) {
                     iWorld++;
                 }
             }
 
-            for (var citizenID : World.getSoldierIDs()) {
-                var carryingItem = ((Citizen) World.getLivingEntityByID(citizenID)).getCarrying();
+            for (var citizen : World.getSoldiers()) {
+                var carryingItem = citizen.getCarrying();
 
                 if (carryingItem != null && carryingItem.getIniHeader().equals(ami.getGeneratedItem())) {
                     iWorld++;
@@ -638,8 +632,7 @@ public final class TaskManager implements Externalizable {
             }
 
             // Miramos citizens
-            for (var citizenID : World.getCitizenIDs()) {
-                var citizen = (Citizen) World.getLivingEntityByID(citizenID);
+            for (var citizen : World.getCitizens()) {
                 action = citizen.getCurrentCustomAction();
                 var task = citizen.getCurrentTask();
 
@@ -651,8 +644,7 @@ public final class TaskManager implements Externalizable {
                 }
             }
 
-            for (var citizenID : World.getSoldierIDs()) {
-                var citizen = (Citizen) World.getLivingEntityByID(citizenID);
+            for (var citizen : World.getSoldiers()) {
                 action = citizen.getCurrentCustomAction();
                 var task = citizen.getCurrentTask();
 
@@ -1767,15 +1759,15 @@ public final class TaskManager implements Externalizable {
 
                 if (leToFeed == null) {
                     // Si la living la tiene pillada alguien de momento no hacemos nada, en otro caso (ha muerto) eliminamos la tarea
-                    Citizen cit;
-
-                    for (var c : World.getCitizenIDs()) {
-                        cit = (Citizen) World.getLivingEntityByID(World.getCitizenIDs().get(c));
+                    /*
+                     * ????
+                    for (var cit : World.getCitizens()) {
                         if (cit != null && cit.getCarryingLiving() != null && cit.getCarryingLiving().getID() == iLivingID) {
                             // Cit con la living deseada, nos esperamos
                             continue;
                         }
                     }
+                     */
 
                     // Si llega aqu� es que nadie tiene la living, debe haber muerto
                     item.getTask().setFinished(true);
@@ -2025,9 +2017,7 @@ public final class TaskManager implements Externalizable {
      * @param hmCitizensSinTarea
      */
     private int assignCustomActions(HashMap<Integer, ArrayList<Citizen>> hmCitizensSinTarea, int iLibres, int priorityIndex) {
-        //ArrayList<Citizen> alCits;
         Action action;
-        Citizen citizen;
         Point3DShort p3dDestination = null;
         ActionManagerItem ami;
 
@@ -2194,21 +2184,21 @@ public final class TaskManager implements Externalizable {
                 // Obtenemos los A*ZID distintos a mirar
                 ArrayList<Integer> alASZIDAMirar = new ArrayList<>();
                 ArrayList<Point3DShort> alASZIDAMirarCoordinates = new ArrayList<>();
-                ArrayList<Integer> citizens = World.getCitizenIDs();
                 int iCitASZID;
 
-                for (Integer integer : citizens) {
-                    iCitASZID = World.getCell(World.getLivingEntityByID(integer).getCoordinates()).getAstarZoneID();
+                for (var citizen : World.getCitizens()) {
+                    var coords = citizen.getCoordinates();
+                    iCitASZID = World.getCell(coords).getAstarZoneID();
 
                     if (!alASZIDAMirar.contains(iCitASZID)) {
                         alASZIDAMirar.add(iCitASZID);
-                        alASZIDAMirarCoordinates.add(World.getLivingEntityByID(integer).getCoordinates());
+                        alASZIDAMirarCoordinates.add(coords);
                     }
                 }
 
                 // Si tiene forcepick y ning�n aldeano tiene el mismo ASZID, pos p'acasa
                 if (p3dForcedPick != null && !alASZIDAMirar.contains(World.getCell(p3dForcedPick).getAstarZoneID())) {
-                    removeAction(iIndex, true, hmNonAvailableActions);
+                    this.removeAction(iIndex, true, hmNonAvailableActions);
                     continue;
                 }
 
@@ -2218,7 +2208,7 @@ public final class TaskManager implements Externalizable {
                 if (p3dMoveTerrain != null) {
                     if (!alASZIDAMirar.contains(World.getCell(action.getTerrainPoint()).getAstarZoneID())) {
                         // Terrain point no accesible, saltamos la tarea
-                        removeAction(iIndex, true, hmNonAvailableActions);
+                        this.removeAction(iIndex, true, hmNonAvailableActions);
                         continue;
                     } else {
                         alASZIDAMirarCoordinates.add(p3dMoveTerrain);
@@ -2492,7 +2482,7 @@ public final class TaskManager implements Externalizable {
                         Task task = new Task(Task.TYPE.CUSTOM_ACTION);
                         task.setParameter(action.getId());
 
-                        citizen = alCits.remove(iIndexCit);
+                        var citizen = alCits.remove(iIndexCit);
                         citizen.setCurrentTask(task);
                         citizen.setCurrentCustomAction(removeAction(iIndex, false, false, null));
                         iLibres--;
