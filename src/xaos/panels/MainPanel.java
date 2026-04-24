@@ -98,7 +98,7 @@ public final class MainPanel {
     public static void toggle3DMouse() {
         tDMouseON = !tDMouseON;
 
-        if (Game.getCurrentState() == Game.STATE_CREATING_TASK && Game.getCurrentTask().getState() == Task.STATE_CREATING_ENDZONE) {
+        if (Game.getCurrentState() == Game.STATE_CREATING_TASK && Game.getCurrentTask().getState() == Task.STATE.CREATING_ENDZONE) {
             Game.deleteCurrentTask();
         }
 
@@ -232,7 +232,7 @@ public final class MainPanel {
     private static int renderMouse(int iBaseXGeneral, int iBaseYGeneral, int zView, Point3D pointTileMouse, int currentTextureID) {
         // Mouse & 3D Mouse
         if (pointTileMouse != null && UIPanel.typingPanel == null) {
-            if (!(Game.getCurrentState() == Game.STATE_CREATING_TASK && (Game.getCurrentTask().getState() == Task.STATE_CREATING_ENDZONE || Game.getCurrentTask().getState() == Task.STATE_CREATING_SINGLEPOINT))) {
+            if (!(Game.getCurrentState() == Game.STATE_CREATING_TASK && (Game.getCurrentTask().getState() == Task.STATE.CREATING_ENDZONE || Game.getCurrentTask().getState() == Task.STATE.CREATING_SINGLEPOINT))) {
                 int iYGeneral = iBaseYGeneral - (pointTileMouse.x - pointTileMouse.y) * (Tile.TERRAIN_ICON_HEIGHT / 2);
                 int iXGeneral = iBaseXGeneral + (pointTileMouse.x + pointTileMouse.y) * (Tile.TERRAIN_ICON_WIDTH / 2);
 
@@ -840,10 +840,10 @@ public final class MainPanel {
     public static void renderTask(int zView, int iBaseXGeneral, int iBaseYGeneral, Point3D pointTileMouse, int currentTextureID, int cellXMin, int cellYMin) {
         // Tasks
         if (pointTileMouse != null) {
-            if (Game.getCurrentState() == Game.STATE_CREATING_TASK && (Game.getCurrentTask().getState() == Task.STATE_CREATING_ENDZONE || Game.getCurrentTask().getState() == Task.STATE_CREATING_SINGLEPOINT)) {
+            if (Game.getCurrentState() == Game.STATE_CREATING_TASK && (Game.getCurrentTask().getState() == Task.STATE.CREATING_ENDZONE || Game.getCurrentTask().getState() == Task.STATE.CREATING_SINGLEPOINT)) {
                 int iXGeneral, iYGeneral;
                 int z3D;
-                if (tDMouseON && Game.getCurrentState() == Game.STATE_CREATING_TASK && Game.getCurrentTask().getState() == Task.STATE_CREATING_ENDZONE) {
+                if (tDMouseON && Game.getCurrentState() == Game.STATE_CREATING_TASK && Game.getCurrentTask().getState() == Task.STATE.CREATING_ENDZONE) {
                     z3D = Game.getCurrentTask().getPointIni().z;
                 } else {
                     z3D = (tDMouseON) ? pointTileMouse.z : zView;
@@ -867,7 +867,7 @@ public final class MainPanel {
                 // Marcado de zona, pintar cuadraditos blancos
                 // Creando tarea de END_ZONE o de SINGLE_POINT (building)
                 int x1 = -1, y1 = -1, x2 = -1, y2 = -1;
-                if (Game.getCurrentTask().getState() == Task.STATE_CREATING_ENDZONE) {
+                if (Game.getCurrentTask().getState() == Task.STATE.CREATING_ENDZONE) {
                     if (Game.getCurrentTask().getType() == Task.TYPE.STOCKPILE) {
                         stockpiling = true;
                     } else if (Game.getCurrentTask().getType() == Task.TYPE.CREATE_ZONE) {
@@ -888,14 +888,12 @@ public final class MainPanel {
                         queuing = true;
                     } else if (Game.getCurrentTask().getType() == Task.TYPE.MINE || Game.getCurrentTask().getType() == Task.TYPE.MINE_LADDER) {
                         mining = true;
-                    } else if (Game.getCurrentTask().getType() == Task.TYPE.DIG) {
-                        digging = true;
                     }
                     x1 = Game.getCurrentTask().getPointIni().x;
                     y1 = Game.getCurrentTask().getPointIni().y;
                     x2 = pointTileMouse.x;
                     y2 = pointTileMouse.y;
-                } else if (Game.getCurrentTask().getState() == Task.STATE_CREATING_SINGLEPOINT) {
+                } else if (Game.getCurrentTask().getState() == Task.STATE.CREATING_SINGLEPOINT) {
                     // Single-point
                     if (Game.getCurrentTask().getType() == Task.TYPE.BUILD || Game.getCurrentTask().getType() == Task.TYPE.CREATE_AND_PLACE || Game.getCurrentTask().getType() == Task.TYPE.QUEUE_AND_PLACE) {
                         // Building

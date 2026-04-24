@@ -20,7 +20,7 @@ public final class HotPoint implements Externalizable {
     /**
      * Punto donde ejecutar la acci�n
      */
-    private Point3DShort hotPoint;
+    private Point3DShort point;
 
     /**
      * Indica posibles puntos donde ir para actuar sobre el hotpoint
@@ -40,22 +40,22 @@ public final class HotPoint implements Externalizable {
     public HotPoint() {
     }
 
-    public HotPoint(Point3DShort hotPoint, ArrayList<Point3DShort> places) {
-        setHotPoint(hotPoint);
+    public HotPoint(Point3DShort point, ArrayList<Point3DShort> places) {
+        setPoint(point);
         setPlaces(places, false);
     }
 
-    public HotPoint(Point3DShort hotPoint, Point3DShort place) {
-        setHotPoint(hotPoint);
+    public HotPoint(Point3DShort point, Point3DShort place) {
+        setPoint(point);
         addPlace(place);
     }
 
-    public Point3DShort getHotPoint() {
-        return hotPoint;
+    public Point3DShort getPoint() {
+        return point;
     }
 
-    public void setHotPoint(Point3DShort hotPoint) {
-        this.hotPoint = hotPoint;
+    public void setPoint(Point3DShort point) {
+        this.point = point;
     }
 
     public ArrayList<Point3DShort> getPlaces() {
@@ -108,14 +108,14 @@ public final class HotPoint implements Externalizable {
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        hotPoint = (Point3DShort) in.readObject();
+        point = (Point3DShort) in.readObject();
         places = (ArrayList<Point3DShort>) in.readObject();
         finished = in.readBoolean();
         parameter = in.readInt();
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
-        out.writeObject(hotPoint);
+        out.writeObject(point);
         out.writeObject(places);
         out.writeBoolean(finished);
         out.writeInt(parameter);

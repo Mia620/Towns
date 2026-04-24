@@ -5,7 +5,12 @@ IntelliJ.
 - Compiled game seems to work to the best of my testing, though it was minimal
 
 
-I remembered why I dislike Java 
+I remembered why I dislike Java
+
+
+# Important
+Save games may not be compatible with offical version
+
 
 # Towns
 Repository for the [Towns game][]

@@ -697,7 +697,7 @@ public class Citizen extends LivingEntity implements Externalizable {
         Task task = getCurrentTask();
 
         // Obtenemos el punto donde actuar (el hotpoint del hotpoint)
-        Point3DShort hotPoint3D = task.getHotPoint(getHotPointIndex()).getHotPoint();
+        Point3DShort hotPoint3D = task.getHotPoint(getHotPointIndex()).getPoint();
         Cell cell = World.getCell(hotPoint3D);
         if (task.getType() == Task.TYPE.MINE || task.getType() == Task.TYPE.MINE_LADDER) {
             // Minar
@@ -775,11 +775,11 @@ public class Citizen extends LivingEntity implements Externalizable {
         HotPoint hp = task.getHotPoint(getHotPointIndex());
 
         // Miramos prerequisitos
-        Building building = Building.getBuilding(hp.getHotPoint());
+        Building building = Building.getBuilding(hp.getPoint());
 
         if (building == null) {
             // Esto no deber�a pasar nunca, tiene que haber un edificio en esa casilla
-            Log.log(Log.LEVEL.ERROR, Messages.getString("Citizen.4") + hp.getHotPoint().x + "][" + hp.getHotPoint().y + "][" + hp.getHotPoint().z + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+            Log.log(Log.LEVEL.ERROR, Messages.getString("Citizen.4") + hp.getPoint().x + "][" + hp.getPoint().y + "][" + hp.getPoint().z + "]", getClass().toString()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
             getCurrentTask().setFinished(true);
             Game.getWorld().getTaskManager().removeCitizen(this);
             return;
@@ -794,7 +794,7 @@ public class Citizen extends LivingEntity implements Externalizable {
                 int iIndex = UtilsIniHeaders.contains(alPrerequisites, getCitizenData().getCarryingData().getCarrying().getNumericIniHeader());
                 if (iIndex != -1) {
                     // Tenemos un material bueno, miramos si estamos en la casilla del edificio
-                    if (x == hp.getHotPoint().x && y == hp.getHotPoint().y && z == hp.getHotPoint().z) {
+                    if (x == hp.getPoint().x && y == hp.getPoint().y && z == hp.getPoint().z) {
                         // Guais, eleminamos el prerequisito del edificio
                         alPrerequisites.remove(iIndex);
                         setCarrying(null);
@@ -802,7 +802,7 @@ public class Citizen extends LivingEntity implements Externalizable {
                         UtilsAL.play(UtilsAL.SOURCE_FX_BUILDING, z);
                     } else {
                         // No estamos ah�, nos movemos
-                        setDestination(hp.getHotPoint());
+                        setDestination(hp.getPoint());
                     }
                     return;
                 } else {
@@ -848,14 +848,14 @@ public class Citizen extends LivingEntity implements Externalizable {
                                     if (item != null) {
                                         setCarrying(item); // Lo pillamos
                                         // Tenemos el material, lo llevamos al edificio para construir el item
-                                        setDestination(hp.getHotPoint());
+                                        setDestination(hp.getPoint());
                                     }
                                 }
                             } else {
                                 setCarrying((Item) cell.getEntity()); // Lo pillamos
                                 cell.getEntity().delete(); // Lo borramos
                                 // Tenemos el material, lo llevamos al edificio para construir el item
-                                setDestination(hp.getHotPoint());
+                                setDestination(hp.getPoint());
                             }
                         }
                     } else {
@@ -877,7 +877,7 @@ public class Citizen extends LivingEntity implements Externalizable {
                     int iIndex = UtilsIniHeaders.contains(alPrerequisitesLiving, getCitizenData().getCarryingData().getCarryingLiving().getNumericIniHeader());
                     if (iIndex != -1) {
                         // Tenemos un living bueno, miramos si estamos en la casilla del edificio
-                        if (x == hp.getHotPoint().x && y == hp.getHotPoint().y && z == hp.getHotPoint().z) {
+                        if (x == hp.getPoint().x && y == hp.getPoint().y && z == hp.getPoint().z) {
                             // Guais, eleminamos el prerequisito del edificio
                             alPrerequisitesLiving.remove(iIndex);
 
@@ -893,7 +893,7 @@ public class Citizen extends LivingEntity implements Externalizable {
 
                         } else {
                             // No estamos ah�, nos movemos
-                            setDestination(hp.getHotPoint());
+                            setDestination(hp.getPoint());
                         }
                         return;
                     } else {
@@ -921,7 +921,7 @@ public class Citizen extends LivingEntity implements Externalizable {
                         setCarryingLiving(le);
                         le.delete(false);
                         // Tenemos el living, lo llevamos al edificio para construir el item
-                        setDestination(hp.getHotPoint());
+                        setDestination(hp.getPoint());
                     } else {
                         // Living por ah�
                         setDestination(le.getCoordinates());
@@ -930,9 +930,9 @@ public class Citizen extends LivingEntity implements Externalizable {
             } else {
                 // Sin m�s prerequisitos, tarea terminada (edificio construido)
                 // Por si acaso nos movemos al edificio (importante)
-                if (x != hp.getHotPoint().x || y != hp.getHotPoint().y || z != hp.getHotPoint().z) {
+                if (x != hp.getPoint().x || y != hp.getPoint().y || z != hp.getPoint().z) {
                     // No estamos ah�, nos movemos
-                    setDestination(hp.getHotPoint());
+                    setDestination(hp.getPoint());
                 } else {
                     // Nos esperamos unos turnos en el caso de que haya algun citizen encima para que no muera aplastado
                     building.setOperative(true, false); // temporalmente operativo para llamar al Citizen.iscellallowed

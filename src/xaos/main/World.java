@@ -1283,9 +1283,9 @@ public final class World implements Externalizable {
 
     public void setView(int x, int y, int z) {
         if (z != view.z && Game.getCurrentState() == Game.STATE_CREATING_TASK) {
-            if (Game.getCurrentTask().getState() == Task.STATE_CREATING_ENDZONE) {
+            if (Game.getCurrentTask().getState() == Task.STATE.CREATING_ENDZONE) {
                 Game.getCurrentTask().setPointIni((Point3D) null);
-                Game.getCurrentTask().setState(Task.STATE_CREATING_INIZONE);
+                Game.getCurrentTask().setState(Task.STATE.CREATING_INIZONE);
             }
             // Game.deleteCurrentTask ();
         }

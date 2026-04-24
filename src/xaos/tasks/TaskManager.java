@@ -722,7 +722,7 @@ public final class TaskManager implements Externalizable {
                 ArrayList<HotPoint> alHotpoints = item.getTask().getHotPoints();
                 if (alHotpoints != null && !alHotpoints.isEmpty()) {
                     for (HotPoint alHotpoint : alHotpoints) {
-                        hPoint3D = alHotpoint.getHotPoint();
+                        hPoint3D = alHotpoint.getPoint();
                         cell = World.getCell(hPoint3D);
 
                         if (!(!cell.getTerrain().hasFluids() && (!cell.isMined()) || !cell.isDiscovered())) {
@@ -801,7 +801,7 @@ public final class TaskManager implements Externalizable {
                     for (TaskManagerItem taskItem : taskItems) {
                         itemAux = taskItem;
                         if (itemAux.getTask().getType() == Task.TYPE.BUILD) {
-                            if (itemAux.getTask().getHotPoint(0).getHotPoint().equals(item.getTask().getPointIni())) {
+                            if (itemAux.getTask().getHotPoint(0).getPoint().equals(item.getTask().getPointIni())) {
                                 itemAux.getTask().setFinished(true);
                                 break;
                             }
@@ -1567,7 +1567,7 @@ public final class TaskManager implements Externalizable {
                 // Tarea de construcci�n, miramos prerequisitos
                 HotPoint hp = item.getTask().getHotPoint(0); // Punto 0.... las tareas de construcci�n s�lo tienen 1
 
-                Building building = Building.getBuilding(hp.getHotPoint().x, hp.getHotPoint().y, hp.getHotPoint().z);
+                Building building = Building.getBuilding(hp.getPoint().x, hp.getPoint().y, hp.getPoint().z);
                 if (building == null) {
                     // Edificio borrado (agua, raise/lower, ...)
                     item.getTask().setFinished(true);
@@ -1738,7 +1738,7 @@ public final class TaskManager implements Externalizable {
                     Game.iError = 6673;
                     // Obtenemos un hotpoint
                     hotPoint = item.getTask().getHotPoints().get(iHPIndex);
-                    hPoint3D = hotPoint.getHotPoint();
+                    hPoint3D = hotPoint.getPoint();
                     // Miramos que NO est� terminado y que ning�n aldeano ya lo est� haciendo y que las places del hotpoint sean accesible por aldeanos
                     boolean bHotpointLibre = !hotPoint.isFinished();
 
@@ -1779,7 +1779,7 @@ public final class TaskManager implements Externalizable {
                         Game.iError = 6674;
 
                         bHotPointEncontrado = true;
-                        hPoint3D = hotPoint.getHotPoint();
+                        hPoint3D = hotPoint.getPoint();
 
                         // Para evitar stucks raros primero miramos esta casuistica (haul con hotpoint distinto de pointini)
                         if (item.getTask().getType() == Task.TYPE.HAUL || item.getTask().getType() == Task.TYPE.MOVE_AND_LOCK || item.getTask().getType() == Task.TYPE.PUT_IN_CONTAINER) {
