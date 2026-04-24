@@ -38,8 +38,6 @@ import java.io.ObjectOutput;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-import static xaos.tasks.Task.TYPE.NO_TASK;
-
 public final class Task implements Externalizable {
 
     // Tipos de tarea
@@ -140,7 +138,7 @@ public final class Task implements Externalizable {
     private static final long serialVersionUID = -1621427522490649314L;
     public static int ID_INDEX = 0;
     private int id; // ID
-    private TYPE task = NO_TASK; // Tipo de tarea (minar, construir, ...)
+    private TYPE task = TYPE.NO_TASK; // Tipo de tarea (minar, construir, ...)
     private int state; // Estado actual en la creaci�n de la misma (ej: marcando punto inicial de la zona, ...)
     private Point3D pointIni; // Punto inicial de la zona (tambi�n se usa en el casi de tareas de un solo punto (ej: construir))
     private Point3D pointEnd; // Punto final de la zona
@@ -177,11 +175,11 @@ public final class Task implements Externalizable {
         }
 
         return switch (oTask.getType()) {
-            case NO_TASK, SLEEP, EAT -> 1;
+            case TYPE.NO_TASK, TYPE.SLEEP, TYPE.EAT -> 1;
             //case TASKS.DIG: // No hace falta, un aldeano nunca tendr� esta tarea
-            case HAUL, PUT_IN_CONTAINER, MOVE_TO_CARAVAN, FOOD_NEEDED, CUSTOM_ACTION,
-                 MINE, MINE_LADDER, FIGHT, BUILD, CREATE, CREATE_AND_PLACE, QUEUE,
-                 QUEUE_AND_PLACE, MOVE_AND_LOCK -> -2;
+            case TYPE.HAUL, TYPE.PUT_IN_CONTAINER, TYPE.MOVE_TO_CARAVAN, TYPE.FOOD_NEEDED, TYPE.CUSTOM_ACTION,
+                 TYPE.MINE, TYPE.MINE_LADDER, TYPE.FIGHT, TYPE.BUILD, TYPE.CREATE, TYPE.CREATE_AND_PLACE, TYPE.QUEUE,
+                 TYPE.QUEUE_AND_PLACE, TYPE.MOVE_AND_LOCK -> -2;
             default -> 0;
         };
     }
@@ -199,7 +197,7 @@ public final class Task implements Externalizable {
         }
 
         return switch (oTask.getType()) {
-            case NO_TASK, SLEEP, EAT -> false;
+            case TYPE.NO_TASK, TYPE.SLEEP, TYPE.EAT -> false;
             default -> true;
         };
     }
@@ -402,68 +400,68 @@ public final class Task implements Externalizable {
 
     public String toString() {
         switch (task) {
-            case NO_TASK:
+            case TYPE.NO_TASK:
                 return Messages.getString("Task.0"); //$NON-NLS-1$
-            case DIG:
-            case MINE:
+            case TYPE.DIG:
+            case TYPE.MINE:
                 return Messages.getString("Task.3"); //$NON-NLS-1$
-            case MINE_LADDER:
+            case TYPE.MINE_LADDER:
                 return Messages.getString("Task.41"); //$NON-NLS-1$
-            case CANCEL_ORDER:
+            case TYPE.CANCEL_ORDER:
                 return Messages.getString("Task.29"); //$NON-NLS-1$
-            case WEAR:
+            case TYPE.WEAR:
                 return Messages.getString("Task.18"); //$NON-NLS-1$
-            case AUTOEQUIP:
+            case TYPE.AUTOEQUIP:
                 return Messages.getString("Task.38"); //$NON-NLS-1$
-            case WEAR_OFF:
+            case TYPE.WEAR_OFF:
                 return Messages.getString("Task.24"); //$NON-NLS-1$
-            case FIGHT:
+            case TYPE.FIGHT:
                 return Messages.getString("Task.25"); //$NON-NLS-1$
-            case HEAL:
+            case TYPE.HEAL:
                 return Messages.getString("Task.28"); //$NON-NLS-1$
-            case BUILD:
+            case TYPE.BUILD:
                 return Messages.getString("Task.4"); //$NON-NLS-1$
-            case CREATE_AND_PLACE:
-            case QUEUE_AND_PLACE:
-            case CREATE_AND_PLACE_ROW:
-            case QUEUE_AND_PLACE_ROW:
-            case QUEUE_AND_PLACE_AREA:
+            case TYPE.CREATE_AND_PLACE:
+            case TYPE.QUEUE_AND_PLACE:
+            case TYPE.CREATE_AND_PLACE_ROW:
+            case TYPE.QUEUE_AND_PLACE_ROW:
+            case TYPE.QUEUE_AND_PLACE_AREA:
                 return Messages.getString("Task.5"); //$NON-NLS-1$
-            case REMOVE_BUILDING_TASK:
+            case TYPE.REMOVE_BUILDING_TASK:
                 return Messages.getString("Task.20"); //$NON-NLS-1$
-            case QUEUE:
+            case TYPE.QUEUE:
                 return Messages.getString("Task.1"); //$NON-NLS-1$
-            case CREATE:
+            case TYPE.CREATE:
                 return Messages.getString("Task.23"); //$NON-NLS-1$
-            case CREATE_IN_A_BUILDING:
+            case TYPE.CREATE_IN_A_BUILDING:
                 return Messages.getString("Task.23"); //$NON-NLS-1$
-            case STOCKPILE:
+            case TYPE.STOCKPILE:
                 return Messages.getString("Task.6"); //$NON-NLS-1$
-            case CREATE_ZONE:
+            case TYPE.CREATE_ZONE:
                 return Messages.getString("Task.26"); //$NON-NLS-1$
-            case DELETE_ZONE:
+            case TYPE.DELETE_ZONE:
                 return Messages.getString("Task.27"); //$NON-NLS-1$
-            case EXPAND_ZONE:
+            case TYPE.EXPAND_ZONE:
                 return Messages.getString("Task.35"); //$NON-NLS-1$
-            case HAUL:
-            case PUT_IN_CONTAINER:
+            case TYPE.HAUL:
+            case TYPE.PUT_IN_CONTAINER:
                 return Messages.getString("Task.7"); //$NON-NLS-1$
-            case MOVE_AND_LOCK:
+            case TYPE.MOVE_AND_LOCK:
                 return Messages.getString("Task.8"); //$NON-NLS-1$
-            case DROP:
+            case TYPE.DROP:
                 return Messages.getString("Task.9"); //$NON-NLS-1$
-            case SLEEP:
+            case TYPE.SLEEP:
                 return Messages.getString("Task.10"); //$NON-NLS-1$
-            case EAT:
+            case TYPE.EAT:
                 return Messages.getString("Task.11"); //$NON-NLS-1$
-            case MOVE_TO_CARAVAN:
+            case TYPE.MOVE_TO_CARAVAN:
                 return Messages.getString("Task.39"); //$NON-NLS-1$
-            case FOOD_NEEDED:
+            case TYPE.FOOD_NEEDED:
                 return Messages.getString("Task.42"); //$NON-NLS-1$
 
-            case REMOVE_FROM_CONTAINER:
+            case TYPE.REMOVE_FROM_CONTAINER:
                 return Messages.getString("Task.43"); //$NON-NLS-1$
-            case CUSTOM_ACTION:
+            case TYPE.CUSTOM_ACTION:
                 ActionManagerItem ami = ActionManager.getItem(getParameter());
                 if (ami != null && ami.getName() != null) {
                     return ami.getName();
