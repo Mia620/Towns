@@ -32,6 +32,7 @@ import xaos.panels.*;
 import xaos.panels.menus.ContextMenu;
 import xaos.property.MainProperties;
 import xaos.skills.SkillManager;
+import xaos.stockpiles.Stockpile;
 import xaos.tasks.Task;
 import xaos.tiles.Cell;
 import xaos.tiles.entities.buildings.Building;
@@ -826,6 +827,10 @@ public final class Game {
 
     public static void setWorld(World wrld) {
         world = wrld;
+    }
+
+    public static  ArrayList<Stockpile> getStockpiles() {
+        return world.getStockpiles();
     }
 
 
